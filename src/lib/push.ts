@@ -1,7 +1,7 @@
 import { callEdgeFunction } from "@/hooks/use-edge-function";
 
 /** Public VAPID key (safe to ship). The private key lives only in Supabase function secrets. */
-const VAPID_PUBLIC_KEY = import.meta.env.VITE_VAPID_PUBLIC_KEY as string | undefined;
+const VAPID_PUBLIC_KEY = import.meta.env['VITE_VAPID_PUBLIC_KEY'] as string | undefined;
 
 export type PushState = "unsupported" | "ios-needs-install" | "default" | "granted" | "denied";
 
