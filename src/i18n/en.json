@@ -564,7 +564,9 @@
       "portal_enabled": "Patient portal enabled",
       "show_bills": "Patients see their bills",
       "show_lab_results": "Patients see lab results",
-      "welcome_message": "Portal welcome message"
+      "welcome_message": "Portal welcome message",
+      "bilingual_layout": "Second language layout",
+      "show_qr": "Show QR code on prints"
     },
     "o": {
       "punjab": "Punjab",
@@ -609,5 +611,38 @@
     "enabled": "Notifications are on for this device.",
     "failed": "Couldn't turn on notifications.",
     "dismiss": "Dismiss"
+  },
+  "print": {
+    "preview": "Print preview",
+    "print": "Print",
+    "paper": "Paper",
+    "thermal80": "Thermal 80 mm",
+    "a4": "A4",
+    "phone": "Phone",
+    "signature": "Authorised signature",
+    "sampleReceipt": "Sample receipt",
+    "openSample": "Open sample receipt",
+    "sampleDesc": "A cash receipt printed in English, then again in the patient's language.",
+    "secondLang": "Patient's print language",
+    "none": "English only",
+    "layout": "Layout",
+    "stacked": "Below",
+    "side_by_side": "Side by side",
+    "r": {
+      "title": "Cash receipt",
+      "receiptNo": "Receipt no.",
+      "date": "Date",
+      "patient": "Patient",
+      "mrn": "MRN",
+      "item": "Item",
+      "qty": "Qty",
+      "amount": "Amount (PKR)",
+      "total": "Total",
+      "paid": "Paid in cash",
+      "thanks": "Thank you. Get well soon.",
+      "consult": "Consultation",
+      "cbc": "CBC",
+      "paracetamol": "Paracetamol 500mg"
+    }
   }
 }
