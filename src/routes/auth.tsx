@@ -8,8 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Banner } from "@/components/mc/banner";
-import { HospitalLogo } from "@/components/mc/hospital-logo";
-import { PreferenceControls } from "@/components/mc/preference-controls";
+import { AuthCard } from "@/components/mc/auth-card";
 import { normalizePkPhone } from "@/lib/session";
 
 const search = z.object({ reason: z.enum(["deactivated", "timeout", "hospital"]).optional() });
@@ -63,17 +62,7 @@ function AuthPage() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col bg-muted/40">
-      <div className="flex justify-end p-4">
-        <PreferenceControls />
-      </div>
-      <div className="flex flex-1 items-center justify-center px-4 pb-16">
-        <div className="w-full max-w-sm rounded-lg border bg-card p-8 shadow-sm">
-          <div className="mb-6 flex flex-col items-center gap-3 text-center">
-            <HospitalLogo />
-            <h1 className="text-xl font-semibold text-foreground">{t("auth.title")}</h1>
-            <p className="text-sm text-muted-foreground">{t("auth.subtitle")}</p>
-          </div>
+    <AuthCard title={t("auth.title")} subtitle={t("auth.subtitle")}>
           {reason && (
             <div className="mb-4">
               <Banner tone={reason === "timeout" ? "info" : "danger"} title={t(`auth.reason_${reason}`)} />
@@ -118,8 +107,6 @@ function AuthPage() {
               {busy ? t("auth.signingIn") : t("auth.submit")}
             </Button>
           </form>
-        </div>
-      </div>
-    </main>
+    </AuthCard>
   );
 }

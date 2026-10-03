@@ -13,3 +13,4 @@
 - All visible text goes through react-i18next keys in src/i18n/en.json and ur.json; wrap codes/numbers/drug names in `<Ltr>`.
 - Staff navigation, role→page access and quick-add buttons all come from src/config/navigation.ts; sidebar, bottom nav, page guards (rolesForPage) and page titles read only from it, so menus and access never drift apart.
 - Act-as-user state lives only in src/lib/impersonation.ts (per-tab sessionStorage); callEdgeFunction sends it as the x-impersonation-session header, so impersonation is enforced server-side by getCaller, never by the UI.
+- Company settings fields/tabs/defaults/public flags are defined only in src/config/company-settings.ts; the settings page renders from it and SessionGate applies accent, favicon, timeout and default language app-wide, so new settings need no page code.

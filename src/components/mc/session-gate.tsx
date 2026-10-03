@@ -8,6 +8,8 @@ import { Banner } from "@/components/mc/banner";
 import { useMyContext } from "@/hooks/use-my-context";
 import { useIdleTimeout } from "@/hooks/use-idle-timeout";
 import { IDLE_TIMEOUT_MINUTES, signOutEverywhere } from "@/lib/session";
+import { applyAccent, applyFavicon, useCompanySettings, writeCachedBranding } from "@/hooks/use-company-settings";
+import { usePreferences } from "@/lib/preferences";
 
 /**
  * Wraps every signed-in screen: loads get-my-context, signs out deactivated users,
@@ -20,7 +22,23 @@ export function SessionGate({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { context, isLoading, error, refetch } = useMyContext();
 
-  useIdleTimeout(IDLE_TIMEOUT_MINUTES, () => void signOutEverywhere(qc, navigate, "timeout"));
+  const { values, raw } = useCompanySettings();
+  const { applyDefaultLanguage } = usePreferences();
+  const timeout = Number(values.security["session_timeout_minutes"]) || IDLE_TIMEOUT_MINUTES;
+
+  // Apply company settings app-wide: accent colour, favicon, default language, cached branding for sign-in pages.
+  useEffect(() => {
+    if (!raw) return;
+    const accent = String(values.branding["accent_color"] ?? "");
+    applyAccent(accent);
+    applyFavicon(raw.asset_urls?.["favicon"]);
+    applyDefaultLanguage(values.localization["default_language"] === "ur" ? "ur" : "en");
+    const name = String(values.general["hospital_name"] || context?.hospital?.name || "");
+    const logoUrl = raw.asset_urls?.["logo"];
+    writeCachedBranding({ name, accent, ...(logoUrl ? { logoUrl } : {}) });
+  }, [raw, values, context?.hospital?.name, applyDefaultLanguage]);
+
+  useIdleTimeout(timeout, () => void signOutEverywhere(qc, navigate, "timeout"));
 
   const deactivated =
     context?.profile?.is_active === false ||
