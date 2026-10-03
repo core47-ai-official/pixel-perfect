@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { GripVertical, LayoutGrid, Plus, RotateCcw, X } from "lucide-react";
@@ -59,7 +59,6 @@ function Dashboard() {
   const roles = context?.roles ?? [];
   const allowed = useMemo(() => widgetsForRoles(roles), [roles]);
   const wide = useWide();
-  const qc = useQueryClient();
   const [range, setRange] = useState<RangeKey>("today");
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState<LayoutItem[]>([]);
@@ -173,7 +172,7 @@ function Dashboard() {
                     </Button>
                   </div>
                 )}
-                <WidgetBody id={item.id} size={item.size} range={range} />
+                <WidgetBody id={item.id} size={item.size} range={range} userId={context?.profile?.id ?? null} />
               </div>
             );
           })}
@@ -202,25 +201,26 @@ function Dashboard() {
     </div>
   );
 
-  function WidgetBody({ id, size, range }: { id: string; size: WidgetSize; range: RangeKey }) {
-    const def = findWidget(id)!;
-    const q = useQuery({
-      queryKey: ["widget-data", id, range, context?.profile?.id ?? null],
-      enabled: !!context?.profile,
-      retry: false,
-      queryFn: () => callEdgeFunction<unknown>("get-widget-data", { widget_id: id, ...rangeOf(range) }),
-    });
-    void qc;
-    if (q.isLoading) return <Skeleton className="h-32 rounded-staff" />;
-    if (q.isError || q.data === undefined) {
-      return (
-        <div className="rounded-staff border bg-card p-5 shadow-card">
-          <p className="text-sm text-muted-foreground">{t(def.title)}</p>
-          <p className="mt-2 text-sm text-destructive">{t("dash.widgetFailed")}</p>
-        </div>
-      );
-    }
-    const C = def.component;
-    return <C data={q.data} size={size} />;
+}
+
+function WidgetBody({ id, size, range, userId }: { id: string; size: WidgetSize; range: RangeKey; userId: string | null }) {
+  const { t } = useTranslation();
+  const def = findWidget(id)!;
+  const q = useQuery({
+    queryKey: ["widget-data", id, range, userId],
+    enabled: !!userId,
+    retry: false,
+    queryFn: () => callEdgeFunction<unknown>("get-widget-data", { widget_id: id, ...rangeOf(range) }),
+  });
+  if (q.isLoading) return <Skeleton className="h-32 rounded-staff" />;
+  if (q.isError || q.data === undefined) {
+    return (
+      <div className="rounded-staff border bg-card p-5 shadow-card">
+        <p className="text-sm text-muted-foreground">{t(def.title)}</p>
+        <p className="mt-2 text-sm text-destructive">{t("dash.widgetFailed")}</p>
+      </div>
+    );
   }
+  const C = def.component;
+  return <C data={q.data} size={size} />;
 }
