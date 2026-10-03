@@ -46,8 +46,8 @@ export function SessionGate({ children }: { children: ReactNode }) {
   if (error || !context) {
     return (
       <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center gap-4 px-4">
-        <Banner tone="danger">
-          {t("auth.contextError")} {(error as { message?: string } | null)?.message}
+        <Banner tone="danger" title={t("auth.contextError")}>
+          {(error as { message?: string } | null)?.message}
         </Banner>
         <div className="flex gap-2">
           <Button onClick={() => refetch()}>{t("auth.retry")}</Button>
