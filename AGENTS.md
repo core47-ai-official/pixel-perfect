@@ -11,3 +11,4 @@
 
 - UI preferences (language, theme, density) live in `PreferencesProvider` (src/lib/preferences.tsx) and are applied to `<html>` (lang/dir, `.dark`, `data-density`); components read them via `usePreferences`, never directly from storage.
 - All visible text goes through react-i18next keys in src/i18n/en.json and ur.json; wrap codes/numbers/drug names in `<Ltr>`.
+- Staff navigation, role→page access and quick-add buttons all come from src/config/navigation.ts; sidebar, bottom nav, page guards (rolesForPage) and page titles read only from it, so menus and access never drift apart.
