@@ -53,7 +53,7 @@ function DoctorsPage() {
     { key: "specialty", header: t("doc.specialty"), sortable: true, render: (d) => d.specialty || "—" },
     { key: "gender", header: t("doc.gender"), render: (d) => (d.gender ? t(`doc.genders.${d.gender}`) : "—") },
     { key: "consultation_fee", header: t("doc.fee"), numeric: true, sortable: true, render: (d) => <Ltr className="tnum">{pkr(d.consultation_fee)}</Ltr> },
-    { key: "status", header: t("doc.status"), sortable: true, render: (d) => <StatusChip status={STATUS_TONE[d.status]}>{t(`doc.statuses.${d.status}`)}</StatusChip> },
+    { key: "status", header: t("doc.status"), sortable: true, render: (d) => <StatusChip status={STATUS_TONE[d.status] ?? "inactive"}>{t(`doc.statuses.${d.status}`)}</StatusChip> },
   ];
   if (canEdit) columns.push({ key: "id", header: "", render: (d) => <Button size="sm" variant="ghost" onClick={() => setEditing(d)}>{t("dept.editShort")}</Button> });
 

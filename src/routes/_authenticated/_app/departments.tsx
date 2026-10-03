@@ -78,7 +78,7 @@ function DeptForm({ target, onClose, doctors }: { target: Dept | "new"; onClose:
   const [type, setType] = useState(d?.type ?? "clinical");
   const [head, setHead] = useState(d?.head_doctor_id ?? "none");
   const inv = { invalidate: [["departments"], ["doctors"]] };
-  const save = useEdgeFunction<Dept, { id?: string; name: string; type: string }>("upsert-department", { ...inv, successMessage: t("dept.saved") });
+  const save = useEdgeFunction<Dept, { id?: string | undefined; name: string; type: string }>("upsert-department", { ...inv, successMessage: t("dept.saved") });
   const setHeadFn = useEdgeFunction<unknown, { department_id: string; user_id: string | null }>("set-department-head", { ...inv, successMessage: t("dept.headSaved") });
   const busy = save.isPending || setHeadFn.isPending;
 
