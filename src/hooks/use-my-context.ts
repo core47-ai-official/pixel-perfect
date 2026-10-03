@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useImpersonation } from "@/lib/impersonation";
 import { supabase } from "@/integrations/supabase/client";
 import { callEdgeFunction } from "./use-edge-function";
 
@@ -17,7 +18,7 @@ export interface MyContext {
   hospital: { id: string; name: string; is_active: boolean } | null;
   department: { id: string; name: string; type: string; head_doctor_id: string | null } | null;
   impersonation: {
-    sessionId: string; adminUserId: string; targetUserId: string; reason: string; expiresAt: string;
+    sessionId: string; superAdminId: string; targetUserId: string; reason: string; expiresAt: string;
   } | null;
 }
 
@@ -25,6 +26,7 @@ export interface MyContext {
 export function useMyContext() {
   const qc = useQueryClient();
   const [userId, setUserId] = useState<string | null>(null);
+  const imp = useImpersonation();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => setUserId(data.session?.user.id ?? null));
@@ -38,7 +40,7 @@ export function useMyContext() {
   }, [qc]);
 
   const query = useQuery({
-    queryKey: ["my-context", userId],
+    queryKey: ["my-context", userId, imp?.sessionId ?? null],
     queryFn: () => callEdgeFunction<MyContext>("get-my-context"),
     enabled: !!userId,
     staleTime: Infinity,
