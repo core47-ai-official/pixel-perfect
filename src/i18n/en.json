@@ -253,7 +253,8 @@
     "users": "Users",
     "systemIssues": "System issues",
     "supportTickets": "Support tickets",
-    "companySettings": "Company settings"
+    "companySettings": "Company settings",
+    "doctors": "Doctors"
   },
   "navGroup": {
     "overview": "Overview",
@@ -683,6 +684,67 @@
       "errorsToday": "Errors today",
       "errorsTodayCap": "Recorded app errors",
       "errorsTodayDesc": "App errors recorded during the selected dates."
+    }
+  },
+  "dept": {
+    "name": "Department name",
+    "type": "Type",
+    "head": "Department head",
+    "noHead": "No head yet",
+    "doctors": "Doctors",
+    "intro": "Hospital departments and who leads each one.",
+    "add": "Add department",
+    "edit": "Edit department",
+    "editShort": "Edit",
+    "save": "Save",
+    "cancel": "Cancel",
+    "saved": "Department saved",
+    "headSaved": "Department head updated",
+    "nameRequired": "Enter a department name (at least 2 characters).",
+    "loadError": "Couldn't load departments.",
+    "headAfterSave": "Save the department and add doctors to it first, then choose a head.",
+    "headHint": "Only doctors in this department can be head. They get the department head menu at their next sign-in or page refresh.",
+    "types": {
+      "clinical": "Clinical",
+      "surgical": "Surgical",
+      "diagnostic": "Diagnostic",
+      "emergency": "Emergency",
+      "support": "Support",
+      "administrative": "Administrative"
+    }
+  },
+  "doc": {
+    "name": "Doctor",
+    "department": "Department",
+    "specialty": "Specialty",
+    "gender": "Gender",
+    "fee": "Consultation fee (PKR)",
+    "followupFee": "Follow-up fee (PKR)",
+    "status": "Status",
+    "languages": "Languages spoken",
+    "pmdc": "PMDC number",
+    "person": "Staff member",
+    "pickPerson": "Choose a staff member",
+    "pickDept": "Choose a department",
+    "intro": "Doctors, their departments, fees and current status.",
+    "add": "Add doctor",
+    "edit": "Edit doctor",
+    "saved": "Doctor profile saved",
+    "required": "Choose a staff member and a department.",
+    "badFee": "Fees must be zero or more.",
+    "loadError": "Couldn't load doctors.",
+    "genders": {
+      "male": "Male",
+      "female": "Female",
+      "other": "Other"
+    },
+    "statuses": {
+      "available": "Available",
+      "in_opd": "In OPD",
+      "in_surgery": "In surgery",
+      "on_round": "On round",
+      "on_leave": "On leave",
+      "off_duty": "Off duty"
     }
   }
 }

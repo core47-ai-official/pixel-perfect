@@ -308,6 +308,72 @@ export type Database = {
           },
         ]
       }
+      doctors: {
+        Row: {
+          consultation_fee: number
+          created_at: string
+          created_by: string | null
+          department_id: string | null
+          followup_fee: number
+          gender: string | null
+          hospital_id: string
+          id: string
+          languages: string[]
+          pmdc_no: string | null
+          specialty: string
+          status: Database["public"]["Enums"]["doctor_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          consultation_fee?: number
+          created_at?: string
+          created_by?: string | null
+          department_id?: string | null
+          followup_fee?: number
+          gender?: string | null
+          hospital_id: string
+          id?: string
+          languages?: string[]
+          pmdc_no?: string | null
+          specialty?: string
+          status?: Database["public"]["Enums"]["doctor_status"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          consultation_fee?: number
+          created_at?: string
+          created_by?: string | null
+          department_id?: string | null
+          followup_fee?: number
+          gender?: string | null
+          hospital_id?: string
+          id?: string
+          languages?: string[]
+          pmdc_no?: string | null
+          specialty?: string
+          status?: Database["public"]["Enums"]["doctor_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "doctors_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "doctors_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       error_logs: {
         Row: {
           created_at: string
@@ -807,6 +873,13 @@ export type Database = {
         | "lab_tech"
         | "cashier"
         | "patient"
+      doctor_status:
+        | "available"
+        | "in_opd"
+        | "in_surgery"
+        | "on_round"
+        | "on_leave"
+        | "off_duty"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -947,6 +1020,14 @@ export const Constants = {
         "lab_tech",
         "cashier",
         "patient",
+      ],
+      doctor_status: [
+        "available",
+        "in_opd",
+        "in_surgery",
+        "on_round",
+        "on_leave",
+        "off_duty",
       ],
     },
   },

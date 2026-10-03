@@ -2,7 +2,7 @@ import {
   LayoutDashboard, Users, CalendarDays, ListOrdered, Stethoscope, BedDouble, HeartPulse, Siren, Scissors,
   FlaskConical, Pill, Boxes, Receipt, Wallet, UserCog, Building2, BarChart3, ScrollText, Settings, LifeBuoy,
   CalendarCheck, FileHeart, FileText, UserPlus, CalendarPlus, ClipboardPlus, TestTube, ShoppingCart, BadgePlus,
-  Ambulance, UsersRound, OctagonAlert, Ticket, SlidersHorizontal, type LucideIcon,
+  Ambulance, UsersRound, BriefcaseMedical, OctagonAlert, Ticket, SlidersHorizontal, type LucideIcon,
 } from "lucide-react";
 import type { AppRole } from "@/hooks/use-my-context";
 
@@ -37,6 +37,7 @@ export const PAGES = {
   users: { id: "users", path: "/users", icon: UsersRound, group: "admin" },
   staff: { id: "staff", path: "/staff", icon: UserCog, group: "admin" },
   departments: { id: "departments", path: "/departments", icon: Building2, group: "admin" },
+  doctors: { id: "doctors", path: "/doctors", icon: BriefcaseMedical, group: "admin" },
   reports: { id: "reports", path: "/reports", icon: BarChart3, group: "admin" },
   auditLogs: { id: "auditLogs", path: "/audit-logs", icon: ScrollText, group: "admin" },
   companySettings: { id: "companySettings", path: "/company-settings", icon: SlidersHorizontal, group: "admin" },
@@ -57,9 +58,9 @@ export const FOOTER_PAGES: NavPage[] = [
 
 /** Role → pages, in priority order (first four become the mobile bottom nav). */
 export const ROLE_PAGES: Record<AppRole, PageId[]> = {
-  super_admin: ["dashboard", "users", "reports", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "patients", "appointments", "billing", "cashRegister", "inventory"],
-  admin: ["dashboard", "users", "departments", "companySettings", "reports", "patients", "appointments", "billing", "inventory"],
-  dept_head: ["dashboard", "consultations", "wards", "reports", "patients", "appointments", "staff"],
+  super_admin: ["dashboard", "users", "reports", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "patients", "appointments", "billing", "cashRegister", "inventory"],
+  admin: ["dashboard", "users", "departments", "doctors", "companySettings", "reports", "patients", "appointments", "billing", "inventory"],
+  dept_head: ["dashboard", "consultations", "wards", "reports", "patients", "appointments", "staff", "doctors"],
   doctor: ["dashboard", "opdQueue", "consultations", "patients", "appointments", "wards", "lab"],
   nurse: ["dashboard", "nursing", "wards", "patients", "emergency"],
   er_officer: ["dashboard", "emergency", "patients", "wards", "lab"],
