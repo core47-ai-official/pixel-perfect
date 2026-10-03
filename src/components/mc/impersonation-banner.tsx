@@ -56,7 +56,7 @@ export function ImpersonationBanner() {
   const clock = `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, "0")}`;
 
   return (
-    <div role="alert" className="sticky top-0 z-30 flex flex-wrap items-center justify-center gap-3 bg-urgent px-4 py-2 text-sm font-medium text-urgent-foreground">
+    <div role="alert" className="sticky top-0 z-30 flex flex-wrap items-center justify-center gap-3 bg-destructive px-4 py-2 text-sm font-medium text-destructive-foreground">
       <UserX className="h-4 w-4" aria-hidden />
       <span>{t("impersonation.actingAs", { name: imp.targetName, role: t(`roles.${imp.targetRole}`) })}</span>
       <span className="opacity-90">
