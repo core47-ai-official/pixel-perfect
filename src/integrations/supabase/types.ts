@@ -64,6 +64,124 @@ export type Database = {
           },
         ]
       }
+      company_contacts: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          hospital_id: string
+          id: string
+          is_primary: boolean
+          label: string
+          type: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          hospital_id: string
+          id?: string
+          is_primary?: boolean
+          label?: string
+          type: string
+          updated_at?: string
+          value: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          hospital_id?: string
+          id?: string
+          is_primary?: boolean
+          label?: string
+          type?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "company_contacts_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      company_settings: {
+        Row: {
+          appointments: Json
+          billing: Json
+          branding: Json
+          created_at: string
+          created_by: string | null
+          emergency: Json
+          general: Json
+          hospital_id: string
+          id: string
+          lab: Json
+          localization: Json
+          notifications: Json
+          opd: Json
+          patient_portal: Json
+          pharmacy: Json
+          printing: Json
+          security: Json
+          updated_at: string
+          wards: Json
+        }
+        Insert: {
+          appointments?: Json
+          billing?: Json
+          branding?: Json
+          created_at?: string
+          created_by?: string | null
+          emergency?: Json
+          general?: Json
+          hospital_id: string
+          id?: string
+          lab?: Json
+          localization?: Json
+          notifications?: Json
+          opd?: Json
+          patient_portal?: Json
+          pharmacy?: Json
+          printing?: Json
+          security?: Json
+          updated_at?: string
+          wards?: Json
+        }
+        Update: {
+          appointments?: Json
+          billing?: Json
+          branding?: Json
+          created_at?: string
+          created_by?: string | null
+          emergency?: Json
+          general?: Json
+          hospital_id?: string
+          id?: string
+          lab?: Json
+          localization?: Json
+          notifications?: Json
+          opd?: Json
+          patient_portal?: Json
+          pharmacy?: Json
+          printing?: Json
+          security?: Json
+          updated_at?: string
+          wards?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "company_settings_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: true
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       counters: {
         Row: {
           created_at: string
@@ -183,6 +301,47 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "error_logs_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      holidays: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          holiday_date: string
+          hospital_id: string
+          id: string
+          is_recurring: boolean
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          holiday_date: string
+          hospital_id: string
+          id?: string
+          is_recurring?: boolean
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          holiday_date?: string
+          hospital_id?: string
+          id?: string
+          is_recurring?: boolean
+          name?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "holidays_hospital_id_fkey"
             columns: ["hospital_id"]
             isOneToOne: false
             referencedRelation: "hospitals"
