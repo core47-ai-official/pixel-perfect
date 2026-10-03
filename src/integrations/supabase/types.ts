@@ -226,6 +226,47 @@ export type Database = {
           },
         ]
       }
+      dashboard_layouts: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          dashboard: string
+          hospital_id: string
+          id: string
+          updated_at: string
+          user_id: string
+          widgets: Json
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          dashboard?: string
+          hospital_id: string
+          id?: string
+          updated_at?: string
+          user_id: string
+          widgets?: Json
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          dashboard?: string
+          hospital_id?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+          widgets?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dashboard_layouts_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       departments: {
         Row: {
           created_at: string
