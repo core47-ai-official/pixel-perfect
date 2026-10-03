@@ -114,7 +114,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               <span
                 className={cn(
                   "hidden items-center gap-1 rounded-full border px-2 py-0.5 text-xs sm:inline-flex",
-                  online ? "border-status-ok/40 text-status-ok" : "border-status-inactive/40 text-status-inactive",
+                  online ? "border-ok/40 text-ok" : "border-inactive/40 text-inactive",
                 )}
               >
                 {online ? <Wifi className="size-3.5" aria-hidden /> : <WifiOff className="size-3.5" aria-hidden />}
