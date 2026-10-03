@@ -27,6 +27,7 @@ import { Route as AuthenticatedAppConsultationsRouteImport } from './routes/_aut
 import { Route as AuthenticatedAppDashboardRouteImport } from './routes/_authenticated/_app/dashboard'
 import { Route as AuthenticatedAppDepartmentsRouteImport } from './routes/_authenticated/_app/departments'
 import { Route as AuthenticatedAppDoctorsRouteImport } from './routes/_authenticated/_app/doctors'
+import { Route as AuthenticatedAppDoctorsNowRouteImport } from './routes/_authenticated/_app/doctors-now'
 import { Route as AuthenticatedAppEmergencyRouteImport } from './routes/_authenticated/_app/emergency'
 import { Route as AuthenticatedAppHelpRouteImport } from './routes/_authenticated/_app/help'
 import { Route as AuthenticatedAppInventoryRouteImport } from './routes/_authenticated/_app/inventory'
@@ -46,6 +47,7 @@ import { Route as AuthenticatedAppSupportTicketsRouteImport } from './routes/_au
 import { Route as AuthenticatedAppSystemIssuesRouteImport } from './routes/_authenticated/_app/system-issues'
 import { Route as AuthenticatedAppUsersRouteImport } from './routes/_authenticated/_app/users'
 import { Route as AuthenticatedAppWardsRouteImport } from './routes/_authenticated/_app/wards'
+import { Route as AuthenticatedAppDoctorsDoctorIdRouteImport } from './routes/_authenticated/_app/doctors_.$doctorId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -143,6 +145,12 @@ const AuthenticatedAppDoctorsRoute = AuthenticatedAppDoctorsRouteImport.update({
   path: '/doctors',
   getParentRoute: () => AuthenticatedAppRouteRoute,
 } as any)
+const AuthenticatedAppDoctorsNowRoute =
+  AuthenticatedAppDoctorsNowRouteImport.update({
+    id: '/doctors-now',
+    path: '/doctors-now',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
 const AuthenticatedAppEmergencyRoute =
   AuthenticatedAppEmergencyRouteImport.update({
     id: '/emergency',
@@ -248,6 +256,12 @@ const AuthenticatedAppWardsRoute = AuthenticatedAppWardsRouteImport.update({
   path: '/wards',
   getParentRoute: () => AuthenticatedAppRouteRoute,
 } as any)
+const AuthenticatedAppDoctorsDoctorIdRoute =
+  AuthenticatedAppDoctorsDoctorIdRouteImport.update({
+    id: '/doctors_/$doctorId',
+    path: '/doctors/$doctorId',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -266,6 +280,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedAppDashboardRoute
   '/departments': typeof AuthenticatedAppDepartmentsRoute
   '/doctors': typeof AuthenticatedAppDoctorsRoute
+  '/doctors-now': typeof AuthenticatedAppDoctorsNowRoute
   '/emergency': typeof AuthenticatedAppEmergencyRoute
   '/help': typeof AuthenticatedAppHelpRoute
   '/inventory': typeof AuthenticatedAppInventoryRoute
@@ -285,6 +300,7 @@ export interface FileRoutesByFullPath {
   '/system-issues': typeof AuthenticatedAppSystemIssuesRoute
   '/users': typeof AuthenticatedAppUsersRoute
   '/wards': typeof AuthenticatedAppWardsRoute
+  '/doctors/$doctorId': typeof AuthenticatedAppDoctorsDoctorIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -303,6 +319,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedAppDashboardRoute
   '/departments': typeof AuthenticatedAppDepartmentsRoute
   '/doctors': typeof AuthenticatedAppDoctorsRoute
+  '/doctors-now': typeof AuthenticatedAppDoctorsNowRoute
   '/emergency': typeof AuthenticatedAppEmergencyRoute
   '/help': typeof AuthenticatedAppHelpRoute
   '/inventory': typeof AuthenticatedAppInventoryRoute
@@ -322,6 +339,7 @@ export interface FileRoutesByTo {
   '/system-issues': typeof AuthenticatedAppSystemIssuesRoute
   '/users': typeof AuthenticatedAppUsersRoute
   '/wards': typeof AuthenticatedAppWardsRoute
+  '/doctors/$doctorId': typeof AuthenticatedAppDoctorsDoctorIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -343,6 +361,7 @@ export interface FileRoutesById {
   '/_authenticated/_app/dashboard': typeof AuthenticatedAppDashboardRoute
   '/_authenticated/_app/departments': typeof AuthenticatedAppDepartmentsRoute
   '/_authenticated/_app/doctors': typeof AuthenticatedAppDoctorsRoute
+  '/_authenticated/_app/doctors-now': typeof AuthenticatedAppDoctorsNowRoute
   '/_authenticated/_app/emergency': typeof AuthenticatedAppEmergencyRoute
   '/_authenticated/_app/help': typeof AuthenticatedAppHelpRoute
   '/_authenticated/_app/inventory': typeof AuthenticatedAppInventoryRoute
@@ -362,6 +381,7 @@ export interface FileRoutesById {
   '/_authenticated/_app/system-issues': typeof AuthenticatedAppSystemIssuesRoute
   '/_authenticated/_app/users': typeof AuthenticatedAppUsersRoute
   '/_authenticated/_app/wards': typeof AuthenticatedAppWardsRoute
+  '/_authenticated/_app/doctors_/$doctorId': typeof AuthenticatedAppDoctorsDoctorIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -382,6 +402,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/departments'
     | '/doctors'
+    | '/doctors-now'
     | '/emergency'
     | '/help'
     | '/inventory'
@@ -401,6 +422,7 @@ export interface FileRouteTypes {
     | '/system-issues'
     | '/users'
     | '/wards'
+    | '/doctors/$doctorId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -419,6 +441,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/departments'
     | '/doctors'
+    | '/doctors-now'
     | '/emergency'
     | '/help'
     | '/inventory'
@@ -438,6 +461,7 @@ export interface FileRouteTypes {
     | '/system-issues'
     | '/users'
     | '/wards'
+    | '/doctors/$doctorId'
   id:
     | '__root__'
     | '/'
@@ -458,6 +482,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/dashboard'
     | '/_authenticated/_app/departments'
     | '/_authenticated/_app/doctors'
+    | '/_authenticated/_app/doctors-now'
     | '/_authenticated/_app/emergency'
     | '/_authenticated/_app/help'
     | '/_authenticated/_app/inventory'
@@ -477,6 +502,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/system-issues'
     | '/_authenticated/_app/users'
     | '/_authenticated/_app/wards'
+    | '/_authenticated/_app/doctors_/$doctorId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -617,6 +643,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppDoctorsRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
+    '/_authenticated/_app/doctors-now': {
+      id: '/_authenticated/_app/doctors-now'
+      path: '/doctors-now'
+      fullPath: '/doctors-now'
+      preLoaderRoute: typeof AuthenticatedAppDoctorsNowRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
     '/_authenticated/_app/emergency': {
       id: '/_authenticated/_app/emergency'
       path: '/emergency'
@@ -750,6 +783,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppWardsRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
+    '/_authenticated/_app/doctors_/$doctorId': {
+      id: '/_authenticated/_app/doctors_/$doctorId'
+      path: '/doctors/$doctorId'
+      fullPath: '/doctors/$doctorId'
+      preLoaderRoute: typeof AuthenticatedAppDoctorsDoctorIdRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
   }
 }
 
@@ -763,6 +803,7 @@ interface AuthenticatedAppRouteRouteChildren {
   AuthenticatedAppDashboardRoute: typeof AuthenticatedAppDashboardRoute
   AuthenticatedAppDepartmentsRoute: typeof AuthenticatedAppDepartmentsRoute
   AuthenticatedAppDoctorsRoute: typeof AuthenticatedAppDoctorsRoute
+  AuthenticatedAppDoctorsNowRoute: typeof AuthenticatedAppDoctorsNowRoute
   AuthenticatedAppEmergencyRoute: typeof AuthenticatedAppEmergencyRoute
   AuthenticatedAppHelpRoute: typeof AuthenticatedAppHelpRoute
   AuthenticatedAppInventoryRoute: typeof AuthenticatedAppInventoryRoute
@@ -782,6 +823,7 @@ interface AuthenticatedAppRouteRouteChildren {
   AuthenticatedAppSystemIssuesRoute: typeof AuthenticatedAppSystemIssuesRoute
   AuthenticatedAppUsersRoute: typeof AuthenticatedAppUsersRoute
   AuthenticatedAppWardsRoute: typeof AuthenticatedAppWardsRoute
+  AuthenticatedAppDoctorsDoctorIdRoute: typeof AuthenticatedAppDoctorsDoctorIdRoute
 }
 
 const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
@@ -794,6 +836,7 @@ const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
   AuthenticatedAppDashboardRoute: AuthenticatedAppDashboardRoute,
   AuthenticatedAppDepartmentsRoute: AuthenticatedAppDepartmentsRoute,
   AuthenticatedAppDoctorsRoute: AuthenticatedAppDoctorsRoute,
+  AuthenticatedAppDoctorsNowRoute: AuthenticatedAppDoctorsNowRoute,
   AuthenticatedAppEmergencyRoute: AuthenticatedAppEmergencyRoute,
   AuthenticatedAppHelpRoute: AuthenticatedAppHelpRoute,
   AuthenticatedAppInventoryRoute: AuthenticatedAppInventoryRoute,
@@ -813,6 +856,7 @@ const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
   AuthenticatedAppSystemIssuesRoute: AuthenticatedAppSystemIssuesRoute,
   AuthenticatedAppUsersRoute: AuthenticatedAppUsersRoute,
   AuthenticatedAppWardsRoute: AuthenticatedAppWardsRoute,
+  AuthenticatedAppDoctorsDoctorIdRoute: AuthenticatedAppDoctorsDoctorIdRoute,
 }
 
 const AuthenticatedAppRouteRouteWithChildren =
