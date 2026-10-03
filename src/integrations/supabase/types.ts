@@ -429,6 +429,68 @@ export type Database = {
           },
         ]
       }
+      notifications: {
+        Row: {
+          body: string | null
+          channel: string
+          created_at: string
+          created_by: string | null
+          delivery_status: string
+          hospital_id: string
+          id: string
+          link: string | null
+          read_at: string | null
+          scheduled_at: string
+          sent_at: string | null
+          title: string
+          type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          channel?: string
+          created_at?: string
+          created_by?: string | null
+          delivery_status?: string
+          hospital_id: string
+          id?: string
+          link?: string | null
+          read_at?: string | null
+          scheduled_at?: string
+          sent_at?: string | null
+          title: string
+          type: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          channel?: string
+          created_at?: string
+          created_by?: string | null
+          delivery_status?: string
+          hospital_id?: string
+          id?: string
+          link?: string | null
+          read_at?: string | null
+          scheduled_at?: string
+          sent_at?: string | null
+          title?: string
+          type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
@@ -475,6 +537,50 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "profiles_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      push_subscriptions: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          device: string | null
+          endpoint: string
+          hospital_id: string
+          id: string
+          keys: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          device?: string | null
+          endpoint: string
+          hospital_id: string
+          id?: string
+          keys: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          device?: string | null
+          endpoint?: string
+          hospital_id?: string
+          id?: string
+          keys?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "push_subscriptions_hospital_id_fkey"
             columns: ["hospital_id"]
             isOneToOne: false
             referencedRelation: "hospitals"
