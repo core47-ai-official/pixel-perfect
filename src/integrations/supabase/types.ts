@@ -491,6 +491,65 @@ export type Database = {
           },
         ]
       }
+      print_jobs: {
+        Row: {
+          copies: number
+          created_at: string
+          created_by: string | null
+          document_id: string | null
+          document_type: string
+          hospital_id: string
+          id: string
+          impersonated_by: string | null
+          languages: string[]
+          page: string | null
+          paper: string
+          patient_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          copies?: number
+          created_at?: string
+          created_by?: string | null
+          document_id?: string | null
+          document_type: string
+          hospital_id: string
+          id?: string
+          impersonated_by?: string | null
+          languages?: string[]
+          page?: string | null
+          paper: string
+          patient_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          copies?: number
+          created_at?: string
+          created_by?: string | null
+          document_id?: string | null
+          document_type?: string
+          hospital_id?: string
+          id?: string
+          impersonated_by?: string | null
+          languages?: string[]
+          page?: string | null
+          paper?: string
+          patient_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "print_jobs_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string

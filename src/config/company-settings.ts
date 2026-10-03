@@ -105,6 +105,8 @@ export const SETTINGS_TABS: TabDef[] = [
     { key: "show_logo", type: "toggle", default: true },
     { key: "header_text", type: "textarea", default: "" },
     { key: "footer_text", type: "textarea", default: "" },
+    { key: "bilingual_layout", type: "select", default: "stacked", options: ["stacked", "side_by_side"] },
+    { key: "show_qr", type: "toggle", default: true },
     { key: "signature", type: "asset", asset: "signature", default: "" },
     { key: "stamp", type: "asset", asset: "stamp", default: "" },
   ] },

@@ -18,6 +18,7 @@ import { ConfirmDialog } from "@/components/mc/confirm-dialog";
 import { EmptyState } from "@/components/mc/empty-state";
 import { Banner } from "@/components/mc/banner";
 import { Ltr } from "@/components/mc/ltr";
+import { PrintPreviewPanel, type PrintBrand, type PrintLanguage, type BilingualLayout } from "@/components/mc/print-document";
 import { PreferenceControls } from "@/components/mc/preference-controls";
 import { usePreferences } from "@/lib/preferences";
 import { cn } from "@/lib/utils";
@@ -237,6 +238,10 @@ function Showcase({ label, divided }: { label: string; divided?: boolean }) {
           </div>
         </Section>
 
+        <Section title={t("print.sampleReceipt")}>
+          <SampleReceipt />
+        </Section>
+
         <Section title={t("sg.banners")}>
           <div className="grid gap-3">
             <Banner tone="info" title={t("sg.b.infoT")}>{t("sg.b.infoD")}</Banner>
@@ -246,6 +251,104 @@ function Showcase({ label, divided }: { label: string; divided?: boolean }) {
           </div>
         </Section>
       </div>
+    </div>
+  );
+}
+
+const DEMO_BRAND: PrintBrand = {
+  name: "IDMPak Hospital",
+  address: "12 Jail Road, Lahore",
+  phone: "+92 42 3576 0000",
+  showLogo: false,
+  showQr: true,
+  footerText: "Fees are non-refundable. Keep this receipt for follow-up.",
+};
+
+const DEMO_ITEMS = [
+  { key: "consult", code: "OPD-01", qty: 1, amount: 1500 },
+  { key: "cbc", code: "LAB-CBC", qty: 1, amount: 900 },
+  { key: "paracetamol", code: "PH-0042", qty: 10, amount: 60 },
+];
+
+function SampleReceipt() {
+  const { t } = useTranslation();
+  const [open, setOpen] = useState(false);
+  const [lang, setLang] = useState<PrintLanguage | "none">("ur");
+  const [layout, setLayout] = useState<BilingualLayout>("stacked");
+  const total = DEMO_ITEMS.reduce((s, i) => s + i.amount, 0);
+  const pkr = (n: number) => n.toLocaleString("en-PK", { minimumFractionDigits: 2 });
+  return (
+    <div className="flex flex-wrap items-end gap-4 rounded-staff border bg-card p-6 shadow-card">
+      <p className="w-full text-sm text-muted-foreground">{t("print.sampleDesc")}</p>
+      <div className="grid gap-1.5">
+        <Label>{t("print.secondLang")}</Label>
+        <Select value={lang} onValueChange={(v) => setLang(v as PrintLanguage | "none")}>
+          <SelectTrigger className="w-44"><SelectValue /></SelectTrigger>
+          <SelectContent>
+            <SelectItem value="none">{t("print.none")}</SelectItem>
+            <SelectItem value="ur">اردو</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="grid gap-1.5">
+        <Label>{t("print.layout")}</Label>
+        <Select value={layout} onValueChange={(v) => setLayout(v as BilingualLayout)}>
+          <SelectTrigger className="w-44"><SelectValue /></SelectTrigger>
+          <SelectContent>
+            <SelectItem value="stacked">{t("print.stacked")}</SelectItem>
+            <SelectItem value="side_by_side">{t("print.side_by_side")}</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+      <Button onClick={() => setOpen(true)}>{t("print.openSample")}</Button>
+      <PrintPreviewPanel
+        open={open}
+        onOpenChange={setOpen}
+        brand={DEMO_BRAND}
+        printLanguage={lang === "none" ? null : lang}
+        layout={layout}
+        qrValue="https://medicore.example/r/RCP-000123"
+        showSignature
+        job={{ documentType: "sample_receipt", documentId: "RCP-000123" }}
+      >
+        {(pt) => (
+          <div className="space-y-2">
+            <p className="text-center font-bold uppercase">{pt("print.r.title")}</p>
+            <div className="grid grid-cols-2 gap-x-2">
+              <span>{pt("print.r.receiptNo")}</span><span className="text-end"><Ltr>RCP-000123</Ltr></span>
+              <span>{pt("print.r.date")}</span><span className="text-end"><Ltr>03/10/2026 20:58</Ltr></span>
+              <span>{pt("print.r.patient")}</span><span className="text-end">Ayesha Khan</span>
+              <span>{pt("print.r.mrn")}</span><span className="text-end"><Ltr>MRN-2026-000451</Ltr></span>
+            </div>
+            <table className="w-full">
+              <thead>
+                <tr className="mc-rule border-y">
+                  <th className="text-start font-semibold">{pt("print.r.item")}</th>
+                  <th className="text-end font-semibold">{pt("print.r.qty")}</th>
+                  <th className="text-end font-semibold">{pt("print.r.amount")}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {DEMO_ITEMS.map((i) => (
+                  <tr key={i.code}>
+                    <td>
+                      {i.key === "consult" ? pt("print.r.consult") : <Ltr>{pt(`print.r.${i.key}`, { lng: "en" })}</Ltr>}
+                      <div className="mc-muted text-[10px]"><Ltr>{i.code}</Ltr></div>
+                    </td>
+                    <td className="text-end"><Ltr>{i.qty}</Ltr></td>
+                    <td className="text-end"><Ltr>{pkr(i.amount)}</Ltr></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="mc-rule flex justify-between border-t pt-1 font-bold">
+              <span>{pt("print.r.total")}</span><Ltr>PKR {pkr(total)}</Ltr>
+            </div>
+            <p className="mc-muted">{pt("print.r.paid")}</p>
+            <p className="text-center">{pt("print.r.thanks")}</p>
+          </div>
+        )}
+      </PrintPreviewPanel>
     </div>
   );
 }
