@@ -249,3 +249,19 @@
   unicode-bidi: isolate;
   font-family: var(--font-sans);
 }
+
+/* ---------- Print system (PrintDocument) ---------- */
+.mc-paper { background: #fff; color: #111; font-feature-settings: "tnum"; }
+.mc-paper .mc-muted { color: #555; }
+.mc-paper .mc-rule { border-color: #222; }
+.mc-paper-thermal80 { width: 80mm; padding: 4mm; font-size: 11px; line-height: 1.35; }
+.mc-paper-a4 { width: 210mm; min-height: 297mm; padding: 15mm; font-size: 12.5px; line-height: 1.45; }
+.mc-paper [lang="ur"] { font-family: "Noto Nastaliq Urdu", serif; line-height: 2; }
+.mc-paper-thermal80 img.mc-print-logo { filter: grayscale(1) contrast(1.4); }
+@media screen { .mc-print-root { display: none; } }
+@media print {
+  body > *:not(.mc-print-root) { display: none !important; }
+  .mc-print-root { display: block !important; }
+  .mc-print-root .mc-paper { box-shadow: none; margin: 0; }
+  html, body { background: #fff !important; }
+}
