@@ -167,5 +167,44 @@
   },
   "errors": {
     "generic": "Something went wrong. Please try again."
+  },
+  "auth": {
+    "title": "Sign in to your hospital",
+    "subtitle": "Staff access only",
+    "identifier": "Email or phone",
+    "identifierHint": "e.g. name@hospital.pk or 0300 1234567",
+    "password": "Password",
+    "submit": "Sign in",
+    "signingIn": "Signing in…",
+    "invalid": "Wrong email/phone or password.",
+    "required": "Enter your email or phone and password.",
+    "reason_deactivated": "Your account has been deactivated. Contact your hospital administrator.",
+    "reason_timeout": "You were signed out after 30 minutes without activity.",
+    "reason_hospital": "Your hospital's access is currently disabled. Contact support.",
+    "signOut": "Sign out",
+    "loadingContext": "Loading your workspace…",
+    "contextError": "We couldn't load your account details.",
+    "retry": "Try again",
+    "welcome": "Welcome, {{name}}",
+    "rolesLabel": "Your roles",
+    "hospitalLogo": "Hospital logo"
+  },
+  "pwd": {
+    "title": "Change your password",
+    "subtitle": "For security, set a new password before you continue.",
+    "new": "New password",
+    "confirm": "Confirm new password",
+    "rules": "At least 8 characters, with a letter and a number.",
+    "mismatch": "Passwords don't match.",
+    "weak": "Password must be at least 8 characters and include a letter and a number.",
+    "submit": "Save password",
+    "saving": "Saving…",
+    "done": "Password changed."
+  },
+  "forbidden": {
+    "code": "403",
+    "title": "You don't have access to this page",
+    "body": "Your role doesn't allow this. If you think this is a mistake, contact your administrator.",
+    "home": "Go to my home"
   }
 }
