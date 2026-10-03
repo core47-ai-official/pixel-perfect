@@ -593,5 +593,21 @@
       "a5": "A5",
       "a4": "A4"
     }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "You're all caught up.",
+    "markAll": "Mark all as read",
+    "unread": "{{count}} unread",
+    "enableTitle": "Turn on notifications",
+    "enableBody": "Get alerts for appointments, results and urgent tasks on this device.",
+    "enable": "Turn on",
+    "later": "Not now",
+    "blockedTitle": "Notifications are blocked",
+    "blockedBody": "Allow notifications for this site in your browser settings to get alerts.",
+    "iosTip": "On iPhone, tap Share, then \"Add to Home Screen\" to get notifications.",
+    "enabled": "Notifications are on for this device.",
+    "failed": "Couldn't turn on notifications.",
+    "dismiss": "Dismiss"
   }
 }
