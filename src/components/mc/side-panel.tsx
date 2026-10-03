@@ -1,3 +1,4 @@
+import { usePreferences } from "@/lib/preferences";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 
 export function SidePanel({
@@ -15,9 +16,10 @@ export function SidePanel({
   children: React.ReactNode;
   footer?: React.ReactNode;
 }) {
+  const { dir } = usePreferences();
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="flex w-full flex-col gap-0 p-0 shadow-panel sm:max-w-md">
+      <SheetContent side={dir === "rtl" ? "left" : "right"} className="flex w-full flex-col gap-0 p-0 shadow-panel sm:max-w-md">
         <SheetHeader className="border-b px-6 py-5 text-start">
           <SheetTitle>{title}</SheetTitle>
           {description && <SheetDescription>{description}</SheetDescription>}

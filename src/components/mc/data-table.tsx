@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { EmptyState } from "./empty-state";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 export type Column<T> = {
   key: keyof T & string;
@@ -38,6 +39,7 @@ export function DataTable<T extends { id: string }>({
   onSelectionChange?: (ids: string[]) => void;
   bulkActions?: (ids: string[]) => React.ReactNode;
 }) {
+  const { t } = useTranslation();
   const [q, setQ] = useState("");
   const [f, setF] = useState<Record<string, string>>({});
   const [sort, setSort] = useState<{ key: string; dir: "asc" | "desc" } | null>(null);
@@ -74,45 +76,45 @@ export function DataTable<T extends { id: string }>({
 
   return (
     <div className="overflow-hidden rounded-staff border bg-card shadow-card">
-      <div className="flex flex-wrap items-center gap-3 border-b p-4">
+      <div className="flex flex-wrap items-center gap-3 border-b p-[var(--toolbar-p)]">
         <div className="relative min-w-56 flex-1">
           <Search className="pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-          <Input value={q} onChange={(e) => { setQ(e.target.value); setPage(0); }} placeholder="Search…" className="ps-9" />
+          <Input value={q} onChange={(e) => { setQ(e.target.value); setPage(0); }} placeholder={t("common.search")} className="ps-9" />
         </div>
         {filters.map((fl) => (
           <Select key={fl.key} value={f[fl.key] ?? "all"} onValueChange={(v) => { setF({ ...f, [fl.key]: v }); setPage(0); }}>
             <SelectTrigger className="w-40"><SelectValue placeholder={fl.label} /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Any {fl.label.toLowerCase()}</SelectItem>
+              <SelectItem value="all">{t("common.any", { label: fl.label })}</SelectItem>
               {fl.options.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}
             </SelectContent>
           </Select>
         ))}
         {sel.size > 0 && (
           <div className="flex items-center gap-2 text-sm">
-            <span className="text-muted-foreground tnum">{sel.size} selected</span>
+            <span className="text-muted-foreground">{t("common.selected", { count: sel.size })}</span>
             {bulkActions?.([...sel])}
           </div>
         )}
       </div>
 
       {visible.length === 0 ? (
-        <EmptyState icon={SearchX} title="No matching records" description="Try a different search or clear the filters."
-          action={<Button variant="secondary" size="sm" onClick={() => { setQ(""); setF({}); }}>Clear filters</Button>} />
+        <EmptyState icon={SearchX} title={t("common.noMatches")} description={t("common.noMatchesHint")}
+          action={<Button variant="secondary" size="sm" onClick={() => { setQ(""); setF({}); }}>{t("common.clearFilters")}</Button>} />
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-sm tnum">
             <thead className="bg-surface-sunken text-muted-foreground">
               <tr>
-                <th className="w-10 px-4 py-3">
-                  <Checkbox aria-label="Select page" checked={allOnPage}
+                <th className="w-10 px-[var(--cell-px)] py-[var(--cell-py)]">
+                  <Checkbox aria-label={t("common.selectPage")} checked={allOnPage}
                     onCheckedChange={(c) => { const n = new Set(sel); visible.forEach((r) => (c ? n.add(r.id) : n.delete(r.id))); update(n); }} />
                 </th>
                 {columns.map((c) => {
                   const active = sort?.key === c.key;
                   const Icon = !active ? ArrowUpDown : sort.dir === "asc" ? ArrowUp : ArrowDown;
                   return (
-                    <th key={c.key} className={cn("px-4 py-3 text-start font-medium", c.numeric && "text-end")}
+                    <th key={c.key} className={cn("px-[var(--cell-px)] py-[var(--cell-py)] text-start font-medium", c.numeric && "text-end")}
                       aria-sort={active ? (sort.dir === "asc" ? "ascending" : "descending") : undefined}>
                       {c.sortable ? (
                         <button onClick={() => toggleSort(c.key)} className={cn("inline-flex items-center gap-1 hover:text-foreground", active && "text-foreground")}>
@@ -127,12 +129,12 @@ export function DataTable<T extends { id: string }>({
             <tbody>
               {visible.map((r) => (
                 <tr key={r.id} className={cn("border-t transition-colors hover:bg-muted/50", sel.has(r.id) && "bg-brand-soft")}>
-                  <td className="px-4 py-3">
-                    <Checkbox aria-label="Select row" checked={sel.has(r.id)}
+                  <td className="px-[var(--cell-px)] py-[var(--cell-py)]">
+                    <Checkbox aria-label={t("common.selectRow")} checked={sel.has(r.id)}
                       onCheckedChange={(c) => { const n = new Set(sel); c ? n.add(r.id) : n.delete(r.id); update(n); }} />
                   </td>
                   {columns.map((c) => (
-                    <td key={c.key} className={cn("px-4 py-3", c.numeric && "text-end")}>
+                    <td key={c.key} className={cn("px-[var(--cell-px)] py-[var(--cell-py)]", c.numeric && "text-end")}>
                       {c.render ? c.render(r) : String(r[c.key])}
                     </td>
                   ))}
@@ -143,12 +145,12 @@ export function DataTable<T extends { id: string }>({
         </div>
       )}
 
-      <div className="flex items-center justify-between border-t px-4 py-3 text-sm text-muted-foreground">
-        <span className="tnum">{filtered.length === 0 ? "0" : `${cur * pageSize + 1}–${Math.min(filtered.length, (cur + 1) * pageSize)}`} of {filtered.length}</span>
+      <div className="flex items-center justify-between border-t px-[var(--cell-px)] py-[var(--cell-py)] text-sm text-muted-foreground">
+        <span>{t("common.range", { from: filtered.length ? cur * pageSize + 1 : 0, to: Math.min(filtered.length, (cur + 1) * pageSize), total: filtered.length })}</span>
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon" aria-label="Previous page" disabled={cur === 0} onClick={() => setPage(cur - 1)}><ChevronLeft /></Button>
-          <span className="px-2 tnum">Page {cur + 1} of {pages}</span>
-          <Button variant="ghost" size="icon" aria-label="Next page" disabled={cur >= pages - 1} onClick={() => setPage(cur + 1)}><ChevronRight /></Button>
+          <Button variant="ghost" size="icon" aria-label={t("common.prevPage")} disabled={cur === 0} onClick={() => setPage(cur - 1)}><ChevronLeft className="rtl:rotate-180" /></Button>
+          <span className="px-2">{t("common.page", { page: cur + 1, pages })}</span>
+          <Button variant="ghost" size="icon" aria-label={t("common.nextPage")} disabled={cur >= pages - 1} onClick={() => setPage(cur + 1)}><ChevronRight className="rtl:rotate-180" /></Button>
         </div>
       </div>
     </div>

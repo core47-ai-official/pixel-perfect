@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useTranslation } from "react-i18next";
 
 /** Confirmation that always requires a written reason (min 5 chars) for the audit log. */
 export function ConfirmDialog({
@@ -17,7 +18,7 @@ export function ConfirmDialog({
   onOpenChange,
   title,
   description,
-  confirmLabel = "Confirm",
+  confirmLabel,
   danger,
   onConfirm,
 }: {
@@ -29,6 +30,7 @@ export function ConfirmDialog({
   danger?: boolean;
   onConfirm: (reason: string) => void;
 }) {
+  const { t } = useTranslation();
   const [reason, setReason] = useState("");
   const valid = reason.trim().length >= 5;
   const close = (o: boolean) => {
@@ -44,20 +46,20 @@ export function ConfirmDialog({
         </DialogHeader>
         <div className="grid gap-2">
           <Label htmlFor="confirm-reason">
-            Reason <span className="text-urgent-fg">*</span>
+            {t("common.reason")} <span className="text-urgent-fg">*</span>
           </Label>
           <Textarea
             id="confirm-reason"
             value={reason}
             onChange={(e) => setReason(e.target.value)}
-            placeholder="Why are you doing this? (recorded in the audit log)"
+            placeholder={t("common.reasonPlaceholder")}
           />
           {!valid && reason.length > 0 && (
-            <p className="text-xs text-urgent-fg">Please write at least 5 characters.</p>
+            <p className="text-xs text-urgent-fg">{t("common.reasonMin")}</p>
           )}
         </div>
         <DialogFooter>
-          <Button variant="ghost" onClick={() => close(false)}>Cancel</Button>
+          <Button variant="ghost" onClick={() => close(false)}>{t("common.cancel")}</Button>
           <Button
             variant={danger ? "danger" : "primary"}
             disabled={!valid}
@@ -66,7 +68,7 @@ export function ConfirmDialog({
               close(false);
             }}
           >
-            {confirmLabel}
+            {confirmLabel ?? t("common.confirm")}
           </Button>
         </DialogFooter>
       </DialogContent>
