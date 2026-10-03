@@ -13,6 +13,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Toaster } from "@/components/ui/sonner";
+import { installErrorReporter, reportClientError } from "@/lib/error-reporter";
 import { PreferencesProvider, usePreferences } from "@/lib/preferences";
 import "@/i18n";
 
@@ -43,6 +44,7 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
   const router = useRouter();
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
+    reportClientError(error);
   }, [error]);
 
   return (
@@ -124,6 +126,7 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  useEffect(() => installErrorReporter(), []);
 
   return (
     <QueryClientProvider client={queryClient}>

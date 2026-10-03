@@ -31,3 +31,10 @@ export function installErrorReporter() {
     report(typeof r === "string" ? r : r?.message || "Unhandled promise rejection", typeof r === "object" ? r?.stack : undefined);
   });
 }
+
+/** For errors caught by React error boundaries (they don't reach window "error"). */
+export function reportClientError(err: unknown) {
+  if (typeof window === "undefined") return;
+  const e = err as { message?: string; stack?: string };
+  report(e?.message || String(err), e?.stack);
+}
