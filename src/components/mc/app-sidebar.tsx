@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { HospitalLogo } from "@/components/mc/hospital-logo";
+import { useCompanySettings } from "@/hooks/use-company-settings";
 import { FOOTER_PAGES, GROUP_ORDER, pagesForRoles, type NavPage } from "@/config/navigation";
 import { useMyContext } from "@/hooks/use-my-context";
 import { usePreferences } from "@/lib/preferences";
@@ -30,6 +31,8 @@ export function AppSidebar() {
   const { t } = useTranslation();
   const { dir, theme, setTheme } = usePreferences();
   const { context } = useMyContext();
+  const { values, raw } = useCompanySettings();
+  const hospitalName = String(values.general["hospital_name"] || context?.hospital?.name || "");
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const pages = pagesForRoles(context?.roles ?? []);
   const isActive = (p: string) => pathname === p || pathname.startsWith(p + "/");
@@ -40,8 +43,8 @@ export function AppSidebar() {
     <Sidebar collapsible="icon" side={dir === "rtl" ? "right" : "left"}>
       <SidebarHeader>
         <div className="flex items-center gap-2 px-1 py-1.5">
-          <HospitalLogo className="size-8 shrink-0" />
-          <span className="truncate font-semibold group-data-[collapsible=icon]:hidden">{context?.hospital?.name}</span>
+          <HospitalLogo className="size-8 shrink-0" src={raw?.asset_urls?.["logo"] ?? null} />
+          <span className="truncate font-semibold group-data-[collapsible=icon]:hidden">{hospitalName}</span>
         </div>
       </SidebarHeader>
       <SidebarContent>

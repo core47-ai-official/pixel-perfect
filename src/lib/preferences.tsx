@@ -5,12 +5,14 @@ export type Language = "en" | "ur";
 export type Theme = "light" | "dark";
 export type Density = "comfortable" | "compact";
 
-type Prefs = { language: Language; theme: Theme; density: Density };
+type Prefs = { language: Language; theme: Theme; density: Density; languageChosen?: boolean };
 type Ctx = Prefs & {
   dir: "ltr" | "rtl";
   setLanguage: (l: Language) => void;
   setTheme: (t: Theme) => void;
   setDensity: (d: Density) => void;
+  /** Hospital default language; only used until the user picks a language themselves. */
+  applyDefaultLanguage: (l: Language) => void;
 };
 
 const KEY = "medicore.prefs";
@@ -41,13 +43,17 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(KEY, JSON.stringify(prefs));
   }, [prefs]);
 
-  const setLanguage = useCallback((language: Language) => setPrefs((p) => ({ ...p, language })), []);
+  const setLanguage = useCallback((language: Language) => setPrefs((p) => ({ ...p, language, languageChosen: true })), []);
+  const applyDefaultLanguage = useCallback(
+    (language: Language) => setPrefs((p) => (p.languageChosen || p.language === language ? p : { ...p, language })),
+    [],
+  );
   const setTheme = useCallback((theme: Theme) => setPrefs((p) => ({ ...p, theme })), []);
   const setDensity = useCallback((density: Density) => setPrefs((p) => ({ ...p, density })), []);
 
   return (
     <PreferencesContext.Provider
-      value={{ ...prefs, dir: prefs.language === "ur" ? "rtl" : "ltr", setLanguage, setTheme, setDensity }}
+      value={{ ...prefs, dir: prefs.language === "ur" ? "rtl" : "ltr", setLanguage, setTheme, setDensity, applyDefaultLanguage }}
     >
       {children}
     </PreferencesContext.Provider>
