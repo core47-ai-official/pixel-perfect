@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { AppSidebar } from "@/components/mc/app-sidebar";
+import { ReportProblemPanel } from "@/components/mc/report-problem";
 import { ImpersonationBanner } from "@/components/mc/impersonation-banner";
 import { SidePanel } from "@/components/mc/side-panel";
 import { FOOTER_PAGES, findPage, pagesForRoles, quickActionsForRoles, type QuickAction } from "@/config/navigation";
@@ -56,6 +57,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   useEffect(() => setOpen(wide), [wide]);
   const online = useOnline();
   const [panel, setPanel] = useState<QuickAction | null>(null);
+  const [reportOpen, setReportOpen] = useState(false);
 
   const roles = context?.roles ?? [];
   const pages = pagesForRoles(roles);
@@ -131,7 +133,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               <Button size="icon" variant="ghost" aria-label={t("shell.bell")} onClick={soon}>
                 <Bell />
               </Button>
-              <Button size="icon" variant="ghost" aria-label={t("shell.report")} title={t("shell.report")} onClick={soon}>
+              <Button size="icon" variant="ghost" aria-label={t("shell.report")} title={t("shell.report")} onClick={() => setReportOpen(true)}>
                 <Bug />
               </Button>
               <Button size="icon" variant="ghost" aria-label={t("auth.signOut")} title={t("auth.signOut")} onClick={() => signOutEverywhere(qc, navigate)}>
@@ -206,6 +208,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       >
         <p className="text-sm text-muted-foreground">{t("shell.panelBody")}</p>
       </SidePanel>
+    <ReportProblemPanel open={reportOpen} onOpenChange={setReportOpen} />
     </SidebarProvider>
   );
 }

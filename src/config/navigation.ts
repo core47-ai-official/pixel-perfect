@@ -2,7 +2,7 @@ import {
   LayoutDashboard, Users, CalendarDays, ListOrdered, Stethoscope, BedDouble, HeartPulse, Siren, Scissors,
   FlaskConical, Pill, Boxes, Receipt, Wallet, UserCog, Building2, BarChart3, ScrollText, Settings, LifeBuoy,
   CalendarCheck, FileHeart, FileText, UserPlus, CalendarPlus, ClipboardPlus, TestTube, ShoppingCart, BadgePlus,
-  Ambulance, UsersRound, type LucideIcon,
+  Ambulance, UsersRound, OctagonAlert, Ticket, type LucideIcon,
 } from "lucide-react";
 import type { AppRole } from "@/hooks/use-my-context";
 
@@ -39,6 +39,8 @@ export const PAGES = {
   departments: { id: "departments", path: "/departments", icon: Building2, group: "admin" },
   reports: { id: "reports", path: "/reports", icon: BarChart3, group: "admin" },
   auditLogs: { id: "auditLogs", path: "/audit-logs", icon: ScrollText, group: "admin" },
+  systemIssues: { id: "systemIssues", path: "/system-issues", icon: OctagonAlert, group: "admin" },
+  supportTickets: { id: "supportTickets", path: "/support-tickets", icon: Ticket, group: "admin" },
   myAppointments: { id: "myAppointments", path: "/my-appointments", icon: CalendarCheck, group: "myHealth" },
   myRecords: { id: "myRecords", path: "/my-records", icon: FileHeart, group: "myHealth" },
   myBills: { id: "myBills", path: "/my-bills", icon: FileText, group: "myHealth" },
@@ -54,7 +56,7 @@ export const FOOTER_PAGES: NavPage[] = [
 
 /** Role → pages, in priority order (first four become the mobile bottom nav). */
 export const ROLE_PAGES: Record<AppRole, PageId[]> = {
-  super_admin: ["dashboard", "users", "reports", "auditLogs", "departments", "patients", "appointments", "billing", "cashRegister", "inventory"],
+  super_admin: ["dashboard", "users", "reports", "auditLogs", "systemIssues", "supportTickets", "departments", "patients", "appointments", "billing", "cashRegister", "inventory"],
   admin: ["dashboard", "users", "departments", "reports", "patients", "appointments", "billing", "inventory"],
   dept_head: ["dashboard", "consultations", "wards", "reports", "patients", "appointments", "staff"],
   doctor: ["dashboard", "opdQueue", "consultations", "patients", "appointments", "wards", "lab"],
