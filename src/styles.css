@@ -97,25 +97,18 @@
   --surface: oklch(1 0 0);
   --surface-sunken: oklch(0.967 0.003 160);
   --foreground: oklch(0.21 0.01 250);
-  --card: var(--surface);
-  --card-foreground: var(--foreground);
-  --popover: var(--surface);
-  --popover-foreground: var(--foreground);
   --secondary: oklch(0.955 0.004 160);
   --secondary-foreground: oklch(0.25 0.01 250);
   --muted: oklch(0.96 0.003 160);
   --muted-foreground: oklch(0.52 0.012 250);
   --accent: oklch(0.955 0.005 160);
-  --accent-foreground: var(--foreground);
   --border: oklch(0.915 0.005 160);
   --input: oklch(0.88 0.006 160);
 
   /* Brand-derived */
-  --primary: var(--brand);
   --primary-foreground: oklch(0.99 0 0);
   --brand-soft: color-mix(in oklab, var(--brand) 12%, var(--surface));
   --brand-strong: color-mix(in oklab, var(--brand) 80%, black);
-  --ring: color-mix(in oklab, var(--brand) 55%, transparent);
 
   /* Status */
   --status-urgent: oklch(0.577 0.215 27);
@@ -137,25 +130,11 @@
   --status-inactive-soft: oklch(0.955 0.003 250);
   --status-inactive-fg: oklch(0.45 0.01 250);
 
-  --destructive: var(--status-urgent);
   --destructive-foreground: oklch(0.99 0 0);
 
   --shadow-card: 0 1px 2px oklch(0.2 0.01 250 / 0.04), 0 1px 3px oklch(0.2 0.01 250 / 0.04);
   --shadow-panel: -12px 0 32px -12px oklch(0.2 0.01 250 / 0.18);
 
-  --chart-1: var(--brand);
-  --chart-2: var(--status-progress);
-  --chart-3: var(--status-warning);
-  --chart-4: var(--status-urgent);
-  --chart-5: var(--status-inactive);
-  --sidebar: var(--surface);
-  --sidebar-foreground: var(--foreground);
-  --sidebar-primary: var(--brand);
-  --sidebar-primary-foreground: var(--primary-foreground);
-  --sidebar-accent: var(--brand-soft);
-  --sidebar-accent-foreground: var(--brand-strong);
-  --sidebar-border: var(--border);
-  --sidebar-ring: var(--ring);
 }
 
 .dark {
@@ -196,6 +175,31 @@
 
   --shadow-card: 0 1px 2px oklch(0 0 0 / 0.3);
   --shadow-panel: -12px 0 32px -12px oklch(0 0 0 / 0.6);
+}
+
+:root,
+.dark {
+  --card: var(--surface);
+  --card-foreground: var(--foreground);
+  --popover: var(--surface);
+  --popover-foreground: var(--foreground);
+  --accent-foreground: var(--foreground);
+  --primary: var(--brand);
+  --ring: color-mix(in oklab, var(--brand) 55%, transparent);
+  --destructive: var(--status-urgent);
+  --chart-1: var(--brand);
+  --chart-2: var(--status-progress);
+  --chart-3: var(--status-warning);
+  --chart-4: var(--status-urgent);
+  --chart-5: var(--status-inactive);
+  --sidebar: var(--surface);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--brand);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--brand-soft);
+  --sidebar-accent-foreground: var(--brand-strong);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
 }
 
 @layer base {
