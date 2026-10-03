@@ -76,7 +76,7 @@ function AuthPage() {
           </div>
           {reason && (
             <div className="mb-4">
-              <Banner variant={reason === "timeout" ? "info" : "danger"}>{t(`auth.reason_${reason}`)}</Banner>
+              <Banner tone={reason === "timeout" ? "info" : "danger"}>{t(`auth.reason_${reason}`)}</Banner>
             </div>
           )}
           <form onSubmit={onSubmit} className="space-y-4" noValidate>
