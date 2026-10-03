@@ -254,7 +254,8 @@
     "systemIssues": "System issues",
     "supportTickets": "Support tickets",
     "companySettings": "Company settings",
-    "doctors": "Doctors"
+    "doctors": "Doctors",
+    "doctorsNow": "Doctors now"
   },
   "navGroup": {
     "overview": "Overview",
@@ -745,6 +746,37 @@
       "on_round": "On round",
       "on_leave": "On leave",
       "off_duty": "Off duty"
+    }
+  },
+  "sched": {
+    "myStatus": "My status",
+    "mySchedule": "My schedule",
+    "statusSaved": "Status updated",
+    "live": "Live — updates automatically",
+    "boardEmpty": "No doctors yet",
+    "boardEmptyBody": "Doctors appear here once an admin adds them.",
+    "noHoursToday": "No hours today",
+    "room": "Room",
+    "notFound": "Doctor not found.",
+    "back": "All doctors",
+    "weekly": "Weekly schedule",
+    "off": "Off",
+    "addHours": "Add hours",
+    "remove": "Remove",
+    "slot": "Slot (min)",
+    "max": "Max patients",
+    "saved": "Schedule saved",
+    "badRange": "Each range needs an end time after its start time.",
+    "badSlot": "Slot length must be 5–240 minutes.",
+    "overlap": "Time ranges on the same day overlap.",
+    "days": {
+      "0": "Sunday",
+      "1": "Monday",
+      "2": "Tuesday",
+      "3": "Wednesday",
+      "4": "Thursday",
+      "5": "Friday",
+      "6": "Saturday"
     }
   }
 }

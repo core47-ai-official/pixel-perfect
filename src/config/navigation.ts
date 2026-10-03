@@ -2,7 +2,7 @@ import {
   LayoutDashboard, Users, CalendarDays, ListOrdered, Stethoscope, BedDouble, HeartPulse, Siren, Scissors,
   FlaskConical, Pill, Boxes, Receipt, Wallet, UserCog, Building2, BarChart3, ScrollText, Settings, LifeBuoy,
   CalendarCheck, FileHeart, FileText, UserPlus, CalendarPlus, ClipboardPlus, TestTube, ShoppingCart, BadgePlus,
-  Ambulance, UsersRound, BriefcaseMedical, OctagonAlert, Ticket, SlidersHorizontal, type LucideIcon,
+  Ambulance, UsersRound, BriefcaseMedical, Radio, OctagonAlert, Ticket, SlidersHorizontal, type LucideIcon,
 } from "lucide-react";
 import type { AppRole } from "@/hooks/use-my-context";
 
@@ -23,6 +23,7 @@ export const PAGES = {
   dashboard: { id: "dashboard", path: "/dashboard", icon: LayoutDashboard, group: "overview" },
   patients: { id: "patients", path: "/patients", icon: Users, group: "patients" },
   appointments: { id: "appointments", path: "/appointments", icon: CalendarDays, group: "patients" },
+  doctorsNow: { id: "doctorsNow", path: "/doctors-now", icon: Radio, group: "patients" },
   opdQueue: { id: "opdQueue", path: "/opd-queue", icon: ListOrdered, group: "patients" },
   consultations: { id: "consultations", path: "/consultations", icon: Stethoscope, group: "clinical" },
   wards: { id: "wards", path: "/wards", icon: BedDouble, group: "clinical" },
@@ -58,14 +59,14 @@ export const FOOTER_PAGES: NavPage[] = [
 
 /** Role → pages, in priority order (first four become the mobile bottom nav). */
 export const ROLE_PAGES: Record<AppRole, PageId[]> = {
-  super_admin: ["dashboard", "users", "reports", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "patients", "appointments", "billing", "cashRegister", "inventory"],
-  admin: ["dashboard", "users", "departments", "doctors", "companySettings", "reports", "patients", "appointments", "billing", "inventory"],
-  dept_head: ["dashboard", "consultations", "wards", "reports", "patients", "appointments", "staff", "doctors"],
+  super_admin: ["dashboard", "users", "reports", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "doctorsNow", "patients", "appointments", "billing", "cashRegister", "inventory"],
+  admin: ["dashboard", "users", "departments", "doctors", "doctorsNow", "companySettings", "reports", "patients", "appointments", "billing", "inventory"],
+  dept_head: ["dashboard", "consultations", "wards", "reports", "patients", "appointments", "staff", "doctors", "doctorsNow"],
   doctor: ["dashboard", "opdQueue", "consultations", "patients", "appointments", "wards", "lab"],
   nurse: ["dashboard", "nursing", "wards", "patients", "emergency"],
   er_officer: ["dashboard", "emergency", "patients", "wards", "lab"],
   ot_coordinator: ["dashboard", "ot", "patients", "wards", "inventory"],
-  receptionist: ["dashboard", "patients", "appointments", "opdQueue", "billing"],
+  receptionist: ["dashboard", "patients", "doctorsNow", "appointments", "opdQueue", "billing"],
   pharmacist: ["dashboard", "pharmacy", "inventory", "patients"],
   lab_tech: ["dashboard", "lab", "patients", "inventory"],
   cashier: ["dashboard", "billing", "cashRegister", "patients"],
