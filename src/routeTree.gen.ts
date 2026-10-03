@@ -16,7 +16,29 @@ import { Route as ForbiddenRouteImport } from './routes/forbidden'
 import { Route as StyleguideRouteImport } from './routes/styleguide'
 import { Route as AuthenticatedAppRouteRouteImport } from './routes/_authenticated/_app/route'
 import { Route as AuthenticatedChangePasswordRouteImport } from './routes/_authenticated/change-password'
+import { Route as AuthenticatedAppAppointmentsRouteImport } from './routes/_authenticated/_app/appointments'
+import { Route as AuthenticatedAppAuditLogsRouteImport } from './routes/_authenticated/_app/audit-logs'
+import { Route as AuthenticatedAppBillingRouteImport } from './routes/_authenticated/_app/billing'
+import { Route as AuthenticatedAppCashRegisterRouteImport } from './routes/_authenticated/_app/cash-register'
+import { Route as AuthenticatedAppConsultationsRouteImport } from './routes/_authenticated/_app/consultations'
 import { Route as AuthenticatedAppDashboardRouteImport } from './routes/_authenticated/_app/dashboard'
+import { Route as AuthenticatedAppDepartmentsRouteImport } from './routes/_authenticated/_app/departments'
+import { Route as AuthenticatedAppEmergencyRouteImport } from './routes/_authenticated/_app/emergency'
+import { Route as AuthenticatedAppHelpRouteImport } from './routes/_authenticated/_app/help'
+import { Route as AuthenticatedAppInventoryRouteImport } from './routes/_authenticated/_app/inventory'
+import { Route as AuthenticatedAppLabRouteImport } from './routes/_authenticated/_app/lab'
+import { Route as AuthenticatedAppMyAppointmentsRouteImport } from './routes/_authenticated/_app/my-appointments'
+import { Route as AuthenticatedAppMyBillsRouteImport } from './routes/_authenticated/_app/my-bills'
+import { Route as AuthenticatedAppMyRecordsRouteImport } from './routes/_authenticated/_app/my-records'
+import { Route as AuthenticatedAppNursingRouteImport } from './routes/_authenticated/_app/nursing'
+import { Route as AuthenticatedAppOpdQueueRouteImport } from './routes/_authenticated/_app/opd-queue'
+import { Route as AuthenticatedAppOtRouteImport } from './routes/_authenticated/_app/ot'
+import { Route as AuthenticatedAppPatientsRouteImport } from './routes/_authenticated/_app/patients'
+import { Route as AuthenticatedAppPharmacyRouteImport } from './routes/_authenticated/_app/pharmacy'
+import { Route as AuthenticatedAppReportsRouteImport } from './routes/_authenticated/_app/reports'
+import { Route as AuthenticatedAppSettingsRouteImport } from './routes/_authenticated/_app/settings'
+import { Route as AuthenticatedAppStaffRouteImport } from './routes/_authenticated/_app/staff'
+import { Route as AuthenticatedAppWardsRouteImport } from './routes/_authenticated/_app/wards'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,12 +74,135 @@ const AuthenticatedChangePasswordRoute =
     path: '/change-password',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAppAppointmentsRoute =
+  AuthenticatedAppAppointmentsRouteImport.update({
+    id: '/appointments',
+    path: '/appointments',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
+const AuthenticatedAppAuditLogsRoute =
+  AuthenticatedAppAuditLogsRouteImport.update({
+    id: '/audit-logs',
+    path: '/audit-logs',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
+const AuthenticatedAppBillingRoute = AuthenticatedAppBillingRouteImport.update({
+  id: '/billing',
+  path: '/billing',
+  getParentRoute: () => AuthenticatedAppRouteRoute,
+} as any)
+const AuthenticatedAppCashRegisterRoute =
+  AuthenticatedAppCashRegisterRouteImport.update({
+    id: '/cash-register',
+    path: '/cash-register',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
+const AuthenticatedAppConsultationsRoute =
+  AuthenticatedAppConsultationsRouteImport.update({
+    id: '/consultations',
+    path: '/consultations',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
 const AuthenticatedAppDashboardRoute =
   AuthenticatedAppDashboardRouteImport.update({
     id: '/dashboard',
     path: '/dashboard',
     getParentRoute: () => AuthenticatedAppRouteRoute,
   } as any)
+const AuthenticatedAppDepartmentsRoute =
+  AuthenticatedAppDepartmentsRouteImport.update({
+    id: '/departments',
+    path: '/departments',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
+const AuthenticatedAppEmergencyRoute =
+  AuthenticatedAppEmergencyRouteImport.update({
+    id: '/emergency',
+    path: '/emergency',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
+const AuthenticatedAppHelpRoute = AuthenticatedAppHelpRouteImport.update({
+  id: '/help',
+  path: '/help',
+  getParentRoute: () => AuthenticatedAppRouteRoute,
+} as any)
+const AuthenticatedAppInventoryRoute =
+  AuthenticatedAppInventoryRouteImport.update({
+    id: '/inventory',
+    path: '/inventory',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
+const AuthenticatedAppLabRoute = AuthenticatedAppLabRouteImport.update({
+  id: '/lab',
+  path: '/lab',
+  getParentRoute: () => AuthenticatedAppRouteRoute,
+} as any)
+const AuthenticatedAppMyAppointmentsRoute =
+  AuthenticatedAppMyAppointmentsRouteImport.update({
+    id: '/my-appointments',
+    path: '/my-appointments',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
+const AuthenticatedAppMyBillsRoute = AuthenticatedAppMyBillsRouteImport.update({
+  id: '/my-bills',
+  path: '/my-bills',
+  getParentRoute: () => AuthenticatedAppRouteRoute,
+} as any)
+const AuthenticatedAppMyRecordsRoute =
+  AuthenticatedAppMyRecordsRouteImport.update({
+    id: '/my-records',
+    path: '/my-records',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
+const AuthenticatedAppNursingRoute = AuthenticatedAppNursingRouteImport.update({
+  id: '/nursing',
+  path: '/nursing',
+  getParentRoute: () => AuthenticatedAppRouteRoute,
+} as any)
+const AuthenticatedAppOpdQueueRoute =
+  AuthenticatedAppOpdQueueRouteImport.update({
+    id: '/opd-queue',
+    path: '/opd-queue',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
+const AuthenticatedAppOtRoute = AuthenticatedAppOtRouteImport.update({
+  id: '/ot',
+  path: '/ot',
+  getParentRoute: () => AuthenticatedAppRouteRoute,
+} as any)
+const AuthenticatedAppPatientsRoute =
+  AuthenticatedAppPatientsRouteImport.update({
+    id: '/patients',
+    path: '/patients',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
+const AuthenticatedAppPharmacyRoute =
+  AuthenticatedAppPharmacyRouteImport.update({
+    id: '/pharmacy',
+    path: '/pharmacy',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
+const AuthenticatedAppReportsRoute = AuthenticatedAppReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => AuthenticatedAppRouteRoute,
+} as any)
+const AuthenticatedAppSettingsRoute =
+  AuthenticatedAppSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
+const AuthenticatedAppStaffRoute = AuthenticatedAppStaffRouteImport.update({
+  id: '/staff',
+  path: '/staff',
+  getParentRoute: () => AuthenticatedAppRouteRoute,
+} as any)
+const AuthenticatedAppWardsRoute = AuthenticatedAppWardsRouteImport.update({
+  id: '/wards',
+  path: '/wards',
+  getParentRoute: () => AuthenticatedAppRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -65,7 +210,29 @@ export interface FileRoutesByFullPath {
   '/forbidden': typeof ForbiddenRoute
   '/styleguide': typeof StyleguideRoute
   '/change-password': typeof AuthenticatedChangePasswordRoute
+  '/appointments': typeof AuthenticatedAppAppointmentsRoute
+  '/audit-logs': typeof AuthenticatedAppAuditLogsRoute
+  '/billing': typeof AuthenticatedAppBillingRoute
+  '/cash-register': typeof AuthenticatedAppCashRegisterRoute
+  '/consultations': typeof AuthenticatedAppConsultationsRoute
   '/dashboard': typeof AuthenticatedAppDashboardRoute
+  '/departments': typeof AuthenticatedAppDepartmentsRoute
+  '/emergency': typeof AuthenticatedAppEmergencyRoute
+  '/help': typeof AuthenticatedAppHelpRoute
+  '/inventory': typeof AuthenticatedAppInventoryRoute
+  '/lab': typeof AuthenticatedAppLabRoute
+  '/my-appointments': typeof AuthenticatedAppMyAppointmentsRoute
+  '/my-bills': typeof AuthenticatedAppMyBillsRoute
+  '/my-records': typeof AuthenticatedAppMyRecordsRoute
+  '/nursing': typeof AuthenticatedAppNursingRoute
+  '/opd-queue': typeof AuthenticatedAppOpdQueueRoute
+  '/ot': typeof AuthenticatedAppOtRoute
+  '/patients': typeof AuthenticatedAppPatientsRoute
+  '/pharmacy': typeof AuthenticatedAppPharmacyRoute
+  '/reports': typeof AuthenticatedAppReportsRoute
+  '/settings': typeof AuthenticatedAppSettingsRoute
+  '/staff': typeof AuthenticatedAppStaffRoute
+  '/wards': typeof AuthenticatedAppWardsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -73,7 +240,29 @@ export interface FileRoutesByTo {
   '/forbidden': typeof ForbiddenRoute
   '/styleguide': typeof StyleguideRoute
   '/change-password': typeof AuthenticatedChangePasswordRoute
+  '/appointments': typeof AuthenticatedAppAppointmentsRoute
+  '/audit-logs': typeof AuthenticatedAppAuditLogsRoute
+  '/billing': typeof AuthenticatedAppBillingRoute
+  '/cash-register': typeof AuthenticatedAppCashRegisterRoute
+  '/consultations': typeof AuthenticatedAppConsultationsRoute
   '/dashboard': typeof AuthenticatedAppDashboardRoute
+  '/departments': typeof AuthenticatedAppDepartmentsRoute
+  '/emergency': typeof AuthenticatedAppEmergencyRoute
+  '/help': typeof AuthenticatedAppHelpRoute
+  '/inventory': typeof AuthenticatedAppInventoryRoute
+  '/lab': typeof AuthenticatedAppLabRoute
+  '/my-appointments': typeof AuthenticatedAppMyAppointmentsRoute
+  '/my-bills': typeof AuthenticatedAppMyBillsRoute
+  '/my-records': typeof AuthenticatedAppMyRecordsRoute
+  '/nursing': typeof AuthenticatedAppNursingRoute
+  '/opd-queue': typeof AuthenticatedAppOpdQueueRoute
+  '/ot': typeof AuthenticatedAppOtRoute
+  '/patients': typeof AuthenticatedAppPatientsRoute
+  '/pharmacy': typeof AuthenticatedAppPharmacyRoute
+  '/reports': typeof AuthenticatedAppReportsRoute
+  '/settings': typeof AuthenticatedAppSettingsRoute
+  '/staff': typeof AuthenticatedAppStaffRoute
+  '/wards': typeof AuthenticatedAppWardsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -84,7 +273,29 @@ export interface FileRoutesById {
   '/styleguide': typeof StyleguideRoute
   '/_authenticated/_app': typeof AuthenticatedAppRouteRouteWithChildren
   '/_authenticated/change-password': typeof AuthenticatedChangePasswordRoute
+  '/_authenticated/_app/appointments': typeof AuthenticatedAppAppointmentsRoute
+  '/_authenticated/_app/audit-logs': typeof AuthenticatedAppAuditLogsRoute
+  '/_authenticated/_app/billing': typeof AuthenticatedAppBillingRoute
+  '/_authenticated/_app/cash-register': typeof AuthenticatedAppCashRegisterRoute
+  '/_authenticated/_app/consultations': typeof AuthenticatedAppConsultationsRoute
   '/_authenticated/_app/dashboard': typeof AuthenticatedAppDashboardRoute
+  '/_authenticated/_app/departments': typeof AuthenticatedAppDepartmentsRoute
+  '/_authenticated/_app/emergency': typeof AuthenticatedAppEmergencyRoute
+  '/_authenticated/_app/help': typeof AuthenticatedAppHelpRoute
+  '/_authenticated/_app/inventory': typeof AuthenticatedAppInventoryRoute
+  '/_authenticated/_app/lab': typeof AuthenticatedAppLabRoute
+  '/_authenticated/_app/my-appointments': typeof AuthenticatedAppMyAppointmentsRoute
+  '/_authenticated/_app/my-bills': typeof AuthenticatedAppMyBillsRoute
+  '/_authenticated/_app/my-records': typeof AuthenticatedAppMyRecordsRoute
+  '/_authenticated/_app/nursing': typeof AuthenticatedAppNursingRoute
+  '/_authenticated/_app/opd-queue': typeof AuthenticatedAppOpdQueueRoute
+  '/_authenticated/_app/ot': typeof AuthenticatedAppOtRoute
+  '/_authenticated/_app/patients': typeof AuthenticatedAppPatientsRoute
+  '/_authenticated/_app/pharmacy': typeof AuthenticatedAppPharmacyRoute
+  '/_authenticated/_app/reports': typeof AuthenticatedAppReportsRoute
+  '/_authenticated/_app/settings': typeof AuthenticatedAppSettingsRoute
+  '/_authenticated/_app/staff': typeof AuthenticatedAppStaffRoute
+  '/_authenticated/_app/wards': typeof AuthenticatedAppWardsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -94,7 +305,29 @@ export interface FileRouteTypes {
     | '/forbidden'
     | '/styleguide'
     | '/change-password'
+    | '/appointments'
+    | '/audit-logs'
+    | '/billing'
+    | '/cash-register'
+    | '/consultations'
     | '/dashboard'
+    | '/departments'
+    | '/emergency'
+    | '/help'
+    | '/inventory'
+    | '/lab'
+    | '/my-appointments'
+    | '/my-bills'
+    | '/my-records'
+    | '/nursing'
+    | '/opd-queue'
+    | '/ot'
+    | '/patients'
+    | '/pharmacy'
+    | '/reports'
+    | '/settings'
+    | '/staff'
+    | '/wards'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -102,7 +335,29 @@ export interface FileRouteTypes {
     | '/forbidden'
     | '/styleguide'
     | '/change-password'
+    | '/appointments'
+    | '/audit-logs'
+    | '/billing'
+    | '/cash-register'
+    | '/consultations'
     | '/dashboard'
+    | '/departments'
+    | '/emergency'
+    | '/help'
+    | '/inventory'
+    | '/lab'
+    | '/my-appointments'
+    | '/my-bills'
+    | '/my-records'
+    | '/nursing'
+    | '/opd-queue'
+    | '/ot'
+    | '/patients'
+    | '/pharmacy'
+    | '/reports'
+    | '/settings'
+    | '/staff'
+    | '/wards'
   id:
     | '__root__'
     | '/'
@@ -112,7 +367,29 @@ export interface FileRouteTypes {
     | '/styleguide'
     | '/_authenticated/_app'
     | '/_authenticated/change-password'
+    | '/_authenticated/_app/appointments'
+    | '/_authenticated/_app/audit-logs'
+    | '/_authenticated/_app/billing'
+    | '/_authenticated/_app/cash-register'
+    | '/_authenticated/_app/consultations'
     | '/_authenticated/_app/dashboard'
+    | '/_authenticated/_app/departments'
+    | '/_authenticated/_app/emergency'
+    | '/_authenticated/_app/help'
+    | '/_authenticated/_app/inventory'
+    | '/_authenticated/_app/lab'
+    | '/_authenticated/_app/my-appointments'
+    | '/_authenticated/_app/my-bills'
+    | '/_authenticated/_app/my-records'
+    | '/_authenticated/_app/nursing'
+    | '/_authenticated/_app/opd-queue'
+    | '/_authenticated/_app/ot'
+    | '/_authenticated/_app/patients'
+    | '/_authenticated/_app/pharmacy'
+    | '/_authenticated/_app/reports'
+    | '/_authenticated/_app/settings'
+    | '/_authenticated/_app/staff'
+    | '/_authenticated/_app/wards'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -174,6 +451,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedChangePasswordRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/_app/appointments': {
+      id: '/_authenticated/_app/appointments'
+      path: '/appointments'
+      fullPath: '/appointments'
+      preLoaderRoute: typeof AuthenticatedAppAppointmentsRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/audit-logs': {
+      id: '/_authenticated/_app/audit-logs'
+      path: '/audit-logs'
+      fullPath: '/audit-logs'
+      preLoaderRoute: typeof AuthenticatedAppAuditLogsRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/billing': {
+      id: '/_authenticated/_app/billing'
+      path: '/billing'
+      fullPath: '/billing'
+      preLoaderRoute: typeof AuthenticatedAppBillingRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/cash-register': {
+      id: '/_authenticated/_app/cash-register'
+      path: '/cash-register'
+      fullPath: '/cash-register'
+      preLoaderRoute: typeof AuthenticatedAppCashRegisterRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/consultations': {
+      id: '/_authenticated/_app/consultations'
+      path: '/consultations'
+      fullPath: '/consultations'
+      preLoaderRoute: typeof AuthenticatedAppConsultationsRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
     '/_authenticated/_app/dashboard': {
       id: '/_authenticated/_app/dashboard'
       path: '/dashboard'
@@ -181,15 +493,178 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppDashboardRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
+    '/_authenticated/_app/departments': {
+      id: '/_authenticated/_app/departments'
+      path: '/departments'
+      fullPath: '/departments'
+      preLoaderRoute: typeof AuthenticatedAppDepartmentsRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/emergency': {
+      id: '/_authenticated/_app/emergency'
+      path: '/emergency'
+      fullPath: '/emergency'
+      preLoaderRoute: typeof AuthenticatedAppEmergencyRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/help': {
+      id: '/_authenticated/_app/help'
+      path: '/help'
+      fullPath: '/help'
+      preLoaderRoute: typeof AuthenticatedAppHelpRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/inventory': {
+      id: '/_authenticated/_app/inventory'
+      path: '/inventory'
+      fullPath: '/inventory'
+      preLoaderRoute: typeof AuthenticatedAppInventoryRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/lab': {
+      id: '/_authenticated/_app/lab'
+      path: '/lab'
+      fullPath: '/lab'
+      preLoaderRoute: typeof AuthenticatedAppLabRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/my-appointments': {
+      id: '/_authenticated/_app/my-appointments'
+      path: '/my-appointments'
+      fullPath: '/my-appointments'
+      preLoaderRoute: typeof AuthenticatedAppMyAppointmentsRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/my-bills': {
+      id: '/_authenticated/_app/my-bills'
+      path: '/my-bills'
+      fullPath: '/my-bills'
+      preLoaderRoute: typeof AuthenticatedAppMyBillsRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/my-records': {
+      id: '/_authenticated/_app/my-records'
+      path: '/my-records'
+      fullPath: '/my-records'
+      preLoaderRoute: typeof AuthenticatedAppMyRecordsRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/nursing': {
+      id: '/_authenticated/_app/nursing'
+      path: '/nursing'
+      fullPath: '/nursing'
+      preLoaderRoute: typeof AuthenticatedAppNursingRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/opd-queue': {
+      id: '/_authenticated/_app/opd-queue'
+      path: '/opd-queue'
+      fullPath: '/opd-queue'
+      preLoaderRoute: typeof AuthenticatedAppOpdQueueRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/ot': {
+      id: '/_authenticated/_app/ot'
+      path: '/ot'
+      fullPath: '/ot'
+      preLoaderRoute: typeof AuthenticatedAppOtRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/patients': {
+      id: '/_authenticated/_app/patients'
+      path: '/patients'
+      fullPath: '/patients'
+      preLoaderRoute: typeof AuthenticatedAppPatientsRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/pharmacy': {
+      id: '/_authenticated/_app/pharmacy'
+      path: '/pharmacy'
+      fullPath: '/pharmacy'
+      preLoaderRoute: typeof AuthenticatedAppPharmacyRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/reports': {
+      id: '/_authenticated/_app/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof AuthenticatedAppReportsRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/settings': {
+      id: '/_authenticated/_app/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedAppSettingsRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/staff': {
+      id: '/_authenticated/_app/staff'
+      path: '/staff'
+      fullPath: '/staff'
+      preLoaderRoute: typeof AuthenticatedAppStaffRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/wards': {
+      id: '/_authenticated/_app/wards'
+      path: '/wards'
+      fullPath: '/wards'
+      preLoaderRoute: typeof AuthenticatedAppWardsRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
   }
 }
 
 interface AuthenticatedAppRouteRouteChildren {
+  AuthenticatedAppAppointmentsRoute: typeof AuthenticatedAppAppointmentsRoute
+  AuthenticatedAppAuditLogsRoute: typeof AuthenticatedAppAuditLogsRoute
+  AuthenticatedAppBillingRoute: typeof AuthenticatedAppBillingRoute
+  AuthenticatedAppCashRegisterRoute: typeof AuthenticatedAppCashRegisterRoute
+  AuthenticatedAppConsultationsRoute: typeof AuthenticatedAppConsultationsRoute
   AuthenticatedAppDashboardRoute: typeof AuthenticatedAppDashboardRoute
+  AuthenticatedAppDepartmentsRoute: typeof AuthenticatedAppDepartmentsRoute
+  AuthenticatedAppEmergencyRoute: typeof AuthenticatedAppEmergencyRoute
+  AuthenticatedAppHelpRoute: typeof AuthenticatedAppHelpRoute
+  AuthenticatedAppInventoryRoute: typeof AuthenticatedAppInventoryRoute
+  AuthenticatedAppLabRoute: typeof AuthenticatedAppLabRoute
+  AuthenticatedAppMyAppointmentsRoute: typeof AuthenticatedAppMyAppointmentsRoute
+  AuthenticatedAppMyBillsRoute: typeof AuthenticatedAppMyBillsRoute
+  AuthenticatedAppMyRecordsRoute: typeof AuthenticatedAppMyRecordsRoute
+  AuthenticatedAppNursingRoute: typeof AuthenticatedAppNursingRoute
+  AuthenticatedAppOpdQueueRoute: typeof AuthenticatedAppOpdQueueRoute
+  AuthenticatedAppOtRoute: typeof AuthenticatedAppOtRoute
+  AuthenticatedAppPatientsRoute: typeof AuthenticatedAppPatientsRoute
+  AuthenticatedAppPharmacyRoute: typeof AuthenticatedAppPharmacyRoute
+  AuthenticatedAppReportsRoute: typeof AuthenticatedAppReportsRoute
+  AuthenticatedAppSettingsRoute: typeof AuthenticatedAppSettingsRoute
+  AuthenticatedAppStaffRoute: typeof AuthenticatedAppStaffRoute
+  AuthenticatedAppWardsRoute: typeof AuthenticatedAppWardsRoute
 }
 
 const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
+  AuthenticatedAppAppointmentsRoute: AuthenticatedAppAppointmentsRoute,
+  AuthenticatedAppAuditLogsRoute: AuthenticatedAppAuditLogsRoute,
+  AuthenticatedAppBillingRoute: AuthenticatedAppBillingRoute,
+  AuthenticatedAppCashRegisterRoute: AuthenticatedAppCashRegisterRoute,
+  AuthenticatedAppConsultationsRoute: AuthenticatedAppConsultationsRoute,
   AuthenticatedAppDashboardRoute: AuthenticatedAppDashboardRoute,
+  AuthenticatedAppDepartmentsRoute: AuthenticatedAppDepartmentsRoute,
+  AuthenticatedAppEmergencyRoute: AuthenticatedAppEmergencyRoute,
+  AuthenticatedAppHelpRoute: AuthenticatedAppHelpRoute,
+  AuthenticatedAppInventoryRoute: AuthenticatedAppInventoryRoute,
+  AuthenticatedAppLabRoute: AuthenticatedAppLabRoute,
+  AuthenticatedAppMyAppointmentsRoute: AuthenticatedAppMyAppointmentsRoute,
+  AuthenticatedAppMyBillsRoute: AuthenticatedAppMyBillsRoute,
+  AuthenticatedAppMyRecordsRoute: AuthenticatedAppMyRecordsRoute,
+  AuthenticatedAppNursingRoute: AuthenticatedAppNursingRoute,
+  AuthenticatedAppOpdQueueRoute: AuthenticatedAppOpdQueueRoute,
+  AuthenticatedAppOtRoute: AuthenticatedAppOtRoute,
+  AuthenticatedAppPatientsRoute: AuthenticatedAppPatientsRoute,
+  AuthenticatedAppPharmacyRoute: AuthenticatedAppPharmacyRoute,
+  AuthenticatedAppReportsRoute: AuthenticatedAppReportsRoute,
+  AuthenticatedAppSettingsRoute: AuthenticatedAppSettingsRoute,
+  AuthenticatedAppStaffRoute: AuthenticatedAppStaffRoute,
+  AuthenticatedAppWardsRoute: AuthenticatedAppWardsRoute,
 }
 
 const AuthenticatedAppRouteRouteWithChildren =
