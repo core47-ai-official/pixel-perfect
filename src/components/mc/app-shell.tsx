@@ -2,7 +2,7 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { Bell, Bug, Languages, LogOut, MoreHorizontal, Plus, Search, WifiOff, Wifi } from "lucide-react";
+import { Bug, Languages, LogOut, MoreHorizontal, Plus, Search, WifiOff, Wifi } from "lucide-react";
 import { toast } from "sonner";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
