@@ -11,7 +11,7 @@ export function DatePicker({
   placeholder = "Pick a date",
   className,
 }: {
-  value?: Date;
+  value?: Date | undefined;
   onChange: (d?: Date) => void;
   placeholder?: string;
   className?: string;

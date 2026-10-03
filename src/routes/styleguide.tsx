@@ -51,7 +51,7 @@ const columns: Column<Patient>[] = [
   { key: "name", header: "Patient", sortable: true },
   { key: "ward", header: "Ward" },
   { key: "bill", header: "Bill", sortable: true, numeric: true, render: (r) => pkr(r.bill) },
-  { key: "status", header: "Payment", render: (r) => <StatusChip status={billChip[r.status].s}>{billChip[r.status].l}</StatusChip> },
+  { key: "status", header: "Payment", render: (r) => { const b = billChip[r.status] ?? { s: "ok" as const, l: r.status }; return <StatusChip status={b.s}>{b.l}</StatusChip>; } },
 ];
 
 const ACCENTS = ["#16A34A", "#0D9488", "#2563EB", "#DC2626", "#9333EA"];

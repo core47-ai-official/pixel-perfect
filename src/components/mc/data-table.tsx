@@ -83,7 +83,7 @@ export function DataTable<T extends { id: string }>({
           <Select key={fl.key} value={f[fl.key] ?? "all"} onValueChange={(v) => { setF({ ...f, [fl.key]: v }); setPage(0); }}>
             <SelectTrigger className="w-40"><SelectValue placeholder={fl.label} /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All {fl.label.toLowerCase()}</SelectItem>
+              <SelectItem value="all">Any {fl.label.toLowerCase()}</SelectItem>
               {fl.options.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}
             </SelectContent>
           </Select>
