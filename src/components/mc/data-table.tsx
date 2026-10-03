@@ -50,7 +50,7 @@ export function DataTable<T extends { id: string }>({
     let r = rows.filter((row) => {
       const s = q.trim().toLowerCase();
       if (s && !searchKeys.some((k) => String(row[k]).toLowerCase().includes(s))) return false;
-      return Object.entries(f).every(([k, v]) => !v || v === "all" || String(row[k as keyof T]) === v);
+      return Object.entries(f).every(([k, v]) => !v || v === "all" || String(row[k as keyof T]) === v || String(row[k as keyof T]).split(" ").includes(v));
     });
     if (sort) {
       r = [...r].sort((a, b) => {
