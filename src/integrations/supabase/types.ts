@@ -217,6 +217,56 @@ export type Database = {
         }
         Relationships: []
       }
+      impersonation_sessions: {
+        Row: {
+          admin_user_id: string
+          created_at: string
+          created_by: string | null
+          ended_at: string | null
+          expires_at: string
+          hospital_id: string
+          id: string
+          reason: string
+          started_at: string
+          target_user_id: string
+          updated_at: string
+        }
+        Insert: {
+          admin_user_id: string
+          created_at?: string
+          created_by?: string | null
+          ended_at?: string | null
+          expires_at: string
+          hospital_id: string
+          id?: string
+          reason: string
+          started_at?: string
+          target_user_id: string
+          updated_at?: string
+        }
+        Update: {
+          admin_user_id?: string
+          created_at?: string
+          created_by?: string | null
+          ended_at?: string | null
+          expires_at?: string
+          hospital_id?: string
+          id?: string
+          reason?: string
+          started_at?: string
+          target_user_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "impersonation_sessions_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
