@@ -20,7 +20,7 @@ export type BilingualLayout = "stacked" | "side_by_side";
 export interface PrintBrand {
   name: string;
   address?: string;
-  phone?: string;
+  phone?: string | undefined;
   logoUrl?: string | null;
   monoLogoUrl?: string | null;
   signatureUrl?: string | null;
