@@ -2,7 +2,7 @@ import {
   LayoutDashboard, Users, CalendarDays, ListOrdered, Stethoscope, BedDouble, HeartPulse, Siren, Scissors,
   FlaskConical, Pill, Boxes, Receipt, Wallet, UserCog, Building2, BarChart3, ScrollText, Settings, LifeBuoy,
   CalendarCheck, FileHeart, FileText, UserPlus, CalendarPlus, ClipboardPlus, TestTube, ShoppingCart, BadgePlus,
-  Ambulance, type LucideIcon,
+  Ambulance, UsersRound, type LucideIcon,
 } from "lucide-react";
 import type { AppRole } from "@/hooks/use-my-context";
 
@@ -34,6 +34,7 @@ export const PAGES = {
   inventory: { id: "inventory", path: "/inventory", icon: Boxes, group: "diagnostics" },
   billing: { id: "billing", path: "/billing", icon: Receipt, group: "finance" },
   cashRegister: { id: "cashRegister", path: "/cash-register", icon: Wallet, group: "finance" },
+  users: { id: "users", path: "/users", icon: UsersRound, group: "admin" },
   staff: { id: "staff", path: "/staff", icon: UserCog, group: "admin" },
   departments: { id: "departments", path: "/departments", icon: Building2, group: "admin" },
   reports: { id: "reports", path: "/reports", icon: BarChart3, group: "admin" },
@@ -53,8 +54,8 @@ export const FOOTER_PAGES: NavPage[] = [
 
 /** Role → pages, in priority order (first four become the mobile bottom nav). */
 export const ROLE_PAGES: Record<AppRole, PageId[]> = {
-  super_admin: ["dashboard", "staff", "reports", "auditLogs", "departments", "patients", "appointments", "billing", "cashRegister", "inventory"],
-  admin: ["dashboard", "staff", "departments", "reports", "patients", "appointments", "billing", "inventory"],
+  super_admin: ["dashboard", "users", "reports", "auditLogs", "departments", "patients", "appointments", "billing", "cashRegister", "inventory"],
+  admin: ["dashboard", "users", "departments", "reports", "patients", "appointments", "billing", "inventory"],
   dept_head: ["dashboard", "consultations", "wards", "reports", "patients", "appointments", "staff"],
   doctor: ["dashboard", "opdQueue", "consultations", "patients", "appointments", "wards", "lab"],
   nurse: ["dashboard", "nursing", "wards", "patients", "emergency"],
