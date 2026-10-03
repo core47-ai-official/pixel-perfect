@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Plus } from "lucide-react";
@@ -48,7 +48,7 @@ function DoctorsPage() {
     deptName: depts.data?.find((x) => x.id === d.department_id)?.name ?? "—",
   }));
   const columns: Column<Row>[] = [
-    { key: "name", header: t("doc.name"), sortable: true, render: (d) => <span className="font-medium">{d.name}</span> },
+    { key: "name", header: t("doc.name"), sortable: true, render: (d) => <Link to="/doctors/$doctorId" params={{ doctorId: d.id }} className="font-medium text-primary hover:underline">{d.name}</Link> },
     { key: "deptName", header: t("doc.department"), sortable: true },
     { key: "specialty", header: t("doc.specialty"), sortable: true, render: (d) => d.specialty || "—" },
     { key: "gender", header: t("doc.gender"), render: (d) => (d.gender ? t(`doc.genders.${d.gender}`) : "—") },

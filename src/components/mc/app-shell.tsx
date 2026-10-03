@@ -13,6 +13,7 @@ import { ReportProblemPanel } from "@/components/mc/report-problem";
 import { ImpersonationBanner } from "@/components/mc/impersonation-banner";
 import { SidePanel } from "@/components/mc/side-panel";
 import { NotificationBell } from "@/components/mc/notification-bell";
+import { DoctorStatusSwitcher } from "@/components/mc/doctor-status-switcher";
 import { PushPrompt } from "@/components/mc/push-prompt";
 import { FOOTER_PAGES, findPage, pagesForRoles, quickActionsForRoles, type QuickAction } from "@/config/navigation";
 import { useMyContext } from "@/hooks/use-my-context";
@@ -132,6 +133,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                   {language === "en" ? "اردو" : "English"}
                 </span>
               </Button>
+              <DoctorStatusSwitcher />
               <NotificationBell />
               <Button size="icon" variant="ghost" aria-label={t("shell.report")} title={t("shell.report")} onClick={() => setReportOpen(true)}>
                 <Bug />
