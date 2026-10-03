@@ -25,6 +25,9 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { callEdgeFunction, useEdgeFunction } from "@/hooks/use-edge-function";
 import { useMyContext, type AppRole } from "@/hooks/use-my-context";
+import { setImpersonation } from "@/lib/impersonation";
+import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_authenticated/_app/users")({
   head: () => ({ meta: [{ title: "Users — MediCore HMS" }] }),
@@ -87,6 +90,12 @@ function UsersPage() {
   const [rolesFor, setRolesFor] = useState<UserRow | null>(null);
   const [resetFor, setResetFor] = useState<UserRow | null>(null);
   const [toggleFor, setToggleFor] = useState<UserRow | null>(null);
+  const [actAs, setActAs] = useState<UserRow | null>(null);
+  const qc = useQueryClient();
+  const navigate = useNavigate();
+  const startImp = useEdgeFunction<{ session_id: string; expires_at: string }, { target_user_id: string; reason: string }>("start-impersonation");
+  const canActAs = (u: UserRow) =>
+    isSuper && !context?.impersonation && u.is_active && u.id !== context?.profile?.id && !u.roles.some((r) => r.role === "super_admin");
 
   const deactivate = useEdgeFunction("deactivate-user", { invalidate: [USERS_KEY], successMessage: t("users.deactivated") });
   const reactivate = useEdgeFunction("reactivate-user", { invalidate: [USERS_KEY], successMessage: t("users.reactivated") });
@@ -146,6 +155,7 @@ function UsersPage() {
               <DropdownMenuItem onSelect={() => setEditing(u)}>{t("users.editDetails")}</DropdownMenuItem>
               <DropdownMenuItem onSelect={() => setRolesFor(u)}>{t("users.editRoles")}</DropdownMenuItem>
               <DropdownMenuItem onSelect={() => setResetFor(u)}>{t("users.resetPassword")}</DropdownMenuItem>
+              {canActAs(u) && <DropdownMenuItem onSelect={() => setActAs(u)}>{t("impersonation.action")}</DropdownMenuItem>}
               {u.id !== context?.profile?.id && (
                 <>
                   <DropdownMenuSeparator />
@@ -197,6 +207,35 @@ function UsersPage() {
         <RolesPanel user={rolesFor} grantable={grantable} depts={depts.data ?? []} onClose={() => setRolesFor(null)} />
       )}
       {resetFor && <ResetPanel user={resetFor} onClose={() => setResetFor(null)} />}
+      <ConfirmDialog
+        open={!!actAs}
+        onOpenChange={(o) => !o && setActAs(null)}
+        title={t("impersonation.title", { name: actAs?.full_name })}
+        description={t("impersonation.body")}
+        confirmLabel={t("impersonation.start")}
+        danger
+        onConfirm={(reason) => {
+          const u = actAs;
+          setActAs(null);
+          if (!u) return;
+          startImp.mutate(
+            { target_user_id: u.id, reason },
+            {
+              onSuccess: async (res) => {
+                setImpersonation({
+                  sessionId: res.session_id,
+                  expiresAt: res.expires_at,
+                  targetName: u.full_name,
+                  targetRole: u.roles[0]?.role ?? "patient",
+                });
+                await qc.invalidateQueries();
+                toast(t("impersonation.started", { name: u.full_name }));
+                navigate({ to: "/dashboard" });
+              },
+            },
+          );
+        }}
+      />
       <ConfirmDialog
         open={!!toggleFor}
         onOpenChange={(o) => !o && setToggleFor(null)}

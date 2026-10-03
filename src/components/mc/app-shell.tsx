@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { AppSidebar } from "@/components/mc/app-sidebar";
+import { ImpersonationBanner } from "@/components/mc/impersonation-banner";
 import { SidePanel } from "@/components/mc/side-panel";
 import { FOOTER_PAGES, findPage, pagesForRoles, quickActionsForRoles, type QuickAction } from "@/config/navigation";
 import { useMyContext } from "@/hooks/use-my-context";
@@ -72,6 +73,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <AppSidebar />
         </div>
         <SidebarInset className="min-w-0">
+          <ImpersonationBanner />
           <header className="sticky top-0 z-20 flex h-14 items-center gap-2 border-b bg-background/95 px-3 backdrop-blur md:px-4">
             <SidebarTrigger className="hidden md:inline-flex" aria-label={t("shell.toggleSidebar")} />
             <h1 className="truncate text-base font-semibold md:text-lg">{title}</h1>
