@@ -308,6 +308,66 @@ export type Database = {
           },
         ]
       }
+      doctor_schedules: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          doctor_id: string
+          end_time: string
+          hospital_id: string
+          id: string
+          max_patients: number | null
+          room: string | null
+          slot_minutes: number
+          start_time: string
+          updated_at: string
+          weekday: number
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          doctor_id: string
+          end_time: string
+          hospital_id: string
+          id?: string
+          max_patients?: number | null
+          room?: string | null
+          slot_minutes?: number
+          start_time: string
+          updated_at?: string
+          weekday: number
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          doctor_id?: string
+          end_time?: string
+          hospital_id?: string
+          id?: string
+          max_patients?: number | null
+          room?: string | null
+          slot_minutes?: number
+          start_time?: string
+          updated_at?: string
+          weekday?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "doctor_schedules_doctor_id_fkey"
+            columns: ["doctor_id"]
+            isOneToOne: false
+            referencedRelation: "doctors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "doctor_schedules_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       doctors: {
         Row: {
           consultation_fee: number
