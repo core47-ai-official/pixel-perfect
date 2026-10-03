@@ -29,7 +29,7 @@ export function StatCard({
           </span>
         )}
       </div>
-      <p className="mt-3 text-3xl font-semibold tracking-tight tnum">{value}</p>
+      <p className="mt-3 text-3xl font-semibold tracking-tight tnum"><bdi dir="ltr" className="ltr-code">{value}</bdi></p>
       <div className="mt-2 flex items-center gap-2 text-xs">
         {trend !== undefined && (
           <span
@@ -39,7 +39,7 @@ export function StatCard({
             )}
           >
             <Arrow className="size-3.5" aria-hidden />
-            {Math.abs(trend)}%
+            <bdi dir="ltr" className="ltr-code">{Math.abs(trend)}%</bdi>
           </span>
         )}
         {caption && <span className="text-muted-foreground">{caption}</span>}
