@@ -15,3 +15,4 @@
 - Act-as-user state lives only in src/lib/impersonation.ts (per-tab sessionStorage); callEdgeFunction sends it as the x-impersonation-session header, so impersonation is enforced server-side by getCaller, never by the UI.
 - Company settings fields/tabs/defaults/public flags are defined only in src/config/company-settings.ts; the settings page renders from it and SessionGate applies accent, favicon, timeout and default language app-wide, so new settings need no page code.
 - Every printed document renders through PrintDocument/PrintPreviewPanel (src/components/mc/print-document.tsx): English first, then the patient print language, with header/branding from company settings, so print layout and job logging stay consistent.
+- Dashboard widgets are defined only in src/config/widgets.tsx (id, roles, sizes, component, code defaults); the dashboard page and widget library read from it, and the layout/data server functions must mirror its ids and roles.

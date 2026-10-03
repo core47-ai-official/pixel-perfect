@@ -86,7 +86,7 @@ function Dashboard() {
 
   const startEdit = () => { setDraft(saved); setEditing(true); };
   const add = (id: string) => {
-    if (draft.length >= MAX_WIDGETS) return toast.error(t("dash.max", { max: MAX_WIDGETS }));
+    if (draft.length >= MAX_WIDGETS) { toast.error(t("dash.max", { max: MAX_WIDGETS })); return; }
     const def = findWidget(id);
     if (def) setDraft([...draft, { id, size: def.defaultSize }]);
   };
@@ -147,7 +147,7 @@ function Dashboard() {
             return (
               <div
                 key={item.id}
-                className={cn(SIZE_CLASS[item.size], editing && "relative rounded-staff ring-2 ring-dashed ring-border", dragIdx === idx && "opacity-50")}
+                className={cn(SIZE_CLASS[item.size], editing && "relative rounded-staff outline-2 outline-dashed outline-border", dragIdx === idx && "opacity-50")}
                 draggable={editing}
                 onDragStart={() => setDragIdx(idx)}
                 onDragOver={(e) => editing && e.preventDefault()}
