@@ -14,7 +14,7 @@ export async function signOutEverywhere(
 ) {
   await queryClient.cancelQueries();
   queryClient.clear();
-  if (typeof window !== "undefined") window.sessionStorage.removeItem("medicore.impersonationId");
+  if (typeof window !== "undefined") window.sessionStorage.removeItem("medicore.impersonation");
   await supabase.auth.signOut();
   navigate({ to: "/auth", search: reason ? { reason } : {}, replace: true });
 }

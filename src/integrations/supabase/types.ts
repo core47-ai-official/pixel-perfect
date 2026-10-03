@@ -219,41 +219,44 @@ export type Database = {
       }
       impersonation_sessions: {
         Row: {
-          admin_user_id: string
           created_at: string
           created_by: string | null
           ended_at: string | null
           expires_at: string
           hospital_id: string
           id: string
+          pages_visited: Json
           reason: string
           started_at: string
+          super_admin_id: string
           target_user_id: string
           updated_at: string
         }
         Insert: {
-          admin_user_id: string
           created_at?: string
           created_by?: string | null
           ended_at?: string | null
           expires_at: string
           hospital_id: string
           id?: string
+          pages_visited?: Json
           reason: string
           started_at?: string
+          super_admin_id: string
           target_user_id: string
           updated_at?: string
         }
         Update: {
-          admin_user_id?: string
           created_at?: string
           created_by?: string | null
           ended_at?: string | null
           expires_at?: string
           hospital_id?: string
           id?: string
+          pages_visited?: Json
           reason?: string
           started_at?: string
+          super_admin_id?: string
           target_user_id?: string
           updated_at?: string
         }

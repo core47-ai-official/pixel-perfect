@@ -2,20 +2,20 @@ import { useMutation, useQueryClient, type QueryKey } from "@tanstack/react-quer
 import { toast } from "sonner";
 import i18n from "@/i18n";
 import { supabase } from "@/integrations/supabase/client";
+import { getImpersonation } from "@/lib/impersonation";
 
 export interface EdgeError {
   code: string;
   message: string;
 }
 
-const IMPERSONATION_KEY = "medicore.impersonationId";
 
 /** Low-level call: invokes an Edge Function and unwraps { ok, data } / { ok:false, error }. */
 export async function callEdgeFunction<TOut, TIn = unknown>(name: string, body?: TIn): Promise<TOut> {
   const headers: Record<string, string> = {};
   if (typeof window !== "undefined") {
-    const imp = window.sessionStorage.getItem(IMPERSONATION_KEY);
-    if (imp) headers["x-impersonation-id"] = imp;
+    const imp = getImpersonation();
+    if (imp) headers["x-impersonation-session"] = imp.sessionId;
     headers["x-page"] = window.location.pathname;
   }
   const { data, error } = await supabase.functions.invoke(name, { body: body ?? {}, headers });

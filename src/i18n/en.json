@@ -348,5 +348,17 @@
     "adminLimit": "As an admin you can manage staff roles below admin only.",
     "required": "Name, email and a valid password are required.",
     "you": "You"
+  },
+  "impersonation": {
+    "actingAs": "Acting as {{name}} ({{role}})",
+    "timeLeft": "Time left",
+    "exit": "Exit",
+    "expired": "Act-as-user session ended after 30 minutes.",
+    "ended": "You are back to your own account.",
+    "action": "Act as user",
+    "title": "Act as {{name}}?",
+    "body": "You'll see the app exactly as this user does for up to 30 minutes. Every page you open and every change you make is logged under your name.",
+    "start": "Start",
+    "started": "Now acting as {{name}}."
   }
 }
