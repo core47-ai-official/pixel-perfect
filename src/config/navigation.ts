@@ -38,7 +38,7 @@ export const PAGES = {
   users: { id: "users", path: "/users", icon: UsersRound, group: "admin" },
   staff: { id: "staff", path: "/staff", icon: UserCog, group: "admin" },
   departments: { id: "departments", path: "/departments", icon: Building2, group: "admin" },
-  doctors: { id: "doctors", path: "/doctors", icon: BriefcaseMedical, Radio, group: "admin" },
+  doctors: { id: "doctors", path: "/doctors", icon: BriefcaseMedical, group: "admin" },
   reports: { id: "reports", path: "/reports", icon: BarChart3, group: "admin" },
   auditLogs: { id: "auditLogs", path: "/audit-logs", icon: ScrollText, group: "admin" },
   companySettings: { id: "companySettings", path: "/company-settings", icon: SlidersHorizontal, group: "admin" },

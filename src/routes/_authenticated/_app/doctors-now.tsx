@@ -47,7 +47,7 @@ function Board() {
   return (
     <div className="space-y-4">
       <p className="flex items-center gap-2 text-sm text-muted-foreground">
-        <span className="size-2 animate-pulse rounded-full bg-success" />{t("sched.live")}
+        <span className="size-2 animate-pulse rounded-full bg-ok" />{t("sched.live")}
       </p>
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
         {list.map((d) => {
