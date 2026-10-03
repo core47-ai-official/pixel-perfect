@@ -1,5 +1,8 @@
 {
-  "app": { "name": "MediCore HMS", "designSystem": "Design system" },
+  "app": {
+    "name": "MediCore HMS",
+    "designSystem": "Design system"
+  },
   "prefs": {
     "language": "Language",
     "theme": "Theme",
@@ -51,26 +54,89 @@
     "skeleton": "Skeleton",
     "emptyState": "Empty state",
     "banners": "Banners",
-    "swatch": { "accent": "Accent", "urgent": "Urgent", "warning": "Warning", "caution": "Caution", "ok": "OK", "progress": "Progress", "inactive": "Inactive", "neutral": "Neutral" },
+    "swatch": {
+      "accent": "Accent",
+      "urgent": "Urgent",
+      "warning": "Warning",
+      "caution": "Caution",
+      "ok": "OK",
+      "progress": "Progress",
+      "inactive": "Inactive",
+      "neutral": "Neutral"
+    },
     "staffRadius": "Staff radius",
     "patientRadius": "Patient radius",
     "typeSample": "Patient admissions",
     "tabular": "Tabular",
     "urduSample": "مریض کا داخلہ — خوش آمدید",
-    "btn": { "newPatient": "New patient", "secondary": "Secondary", "ghost": "Ghost", "delete": "Delete", "disabled": "Disabled" },
-    "field": { "fullName": "Full name", "fullNamePh": "e.g. Ayesha Khan", "cnic": "CNIC", "mobile": "Mobile", "department": "Department", "departmentPh": "Select department", "admissionDate": "Admission date" },
-    "dept": { "emergency": "Emergency", "cardiology": "Cardiology", "paediatrics": "Paediatrics", "radiology": "Radiology" },
-    "status": { "urgent": "Urgent", "warning": "Warning", "caution": "Caution", "done": "Done", "progress": "In progress", "inactive": "Inactive" },
-    "stat": {
-      "opd": "OPD visits today", "vsYesterday": "vs yesterday",
-      "beds": "Beds occupied", "ofBeds": "of {{n}} beds",
-      "cash": "Cash collected", "thisShift": "this shift",
-      "wait": "Avg wait (min)", "noChange": "no change"
+    "btn": {
+      "newPatient": "New patient",
+      "secondary": "Secondary",
+      "ghost": "Ghost",
+      "delete": "Delete",
+      "disabled": "Disabled"
     },
-    "col": { "mrn": "MRN", "patient": "Patient", "ward": "Ward", "bill": "Bill", "payment": "Payment" },
-    "ward": { "General": "General", "ICU": "ICU", "Maternity": "Maternity", "Paeds": "Paeds" },
-    "pay": { "paid": "Paid", "free": "Free", "unpaid": "Unpaid", "partly": "Partly paid" },
-    "names": { "1": "Ayesha Khan", "2": "Bilal Ahmed", "3": "Fatima Raza", "4": "Hamza Siddiqui", "5": "Zainab Malik", "6": "Usman Tariq", "7": "Sana Iqbal" },
+    "field": {
+      "fullName": "Full name",
+      "fullNamePh": "e.g. Ayesha Khan",
+      "cnic": "CNIC",
+      "mobile": "Mobile",
+      "department": "Department",
+      "departmentPh": "Select department",
+      "admissionDate": "Admission date"
+    },
+    "dept": {
+      "emergency": "Emergency",
+      "cardiology": "Cardiology",
+      "paediatrics": "Paediatrics",
+      "radiology": "Radiology"
+    },
+    "status": {
+      "urgent": "Urgent",
+      "warning": "Warning",
+      "caution": "Caution",
+      "done": "Done",
+      "progress": "In progress",
+      "inactive": "Inactive"
+    },
+    "stat": {
+      "opd": "OPD visits today",
+      "vsYesterday": "vs yesterday",
+      "beds": "Beds occupied",
+      "ofBeds": "of {{n}} beds",
+      "cash": "Cash collected",
+      "thisShift": "this shift",
+      "wait": "Avg wait (min)",
+      "noChange": "no change"
+    },
+    "col": {
+      "mrn": "MRN",
+      "patient": "Patient",
+      "ward": "Ward",
+      "bill": "Bill",
+      "payment": "Payment"
+    },
+    "ward": {
+      "General": "General",
+      "ICU": "ICU",
+      "Maternity": "Maternity",
+      "Paeds": "Paeds"
+    },
+    "pay": {
+      "paid": "Paid",
+      "free": "Free",
+      "unpaid": "Unpaid",
+      "partly": "Partly paid"
+    },
+    "names": {
+      "1": "Ayesha Khan",
+      "2": "Bilal Ahmed",
+      "3": "Fatima Raza",
+      "4": "Hamza Siddiqui",
+      "5": "Zainab Malik",
+      "6": "Usman Tariq",
+      "7": "Sana Iqbal"
+    },
     "openPanel": "Open side panel",
     "cancelAdmission": "Cancel admission",
     "successToast": "Success toast",
@@ -89,10 +155,17 @@
     "noLabDesc": "Reports appear here once the lab uploads them.",
     "orderTest": "Order test",
     "b": {
-      "infoT": "System update tonight at 2:00 AM", "infoD": "Expect a 5-minute pause.",
-      "okT": "Shift closed", "okD": "Cash reconciled with no difference.",
-      "warnT": "Low stock: Paracetamol 500mg", "warnD": "12 strips left.",
-      "dangerT": "You're offline", "dangerD": "Changes will sync when you reconnect."
+      "infoT": "System update tonight at 2:00 AM",
+      "infoD": "Expect a 5-minute pause.",
+      "okT": "Shift closed",
+      "okD": "Cash reconciled with no difference.",
+      "warnT": "Low stock: Paracetamol 500mg",
+      "warnD": "12 strips left.",
+      "dangerT": "You're offline",
+      "dangerD": "Changes will sync when you reconnect."
     }
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again."
   }
 }
