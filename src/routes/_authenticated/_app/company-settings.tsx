@@ -6,7 +6,6 @@ import { toast } from "sonner";
 import { RequireRole } from "@/components/mc/require-role";
 import { rolesForPage } from "@/config/navigation";
 import { Banner } from "@/components/mc/banner";
-import { Ltr } from "@/components/mc/ltr";
 import { HospitalLogo } from "@/components/mc/hospital-logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -385,5 +384,3 @@ function ReceiptPreview({
   );
 }
 
-// Keep Ltr import used for future numeric fields.
-void Ltr;

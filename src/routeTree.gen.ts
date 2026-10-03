@@ -22,6 +22,7 @@ import { Route as AuthenticatedAppAppointmentsRouteImport } from './routes/_auth
 import { Route as AuthenticatedAppAuditLogsRouteImport } from './routes/_authenticated/_app/audit-logs'
 import { Route as AuthenticatedAppBillingRouteImport } from './routes/_authenticated/_app/billing'
 import { Route as AuthenticatedAppCashRegisterRouteImport } from './routes/_authenticated/_app/cash-register'
+import { Route as AuthenticatedAppCompanySettingsRouteImport } from './routes/_authenticated/_app/company-settings'
 import { Route as AuthenticatedAppConsultationsRouteImport } from './routes/_authenticated/_app/consultations'
 import { Route as AuthenticatedAppDashboardRouteImport } from './routes/_authenticated/_app/dashboard'
 import { Route as AuthenticatedAppDepartmentsRouteImport } from './routes/_authenticated/_app/departments'
@@ -110,6 +111,12 @@ const AuthenticatedAppCashRegisterRoute =
   AuthenticatedAppCashRegisterRouteImport.update({
     id: '/cash-register',
     path: '/cash-register',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
+const AuthenticatedAppCompanySettingsRoute =
+  AuthenticatedAppCompanySettingsRouteImport.update({
+    id: '/company-settings',
+    path: '/company-settings',
     getParentRoute: () => AuthenticatedAppRouteRoute,
   } as any)
 const AuthenticatedAppConsultationsRoute =
@@ -248,6 +255,7 @@ export interface FileRoutesByFullPath {
   '/audit-logs': typeof AuthenticatedAppAuditLogsRoute
   '/billing': typeof AuthenticatedAppBillingRoute
   '/cash-register': typeof AuthenticatedAppCashRegisterRoute
+  '/company-settings': typeof AuthenticatedAppCompanySettingsRoute
   '/consultations': typeof AuthenticatedAppConsultationsRoute
   '/dashboard': typeof AuthenticatedAppDashboardRoute
   '/departments': typeof AuthenticatedAppDepartmentsRoute
@@ -283,6 +291,7 @@ export interface FileRoutesByTo {
   '/audit-logs': typeof AuthenticatedAppAuditLogsRoute
   '/billing': typeof AuthenticatedAppBillingRoute
   '/cash-register': typeof AuthenticatedAppCashRegisterRoute
+  '/company-settings': typeof AuthenticatedAppCompanySettingsRoute
   '/consultations': typeof AuthenticatedAppConsultationsRoute
   '/dashboard': typeof AuthenticatedAppDashboardRoute
   '/departments': typeof AuthenticatedAppDepartmentsRoute
@@ -321,6 +330,7 @@ export interface FileRoutesById {
   '/_authenticated/_app/audit-logs': typeof AuthenticatedAppAuditLogsRoute
   '/_authenticated/_app/billing': typeof AuthenticatedAppBillingRoute
   '/_authenticated/_app/cash-register': typeof AuthenticatedAppCashRegisterRoute
+  '/_authenticated/_app/company-settings': typeof AuthenticatedAppCompanySettingsRoute
   '/_authenticated/_app/consultations': typeof AuthenticatedAppConsultationsRoute
   '/_authenticated/_app/dashboard': typeof AuthenticatedAppDashboardRoute
   '/_authenticated/_app/departments': typeof AuthenticatedAppDepartmentsRoute
@@ -358,6 +368,7 @@ export interface FileRouteTypes {
     | '/audit-logs'
     | '/billing'
     | '/cash-register'
+    | '/company-settings'
     | '/consultations'
     | '/dashboard'
     | '/departments'
@@ -393,6 +404,7 @@ export interface FileRouteTypes {
     | '/audit-logs'
     | '/billing'
     | '/cash-register'
+    | '/company-settings'
     | '/consultations'
     | '/dashboard'
     | '/departments'
@@ -430,6 +442,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/audit-logs'
     | '/_authenticated/_app/billing'
     | '/_authenticated/_app/cash-register'
+    | '/_authenticated/_app/company-settings'
     | '/_authenticated/_app/consultations'
     | '/_authenticated/_app/dashboard'
     | '/_authenticated/_app/departments'
@@ -555,6 +568,13 @@ declare module '@tanstack/react-router' {
       path: '/cash-register'
       fullPath: '/cash-register'
       preLoaderRoute: typeof AuthenticatedAppCashRegisterRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/company-settings': {
+      id: '/_authenticated/_app/company-settings'
+      path: '/company-settings'
+      fullPath: '/company-settings'
+      preLoaderRoute: typeof AuthenticatedAppCompanySettingsRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
     '/_authenticated/_app/consultations': {
@@ -719,6 +739,7 @@ interface AuthenticatedAppRouteRouteChildren {
   AuthenticatedAppAuditLogsRoute: typeof AuthenticatedAppAuditLogsRoute
   AuthenticatedAppBillingRoute: typeof AuthenticatedAppBillingRoute
   AuthenticatedAppCashRegisterRoute: typeof AuthenticatedAppCashRegisterRoute
+  AuthenticatedAppCompanySettingsRoute: typeof AuthenticatedAppCompanySettingsRoute
   AuthenticatedAppConsultationsRoute: typeof AuthenticatedAppConsultationsRoute
   AuthenticatedAppDashboardRoute: typeof AuthenticatedAppDashboardRoute
   AuthenticatedAppDepartmentsRoute: typeof AuthenticatedAppDepartmentsRoute
@@ -748,6 +769,7 @@ const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
   AuthenticatedAppAuditLogsRoute: AuthenticatedAppAuditLogsRoute,
   AuthenticatedAppBillingRoute: AuthenticatedAppBillingRoute,
   AuthenticatedAppCashRegisterRoute: AuthenticatedAppCashRegisterRoute,
+  AuthenticatedAppCompanySettingsRoute: AuthenticatedAppCompanySettingsRoute,
   AuthenticatedAppConsultationsRoute: AuthenticatedAppConsultationsRoute,
   AuthenticatedAppDashboardRoute: AuthenticatedAppDashboardRoute,
   AuthenticatedAppDepartmentsRoute: AuthenticatedAppDepartmentsRoute,
