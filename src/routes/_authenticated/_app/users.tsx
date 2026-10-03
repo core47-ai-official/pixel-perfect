@@ -201,7 +201,7 @@ function UsersPage() {
         open={!!toggleFor}
         onOpenChange={(o) => !o && setToggleFor(null)}
         title={t(toggleFor?.is_active ? "users.deactivateTitle" : "users.reactivateTitle", { name: toggleFor?.full_name })}
-        description={toggleFor?.is_active ? t("users.deactivateBody") : undefined}
+        {...(toggleFor?.is_active ? { description: t("users.deactivateBody") } : {})}
         confirmLabel={t(toggleFor?.is_active ? "users.deactivate" : "users.reactivate")}
         danger={!!toggleFor?.is_active}
         onConfirm={(reason) => {
@@ -274,11 +274,11 @@ function UserForm({
   const busy = create.isPending || update.isPending;
 
   const submit = () => {
-    if (!name.trim() || !email.trim() || (isNew && !validPw(password))) return toast.error(t("users.required"));
+    if (!name.trim() || !email.trim() || (isNew && !validPw(password))) { toast.error(t("users.required")); return; }
     const common = { full_name: name.trim(), email: email.trim(), phone: phone || null, photo_url: photo || null };
     if (isNew) {
       const err = rolesError(roles, t);
-      if (err) return toast.error(err);
+      if (err) { toast.error(err); return; }
       create.mutate({ ...common, temporary_password: password, roles }, { onSuccess: onClose });
     } else if (u) {
       update.mutate({ user_id: u.id, ...common }, { onSuccess: onClose });
@@ -339,7 +339,7 @@ function RolesPanel({
             disabled={save.isPending}
             onClick={() => {
               const err = rolesError(roles, t);
-              if (err) return toast.error(err);
+              if (err) { toast.error(err); return; }
               save.mutate({ user_id: user.id, roles }, { onSuccess: onClose });
             }}
           >
