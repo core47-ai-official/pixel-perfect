@@ -40,6 +40,8 @@ import { Route as AuthenticatedAppPharmacyRouteImport } from './routes/_authenti
 import { Route as AuthenticatedAppReportsRouteImport } from './routes/_authenticated/_app/reports'
 import { Route as AuthenticatedAppSettingsRouteImport } from './routes/_authenticated/_app/settings'
 import { Route as AuthenticatedAppStaffRouteImport } from './routes/_authenticated/_app/staff'
+import { Route as AuthenticatedAppSupportTicketsRouteImport } from './routes/_authenticated/_app/support-tickets'
+import { Route as AuthenticatedAppSystemIssuesRouteImport } from './routes/_authenticated/_app/system-issues'
 import { Route as AuthenticatedAppUsersRouteImport } from './routes/_authenticated/_app/users'
 import { Route as AuthenticatedAppWardsRouteImport } from './routes/_authenticated/_app/wards'
 
@@ -211,6 +213,18 @@ const AuthenticatedAppStaffRoute = AuthenticatedAppStaffRouteImport.update({
   path: '/staff',
   getParentRoute: () => AuthenticatedAppRouteRoute,
 } as any)
+const AuthenticatedAppSupportTicketsRoute =
+  AuthenticatedAppSupportTicketsRouteImport.update({
+    id: '/support-tickets',
+    path: '/support-tickets',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
+const AuthenticatedAppSystemIssuesRoute =
+  AuthenticatedAppSystemIssuesRouteImport.update({
+    id: '/system-issues',
+    path: '/system-issues',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
 const AuthenticatedAppUsersRoute = AuthenticatedAppUsersRouteImport.update({
   id: '/users',
   path: '/users',
@@ -252,6 +266,8 @@ export interface FileRoutesByFullPath {
   '/reports': typeof AuthenticatedAppReportsRoute
   '/settings': typeof AuthenticatedAppSettingsRoute
   '/staff': typeof AuthenticatedAppStaffRoute
+  '/support-tickets': typeof AuthenticatedAppSupportTicketsRoute
+  '/system-issues': typeof AuthenticatedAppSystemIssuesRoute
   '/users': typeof AuthenticatedAppUsersRoute
   '/wards': typeof AuthenticatedAppWardsRoute
 }
@@ -285,6 +301,8 @@ export interface FileRoutesByTo {
   '/reports': typeof AuthenticatedAppReportsRoute
   '/settings': typeof AuthenticatedAppSettingsRoute
   '/staff': typeof AuthenticatedAppStaffRoute
+  '/support-tickets': typeof AuthenticatedAppSupportTicketsRoute
+  '/system-issues': typeof AuthenticatedAppSystemIssuesRoute
   '/users': typeof AuthenticatedAppUsersRoute
   '/wards': typeof AuthenticatedAppWardsRoute
 }
@@ -321,6 +339,8 @@ export interface FileRoutesById {
   '/_authenticated/_app/reports': typeof AuthenticatedAppReportsRoute
   '/_authenticated/_app/settings': typeof AuthenticatedAppSettingsRoute
   '/_authenticated/_app/staff': typeof AuthenticatedAppStaffRoute
+  '/_authenticated/_app/support-tickets': typeof AuthenticatedAppSupportTicketsRoute
+  '/_authenticated/_app/system-issues': typeof AuthenticatedAppSystemIssuesRoute
   '/_authenticated/_app/users': typeof AuthenticatedAppUsersRoute
   '/_authenticated/_app/wards': typeof AuthenticatedAppWardsRoute
 }
@@ -356,6 +376,8 @@ export interface FileRouteTypes {
     | '/reports'
     | '/settings'
     | '/staff'
+    | '/support-tickets'
+    | '/system-issues'
     | '/users'
     | '/wards'
   fileRoutesByTo: FileRoutesByTo
@@ -389,6 +411,8 @@ export interface FileRouteTypes {
     | '/reports'
     | '/settings'
     | '/staff'
+    | '/support-tickets'
+    | '/system-issues'
     | '/users'
     | '/wards'
   id:
@@ -424,6 +448,8 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/reports'
     | '/_authenticated/_app/settings'
     | '/_authenticated/_app/staff'
+    | '/_authenticated/_app/support-tickets'
+    | '/_authenticated/_app/system-issues'
     | '/_authenticated/_app/users'
     | '/_authenticated/_app/wards'
   fileRoutesById: FileRoutesById
@@ -657,6 +683,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppStaffRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
+    '/_authenticated/_app/support-tickets': {
+      id: '/_authenticated/_app/support-tickets'
+      path: '/support-tickets'
+      fullPath: '/support-tickets'
+      preLoaderRoute: typeof AuthenticatedAppSupportTicketsRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/system-issues': {
+      id: '/_authenticated/_app/system-issues'
+      path: '/system-issues'
+      fullPath: '/system-issues'
+      preLoaderRoute: typeof AuthenticatedAppSystemIssuesRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
     '/_authenticated/_app/users': {
       id: '/_authenticated/_app/users'
       path: '/users'
@@ -697,6 +737,8 @@ interface AuthenticatedAppRouteRouteChildren {
   AuthenticatedAppReportsRoute: typeof AuthenticatedAppReportsRoute
   AuthenticatedAppSettingsRoute: typeof AuthenticatedAppSettingsRoute
   AuthenticatedAppStaffRoute: typeof AuthenticatedAppStaffRoute
+  AuthenticatedAppSupportTicketsRoute: typeof AuthenticatedAppSupportTicketsRoute
+  AuthenticatedAppSystemIssuesRoute: typeof AuthenticatedAppSystemIssuesRoute
   AuthenticatedAppUsersRoute: typeof AuthenticatedAppUsersRoute
   AuthenticatedAppWardsRoute: typeof AuthenticatedAppWardsRoute
 }
@@ -724,6 +766,8 @@ const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
   AuthenticatedAppReportsRoute: AuthenticatedAppReportsRoute,
   AuthenticatedAppSettingsRoute: AuthenticatedAppSettingsRoute,
   AuthenticatedAppStaffRoute: AuthenticatedAppStaffRoute,
+  AuthenticatedAppSupportTicketsRoute: AuthenticatedAppSupportTicketsRoute,
+  AuthenticatedAppSystemIssuesRoute: AuthenticatedAppSystemIssuesRoute,
   AuthenticatedAppUsersRoute: AuthenticatedAppUsersRoute,
   AuthenticatedAppWardsRoute: AuthenticatedAppWardsRoute,
 }
