@@ -12,6 +12,8 @@ import { AppSidebar } from "@/components/mc/app-sidebar";
 import { ReportProblemPanel } from "@/components/mc/report-problem";
 import { ImpersonationBanner } from "@/components/mc/impersonation-banner";
 import { SidePanel } from "@/components/mc/side-panel";
+import { NotificationBell } from "@/components/mc/notification-bell";
+import { PushPrompt } from "@/components/mc/push-prompt";
 import { FOOTER_PAGES, findPage, pagesForRoles, quickActionsForRoles, type QuickAction } from "@/config/navigation";
 import { useMyContext } from "@/hooks/use-my-context";
 import { usePreferences } from "@/lib/preferences";
@@ -130,9 +132,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                   {language === "en" ? "اردو" : "English"}
                 </span>
               </Button>
-              <Button size="icon" variant="ghost" aria-label={t("shell.bell")} onClick={soon}>
-                <Bell />
-              </Button>
+              <NotificationBell />
               <Button size="icon" variant="ghost" aria-label={t("shell.report")} title={t("shell.report")} onClick={() => setReportOpen(true)}>
                 <Bug />
               </Button>
@@ -142,7 +142,10 @@ export function AppShell({ children }: { children: ReactNode }) {
             </div>
           </header>
 
-          <main className="flex-1 p-4 pb-24 md:p-6 md:pb-6">{children}</main>
+          <main className="flex-1 p-4 pb-24 md:p-6 md:pb-6">
+            <div className="mb-4 empty:hidden"><PushPrompt /></div>
+            {children}
+          </main>
         </SidebarInset>
       </div>
 
