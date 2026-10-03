@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
@@ -93,7 +93,12 @@ function AuthPage() {
               />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="password">{t("auth.password")}</Label>
+              <div className="flex items-center justify-between gap-2">
+                <Label htmlFor="password">{t("auth.password")}</Label>
+                <Link to="/forgot-password" className="text-xs font-medium text-primary hover:underline">
+                  {t("auth.forgotLink")}
+                </Link>
+              </div>
               <Input
                 id="password"
                 type="password"
