@@ -27,8 +27,8 @@ export function ReportProblemPanel({ open, onOpenChange }: { open: boolean; onOp
   const reset = () => { setText(""); setFile(null); };
 
   async function submit() {
-    if (text.trim().length < 10) return toast.error(t("report.tooShort"));
-    if (file && (file.size > MAX || !file.type.startsWith("image/"))) return toast.error(t("report.tooBig"));
+    if (text.trim().length < 10) { toast.error(t("report.tooShort")); return; }
+    if (file && (file.size > MAX || !file.type.startsWith("image/"))) { toast.error(t("report.tooBig")); return; }
     setBusy(true);
     try {
       let screenshot_path: string | null = null;
