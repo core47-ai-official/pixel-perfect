@@ -646,5 +646,43 @@
       "cbc": "CBC",
       "paracetamol": "Paracetamol 500mg"
     }
+  },
+  "dash": {
+    "title": "Dashboard",
+    "manage": "Manage widgets",
+    "save": "Save",
+    "cancel": "Cancel",
+    "reset": "Reset to default",
+    "library": "Widget library",
+    "libraryDesc": "Add up to {{max}} widgets. Only widgets for your role are shown.",
+    "add": "Add",
+    "added": "Added",
+    "remove": "Remove",
+    "size": "Size",
+    "small": "Small",
+    "medium": "Medium",
+    "wide": "Wide",
+    "dragHint": "Drag widgets to reorder them.",
+    "empty": "No widgets yet",
+    "emptyDesc": "Use Manage widgets to add some.",
+    "saved": "Dashboard saved.",
+    "max": "You can have at most {{max}} widgets.",
+    "loadFailed": "Couldn't load your saved dashboard. Showing the default.",
+    "widgetFailed": "Couldn't load this widget.",
+    "range": "Date range",
+    "r": {
+      "today": "Today",
+      "7d": "Last 7 days",
+      "30d": "Last 30 days",
+      "month": "This month"
+    },
+    "w": {
+      "activeUsers": "Active users",
+      "activeUsersCap": "Signed in during this period",
+      "activeUsersDesc": "Staff who signed in during the selected dates.",
+      "errorsToday": "Errors today",
+      "errorsTodayCap": "Recorded app errors",
+      "errorsTodayDesc": "App errors recorded during the selected dates."
+    }
   }
 }

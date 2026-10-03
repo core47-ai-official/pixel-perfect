@@ -35,19 +35,19 @@ export interface LayoutItem { id: string; size: WidgetSize }
 
 interface CountData { value: number; previous?: number }
 
-function trendOf(d: CountData) {
-  if (d.previous === undefined || d.previous === 0) return undefined;
-  return Math.round(((d.value - d.previous) / d.previous) * 100);
+function trendProp(d: CountData): { trend?: number } {
+  if (d.previous === undefined || d.previous === 0) return {};
+  return { trend: Math.round(((d.value - d.previous) / d.previous) * 100) };
 }
 
 function ActiveUsers({ data }: WidgetProps<CountData>) {
   const { t } = useTranslation();
-  return <StatCard label={t("dash.w.activeUsers")} value={data.value} trend={trendOf(data)} caption={t("dash.w.activeUsersCap")} />;
+  return <StatCard label={t("dash.w.activeUsers")} value={data.value} {...trendProp(data)} icon={Users} caption={t("dash.w.activeUsersCap")} />;
 }
 
 function ErrorsToday({ data }: WidgetProps<CountData>) {
   const { t } = useTranslation();
-  return <StatCard label={t("dash.w.errorsToday")} value={data.value} trend={trendOf(data)} caption={t("dash.w.errorsTodayCap")} />;
+  return <StatCard label={t("dash.w.errorsToday")} value={data.value} {...trendProp(data)} icon={AlertTriangle} goodWhen="down" caption={t("dash.w.errorsTodayCap")} />;
 }
 
 export const WIDGETS: WidgetDef[] = [
