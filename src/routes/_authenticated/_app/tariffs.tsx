@@ -157,14 +157,14 @@ function TariffImport({ onClose }: { onClose: () => void }) {
         {bad.length > 0 && (
           <div className="space-y-1 rounded-md border border-urgent p-3">
             <p className="font-medium text-urgent">{t("tf.errorRows", { n: bad.length })}</p>
-            {bad.slice(0, 50).map((x) => <p key={x.line} className="text-xs">{t("tf.line")} <Ltr>{x.line}</Ltr>: {t(`tf.errors.${x.err}`)} <Ltr className="text-muted-foreground">{x.r.code}</Ltr></p>)}
+            {bad.slice(0, 50).map((x) => <p key={x.line} className="text-xs">{t("tf.line")} <Ltr>{x.line}</Ltr>: {t(`tf.errors.${x.err}`)} <Ltr className="text-muted-foreground">{x.r["code"]}</Ltr></p>)}
           </div>
         )}
         {rows.length > 0 && bad.length === 0 && (
           <div className="max-h-64 overflow-y-auto rounded-md border">
             {checked.slice(0, 100).map((x) => (
               <div key={x.line} className="flex justify-between gap-2 border-b px-3 py-1.5 text-xs last:border-0">
-                <Ltr className="font-mono">{x.r.code}</Ltr><span className="flex-1 truncate">{x.r.name}</span><Ltr>{x.r.price}</Ltr>
+                <Ltr className="font-mono">{x.r["code"]}</Ltr><span className="flex-1 truncate">{x.r["name"]}</span><Ltr>{x.r["price"]}</Ltr>
               </div>
             ))}
           </div>
