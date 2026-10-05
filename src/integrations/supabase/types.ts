@@ -1837,6 +1837,66 @@ export type Database = {
           },
         ]
       }
+      lab_result_values: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          flag: string
+          hospital_id: string
+          id: string
+          order_id: string
+          parameter: string
+          reference_range: string | null
+          sort: number
+          unit: string | null
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          flag?: string
+          hospital_id: string
+          id?: string
+          order_id: string
+          parameter: string
+          reference_range?: string | null
+          sort?: number
+          unit?: string | null
+          updated_at?: string
+          value: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          flag?: string
+          hospital_id?: string
+          id?: string
+          order_id?: string
+          parameter?: string
+          reference_range?: string | null
+          sort?: number
+          unit?: string | null
+          updated_at?: string
+          value?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lab_result_values_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lab_result_values_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lab_tests: {
         Row: {
           category: string
@@ -1847,6 +1907,7 @@ export type Database = {
           id: string
           is_active: boolean
           name: string
+          parameters: Json
           price: number
           reference_range: string | null
           sample_type: string | null
@@ -1862,6 +1923,7 @@ export type Database = {
           id?: string
           is_active?: boolean
           name: string
+          parameters?: Json
           price?: number
           reference_range?: string | null
           sample_type?: string | null
@@ -1877,6 +1939,7 @@ export type Database = {
           id?: string
           is_active?: boolean
           name?: string
+          parameters?: Json
           price?: number
           reference_range?: string | null
           sample_type?: string | null
@@ -2249,6 +2312,7 @@ export type Database = {
           created_at: string
           created_by: string | null
           doctor_id: string | null
+          has_critical: boolean
           hospital_id: string
           id: string
           notes: string
@@ -2261,11 +2325,13 @@ export type Database = {
           result: string | null
           result_flag: string | null
           resulted_at: string | null
+          resulted_by: string | null
           sample_barcode: string | null
           status: string
           test_id: string
           updated_at: string
           verified_at: string | null
+          verified_by: string | null
           visit_id: string | null
         }
         Insert: {
@@ -2275,6 +2341,7 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           doctor_id?: string | null
+          has_critical?: boolean
           hospital_id: string
           id?: string
           notes?: string
@@ -2287,11 +2354,13 @@ export type Database = {
           result?: string | null
           result_flag?: string | null
           resulted_at?: string | null
+          resulted_by?: string | null
           sample_barcode?: string | null
           status?: string
           test_id: string
           updated_at?: string
           verified_at?: string | null
+          verified_by?: string | null
           visit_id?: string | null
         }
         Update: {
@@ -2301,6 +2370,7 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           doctor_id?: string | null
+          has_critical?: boolean
           hospital_id?: string
           id?: string
           notes?: string
@@ -2313,11 +2383,13 @@ export type Database = {
           result?: string | null
           result_flag?: string | null
           resulted_at?: string | null
+          resulted_by?: string | null
           sample_barcode?: string | null
           status?: string
           test_id?: string
           updated_at?: string
           verified_at?: string | null
+          verified_by?: string | null
           visit_id?: string | null
         }
         Relationships: [
@@ -3576,6 +3648,7 @@ export type Database = {
       }
       user_roles: {
         Row: {
+          can_verify_lab: boolean
           created_at: string
           created_by: string | null
           department_id: string | null
@@ -3587,6 +3660,7 @@ export type Database = {
           ward_ids: string[]
         }
         Insert: {
+          can_verify_lab?: boolean
           created_at?: string
           created_by?: string | null
           department_id?: string | null
@@ -3598,6 +3672,7 @@ export type Database = {
           ward_ids?: string[]
         }
         Update: {
+          can_verify_lab?: boolean
           created_at?: string
           created_by?: string | null
           department_id?: string | null
