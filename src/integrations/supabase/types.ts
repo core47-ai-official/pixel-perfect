@@ -1540,6 +1540,56 @@ export type Database = {
           },
         ]
       }
+      packages: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string
+          hospital_id: string
+          id: string
+          is_active: boolean
+          name: string
+          price: number
+          tariff_codes: string[]
+          updated_at: string
+          valid_days: number
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string
+          hospital_id: string
+          id?: string
+          is_active?: boolean
+          name: string
+          price?: number
+          tariff_codes?: string[]
+          updated_at?: string
+          valid_days?: number
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string
+          hospital_id?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          price?: number
+          tariff_codes?: string[]
+          updated_at?: string
+          valid_days?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "packages_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       patients: {
         Row: {
           address: string | null
@@ -2006,6 +2056,66 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "support_tickets_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tariffs: {
+        Row: {
+          category: string
+          code: string
+          created_at: string
+          created_by: string | null
+          department_id: string | null
+          hospital_id: string
+          id: string
+          is_active: boolean
+          name: string
+          price: number
+          room_class: string | null
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          code: string
+          created_at?: string
+          created_by?: string | null
+          department_id?: string | null
+          hospital_id: string
+          id?: string
+          is_active?: boolean
+          name: string
+          price?: number
+          room_class?: string | null
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          code?: string
+          created_at?: string
+          created_by?: string | null
+          department_id?: string | null
+          hospital_id?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          price?: number
+          room_class?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tariffs_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tariffs_hospital_id_fkey"
             columns: ["hospital_id"]
             isOneToOne: false
             referencedRelation: "hospitals"

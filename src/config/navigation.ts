@@ -1,3 +1,4 @@
+import { ReceiptText, Package as PackageIcon } from "lucide-react";
 import {
   LayoutDashboard, NotebookPen, Users, CalendarDays, ListOrdered, Stethoscope, BedDouble, HeartPulse, Siren, Scissors,
   FlaskConical, Pill, Boxes, Receipt, Wallet, UserCog, Building2, BarChart3, ScrollText, Settings, LifeBuoy,
@@ -36,6 +37,8 @@ export const PAGES = {
   ot: { id: "ot", path: "/ot", icon: Scissors, group: "clinical" },
   lab: { id: "lab", path: "/lab", icon: FlaskConical, group: "diagnostics" },
   pharmacy: { id: "pharmacy", path: "/pharmacy", icon: Pill, group: "diagnostics" },
+  tariffs: { id: "tariffs", path: "/tariffs", icon: ReceiptText, group: "finance" },
+  packages: { id: "packages", path: "/packages", icon: PackageIcon, group: "finance" },
   formulary: { id: "formulary", path: "/formulary", icon: BookMarked, group: "diagnostics" },
   wardSetup: { id: "wardSetup", path: "/ward-setup", icon: BedDouble, group: "admin" },
   labTests: { id: "labTests", path: "/lab-tests", icon: TestTubes, group: "diagnostics" },
@@ -67,17 +70,17 @@ export const FOOTER_PAGES: NavPage[] = [
 
 /** Role → pages, in priority order (first four become the mobile bottom nav). */
 export const ROLE_PAGES: Record<AppRole, PageId[]> = {
-  super_admin: ["dashboard", "users", "reports", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "doctorsNow", "leaveApprovals", "leaveApprovals", "patients", "appointments", "billing", "cashRegister", "inventory", "formulary", "labTests", "wardSetup", "wards", "emergency", "nursing", "handover"],
-  admin: ["dashboard", "users", "departments", "doctors", "doctorsNow", "leaveApprovals", "companySettings", "reports", "patients", "appointments", "billing", "inventory", "formulary", "labTests", "wardSetup", "wards", "emergency", "nursing", "handover"],
+  super_admin: ["dashboard", "users", "reports", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "doctorsNow", "leaveApprovals", "leaveApprovals", "patients", "appointments", "billing", "cashRegister", "inventory", "formulary", "labTests", "wardSetup", "wards", "emergency", "nursing", "handover", "tariffs", "packages"],
+  admin: ["dashboard", "users", "departments", "doctors", "doctorsNow", "leaveApprovals", "companySettings", "reports", "patients", "appointments", "billing", "inventory", "formulary", "labTests", "wardSetup", "wards", "emergency", "nursing", "handover", "tariffs", "packages"],
   dept_head: ["dashboard", "consultations", "wards", "emergency", "nursing", "handover", "reports", "patients", "appointments", "staff", "doctors", "doctorsNow", "leaveApprovals"],
   doctor: ["myDay", "opdQueue", "mySchedule", "patients", "consultations", "appointments", "myLeave", "wards", "emergency", "lab", "formulary", "dashboard"],
   nurse: ["nursing", "wards", "handover", "patients", "emergency", "dashboard"],
   er_officer: ["dashboard", "emergency", "patients", "wards", "lab"],
   ot_coordinator: ["dashboard", "ot", "patients", "wards", "inventory"],
-  receptionist: ["dashboard", "patients", "doctorsNow", "appointments", "opdQueue", "billing", "wards", "emergency"],
+  receptionist: ["dashboard", "patients", "doctorsNow", "appointments", "opdQueue", "billing", "wards", "emergency", "tariffs", "packages"],
   pharmacist: ["dashboard", "pharmacy", "formulary", "inventory", "patients"],
   lab_tech: ["dashboard", "lab", "labTests", "patients", "inventory"],
-  cashier: ["dashboard", "billing", "cashRegister", "patients"],
+  cashier: ["dashboard", "billing", "cashRegister", "patients", "tariffs", "packages"],
   patient: ["dashboard", "myAppointments", "myRecords", "myBills"],
 };
 

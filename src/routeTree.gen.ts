@@ -46,6 +46,7 @@ import { Route as AuthenticatedAppMyScheduleRouteImport } from './routes/_authen
 import { Route as AuthenticatedAppNursingRouteImport } from './routes/_authenticated/_app/nursing'
 import { Route as AuthenticatedAppOpdQueueRouteImport } from './routes/_authenticated/_app/opd-queue'
 import { Route as AuthenticatedAppOtRouteImport } from './routes/_authenticated/_app/ot'
+import { Route as AuthenticatedAppPackagesRouteImport } from './routes/_authenticated/_app/packages'
 import { Route as AuthenticatedAppPatientsRouteImport } from './routes/_authenticated/_app/patients'
 import { Route as AuthenticatedAppPharmacyRouteImport } from './routes/_authenticated/_app/pharmacy'
 import { Route as AuthenticatedAppReportsRouteImport } from './routes/_authenticated/_app/reports'
@@ -53,6 +54,7 @@ import { Route as AuthenticatedAppSettingsRouteImport } from './routes/_authenti
 import { Route as AuthenticatedAppStaffRouteImport } from './routes/_authenticated/_app/staff'
 import { Route as AuthenticatedAppSupportTicketsRouteImport } from './routes/_authenticated/_app/support-tickets'
 import { Route as AuthenticatedAppSystemIssuesRouteImport } from './routes/_authenticated/_app/system-issues'
+import { Route as AuthenticatedAppTariffsRouteImport } from './routes/_authenticated/_app/tariffs'
 import { Route as AuthenticatedAppUsersRouteImport } from './routes/_authenticated/_app/users'
 import { Route as AuthenticatedAppWardSetupRouteImport } from './routes/_authenticated/_app/ward-setup'
 import { Route as AuthenticatedAppWardsRouteImport } from './routes/_authenticated/_app/wards'
@@ -265,6 +267,12 @@ const AuthenticatedAppOtRoute = AuthenticatedAppOtRouteImport.update({
   path: '/ot',
   getParentRoute: () => AuthenticatedAppRouteRoute,
 } as any)
+const AuthenticatedAppPackagesRoute =
+  AuthenticatedAppPackagesRouteImport.update({
+    id: '/packages',
+    path: '/packages',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
 const AuthenticatedAppPatientsRoute =
   AuthenticatedAppPatientsRouteImport.update({
     id: '/patients',
@@ -305,6 +313,11 @@ const AuthenticatedAppSystemIssuesRoute =
     path: '/system-issues',
     getParentRoute: () => AuthenticatedAppRouteRoute,
   } as any)
+const AuthenticatedAppTariffsRoute = AuthenticatedAppTariffsRouteImport.update({
+  id: '/tariffs',
+  path: '/tariffs',
+  getParentRoute: () => AuthenticatedAppRouteRoute,
+} as any)
 const AuthenticatedAppUsersRoute = AuthenticatedAppUsersRouteImport.update({
   id: '/users',
   path: '/users',
@@ -394,6 +407,7 @@ export interface FileRoutesByFullPath {
   '/nursing': typeof AuthenticatedAppNursingRoute
   '/opd-queue': typeof AuthenticatedAppOpdQueueRoute
   '/ot': typeof AuthenticatedAppOtRoute
+  '/packages': typeof AuthenticatedAppPackagesRoute
   '/patients': typeof AuthenticatedAppPatientsRoute
   '/pharmacy': typeof AuthenticatedAppPharmacyRoute
   '/reports': typeof AuthenticatedAppReportsRoute
@@ -401,6 +415,7 @@ export interface FileRoutesByFullPath {
   '/staff': typeof AuthenticatedAppStaffRoute
   '/support-tickets': typeof AuthenticatedAppSupportTicketsRoute
   '/system-issues': typeof AuthenticatedAppSystemIssuesRoute
+  '/tariffs': typeof AuthenticatedAppTariffsRoute
   '/users': typeof AuthenticatedAppUsersRoute
   '/ward-setup': typeof AuthenticatedAppWardSetupRoute
   '/wards': typeof AuthenticatedAppWardsRoute
@@ -447,6 +462,7 @@ export interface FileRoutesByTo {
   '/nursing': typeof AuthenticatedAppNursingRoute
   '/opd-queue': typeof AuthenticatedAppOpdQueueRoute
   '/ot': typeof AuthenticatedAppOtRoute
+  '/packages': typeof AuthenticatedAppPackagesRoute
   '/patients': typeof AuthenticatedAppPatientsRoute
   '/pharmacy': typeof AuthenticatedAppPharmacyRoute
   '/reports': typeof AuthenticatedAppReportsRoute
@@ -454,6 +470,7 @@ export interface FileRoutesByTo {
   '/staff': typeof AuthenticatedAppStaffRoute
   '/support-tickets': typeof AuthenticatedAppSupportTicketsRoute
   '/system-issues': typeof AuthenticatedAppSystemIssuesRoute
+  '/tariffs': typeof AuthenticatedAppTariffsRoute
   '/users': typeof AuthenticatedAppUsersRoute
   '/ward-setup': typeof AuthenticatedAppWardSetupRoute
   '/wards': typeof AuthenticatedAppWardsRoute
@@ -503,6 +520,7 @@ export interface FileRoutesById {
   '/_authenticated/_app/nursing': typeof AuthenticatedAppNursingRoute
   '/_authenticated/_app/opd-queue': typeof AuthenticatedAppOpdQueueRoute
   '/_authenticated/_app/ot': typeof AuthenticatedAppOtRoute
+  '/_authenticated/_app/packages': typeof AuthenticatedAppPackagesRoute
   '/_authenticated/_app/patients': typeof AuthenticatedAppPatientsRoute
   '/_authenticated/_app/pharmacy': typeof AuthenticatedAppPharmacyRoute
   '/_authenticated/_app/reports': typeof AuthenticatedAppReportsRoute
@@ -510,6 +528,7 @@ export interface FileRoutesById {
   '/_authenticated/_app/staff': typeof AuthenticatedAppStaffRoute
   '/_authenticated/_app/support-tickets': typeof AuthenticatedAppSupportTicketsRoute
   '/_authenticated/_app/system-issues': typeof AuthenticatedAppSystemIssuesRoute
+  '/_authenticated/_app/tariffs': typeof AuthenticatedAppTariffsRoute
   '/_authenticated/_app/users': typeof AuthenticatedAppUsersRoute
   '/_authenticated/_app/ward-setup': typeof AuthenticatedAppWardSetupRoute
   '/_authenticated/_app/wards': typeof AuthenticatedAppWardsRoute
@@ -558,6 +577,7 @@ export interface FileRouteTypes {
     | '/nursing'
     | '/opd-queue'
     | '/ot'
+    | '/packages'
     | '/patients'
     | '/pharmacy'
     | '/reports'
@@ -565,6 +585,7 @@ export interface FileRouteTypes {
     | '/staff'
     | '/support-tickets'
     | '/system-issues'
+    | '/tariffs'
     | '/users'
     | '/ward-setup'
     | '/wards'
@@ -611,6 +632,7 @@ export interface FileRouteTypes {
     | '/nursing'
     | '/opd-queue'
     | '/ot'
+    | '/packages'
     | '/patients'
     | '/pharmacy'
     | '/reports'
@@ -618,6 +640,7 @@ export interface FileRouteTypes {
     | '/staff'
     | '/support-tickets'
     | '/system-issues'
+    | '/tariffs'
     | '/users'
     | '/ward-setup'
     | '/wards'
@@ -666,6 +689,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/nursing'
     | '/_authenticated/_app/opd-queue'
     | '/_authenticated/_app/ot'
+    | '/_authenticated/_app/packages'
     | '/_authenticated/_app/patients'
     | '/_authenticated/_app/pharmacy'
     | '/_authenticated/_app/reports'
@@ -673,6 +697,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/staff'
     | '/_authenticated/_app/support-tickets'
     | '/_authenticated/_app/system-issues'
+    | '/_authenticated/_app/tariffs'
     | '/_authenticated/_app/users'
     | '/_authenticated/_app/ward-setup'
     | '/_authenticated/_app/wards'
@@ -957,6 +982,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppOtRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
+    '/_authenticated/_app/packages': {
+      id: '/_authenticated/_app/packages'
+      path: '/packages'
+      fullPath: '/packages'
+      preLoaderRoute: typeof AuthenticatedAppPackagesRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
     '/_authenticated/_app/patients': {
       id: '/_authenticated/_app/patients'
       path: '/patients'
@@ -1004,6 +1036,13 @@ declare module '@tanstack/react-router' {
       path: '/system-issues'
       fullPath: '/system-issues'
       preLoaderRoute: typeof AuthenticatedAppSystemIssuesRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/tariffs': {
+      id: '/_authenticated/_app/tariffs'
+      path: '/tariffs'
+      fullPath: '/tariffs'
+      preLoaderRoute: typeof AuthenticatedAppTariffsRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
     '/_authenticated/_app/users': {
@@ -1100,6 +1139,7 @@ interface AuthenticatedAppRouteRouteChildren {
   AuthenticatedAppNursingRoute: typeof AuthenticatedAppNursingRoute
   AuthenticatedAppOpdQueueRoute: typeof AuthenticatedAppOpdQueueRoute
   AuthenticatedAppOtRoute: typeof AuthenticatedAppOtRoute
+  AuthenticatedAppPackagesRoute: typeof AuthenticatedAppPackagesRoute
   AuthenticatedAppPatientsRoute: typeof AuthenticatedAppPatientsRoute
   AuthenticatedAppPharmacyRoute: typeof AuthenticatedAppPharmacyRoute
   AuthenticatedAppReportsRoute: typeof AuthenticatedAppReportsRoute
@@ -1107,6 +1147,7 @@ interface AuthenticatedAppRouteRouteChildren {
   AuthenticatedAppStaffRoute: typeof AuthenticatedAppStaffRoute
   AuthenticatedAppSupportTicketsRoute: typeof AuthenticatedAppSupportTicketsRoute
   AuthenticatedAppSystemIssuesRoute: typeof AuthenticatedAppSystemIssuesRoute
+  AuthenticatedAppTariffsRoute: typeof AuthenticatedAppTariffsRoute
   AuthenticatedAppUsersRoute: typeof AuthenticatedAppUsersRoute
   AuthenticatedAppWardSetupRoute: typeof AuthenticatedAppWardSetupRoute
   AuthenticatedAppWardsRoute: typeof AuthenticatedAppWardsRoute
@@ -1145,6 +1186,7 @@ const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
   AuthenticatedAppNursingRoute: AuthenticatedAppNursingRoute,
   AuthenticatedAppOpdQueueRoute: AuthenticatedAppOpdQueueRoute,
   AuthenticatedAppOtRoute: AuthenticatedAppOtRoute,
+  AuthenticatedAppPackagesRoute: AuthenticatedAppPackagesRoute,
   AuthenticatedAppPatientsRoute: AuthenticatedAppPatientsRoute,
   AuthenticatedAppPharmacyRoute: AuthenticatedAppPharmacyRoute,
   AuthenticatedAppReportsRoute: AuthenticatedAppReportsRoute,
@@ -1152,6 +1194,7 @@ const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
   AuthenticatedAppStaffRoute: AuthenticatedAppStaffRoute,
   AuthenticatedAppSupportTicketsRoute: AuthenticatedAppSupportTicketsRoute,
   AuthenticatedAppSystemIssuesRoute: AuthenticatedAppSystemIssuesRoute,
+  AuthenticatedAppTariffsRoute: AuthenticatedAppTariffsRoute,
   AuthenticatedAppUsersRoute: AuthenticatedAppUsersRoute,
   AuthenticatedAppWardSetupRoute: AuthenticatedAppWardSetupRoute,
   AuthenticatedAppWardsRoute: AuthenticatedAppWardsRoute,
