@@ -838,6 +838,62 @@ export type Database = {
           },
         ]
       }
+      lab_tests: {
+        Row: {
+          category: string
+          code: string
+          created_at: string
+          created_by: string | null
+          hospital_id: string
+          id: string
+          is_active: boolean
+          name: string
+          price: number
+          reference_range: string | null
+          sample_type: string | null
+          turnaround_hours: number
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          code: string
+          created_at?: string
+          created_by?: string | null
+          hospital_id: string
+          id?: string
+          is_active?: boolean
+          name: string
+          price?: number
+          reference_range?: string | null
+          sample_type?: string | null
+          turnaround_hours?: number
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          code?: string
+          created_at?: string
+          created_by?: string | null
+          hospital_id?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          price?: number
+          reference_range?: string | null
+          sample_type?: string | null
+          turnaround_hours?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lab_tests_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       medicines: {
         Row: {
           brand_name: string | null
@@ -955,6 +1011,105 @@ export type Database = {
             columns: ["hospital_id"]
             isOneToOne: false
             referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          cancel_reason: string | null
+          created_at: string
+          created_by: string | null
+          doctor_id: string | null
+          hospital_id: string
+          id: string
+          notes: string
+          patient_id: string
+          price: number
+          priority: string
+          result: string | null
+          result_flag: string | null
+          resulted_at: string | null
+          status: string
+          test_id: string
+          updated_at: string
+          verified_at: string | null
+          visit_id: string | null
+        }
+        Insert: {
+          cancel_reason?: string | null
+          created_at?: string
+          created_by?: string | null
+          doctor_id?: string | null
+          hospital_id: string
+          id?: string
+          notes?: string
+          patient_id: string
+          price?: number
+          priority?: string
+          result?: string | null
+          result_flag?: string | null
+          resulted_at?: string | null
+          status?: string
+          test_id: string
+          updated_at?: string
+          verified_at?: string | null
+          visit_id?: string | null
+        }
+        Update: {
+          cancel_reason?: string | null
+          created_at?: string
+          created_by?: string | null
+          doctor_id?: string | null
+          hospital_id?: string
+          id?: string
+          notes?: string
+          patient_id?: string
+          price?: number
+          priority?: string
+          result?: string | null
+          result_flag?: string | null
+          resulted_at?: string | null
+          status?: string
+          test_id?: string
+          updated_at?: string
+          verified_at?: string | null
+          visit_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_doctor_id_fkey"
+            columns: ["doctor_id"]
+            isOneToOne: false
+            referencedRelation: "doctors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_test_id_fkey"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "lab_tests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_visit_id_fkey"
+            columns: ["visit_id"]
+            isOneToOne: false
+            referencedRelation: "visits"
             referencedColumns: ["id"]
           },
         ]
