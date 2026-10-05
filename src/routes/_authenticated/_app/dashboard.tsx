@@ -61,6 +61,8 @@ function Dashboard() {
   // Doctors' home is "My day".
   useEffect(() => {
     if (roles.length && roles.every((r) => r === "doctor")) void navigate({ to: "/my-day", replace: true });
+    // Nurses' home is the Ward board.
+    else if (roles.length && roles.every((r) => r === "nurse")) void navigate({ to: "/nursing", replace: true });
   }, [roles, navigate]);
   const allowed = useMemo(() => widgetsForRoles(roles), [roles]);
   const wide = useWide();
