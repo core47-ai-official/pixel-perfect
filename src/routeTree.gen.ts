@@ -67,6 +67,7 @@ import { Route as AuthenticatedAppDoctorsDoctorIdRouteImport } from './routes/_a
 import { Route as AuthenticatedAppOtBookingIdRouteImport } from './routes/_authenticated/_app/ot_.$bookingId'
 import { Route as AuthenticatedAppPatientsPatientIdRouteImport } from './routes/_authenticated/_app/patients_.$patientId'
 import { Route as AuthenticatedAppPatientsNewRouteImport } from './routes/_authenticated/_app/patients_.new'
+import { Route as AuthenticatedAppPharmacyPrescriptionIdRouteImport } from './routes/_authenticated/_app/pharmacy_.$prescriptionId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -390,6 +391,12 @@ const AuthenticatedAppPatientsNewRoute =
     path: '/patients/new',
     getParentRoute: () => AuthenticatedAppRouteRoute,
   } as any)
+const AuthenticatedAppPharmacyPrescriptionIdRoute =
+  AuthenticatedAppPharmacyPrescriptionIdRouteImport.update({
+    id: '/pharmacy_/$prescriptionId',
+    path: '/pharmacy/$prescriptionId',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -448,6 +455,7 @@ export interface FileRoutesByFullPath {
   '/ot/$bookingId': typeof AuthenticatedAppOtBookingIdRoute
   '/patients/$patientId': typeof AuthenticatedAppPatientsPatientIdRoute
   '/patients/new': typeof AuthenticatedAppPatientsNewRoute
+  '/pharmacy/$prescriptionId': typeof AuthenticatedAppPharmacyPrescriptionIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -506,6 +514,7 @@ export interface FileRoutesByTo {
   '/ot/$bookingId': typeof AuthenticatedAppOtBookingIdRoute
   '/patients/$patientId': typeof AuthenticatedAppPatientsPatientIdRoute
   '/patients/new': typeof AuthenticatedAppPatientsNewRoute
+  '/pharmacy/$prescriptionId': typeof AuthenticatedAppPharmacyPrescriptionIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -567,6 +576,7 @@ export interface FileRoutesById {
   '/_authenticated/_app/ot_/$bookingId': typeof AuthenticatedAppOtBookingIdRoute
   '/_authenticated/_app/patients_/$patientId': typeof AuthenticatedAppPatientsPatientIdRoute
   '/_authenticated/_app/patients_/new': typeof AuthenticatedAppPatientsNewRoute
+  '/_authenticated/_app/pharmacy_/$prescriptionId': typeof AuthenticatedAppPharmacyPrescriptionIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -627,6 +637,7 @@ export interface FileRouteTypes {
     | '/ot/$bookingId'
     | '/patients/$patientId'
     | '/patients/new'
+    | '/pharmacy/$prescriptionId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -685,6 +696,7 @@ export interface FileRouteTypes {
     | '/ot/$bookingId'
     | '/patients/$patientId'
     | '/patients/new'
+    | '/pharmacy/$prescriptionId'
   id:
     | '__root__'
     | '/'
@@ -745,6 +757,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/ot_/$bookingId'
     | '/_authenticated/_app/patients_/$patientId'
     | '/_authenticated/_app/patients_/new'
+    | '/_authenticated/_app/pharmacy_/$prescriptionId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -1167,6 +1180,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppPatientsNewRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
+    '/_authenticated/_app/pharmacy_/$prescriptionId': {
+      id: '/_authenticated/_app/pharmacy_/$prescriptionId'
+      path: '/pharmacy/$prescriptionId'
+      fullPath: '/pharmacy/$prescriptionId'
+      preLoaderRoute: typeof AuthenticatedAppPharmacyPrescriptionIdRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
   }
 }
 
@@ -1218,6 +1238,7 @@ interface AuthenticatedAppRouteRouteChildren {
   AuthenticatedAppOtBookingIdRoute: typeof AuthenticatedAppOtBookingIdRoute
   AuthenticatedAppPatientsPatientIdRoute: typeof AuthenticatedAppPatientsPatientIdRoute
   AuthenticatedAppPatientsNewRoute: typeof AuthenticatedAppPatientsNewRoute
+  AuthenticatedAppPharmacyPrescriptionIdRoute: typeof AuthenticatedAppPharmacyPrescriptionIdRoute
 }
 
 const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
@@ -1270,6 +1291,8 @@ const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
   AuthenticatedAppPatientsPatientIdRoute:
     AuthenticatedAppPatientsPatientIdRoute,
   AuthenticatedAppPatientsNewRoute: AuthenticatedAppPatientsNewRoute,
+  AuthenticatedAppPharmacyPrescriptionIdRoute:
+    AuthenticatedAppPharmacyPrescriptionIdRoute,
 }
 
 const AuthenticatedAppRouteRouteWithChildren =
