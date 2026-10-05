@@ -109,7 +109,7 @@ export function OtBookingPanel({ open, onOpenChange, initialOtId, initialStart }
     <SidePanel open={open} onOpenChange={onOpenChange} title={t("quick.newOtBooking")}
       footer={<Button onClick={submit} disabled={busy}>{canSchedule && otId && start ? t("ot.saveSchedule") : t("ot.sendRequest")}</Button>}>
       <div className="space-y-4">
-        {err && <Banner tone="urgent" title={err} />}
+        {err && <Banner tone="danger" title={err} />}
         <div className="space-y-1.5">
           <Label>{t("ot.patient")}</Label>
           {patient ? (
@@ -181,7 +181,7 @@ export function OtSchedulePanel({ booking, onOpenChange }: { booking: OtBooking 
       footer={<Button onClick={submit} disabled={busy}>{t("ot.saveSchedule")}</Button>}>
       {booking && (
         <div className="space-y-4">
-          {err && <Banner tone="urgent" title={err} />}
+          {err && <Banner tone="danger" title={err} />}
           <p className="text-sm"><span className="font-semibold">{booking.procedure}</span> — {booking.patients?.full_name} <Ltr className="text-muted-foreground">{booking.patients?.mrn}</Ltr></p>
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="space-y-1.5 sm:col-span-2"><Label>{t("ot.theatre")}</Label><TheatreSelect value={otId} onChange={setOtId} /></div>

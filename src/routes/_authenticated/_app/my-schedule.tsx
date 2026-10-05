@@ -10,12 +10,13 @@ import { Calendar, type CalColumn, type CalEvent, type CalendarView } from "@/co
 import { useMyContext } from "@/hooks/use-my-context";
 import { useDepartmentsData } from "@/lib/departments-data";
 import { useAppointmentsRealtime, useCalendarData, ymd } from "@/lib/appointments";
+import { caseEnd, useOtBookings, useOtRealtime } from "@/lib/ot";
 
 export const Route = createFileRoute("/_authenticated/_app/my-schedule")({
   head: () => ({
     meta: [
       { title: "My schedule — MediCore HMS" },
-      { name: "description", content: "Your appointments and leave on a calendar." },
+      { name: "description", content: "Your appointments, OT cases and leave on a calendar." },
     ],
   }),
   component: () => (
@@ -42,6 +43,8 @@ function MySchedule() {
   const from = view === "month" ? startOfWeek(startOfMonth(date), { weekStartsOn: 1 }) : view === "week" ? startOfWeek(date, { weekStartsOn: 1 }) : date;
   const to = view === "month" ? endOfWeek(endOfMonth(date), { weekStartsOn: 1 }) : view === "week" ? endOfWeek(date, { weekStartsOn: 1 }) : date;
   const { appts, schedules, leaves } = useCalendarData(ymd(from), ymd(to));
+  useOtRealtime(context?.hospital?.id);
+  const ot = useOtBookings(startOfDay(from).toISOString(), addDays(startOfDay(to), 1).toISOString());
 
   if (doctors.isLoading) return <Skeleton className="h-64" />;
   if (!me) return <Banner tone="warning" title={t("myday.notDoctor")} />;
@@ -54,6 +57,14 @@ function MySchedule() {
       subtitle: a.patients?.mrn, columnId: me.id, departmentId: a.department_id,
       colorKey: "appointment", status: a.status, type: a.type, token: a.token_no,
     }));
+  // OT cases where I'm the surgeon or anesthetist.
+  for (const b of ot.data ?? []) {
+    if (!b.planned_start || (b.surgeon_id !== me.id && b.anesthetist_id !== me.id)) continue;
+    events.push({
+      id: `ot-${b.id}`, start: new Date(b.planned_start), end: caseEnd(b), title: `${t("cal.legend.eventKind.surgery")}: ${b.procedure}`,
+      subtitle: b.patients?.full_name, columnId: me.id, colorKey: "surgery", status: b.status,
+    });
+  }
   // Each leave day appears as one event across working hours.
   for (const l of myLeaves) {
     for (let d = new Date(`${l.from_date}T00:00:00`); ymd(d) <= l.to_date; d = addDays(d, 1)) {
@@ -80,6 +91,7 @@ function MySchedule() {
         view={view} onViewChange={(v) => setView(v === "byDoctor" ? "day" : v)}
         loading={appts.isLoading}
         onEventClick={(e) => {
+          if (e.id.startsWith("ot-")) { void navigate({ to: "/ot" }); return; }
           const a = appts.data?.find((x) => x.id === e.id);
           if (a) void navigate({ to: "/patients/$patientId", params: { patientId: a.patient_id } });
         }}
