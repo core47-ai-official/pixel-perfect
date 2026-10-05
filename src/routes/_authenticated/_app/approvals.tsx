@@ -34,7 +34,7 @@ function ApprovalsPage() {
   const { hasRole, context } = useMyContext();
   const isAdmin = hasRole("super_admin", "admin");
   const [tab, setTab] = useState<"pending" | "decided">("pending");
-  const list = useApprovals({ status: tab, mine: isAdmin ? null : context?.user_id ?? null });
+  const list = useApprovals({ status: tab, mine: isAdmin ? null : context?.profile?.id ?? null });
   const [deciding, setDeciding] = useState<{ a: Approval; decision: "approved" | "rejected" } | null>(null);
 
   return (
@@ -100,7 +100,7 @@ function DecidePanel({ state, onClose }: { state: { a: Approval; decision: "appr
   return (
     <SidePanel open={!!state} onOpenChange={(o) => { if (!o) { setNote(""); onClose(); } }}
       title={reject ? t("apv.rejectTitle") : t("apv.approveTitle")}
-      description={state ? `${t(`apv.type.${state.a.type}`)} · ${formatPkr(state.a.amount)}` : undefined}
+      description={state ? `${t(`apv.type.${state.a.type}`)} · ${formatPkr(state.a.amount)}` : ""}
       footer={<Button variant={reject ? "danger" : "primary"} disabled={busy || (reject && note.trim().length < 3)} onClick={() => void save()}>
         {reject ? <X /> : <Check />} {reject ? t("apv.reject") : t("apv.approve")}</Button>}>
       <div className="space-y-1">
