@@ -263,7 +263,9 @@
     "formulary": "Formulary",
     "labTests": "Lab tests",
     "wardSetup": "Ward setup",
-    "handover": "Handover"
+    "handover": "Handover",
+    "tariffs": "Tariffs",
+    "packages": "Packages"
   },
   "navGroup": {
     "overview": "Overview",
@@ -1698,5 +1700,72 @@
     "closed": "Emergency case closed",
     "save": "Save",
     "openProfile": "Open profile"
+  },
+  "tf": {
+    "intro": "The hospital's price list. Bills will pick prices from here.",
+    "add": "Add tariff",
+    "edit": "Edit tariff",
+    "import": "Import CSV",
+    "code": "Code",
+    "name": "Name",
+    "category": "Category",
+    "department": "Department",
+    "roomClass": "Room class",
+    "roomClassHint": "Leave as Any unless the price differs by room class.",
+    "price": "Price",
+    "priceRs": "Price (Rs)",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "any": "Any",
+    "saved": "Tariff saved",
+    "required": "Code, name and price are required.",
+    "categories": {
+      "consultation": "Consultation",
+      "lab": "Lab",
+      "radiology": "Radiology",
+      "room": "Room",
+      "procedure": "Procedure",
+      "ot": "OT",
+      "pharmacy": "Pharmacy",
+      "other": "Other"
+    },
+    "csvHelp": "Columns: code, name, category, department, room_class, price, is_active. Department must match a department name exactly. Rows with an existing code update that tariff.",
+    "csvEmpty": "The file has no rows.",
+    "csvHeader": "The first row must include code, name and price.",
+    "rowsFound": "{{n}} rows found",
+    "errorRows": "{{n}} rows have problems. Fix them in the file and choose it again.",
+    "line": "Line",
+    "errors": {
+      "code": "code missing or has invalid characters",
+      "name": "name missing",
+      "category": "unknown category",
+      "price": "price missing or not a number",
+      "roomClass": "unknown room class",
+      "department": "department not found"
+    },
+    "importN": "Import {{n}} rows",
+    "importErrors": "{{n}} rows were rejected; nothing was saved.",
+    "imported": "{{inserted}} added, {{updated}} updated",
+    "importNote": "Nothing is saved unless every row is valid."
+  },
+  "pk": {
+    "intro": "Fixed-price bundles made from tariffs, for example a delivery or check-up package.",
+    "add": "Add package",
+    "edit": "Edit package",
+    "empty": "No packages yet",
+    "emptyHint": "Add tariffs first, then build a package from them.",
+    "name": "Package name",
+    "description": "Description",
+    "includes": "Included tariffs",
+    "searchTariff": "Search tariff by code or name",
+    "remove": "Remove",
+    "itemsTotal": "Separate price of items:",
+    "price": "Package price (Rs)",
+    "validDays": "Valid for (days)",
+    "validFor": "Valid for {{n}} days",
+    "missing": "Tariff not found",
+    "saved": "Package saved",
+    "required": "Name, price, valid days and at least one tariff are required."
   }
 }
