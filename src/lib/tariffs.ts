@@ -26,7 +26,7 @@ export function usePackages() {
 }
 
 /** Mirrors the server's checks so the import preview shows the same error rows. */
-export function validateTariffRow(r: Record<string, string>, deptNames: Set<string>): string | null {
+export function validateTariffRow(r: { code?: string; name?: string; category?: string; price?: string; room_class?: string; department?: string }, deptNames: Set<string>): string | null {
   const code = (r.code ?? "").trim();
   if (!code || !/^[A-Za-z0-9._\s-]+$/.test(code)) return "code";
   if ((r.name ?? "").trim().length < 2) return "name";

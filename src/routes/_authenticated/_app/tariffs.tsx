@@ -131,7 +131,7 @@ function TariffImport({ onClose }: { onClose: () => void }) {
   const onFile = async (file: File) => {
     const lines = parseCsv(await file.text());
     if (lines.length < 2) { toast.error(t("tf.csvEmpty")); return; }
-    const head = lines[0].map((h) => h.trim().toLowerCase());
+    const head = (lines[0] ?? []).map((h) => h.trim().toLowerCase());
     if (!head.includes("code") || !head.includes("name") || !head.includes("price")) { toast.error(t("tf.csvHeader")); return; }
     setFileName(file.name);
     setRows(lines.slice(1).map((l) => Object.fromEntries(head.map((h, i) => [h, (l[i] ?? "").trim()]))));

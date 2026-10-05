@@ -44,7 +44,7 @@ function PackagesPage() {
         {canEdit && <Button className="ms-auto" onClick={() => setEditing("new")}><Plus />{t("pk.add")}</Button>}
       </div>
       {packages.isLoading ? <Skeleton className="h-48" /> : (packages.data ?? []).length === 0 ? (
-        <EmptyState icon={Package} title={t("pk.empty")} description={canEdit ? t("pk.emptyHint") : undefined} />
+        <EmptyState icon={Package} title={t("pk.empty")} {...(canEdit ? { description: t("pk.emptyHint") } : {})} />
       ) : (
         <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {(packages.data ?? []).map((p) => {
