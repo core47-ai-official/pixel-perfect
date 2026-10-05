@@ -1,4 +1,5 @@
 import { callEdgeFunction } from "@/hooks/use-edge-function";
+import { pwaAllowed } from "@/lib/pwa-register";
 
 /** Public VAPID key (safe to ship). The private key lives only in Supabase function secrets. */
 const VAPID_PUBLIC_KEY = import.meta.env['VITE_VAPID_PUBLIC_KEY'] as string | undefined;
@@ -33,7 +34,8 @@ function urlBase64ToUint8Array(b64: string) {
 /** Registers the worker (skipped inside the editor preview frame). */
 export async function registerServiceWorker() {
   if (typeof window === "undefined" || !("serviceWorker" in navigator) || inIframe()) return null;
-  return navigator.serviceWorker.register("/sw.js");
+  // Published app: the offline worker (/sw.js) already includes the push handlers.
+  return navigator.serviceWorker.register(pwaAllowed() ? "/sw.js" : "/push-sw.js");
 }
 
 /** Asks permission, subscribes, and sends the subscription to register-push-subscription. */
