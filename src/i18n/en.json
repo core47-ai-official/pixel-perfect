@@ -256,8 +256,10 @@
     "companySettings": "Company settings",
     "doctors": "Doctors",
     "doctorsNow": "Doctors now",
-    "myLeave": "My schedule & leave",
-    "leaveApprovals": "Leave approvals"
+    "myLeave": "My leave",
+    "leaveApprovals": "Leave approvals",
+    "myDay": "My day",
+    "mySchedule": "My schedule"
   },
   "navGroup": {
     "overview": "Overview",
@@ -1135,5 +1137,20 @@
     "tvAll": "All doctors",
     "copyLink": "Copy TV link",
     "department": "Department screen"
+  },
+  "myday": {
+    "title": "My day",
+    "myQueue": "My queue",
+    "inConsult": "With me now",
+    "waiting": "Waiting",
+    "today": "Today's appointments",
+    "admitted": "My admitted patients",
+    "critical": "Critical results",
+    "comingSoon": "This will appear once the wards and lab sections are built.",
+    "notDoctor": "Your account isn't linked to a doctor profile yet. Ask the admin to set it up.",
+    "openPatient": "Open record",
+    "noneToday": "No appointments today",
+    "done": "Done",
+    "schedTitle": "My schedule"
   }
 }
