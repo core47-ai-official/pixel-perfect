@@ -190,7 +190,7 @@ export function BookAppointmentPanel({ open, onOpenChange, patientId }: {
               <div className="space-y-1.5">
                 <Label>{t("appt.slot")}</Label>
                 {slots.isLoading ? <p className="text-sm text-muted-foreground">{t("search.searching")}</p>
-                  : slots.isError ? <Banner tone="warning" title={(slots.error as EdgeError).message} />
+                  : slots.isError ? <Banner tone="warning" title={(slots.error as unknown as EdgeError).message} />
                   : slots.data?.closed ? <p className="text-sm text-muted-foreground">{t(`appt.closed.${slots.data.closed}`, { name: slots.data.holiday ?? "" })}</p>
                   : (
                     <div className="grid grid-cols-4 gap-1.5 sm:grid-cols-5">
