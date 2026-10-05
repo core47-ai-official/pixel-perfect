@@ -66,14 +66,14 @@ export const FOOTER_PAGES: NavPage[] = [
 
 /** Role → pages, in priority order (first four become the mobile bottom nav). */
 export const ROLE_PAGES: Record<AppRole, PageId[]> = {
-  super_admin: ["dashboard", "users", "reports", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "doctorsNow", "leaveApprovals", "leaveApprovals", "patients", "appointments", "billing", "cashRegister", "inventory", "formulary", "labTests", "wardSetup"],
-  admin: ["dashboard", "users", "departments", "doctors", "doctorsNow", "leaveApprovals", "companySettings", "reports", "patients", "appointments", "billing", "inventory", "formulary", "labTests", "wardSetup"],
+  super_admin: ["dashboard", "users", "reports", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "doctorsNow", "leaveApprovals", "leaveApprovals", "patients", "appointments", "billing", "cashRegister", "inventory", "formulary", "labTests", "wardSetup", "wards"],
+  admin: ["dashboard", "users", "departments", "doctors", "doctorsNow", "leaveApprovals", "companySettings", "reports", "patients", "appointments", "billing", "inventory", "formulary", "labTests", "wardSetup", "wards"],
   dept_head: ["dashboard", "consultations", "wards", "reports", "patients", "appointments", "staff", "doctors", "doctorsNow", "leaveApprovals"],
   doctor: ["myDay", "opdQueue", "mySchedule", "patients", "consultations", "appointments", "myLeave", "wards", "lab", "formulary", "dashboard"],
   nurse: ["dashboard", "nursing", "wards", "patients", "emergency"],
   er_officer: ["dashboard", "emergency", "patients", "wards", "lab"],
   ot_coordinator: ["dashboard", "ot", "patients", "wards", "inventory"],
-  receptionist: ["dashboard", "patients", "doctorsNow", "appointments", "opdQueue", "billing"],
+  receptionist: ["dashboard", "patients", "doctorsNow", "appointments", "opdQueue", "billing", "wards"],
   pharmacist: ["dashboard", "pharmacy", "formulary", "inventory", "patients"],
   lab_tech: ["dashboard", "lab", "labTests", "patients", "inventory"],
   cashier: ["dashboard", "billing", "cashRegister", "patients"],
