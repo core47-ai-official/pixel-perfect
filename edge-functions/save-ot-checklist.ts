@@ -1,5 +1,5 @@
-// Paste into Supabase → Edge Functions → new function "start-ot-case". Turn "Enforce JWT Verification" OFF.
-// OT coordinator / surgeon / anesthetist: mark a scheduled case as started (needs completed pre_op and who_sign_in checklists). Body: { booking_id }
+// Paste into Supabase → Edge Functions → new function "save-ot-checklist". Turn "Enforce JWT Verification" OFF.
+// OT team / coordinator / nurse: save a checklist (pre_op, who_sign_in, who_time_out, who_sign_out). It is complete only when every item is ticked. Body: { booking_id, kind, items: { key: boolean } }
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const cors = {
@@ -87,21 +87,37 @@ async function isSurgeonOf(db: DB, userId: string, bk: Booking) {
   return !!data?.length;
 }
 const now = () => new Date().toISOString();
+const CHECKLIST_ITEMS: Record<string, string[]> = {
+  pre_op: ["consent_signed", "site_marked", "fasting_confirmed", "allergies_checked", "labs_reviewed", "blood_arranged", "anesthesia_review", "jewellery_removed"],
+  who_sign_in: ["identity_confirmed", "site_procedure_consent", "site_marked", "anesthesia_check", "pulse_oximeter", "known_allergy", "airway_risk", "blood_loss_risk"],
+  who_time_out: ["team_introduced", "patient_site_procedure", "antibiotic_given", "critical_events_surgeon", "critical_events_anesthesia", "sterility_confirmed", "imaging_displayed"],
+  who_sign_out: ["procedure_recorded", "counts_correct", "specimen_labelled", "equipment_issues", "recovery_concerns"],
+};
+async function onTeam(db: DB, userId: string, bk: Booking) {
+  const ids = [bk.surgeon_id, bk.anesthetist_id, ...(bk.team_ids ?? [])].filter(Boolean);
+  const { data } = await db.from("doctors").select("id").eq("user_id", userId).in("id", ids);
+  return !!data?.length;
+}
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   const { db, c, b } = await BOOT(req);
   if ("error" in c) return c.error;
   const bk = await loadBooking(db, c.hospitalId, b.booking_id);
   if (!bk) return fail("not_found", "Booking not found.", 404);
-  if (!has(c, ["super_admin", "admin", "ot_coordinator"]) && !(await isSurgeonOf(db, c.userId, bk))) return fail("forbidden", "You can't start this case.", 403);
-  if (bk.status !== "scheduled") return fail("invalid", "Only a scheduled case can be started.");
-  const { data: lists } = await db.from("ot_checklists").select("kind, completed_at").eq("booking_id", bk.id).in("kind", ["pre_op", "who_sign_in"]);
-  const missing = ["pre_op", "who_sign_in"].filter((k) => !(lists ?? []).some((l: { kind: string; completed_at: string | null }) => l.kind === k && l.completed_at));
-  if (missing.length) return fail("checklist", `Complete the ${missing.map((k) => (k === "pre_op" ? "pre-op checklist" : "WHO sign-in")).join(" and ")} before starting the case.`, 409);
-  const { data: busy } = await db.from("ot_bookings").select("id").eq("ot_id", bk.ot_id).eq("status", "in_progress").limit(1);
-  if (busy?.length) return fail("busy", "Another case is still running in this theatre.", 409);
-  const { data } = await db.from("ot_bookings").update({ status: "in_progress", actual_start: now(), updated_at: now() }).eq("id", bk.id).eq("status", "scheduled").select().maybeSingle();
-  if (!data) return fail("stale", "This case was just changed by someone else.", 409);
-  await audit(db, req, c, "start", "ot_booking", bk.id, bk, data);
+  if (!has(c, ["super_admin", "admin", "ot_coordinator", "nurse"]) && !(await onTeam(db, c.userId, bk))) return fail("forbidden", "You can't fill this checklist.", 403);
+  if (["cancelled", "completed"].includes(bk.status)) return fail("invalid", "This case is closed.");
+  const kind = String(b.kind ?? "");
+  const keys = CHECKLIST_ITEMS[kind];
+  if (!keys) return fail("invalid", "Unknown checklist.");
+  const raw = (b.items && typeof b.items === "object") ? b.items : {};
+  const items: Record<string, boolean> = {};
+  for (const k of keys) items[k] = raw[k] === true;
+  const done = keys.every((k) => items[k]);
+  const { data: old } = await db.from("ot_checklists").select("*").eq("booking_id", bk.id).eq("kind", kind).maybeSingle();
+  const row = { hospital_id: c.hospitalId, booking_id: bk.id, kind, items, updated_by: c.userId, updated_at: now(),
+    completed_by: done ? (old?.completed_at ? old.completed_by : c.userId) : null, completed_at: done ? (old?.completed_at ?? now()) : null };
+  const { data, error } = await db.from("ot_checklists").upsert(row, { onConflict: "booking_id,kind" }).select().single();
+  if (error) return fail("server", "Could not save the checklist.", 500);
+  await audit(db, req, c, "save", "ot_checklist", data.id, old, data);
   return json({ ok: true, data });
 });
