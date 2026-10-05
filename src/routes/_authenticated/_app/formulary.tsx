@@ -57,7 +57,7 @@ function FormularyPage() {
     { key: "route", header: t("fm.route"), render: (m) => t(`fm.routes.${m.route}`, { defaultValue: m.route }) },
     { key: "unit_price", header: t("fm.price"), numeric: true, sortable: true, render: (m) => <Ltr>{pkr(m.unit_price)}</Ltr> },
     { key: "drap_reg_no", header: t("fm.drap"), render: (m) => <Ltr className="font-mono text-xs">{m.drap_reg_no ?? "—"}</Ltr> },
-    { key: "statusKey", header: t("fm.status"), render: (m) => <StatusChip tone={m.is_active ? "ok" : "inactive"}>{m.is_active ? t("fm.active") : t("fm.inactive")}</StatusChip> },
+    { key: "statusKey", header: t("fm.status"), render: (m) => <StatusChip status={m.is_active ? "ok" : "inactive"}>{m.is_active ? t("fm.active") : t("fm.inactive")}</StatusChip> },
   ];
   if (canEdit) columns.push({ key: "id", header: "", render: (m) => <Button size="sm" variant="ghost" onClick={() => setEditing(m)}>{t("fm.editShort")}</Button> });
 
@@ -149,14 +149,14 @@ function CsvImport({ onClose }: { onClose: () => void }) {
   const onFile = async (file: File) => {
     const lines = parseCsv(await file.text());
     if (!lines.length) { toast.error(t("fm.csvEmpty")); return; }
-    const first = lines[0].map((h) => h.trim().toLowerCase());
+    const first = (lines[0] ?? []).map((h) => h.trim().toLowerCase());
     const hasHeader = first.includes("generic_name");
     const cols = hasHeader ? first : [...CSV_COLUMNS];
     const valid: CsvMedicine[] = [];
     const errors: { row: number; problem: string; name: string }[] = [];
     lines.slice(hasHeader ? 1 : 0).forEach((cells, i) => {
       const r: CsvMedicine = {};
-      cols.forEach((c, j) => { r[c] = (cells[j] ?? "").trim(); });
+      cols.forEach((c, j) => { (r as Record<string, string>)[c] = (cells[j] ?? "").trim(); });
       const problem = validateCsvRow(r);
       if (problem) errors.push({ row: i + (hasHeader ? 2 : 1), problem, name: r.generic_name ?? "" });
       else valid.push(r);
@@ -255,7 +255,7 @@ function InteractionsPanel({ canEdit, onClose }: { canEdit: boolean; onClose: ()
                 <div className="flex items-center justify-between gap-2">
                   <Ltr className="font-medium">{x.group_a} ↔ {x.group_b}</Ltr>
                   <div className="flex items-center gap-1">
-                    <StatusChip tone={SEV_TONE[x.severity as keyof typeof SEV_TONE] ?? "inactive"}>{t(`fm.sev.${x.severity}`, { defaultValue: x.severity })}</StatusChip>
+                    <StatusChip status={SEV_TONE[x.severity as keyof typeof SEV_TONE] ?? "inactive"}>{t(`fm.sev.${x.severity}`, { defaultValue: x.severity })}</StatusChip>
                     {canEdit && <Button size="icon" variant="ghost" aria-label={t("dx.remove")} onClick={() => save.mutate({ id: x.id, delete: true })}><Trash2 className="size-4" /></Button>}
                   </div>
                 </div>

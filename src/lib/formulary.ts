@@ -62,7 +62,7 @@ export function parseCsv(text: string): string[][] {
   return out.filter((r) => r.some((c) => c.trim()));
 }
 
-export type CsvMedicine = Record<string, string>;
+export type CsvMedicine = { generic_name?: string; brand_name?: string; strength?: string; form?: string; route?: string; unit_price?: string; drap_reg_no?: string; interaction_group?: string };
 export const CSV_COLUMNS = ["generic_name", "brand_name", "strength", "form", "route", "unit_price", "drap_reg_no", "interaction_group"] as const;
 
 /** Mirrors the server's validation so the preview shows the same error rows. */
