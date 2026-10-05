@@ -4,6 +4,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Bug, Languages, LogOut, MoreHorizontal, Plus, Search, WifiOff, Wifi } from "lucide-react";
 import { toast } from "sonner";
+import { GlobalSearch } from "@/components/mc/global-search";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -112,13 +113,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             )}
 
             <div className="ms-auto flex items-center gap-1.5">
-              <div className="relative hidden w-72 xl:block">
-                <Search className="pointer-events-none absolute start-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
-                <Input className="h-9 ps-8" placeholder={t("shell.search")} aria-label={t("shell.search")} onFocus={soon} readOnly />
-              </div>
-              <Button size="icon" variant="ghost" className="xl:hidden" aria-label={t("shell.search")} onClick={soon}>
-                <Search />
-              </Button>
+              <GlobalSearch className="w-40 sm:w-56 xl:w-72" />
               <span
                 className={cn(
                   "hidden items-center gap-1 rounded-full border px-2 py-0.5 text-xs sm:inline-flex",

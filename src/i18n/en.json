@@ -960,5 +960,12 @@
       "bills": "No open bills",
       "documents": "No documents yet"
     }
+  },
+  "search": {
+    "placeholder": "Search patient: MRN, CNIC, phone, name",
+    "searching": "Searching…",
+    "failed": "Search unavailable. Check that search-patients is deployed.",
+    "none": "No patient found.",
+    "register": "Register new patient"
   }
 }
