@@ -921,6 +921,91 @@ export type Database = {
           },
         ]
       }
+      discharge_summaries: {
+        Row: {
+          admission_id: string
+          advice_en: string | null
+          advice_ur: string | null
+          condition_at_discharge: string | null
+          course: string | null
+          created_at: string
+          created_by: string | null
+          diagnosis: string | null
+          finalized_at: string | null
+          finalized_by: string | null
+          follow_up_date: string | null
+          hospital_id: string
+          id: string
+          medicines: Json
+          patient_id: string
+          procedures: string | null
+          updated_at: string
+          written_by: string | null
+        }
+        Insert: {
+          admission_id: string
+          advice_en?: string | null
+          advice_ur?: string | null
+          condition_at_discharge?: string | null
+          course?: string | null
+          created_at?: string
+          created_by?: string | null
+          diagnosis?: string | null
+          finalized_at?: string | null
+          finalized_by?: string | null
+          follow_up_date?: string | null
+          hospital_id: string
+          id?: string
+          medicines?: Json
+          patient_id: string
+          procedures?: string | null
+          updated_at?: string
+          written_by?: string | null
+        }
+        Update: {
+          admission_id?: string
+          advice_en?: string | null
+          advice_ur?: string | null
+          condition_at_discharge?: string | null
+          course?: string | null
+          created_at?: string
+          created_by?: string | null
+          diagnosis?: string | null
+          finalized_at?: string | null
+          finalized_by?: string | null
+          follow_up_date?: string | null
+          hospital_id?: string
+          id?: string
+          medicines?: Json
+          patient_id?: string
+          procedures?: string | null
+          updated_at?: string
+          written_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "discharge_summaries_admission_id_fkey"
+            columns: ["admission_id"]
+            isOneToOne: true
+            referencedRelation: "admissions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "discharge_summaries_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "discharge_summaries_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       dispensations: {
         Row: {
           batch_id: string
