@@ -12,6 +12,7 @@ import { Ltr } from "@/components/mc/ltr";
 import { EmptyState } from "@/components/mc/empty-state";
 import { Banner } from "@/components/mc/banner";
 import { PatientHeader } from "@/components/mc/patient-header";
+import { BookAppointmentPanel } from "@/components/mc/book-appointment-panel";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -39,6 +40,7 @@ function PatientPage() {
   const summary = usePatientSummary(patientId);
   const [editing, setEditing] = useState(false);
   const [slip, setSlip] = useState(false);
+  const [booking, setBooking] = useState(false);
   const canEdit = PATIENT_ROLES_EDIT.some((r) => hasRole(r));
 
   if (p.isLoading) return <Skeleton className="h-96 w-full" />;
@@ -72,7 +74,7 @@ function PatientPage() {
       <div className="flex flex-wrap items-center gap-2">
         {x.is_unknown && <StatusChip status="warning">{t("pat.unknownChip")}</StatusChip>}
         <div className="ms-auto flex flex-wrap gap-2">
-          <Button asChild size="sm"><Link to="/appointments"><CalendarPlus className="size-4" />{t("pat.bookAppointment")}</Link></Button>
+          <Button size="sm" onClick={() => setBooking(true)}><CalendarPlus className="size-4" />{t("pat.bookAppointment")}</Button>
           <Button size="sm" variant="outline" onClick={() => setSlip(true)}><Printer className="size-4" />{t("pat.printSlip")}</Button>
           {canEdit && <Button size="sm" variant="outline" onClick={() => setEditing(true)}><Pencil className="size-4" />{t("dept.editShort")}</Button>}
         </div>
@@ -137,6 +139,7 @@ function PatientPage() {
         <TabsContent value="documents">{soon("documents")}</TabsContent>
       </Tabs>
       <RegistrationSlip patient={x} open={slip} onOpenChange={setSlip} />
+      <BookAppointmentPanel open={booking} onOpenChange={setBooking} patientId={x.id} />
     </div>
   );
 }
