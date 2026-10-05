@@ -1067,6 +1067,165 @@ export type Database = {
           },
         ]
       }
+      prescription_items: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          dose: string
+          duration_days: number | null
+          frequency: string
+          hospital_id: string
+          id: string
+          instructions_en: string
+          instructions_ur: string
+          medicine_id: string
+          medicine_name: string
+          prescription_id: string
+          quantity: number
+          route: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          dose?: string
+          duration_days?: number | null
+          frequency?: string
+          hospital_id: string
+          id?: string
+          instructions_en?: string
+          instructions_ur?: string
+          medicine_id: string
+          medicine_name: string
+          prescription_id: string
+          quantity?: number
+          route?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          dose?: string
+          duration_days?: number | null
+          frequency?: string
+          hospital_id?: string
+          id?: string
+          instructions_en?: string
+          instructions_ur?: string
+          medicine_id?: string
+          medicine_name?: string
+          prescription_id?: string
+          quantity?: number
+          route?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "prescription_items_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prescription_items_medicine_id_fkey"
+            columns: ["medicine_id"]
+            isOneToOne: false
+            referencedRelation: "medicines"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prescription_items_prescription_id_fkey"
+            columns: ["prescription_id"]
+            isOneToOne: false
+            referencedRelation: "prescriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      prescriptions: {
+        Row: {
+          acknowledged_at: string | null
+          acknowledged_by: string | null
+          created_at: string
+          created_by: string | null
+          doctor_id: string
+          hospital_id: string
+          id: string
+          notes: string
+          patient_id: string
+          status: string
+          updated_at: string
+          visit_id: string
+          warnings: Json
+          warnings_acknowledged: boolean
+        }
+        Insert: {
+          acknowledged_at?: string | null
+          acknowledged_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          doctor_id: string
+          hospital_id: string
+          id?: string
+          notes?: string
+          patient_id: string
+          status?: string
+          updated_at?: string
+          visit_id: string
+          warnings?: Json
+          warnings_acknowledged?: boolean
+        }
+        Update: {
+          acknowledged_at?: string | null
+          acknowledged_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          doctor_id?: string
+          hospital_id?: string
+          id?: string
+          notes?: string
+          patient_id?: string
+          status?: string
+          updated_at?: string
+          visit_id?: string
+          warnings?: Json
+          warnings_acknowledged?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "prescriptions_doctor_id_fkey"
+            columns: ["doctor_id"]
+            isOneToOne: false
+            referencedRelation: "doctors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prescriptions_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prescriptions_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prescriptions_visit_id_fkey"
+            columns: ["visit_id"]
+            isOneToOne: false
+            referencedRelation: "visits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       print_jobs: {
         Row: {
           copies: number

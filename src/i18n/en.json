@@ -1320,5 +1320,54 @@
       "major": "Major",
       "contraindicated": "Contraindicated"
     }
+  },
+  "rx": {
+    "searchPh": "Search medicine by generic or brand",
+    "noMatch": "No medicine found in the formulary",
+    "empty": "No medicines added yet",
+    "dose": "Dose",
+    "frequency": "Frequency",
+    "duration": "Duration",
+    "days": "Days",
+    "nDays_one": "{{count}} day",
+    "nDays_other": "{{count}} days",
+    "quantity": "Qty",
+    "instructions": "Instructions",
+    "notes": "Notes",
+    "medicine": "Medicine",
+    "save": "Save prescription",
+    "saved": "Prescription saved",
+    "print": "Print",
+    "printTitle": "Prescription",
+    "pmdc": "PMDC No.",
+    "ack": "I have reviewed the warnings",
+    "ackDone": "Warnings were reviewed by the doctor.",
+    "kind": {
+      "allergy": "Allergy",
+      "duplicate": "Duplicate",
+      "interaction": "Interaction"
+    },
+    "freq": {
+      "1+0+0": "morning",
+      "0+0+1": "night",
+      "1+0+1": "morning & night",
+      "1+1+1": "three times",
+      "1+1+1+1": "four times",
+      "OD": "once daily",
+      "BD": "twice daily",
+      "TDS": "three times daily",
+      "QID": "four times daily",
+      "HS": "at bedtime",
+      "SOS": "when needed",
+      "STAT": "immediately, once"
+    },
+    "ins": {
+      "afterMeal": "After meal",
+      "beforeMeal": "Before meal",
+      "withMeal": "With meal",
+      "emptyStomach": "Empty stomach",
+      "bedtime": "At bedtime",
+      "whenNeeded": "When needed"
+    }
   }
 }
