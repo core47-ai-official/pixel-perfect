@@ -23,7 +23,7 @@ export interface CalEvent {
   start: Date;
   end: Date;
   title: string;
-  subtitle?: string;
+  subtitle?: string | undefined;
   /** Resource column (e.g. doctor id) for the "By doctor" view. */
   columnId?: string;
   departmentId?: string | null;
@@ -83,11 +83,11 @@ export interface CalendarProps {
   startHour?: number;
   endHour?: number;
   slotMinutes?: number;
-  loading?: boolean;
-  onSlotClick?: (start: Date, columnId: string | null) => void;
-  onEventClick?: (e: CalEvent) => void;
-  onEventDrop?: (e: CalEvent, newStart: Date, columnId: string | null) => void;
-  toolbarEnd?: ReactNode;
+  loading?: boolean | undefined;
+  onSlotClick?: ((start: Date, columnId: string | null) => void) | undefined;
+  onEventClick?: ((e: CalEvent) => void) | undefined;
+  onEventDrop?: ((e: CalEvent, newStart: Date, columnId: string | null) => void) | undefined;
+  toolbarEnd?: ReactNode | undefined;
 }
 
 /* ---------------------------------------------------------------- component */
