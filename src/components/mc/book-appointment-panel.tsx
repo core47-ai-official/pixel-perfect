@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -21,8 +21,10 @@ import { cn } from "@/lib/utils";
 interface PickedPatient { id: string; full_name: string; mrn: string; print_language: string | null }
 const ALL = "__all";
 
-export function BookAppointmentPanel({ open, onOpenChange, patientId }: {
+export function BookAppointmentPanel({ open, onOpenChange, patientId, initialDoctorId, initialStart }: {
   open: boolean; onOpenChange: (o: boolean) => void; patientId?: string | undefined;
+  /** Pre-fill from a calendar click. */
+  initialDoctorId?: string | null | undefined; initialStart?: Date | null | undefined;
 }) {
   const { t } = useTranslation();
   const qc = useQueryClient();
@@ -41,17 +43,19 @@ export function BookAppointmentPanel({ open, onOpenChange, patientId }: {
   const [error, setError] = useState<string | null>(null);
   const [booked, setBooked] = useState<BookedAppointment | null>(null);
   const [slipOpen, setSlipOpen] = useState(false);
+  const pendingSlot = useRef<number | null>(null);
 
   // Reset when reopened; preload a patient when opened from a profile.
   useEffect(() => {
     if (!open) return;
-    setBooked(null); setError(null); setSlot(null); setDoctorId(null); setType("new"); setDate(new Date());
+    setBooked(null); setError(null); setSlot(null); setDoctorId(initialDoctorId ?? null); setType("new");
+    setDate(initialStart ?? new Date()); pendingSlot.current = initialStart ? initialStart.getTime() : null;
     setPatient(null);
     if (patientId) {
       void supabase.from("patients").select("id, full_name, mrn, print_language").eq("id", patientId).maybeSingle()
         .then(({ data }) => data && setPatient(data as PickedPatient));
     }
-  }, [open, patientId]);
+  }, [open, patientId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const languages = useMemo(() => [...new Set((doctors.data ?? []).flatMap((d) => d.languages))].sort(), [doctors.data]);
   const filtered = (doctors.data ?? []).filter((d) =>
@@ -60,6 +64,13 @@ export function BookAppointmentPanel({ open, onOpenChange, patientId }: {
   const dateStr = date ? ymd(date) : null;
   const slots = useSlots(doctorId, dateStr);
   useEffect(() => setSlot(null), [doctorId, dateStr]);
+  // Select the clicked calendar time once its slot list arrives.
+  useEffect(() => {
+    if (pendingSlot.current == null || !slots.data) return;
+    const hit = slots.data.slots.find((s) => s.status === "free" && new Date(s.start).getTime() <= pendingSlot.current! && new Date(s.end).getTime() > pendingSlot.current!);
+    if (hit) setSlot(hit.start);
+    pendingSlot.current = null;
+  }, [slots.data]);
   useEffect(() => { if (doctorId && !filtered.some((d) => d.id === doctorId)) setDoctorId(null); }, [dept, gender, lang]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fee = doctor ? Number(type === "follow_up" ? doctor.followup_fee : doctor.consultation_fee) : null;

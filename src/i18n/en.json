@@ -1034,5 +1034,69 @@
     "cancelTitle": "Cancel this appointment?",
     "cancelled": "Appointment cancelled",
     "noneForDay": "No appointments on this day."
+  },
+  "cal": {
+    "prev": "Previous",
+    "next": "Next",
+    "today": "Today",
+    "views": {
+      "day": "Day",
+      "byDoctor": "By doctor",
+      "week": "Week",
+      "month": "Month"
+    },
+    "tabs": {
+      "all": "All",
+      "waiting": "Waiting",
+      "completed": "Completed"
+    },
+    "filters": {
+      "department": "Department",
+      "doctor": "Doctor",
+      "type": "Type",
+      "status": "Status"
+    },
+    "legendLabel": "Colour key",
+    "notBookable": "Not bookable",
+    "leave": "Leave",
+    "onLeave": "On leave",
+    "count_one": "{{count}} appointment",
+    "count_other": "{{count}} appointments",
+    "empty": "No appointments on this day.",
+    "details": "Appointment",
+    "dragHint": "Tip: drag the card on the calendar to move it to another time or doctor.",
+    "moveTitle": "Move this appointment?",
+    "moveDesc": "{{name}} → {{doctor}}, {{when}}. The patient will be notified.",
+    "move": "Move",
+    "moved": "Appointment moved. The patient has been notified.",
+    "legend": {
+      "status": {
+        "booked": "Booked",
+        "waiting": "Waiting",
+        "in_consultation": "In consultation",
+        "done": "Completed",
+        "needs_rebooking": "Needs rebooking",
+        "no_show": "No-show",
+        "cancelled": "Cancelled"
+      },
+      "eventKind": {
+        "appointment": "Appointment",
+        "surgery": "Surgery",
+        "round": "Ward round",
+        "meeting": "Meeting",
+        "leave": "Leave"
+      },
+      "otPriority": {
+        "emergency": "Emergency",
+        "urgent": "Urgent",
+        "elective": "Elective"
+      },
+      "shiftType": {
+        "morning": "Morning",
+        "evening": "Evening",
+        "night": "Night",
+        "off": "Off"
+      }
+    }
   }
 }
