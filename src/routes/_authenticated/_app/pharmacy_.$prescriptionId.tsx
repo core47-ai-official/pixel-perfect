@@ -64,7 +64,7 @@ function DispensePage() {
   if (preview.isLoading) return <Skeleton className="h-64 w-full" />;
   if (preview.error || !preview.data) return <p className="text-destructive">{(preview.error as EdgeError | null)?.message ?? "Error"}</p>;
   const { prescription: rx, items } = preview.data;
-  const set = (id: string, p: Partial<Pick>) => setPicks((s) => ({ ...s, [id]: { ...s[id], ...p } }));
+  const set = (id: string, p: Partial<Pick>) => setPicks((s) => ({ ...s, [id]: { qty: "0", sub: "", reason: "", ...s[id], ...p } }));
   const open = items.filter((i) => i.remaining > 0);
 
   const submit = async () => {
