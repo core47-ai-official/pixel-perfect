@@ -44,7 +44,7 @@ function MySchedule() {
   const { appts, schedules, leaves } = useCalendarData(ymd(from), ymd(to));
 
   if (doctors.isLoading) return <Skeleton className="h-64" />;
-  if (!me) return <Banner tone="warning">{t("myday.notDoctor")}</Banner>;
+  if (!me) return <Banner tone="warning" title={t("myday.notDoctor")} />;
 
   const myLeaves = (leaves.data ?? []).filter((l) => l.doctor_id === me.id);
   const events: CalEvent[] = (appts.data ?? [])

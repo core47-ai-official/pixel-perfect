@@ -45,7 +45,7 @@ function MyDay() {
   const [busy, setBusy] = useState(false);
 
   if (doctors.isLoading) return <Skeleton className="h-64" />;
-  if (!me) return <Banner tone="warning">{t("myday.notDoctor")}</Banner>;
+  if (!me) return <Banner tone="warning" title={t("myday.notDoctor")} />;
 
   const mine = (appts.data ?? []).filter((a) => a.doctor_id === me.id && a.status !== "cancelled");
   const current = mine.find((a) => a.status === "in_consultation");
