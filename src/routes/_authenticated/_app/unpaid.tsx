@@ -56,7 +56,7 @@ function UnpaidPage() {
     queryFn: () => callEdgeFunction<Report>("get-unpaid-report", { department_id: dept, payer_type: payer }),
   });
   const rows = report.data?.rows ?? [];
-  const deptList = (depts.data as { departments?: { id: string; name: string }[] } | undefined)?.departments ?? [];
+  const deptList = depts.depts.data ?? [];
 
   const columns: Column<Row>[] = [
     { key: "invoice_no", header: t("unpaid.col.invoice_no"), sortable: true, render: (r) => <Ltr>{r.invoice_no}</Ltr> },
