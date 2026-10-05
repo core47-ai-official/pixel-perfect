@@ -52,7 +52,7 @@ function RosterPage() {
   const [draft, setDraft] = useState<RosterShift[] | null>(null);
   useEffect(() => setDraft(null), [week]);
   const shifts = draft ?? data.data?.shifts ?? [];
-  const [pending, setPending] = useState<{ kind: "save" | "copy"; warnings: RosterWarning[]; count?: number } | null>(null);
+  const [pending, setPending] = useState<{ kind: "save" | "copy"; warnings: RosterWarning[]; count?: number | undefined } | null>(null);
   const [busy, setBusy] = useState(false);
 
   const times = data.data?.shift_times;
@@ -198,7 +198,8 @@ function RosterPage() {
   );
 }
 
-type TFn = (k: string, o?: Record<string, unknown>) => string;
+import type { TFunction } from "i18next";
+type TFn = TFunction;
 function warnText(t: TFn, w: RosterWarning) {
   return t(`roster.warn.${w.kind}`, { name: w.name, date: w.date.split("-").reverse().join("/") });
 }
