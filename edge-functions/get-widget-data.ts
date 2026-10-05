@@ -91,6 +91,7 @@ const WIDGET_ROLES: Record<string, string[]> = {
   dept_top_diagnoses: ["dept_head"],
   dept_revenue: ["dept_head"],
   dept_on_leave: ["dept_head"],
+  my_duty: ["super_admin", "admin", "dept_head", "doctor", "nurse", "er_officer", "ot_coordinator", "receptionist", "pharmacist", "lab_tech", "cashier"],
 };
 const DEFAULT_LAYOUTS: Record<string, { id: string; size: string }[]> = {
   super_admin: [{ id: "active_users", size: "small" }, { id: "errors_today", size: "small" }, { id: "bed_occupancy", size: "small" }, { id: "opd_today", size: "small" }, { id: "adm_dis_trend", size: "wide" }],
@@ -330,6 +331,19 @@ Deno.serve(async (req) => {
     const { data: unused } = await db.from("deposits").select("amount, applied_amount").eq("hospital_id", H).limit(10000);
     const held = r2((unused ?? []).reduce((a: number, d: { amount: number; applied_amount: number }) => a + Math.max(0, Number(d.amount) - Number(d.applied_amount)), 0));
     return json({ ok: true, data: { value: r2((inRange ?? []).reduce((a: number, d: { amount: number }) => a + Number(d.amount), 0)), count: (inRange ?? []).length, held } });
+  }
+  if (id === "my_duty") {
+    // Today's shifts plus last night's shift if it is still running (Pakistan time).
+    const today = pkDay(new Date());
+    const yest = pkDay(new Date(Date.now() - 86400e3));
+    const { data } = await db.from("roster_shifts").select("id, date, shift, start_time, end_time, checked_in_at, checked_out_at").eq("hospital_id", H).eq("user_id", c.userId).in("date", [yest, today]).order("date").order("start_time");
+    // deno-lint-ignore no-explicit-any
+    const shifts = (data ?? []).filter((s: any) => {
+      if (s.date === today) return true;
+      const end = new Date(`${s.date}T${s.end_time.slice(0, 5)}:00${TZ}`); const start = new Date(`${s.date}T${s.start_time.slice(0, 5)}:00${TZ}`);
+      return (end <= start ? end.getTime() + 86400e3 : end.getTime()) > Date.now() || (s.checked_in_at && !s.checked_out_at);
+    });
+    return json({ ok: true, data: { shifts } });
   }
   if (id.startsWith("dept_")) {
     const s = await deptScope(db, c, null);

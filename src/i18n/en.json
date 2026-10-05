@@ -270,7 +270,8 @@
     "unpaid": "Unpaid balances",
     "purchaseRequests": "Purchase requests",
     "deptDoctors": "Department doctors",
-    "deptPatients": "Department patients"
+    "deptPatients": "Department patients",
+    "roster": "Duty roster"
   },
   "navGroup": {
     "overview": "Overview",
@@ -830,7 +831,9 @@
       "deptOnLeaveDesc": "Your department's doctors on approved leave today.",
       "doneN": "{{n}} seen",
       "pendingLeave": "{{n}} pending",
-      "backAfter": "until"
+      "backAfter": "until",
+      "myDuty": "My duty today",
+      "myDutyDesc": "Your shifts today, with check-in and check-out."
     }
   },
   "dept": {
@@ -1197,7 +1200,8 @@
         "surgery": "Surgery",
         "round": "Ward round",
         "meeting": "Meeting",
-        "leave": "Leave"
+        "leave": "Leave",
+        "on_call": "On call"
       },
       "otPriority": {
         "emergency": "Emergency",
@@ -1208,7 +1212,8 @@
         "morning": "Morning",
         "evening": "Evening",
         "night": "Night",
-        "off": "Off"
+        "off": "Off",
+        "on_call": "On call"
       }
     }
   },
@@ -2536,6 +2541,66 @@
       "phone": "Phone",
       "lastDoctor": "Last doctor",
       "lastSeen": "Last seen"
+    }
+  },
+  "roster": {
+    "title": "Duty roster",
+    "desc": "Plan the week's shifts for your staff. Tap a day to add or remove shifts.",
+    "prevWeek": "Previous week",
+    "nextWeek": "Next week",
+    "thisWeek": "This week",
+    "copyLast": "Copy last week",
+    "save": "Save roster",
+    "saved": "Roster saved.",
+    "copied": "Last week's roster copied to this week.",
+    "savedWithWarnings": "Saved with {{n}} warning(s).",
+    "failed": "Couldn't do that. Please try again.",
+    "warningsTitle": "{{n}} roster warning(s) this week",
+    "tabWeek": "Week",
+    "tabDay": "Day view",
+    "tabAttendance": "Attendance",
+    "onLeave": "On leave",
+    "noStaff": "No staff to roster. Admins, department heads and ward in-charge nurses can plan shifts for their staff.",
+    "staff": "Staff",
+    "off": "Off (clear day)",
+    "leaveHint": "This person has approved leave on this day.",
+    "unsaved": "You have unsaved changes.",
+    "confirmTitle": "Check these warnings",
+    "confirmBody": "The roster has problems. You can go back and fix them, or save anyway.",
+    "saveAnyway": "Save anyway",
+    "inCharge": "In-charge",
+    "date": "Date",
+    "shiftCol": "Shift",
+    "in": "In",
+    "out": "Out",
+    "statusCol": "Status",
+    "noShifts": "No shifts in these dates.",
+    "noDutyToday": "No duty rostered for you today.",
+    "checkIn": "Check in",
+    "checkOut": "Check out",
+    "checkedIn": "Checked in.",
+    "checkedInLate": "Checked in, {{n}} minutes late.",
+    "checkedOut": "Checked out.",
+    "done": "Done",
+    "onCall": "On call",
+    "shift": {
+      "morning": "Morning",
+      "evening": "Evening",
+      "night": "Night",
+      "on_call": "On call"
+    },
+    "warn": {
+      "double": "{{name}} has more than one shift on {{date}}",
+      "rest": "{{name}} gets under 8 hours' rest before the shift on {{date}}",
+      "leave": "{{name}} is on approved leave on {{date}}"
+    },
+    "att": {
+      "present": "Present",
+      "late": "Late",
+      "absent": "Absent",
+      "on_leave": "On leave",
+      "on_call": "On call",
+      "upcoming": "Upcoming"
     }
   }
 }
