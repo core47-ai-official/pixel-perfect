@@ -20,6 +20,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useMyContext } from "@/hooks/use-my-context";
 import { PATIENT_ROLES_EDIT, usePatient } from "@/lib/patients";
 import { PatientAdmissionsTab } from "@/components/mc/patient-admissions-tab";
+import { PatientBillsTab } from "@/components/mc/patient-bills-tab";
 import { formatPkr, usePatientSummary } from "@/lib/patient-summary";
 import { PATIENT_TABS, TAB_ICON_FALLBACK, tabsForRoles, type PatientTabId } from "@/config/patient-tabs";
 
@@ -126,18 +127,7 @@ function PatientPage() {
         <TabsContent value="prescriptions">{soon("prescriptions")}</TabsContent>
         <TabsContent value="lab"><PatientLabTab patientId={patientId} /></TabsContent>
         <TabsContent value="admissions"><PatientAdmissionsTab patient={{ id: patientId, full_name: x.full_name, gender: x.gender }} /></TabsContent>
-        <TabsContent value="bills">
-          {bills.length === 0 ? soon("bills") : (
-            <ul className="divide-y rounded-staff border bg-card">
-              {bills.map((b) => (
-                <li key={b.id} className="flex justify-between px-4 py-2.5 text-sm">
-                  <Ltr>{b.bill_no ?? b.id.slice(0, 8)}</Ltr>
-                  <Ltr className="tnum font-semibold text-urgent">{formatPkr(Number(b.balance ?? 0))}</Ltr>
-                </li>
-              ))}
-            </ul>
-          )}
-        </TabsContent>
+        <TabsContent value="bills"><PatientBillsTab patientId={patientId} /></TabsContent>
         <TabsContent value="documents">{soon("documents")}</TabsContent>
       </Tabs>
       <RegistrationSlip patient={x} open={slip} onOpenChange={setSlip} />
