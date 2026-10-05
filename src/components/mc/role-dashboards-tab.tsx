@@ -41,7 +41,7 @@ export function RoleDashboardsTab({ canEdit }: { canEdit: boolean }) {
 
   const toggle = (id: string, on: boolean) => {
     if (on) {
-      if (items.length >= MAX_WIDGETS) return toast.error(t("dash.max", { max: MAX_WIDGETS }));
+      if (items.length >= MAX_WIDGETS) { toast.error(t("dash.max", { max: MAX_WIDGETS })); return; }
       const def = WIDGETS.find((w) => w.id === id)!;
       setItems([...items, { id, size: def.defaultSize }]);
     } else setItems(items.filter((i) => i.id !== id));
