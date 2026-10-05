@@ -28,7 +28,7 @@ import type { Invoice } from "@/components/mc/patient-bills-tab";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/_app/billing")({
-  validateSearch: (s: Record<string, unknown>): { mode?: "deposit" } => (s.mode === "deposit" ? { mode: "deposit" } : {}),
+  validateSearch: (s: Record<string, unknown>): { mode?: "deposit" } => (s["mode"] === "deposit" ? { mode: "deposit" } : {}),
   head: () => ({ meta: [{ title: "Billing counter — MediCore HMS" }, { name: "description", content: "Take cash payments, deposits and refunds, and print receipts." }] }),
   component: () => (
     <RequireRole roles={rolesForPage("billing")}>
@@ -76,7 +76,7 @@ function BillingCounter() {
   const [showClosed, setShowClosed] = useState(false);
   const [invoiceId, setInvoiceId] = useState<string | null>(null);
   const list = useMemo(() => (invoices.data ?? []).filter((i) => showClosed || ["open", "partly_paid"].includes(i.status)), [invoices.data, showClosed]);
-  useEffect(() => { if (!invoiceId && list.length) setInvoiceId(list[0].id); }, [list, invoiceId]);
+  useEffect(() => { if (!invoiceId && list[0]) setInvoiceId(list[0].id); }, [list, invoiceId]);
   const invoice = (invoices.data ?? []).find((i) => i.id === invoiceId) ?? null;
   const payments = useInvoicePayments(invoice?.id ?? null);
   const deposits = usePatientDeposits(patient?.id ?? null);
