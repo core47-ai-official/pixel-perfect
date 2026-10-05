@@ -268,7 +268,9 @@
     "packages": "Packages",
     "approvals": "Approvals",
     "unpaid": "Unpaid balances",
-    "purchaseRequests": "Purchase requests"
+    "purchaseRequests": "Purchase requests",
+    "deptDoctors": "Department doctors",
+    "deptPatients": "Department patients"
   },
   "navGroup": {
     "overview": "Overview",
@@ -812,7 +814,23 @@
       "depositsCap": "{{n}} deposits · {{held}} unused held",
       "criticalResults": "Critical results",
       "criticalResultsDesc": "Verified critical lab values for your patients (last 7 days).",
-      "noCritical": "No critical results."
+      "noCritical": "No critical results.",
+      "deptOpd": "OPD per doctor",
+      "deptOpdDesc": "Patients per doctor in your department for the selected dates.",
+      "deptWaiting": "Waiting now",
+      "deptWaitingDesc": "Patients checked in and waiting for your department's doctors.",
+      "deptAdmissions": "Admitted now",
+      "deptAdmissionsDesc": "Patients currently admitted to your department.",
+      "deptAdmissionsCap": "{{a}} admitted · {{d}} discharged in these dates",
+      "deptDiagnoses": "Top diagnoses",
+      "deptDiagnosesDesc": "Most common diagnoses in your department.",
+      "deptRevenue": "Department revenue",
+      "deptRevenueDesc": "Charges on your department's bills for the selected dates.",
+      "deptOnLeave": "Doctors on leave",
+      "deptOnLeaveDesc": "Your department's doctors on approved leave today.",
+      "doneN": "{{n}} seen",
+      "pendingLeave": "{{n}} pending",
+      "backAfter": "until"
     }
   },
   "dept": {
@@ -2481,5 +2499,43 @@
     "receivedBatches": "Batches added",
     "edit": "Edit",
     "view": "Open"
+  },
+  "dh": {
+    "noDepartment": "You are not assigned to a department yet. Ask an admin to set you as a department head.",
+    "noDoctors": "No doctors in this department yet.",
+    "noData": "No data for these dates.",
+    "failed": "Couldn't load this. Please try again.",
+    "reportsTitle": "Department reports",
+    "reportsDesc": "OPD load, waiting time, diagnoses, prescriptions, revenue and no-shows per doctor.",
+    "export": "Export to Excel",
+    "department": "Department",
+    "chooseDept": "Choose a department",
+    "from": "From",
+    "to": "To",
+    "total": "Total",
+    "topDiagnoses": "Top 10 diagnoses",
+    "patientsDesc": "Patients seen by your department's doctors or admitted to your department.",
+    "searchPh": "Search by name, MRN, CNIC or phone",
+    "auditNote": "Opening a patient you have not seen yourself is recorded in the audit log.",
+    "mine": "Mine",
+    "leaveRequests": "Leave requests ({{n}})",
+    "noHours": "No weekly hours set.",
+    "col": {
+      "doctor": "Doctor",
+      "specialty": "Specialty",
+      "opd": "OPD patients",
+      "done": "Seen",
+      "wait": "Avg wait (min)",
+      "rx": "Prescriptions",
+      "noShows": "No-shows",
+      "revenue": "Revenue",
+      "diagnosis": "Diagnosis",
+      "count": "Count",
+      "patient": "Patient",
+      "age": "Age",
+      "phone": "Phone",
+      "lastDoctor": "Last doctor",
+      "lastSeen": "Last seen"
+    }
   }
 }

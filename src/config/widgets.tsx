@@ -9,7 +9,7 @@ import { Link } from "@tanstack/react-router";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
   Activity, AlertTriangle, BedDouble, BedSingle, CalendarCheck, CalendarX, ClipboardList, Footprints, HandCoins,
-  HeartPulse, ListOrdered, PiggyBank, ReceiptText, Siren, Stethoscope, TrendingUp, Users, Wallet,
+  HeartPulse, ListOrdered, PiggyBank, ReceiptText, Siren, Stethoscope, TrendingUp, Users, Wallet, CalendarOff, Building2, Banknote, ClipboardPlus, Hourglass,
 } from "lucide-react";
 import { ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart";
 import { Ltr } from "@/components/mc/ltr";
@@ -275,6 +275,77 @@ function DepositsSummary({ data }: WidgetProps<{ value: number; count: number; h
     caption={t("dash.w.depositsCap", { n: data.count, held: formatPkr(data.held) })} />;
 }
 
+// department head (data scoped server-side to the caller's own department)
+type NoDept = { no_department?: boolean };
+function NoDeptNote({ title, icon }: { title: string; icon: LucideIcon }) {
+  const { t } = useTranslation();
+  return <Panel title={title} icon={icon}><p className="text-sm text-muted-foreground">{t("dh.noDepartment")}</p></Panel>;
+}
+function DeptOpdByDoctor({ data }: WidgetProps<NoDept & { department?: string; doctors?: { name: string; opd: number; done: number }[] }>) {
+  const { t } = useTranslation();
+  if (data.no_department) return <NoDeptNote title={t("dash.w.deptOpd")} icon={Building2} />;
+  const docs = data.doctors ?? [];
+  const max = Math.max(1, ...docs.map((d) => d.opd));
+  return (
+    <Panel title={t("dash.w.deptOpd")} icon={Building2} action={<Link to="/reports" className="text-xs font-medium hover:underline">{t("dash.w.open")}</Link>}>
+      {docs.length === 0 ? <p className="text-sm text-muted-foreground">{t("dh.noDoctors")}</p> : (
+        <ul className="space-y-2 text-sm">
+          {docs.map((d, i) => (
+            <li key={i}>
+              <div className="flex justify-between gap-2"><span className="truncate">{d.name || "—"}</span><span className="text-muted-foreground"><Ltr>{d.opd}</Ltr> · {t("dash.w.doneN", { n: d.done })}</span></div>
+              <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-muted"><div className="h-full bg-primary" style={{ width: `${(d.opd / max) * 100}%` }} /></div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </Panel>
+  );
+}
+function DeptWaitingNow({ data }: WidgetProps<NoDept & { waiting?: number; avg_wait_min?: number; longest_min?: number }>) {
+  const { t } = useTranslation();
+  if (data.no_department) return <NoDeptNote title={t("dash.w.deptWaiting")} icon={Hourglass} />;
+  return <StatCard label={t("dash.w.deptWaiting")} value={data.waiting ?? 0} icon={Hourglass} goodWhen="down"
+    caption={t("dash.w.waitingPatientsCap", { avg: data.avg_wait_min ?? 0, longest: data.longest_min ?? 0 })} />;
+}
+function DeptAdmissions({ data }: WidgetProps<NoDept & { current?: number; admitted?: number; discharged?: number }>) {
+  const { t } = useTranslation();
+  if (data.no_department) return <NoDeptNote title={t("dash.w.deptAdmissions")} icon={ClipboardPlus} />;
+  return <StatCard label={t("dash.w.deptAdmissions")} value={data.current ?? 0} icon={ClipboardPlus}
+    caption={t("dash.w.deptAdmissionsCap", { a: data.admitted ?? 0, d: data.discharged ?? 0 })} />;
+}
+function DeptTopDiagnoses({ data }: WidgetProps<NoDept & { items?: { code: string; description: string; count: number }[] }>) {
+  const { t } = useTranslation();
+  if (data.no_department) return <NoDeptNote title={t("dash.w.deptDiagnoses")} icon={Stethoscope} />;
+  const items = data.items ?? [];
+  return (
+    <Panel title={t("dash.w.deptDiagnoses")} icon={Stethoscope}>
+      {items.length === 0 ? <p className="text-sm text-muted-foreground">{t("dh.noData")}</p> : (
+        <ol className="divide-y text-sm">
+          {items.map((d, i) => <li key={i} className="flex justify-between gap-2 py-1.5"><span className="truncate"><Ltr className="me-1 font-medium">{d.code}</Ltr>{d.description}</span><Ltr className="text-muted-foreground">{d.count}</Ltr></li>)}
+        </ol>
+      )}
+    </Panel>
+  );
+}
+function DeptRevenue({ data }: WidgetProps<NoDept & CountData>) {
+  const { t } = useTranslation();
+  if (data.no_department) return <NoDeptNote title={t("dash.w.deptRevenue")} icon={Banknote} />;
+  return <StatCard label={t("dash.w.deptRevenue")} value={formatPkr(data.value ?? 0)} {...trendProp(data)} icon={Banknote} caption={t("dash.w.vsPrevious")} />;
+}
+function DeptOnLeave({ data }: WidgetProps<NoDept & { count?: number; pending?: number; doctors?: { name: string; to_date: string }[] }>) {
+  const { t } = useTranslation();
+  if (data.no_department) return <NoDeptNote title={t("dash.w.deptOnLeave")} icon={CalendarOff} />;
+  const docs = data.doctors ?? [];
+  return (
+    <Panel title={t("dash.w.deptOnLeave")} icon={CalendarOff} action={<Link to="/leave-approvals" className="text-xs font-medium hover:underline">{t("dash.w.pendingLeave", { n: data.pending ?? 0 })}</Link>}>
+      <Big><Ltr>{data.count ?? 0}</Ltr></Big>
+      <ul className="mt-2 divide-y text-sm">
+        {docs.map((d, i) => <li key={i} className="flex justify-between gap-2 py-1.5"><span className="truncate">{d.name}</span><span className="text-muted-foreground">{t("dash.w.backAfter")} <Ltr>{d.to_date.split("-").reverse().join("/")}</Ltr></span></li>)}
+      </ul>
+    </Panel>
+  );
+}
+
 const ALL_SIZES: WidgetSize[] = ["small", "medium", "wide"];
 const w = (id: string, key: string, icon: LucideIcon, roles: AppRole[], defaultSize: WidgetSize, component: ComponentType<WidgetProps<any>>, sizes = ALL_SIZES): WidgetDef =>
   ({ id, title: `dash.w.${key}`, description: `dash.w.${key}Desc`, icon, roles, sizes, defaultSize, component });
@@ -314,6 +385,13 @@ export const WIDGETS: WidgetDef[] = [
   w("shift_cash", "shiftCash", Wallet, ["cashier", "admin", "super_admin"], "small", ShiftCash),
   w("pending_bills", "pendingBills", ReceiptText, ["cashier", "admin", "super_admin"], "small", PendingBills),
   w("deposits_summary", "deposits", PiggyBank, ["cashier", "admin", "super_admin"], "small", DepositsSummary),
+  // department head
+  w("dept_opd_by_doctor", "deptOpd", Building2, ["dept_head"], "medium", DeptOpdByDoctor, ["medium", "wide"]),
+  w("dept_waiting_now", "deptWaiting", Hourglass, ["dept_head"], "small", DeptWaitingNow),
+  w("dept_admissions", "deptAdmissions", ClipboardPlus, ["dept_head"], "small", DeptAdmissions),
+  w("dept_top_diagnoses", "deptDiagnoses", Stethoscope, ["dept_head"], "medium", DeptTopDiagnoses, ["medium", "wide"]),
+  w("dept_revenue", "deptRevenue", Banknote, ["dept_head"], "small", DeptRevenue),
+  w("dept_on_leave", "deptOnLeave", CalendarOff, ["dept_head"], "medium", DeptOnLeave, ["medium", "wide"]),
 ];
 
 export const findWidget = (id: string) => WIDGETS.find((w) => w.id === id);
@@ -331,7 +409,7 @@ export const CODE_DEFAULTS: Partial<Record<AppRole, LayoutItem[]>> = {
   nurse: [{ id: "ward_beds", size: "medium" }, { id: "vitals_due", size: "medium" }],
   cashier: [{ id: "shift_cash", size: "small" }, { id: "pending_bills", size: "small" }, { id: "deposits_summary", size: "small" }],
   er_officer: [{ id: "er_waiting", size: "small" }, { id: "bed_occupancy", size: "small" }],
-  dept_head: [{ id: "opd_today", size: "small" }, { id: "bed_occupancy", size: "small" }, { id: "adm_dis_trend", size: "wide" }],
+  dept_head: [{ id: "dept_opd_by_doctor", size: "medium" }, { id: "dept_waiting_now", size: "small" }, { id: "dept_revenue", size: "small" }, { id: "dept_admissions", size: "small" }, { id: "dept_on_leave", size: "medium" }, { id: "dept_top_diagnoses", size: "medium" }],
 };
 
 export function defaultLayoutFor(roles: AppRole[], overrides?: Partial<Record<string, LayoutItem[]>>): LayoutItem[] {

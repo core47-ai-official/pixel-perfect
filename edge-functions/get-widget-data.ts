@@ -38,6 +38,31 @@ async function audit(db: DB, req: Request, c: any, action: string, resource: str
   await db.from("audit_logs").insert({ hospital_id: c.hospitalId, user_id: c.userId, impersonated_by: c.impersonatedBy, action,
     resource, resource_id: id, before, after, ip: req.headers.get("x-forwarded-for") });
 }
+const has = (c: { roles: string[] }, list: string[]) => c.roles.some((r) => list.includes(r));
+// ---- department scope (MediCore; identical in every department function) ----
+const ADMIN_ROLES = ["super_admin", "admin"];
+/** dept_head → own department (from their dept_head role row); admin → the department they ask for. */
+async function deptScope(db: DB, c: { userId: string; hospitalId: string; roles: string[] }, wanted: unknown) {
+  const isAdmin = has(c, ADMIN_ROLES);
+  let deptId: string | null = null;
+  if (isAdmin && wanted && wanted !== "mine") deptId = String(wanted);
+  else if (c.roles.includes("dept_head")) {
+    const { data } = await db.from("user_roles").select("department_id").eq("user_id", c.userId).eq("hospital_id", c.hospitalId).eq("role", "dept_head").maybeSingle();
+    deptId = (data?.department_id as string | undefined) ?? null;
+  } else if (isAdmin) return { error: fail("bad_request", "Choose a department.") };
+  else return { error: fail("forbidden", "Only department heads and admins can see this.", 403) };
+  if (!deptId) return { error: fail("no_department", "You are not assigned to a department yet.") };
+  const { data: dept } = await db.from("departments").select("id, name").eq("hospital_id", c.hospitalId).eq("id", deptId).maybeSingle();
+  if (!dept) return { error: fail("not_found", "Department not found.", 404) };
+  const { data: docs } = await db.from("doctors").select("id, user_id, specialty, status").eq("hospital_id", c.hospitalId).eq("department_id", deptId);
+  const uids = (docs ?? []).map((d: { user_id: string }) => d.user_id);
+  const { data: profs } = uids.length ? await db.from("profiles").select("id, full_name").in("id", uids) : { data: [] };
+  const pn = new Map((profs ?? []).map((p: { id: string; full_name: string }) => [p.id, p.full_name]));
+  // deno-lint-ignore no-explicit-any
+  const doctors = (docs ?? []).map((d: any) => ({ id: d.id as string, user_id: d.user_id as string, name: (pn.get(d.user_id) ?? "") as string, specialty: d.specialty as string, status: d.status as string }));
+  return { dept: dept as { id: string; name: string }, doctors };
+}
+// ---- end department scope ---------------------------------------------------
 // Widget ids + roles: must mirror src/config/widgets.tsx.
 const WIDGET_ROLES: Record<string, string[]> = {
   active_users: ["super_admin", "admin"],
@@ -60,6 +85,12 @@ const WIDGET_ROLES: Record<string, string[]> = {
   shift_cash: ["cashier", "admin", "super_admin"],
   pending_bills: ["cashier", "admin", "super_admin"],
   deposits_summary: ["cashier", "admin", "super_admin"],
+  dept_opd_by_doctor: ["dept_head"],
+  dept_waiting_now: ["dept_head"],
+  dept_admissions: ["dept_head"],
+  dept_top_diagnoses: ["dept_head"],
+  dept_revenue: ["dept_head"],
+  dept_on_leave: ["dept_head"],
 };
 const DEFAULT_LAYOUTS: Record<string, { id: string; size: string }[]> = {
   super_admin: [{ id: "active_users", size: "small" }, { id: "errors_today", size: "small" }, { id: "bed_occupancy", size: "small" }, { id: "opd_today", size: "small" }, { id: "adm_dis_trend", size: "wide" }],
@@ -69,7 +100,7 @@ const DEFAULT_LAYOUTS: Record<string, { id: string; size: string }[]> = {
   nurse: [{ id: "ward_beds", size: "medium" }, { id: "vitals_due", size: "medium" }],
   cashier: [{ id: "shift_cash", size: "small" }, { id: "pending_bills", size: "small" }, { id: "deposits_summary", size: "small" }],
   er_officer: [{ id: "er_waiting", size: "small" }, { id: "bed_occupancy", size: "small" }],
-  dept_head: [{ id: "opd_today", size: "small" }, { id: "bed_occupancy", size: "small" }, { id: "adm_dis_trend", size: "wide" }],
+  dept_head: [{ id: "dept_opd_by_doctor", size: "medium" }, { id: "dept_waiting_now", size: "small" }, { id: "dept_revenue", size: "small" }, { id: "dept_admissions", size: "small" }, { id: "dept_on_leave", size: "medium" }, { id: "dept_top_diagnoses", size: "medium" }],
 };
 const SIZES = ["small", "medium", "wide"];
 const MAX_WIDGETS = 12;
@@ -299,6 +330,71 @@ Deno.serve(async (req) => {
     const { data: unused } = await db.from("deposits").select("amount, applied_amount").eq("hospital_id", H).limit(10000);
     const held = r2((unused ?? []).reduce((a: number, d: { amount: number; applied_amount: number }) => a + Math.max(0, Number(d.amount) - Number(d.applied_amount)), 0));
     return json({ ok: true, data: { value: r2((inRange ?? []).reduce((a: number, d: { amount: number }) => a + Number(d.amount), 0)), count: (inRange ?? []).length, held } });
+  }
+  if (id.startsWith("dept_")) {
+    const s = await deptScope(db, c, null);
+    if ("error" in s) return json({ ok: true, data: { no_department: true } });
+    const docIds = s.doctors.map((d) => d.id);
+    const name = new Map(s.doctors.map((d) => [d.id, d.name]));
+    const F = from.toISOString(), T = to.toISOString();
+    if (id === "dept_opd_by_doctor") {
+      const by = new Map(s.doctors.map((d) => [d.id, { name: d.name, opd: 0, done: 0 }]));
+      if (docIds.length) {
+        const { data } = await db.from("appointments").select("doctor_id, status").eq("hospital_id", H).in("doctor_id", docIds)
+          .gte("slot_start", F).lt("slot_start", T).not("status", "in", "(cancelled,needs_rebooking,no_show)").limit(10000);
+        for (const a of data ?? []) { const e = by.get(a.doctor_id); if (e) { e.opd++; if (a.status === "done") e.done++; } }
+      }
+      return json({ ok: true, data: { department: s.dept.name, doctors: [...by.values()].sort((x, y) => y.opd - x.opd).slice(0, 12) } });
+    }
+    if (id === "dept_waiting_now") {
+      const { data } = docIds.length ? await db.from("appointments").select("doctor_id, checked_in_at").eq("hospital_id", H).in("doctor_id", docIds)
+        .gte("slot_start", todayStart.toISOString()).lt("slot_start", todayEnd.toISOString()).eq("status", "waiting").limit(2000) : { data: [] };
+      const w = (data ?? []).map((x: { checked_in_at: string | null }) => (x.checked_in_at ? mins(x.checked_in_at) : 0));
+      return json({ ok: true, data: { waiting: w.length, avg_wait_min: w.length ? Math.round(w.reduce((a: number, b: number) => a + b, 0) / w.length) : 0, longest_min: w.length ? Math.max(...w) : 0 } });
+    }
+    if (id === "dept_admissions") {
+      const cnt = async (f: (q: DB) => DB) => { const { count } = await f(db.from("admissions").select("id", { count: "exact", head: true }).eq("hospital_id", H).eq("department_id", s.dept.id)); return count ?? 0; };
+      return json({ ok: true, data: {
+        current: await cnt((q) => q.eq("status", "admitted")),
+        admitted: await cnt((q) => q.gte("admitted_at", F).lt("admitted_at", T)),
+        discharged: await cnt((q) => q.gte("discharged_at", F).lt("discharged_at", T)) } });
+    }
+    if (id === "dept_top_diagnoses") {
+      const diag = new Map<string, { code: string; description: string; count: number }>();
+      if (docIds.length) {
+        const { data: v } = await db.from("visits").select("id").eq("hospital_id", H).in("doctor_id", docIds).gte("created_at", F).lt("created_at", T).limit(10000);
+        const vids = (v ?? []).map((x: { id: string }) => x.id);
+        for (let i = 0; i < vids.length; i += 300) {
+          const { data: dx } = await db.from("visit_diagnoses").select("icd10_code, description").in("visit_id", vids.slice(i, i + 300));
+          for (const d of dx ?? []) { const k = d.icd10_code || d.description; const e = diag.get(k) ?? { code: d.icd10_code ?? "", description: d.description ?? "", count: 0 }; e.count++; diag.set(k, e); }
+        }
+      }
+      return json({ ok: true, data: { items: [...diag.values()].sort((x, y) => y.count - x.count).slice(0, 5) } });
+    }
+    if (id === "dept_revenue") {
+      const sumFor = async (f: string, t: string) => {
+        const { data: lines } = await db.from("invoice_lines").select("amount, invoices!inner(visits(doctor_id), admissions(department_id, admitting_doctor_id))")
+          .eq("hospital_id", H).gte("created_at", f).lt("created_at", t).limit(50000);
+        let total = 0;
+        // deno-lint-ignore no-explicit-any
+        for (const l of (lines ?? []) as any[]) {
+          const inv = l.invoices ?? {}; const d = inv.visits?.doctor_id ?? inv.admissions?.admitting_doctor_id ?? null;
+          if ((d && name.has(d)) || inv.admissions?.department_id === s.dept.id) total += Number(l.amount);
+        }
+        return r2(total);
+      };
+      return json({ ok: true, data: { value: await sumFor(F, T), previous: await sumFor(prevFrom.toISOString(), F) } });
+    }
+    if (id === "dept_on_leave") {
+      const today = pkDay(new Date());
+      const { data: lv } = docIds.length ? await db.from("doctor_leaves").select("doctor_id, from_date, to_date, status, type").eq("hospital_id", H).in("doctor_id", docIds)
+        .in("status", ["approved", "pending"]).gte("to_date", today).limit(500) : { data: [] };
+      // deno-lint-ignore no-explicit-any
+      const away = (lv ?? []).filter((l: any) => l.status === "approved" && l.from_date <= today).map((l: any) => ({ name: name.get(l.doctor_id) ?? "", to_date: l.to_date, type: l.type }));
+      // deno-lint-ignore no-explicit-any
+      const pending = (lv ?? []).filter((l: any) => l.status === "pending").length;
+      return json({ ok: true, data: { count: away.length, doctors: away.slice(0, 8), pending } });
+    }
   }
   // bed_occupancy: live snapshot (date range doesn't apply). Active wards only.
   const { data: wards } = await db.from("wards").select("id").eq("hospital_id", c.hospitalId).eq("is_active", true);
