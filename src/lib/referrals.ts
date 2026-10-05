@@ -6,7 +6,7 @@ export const REFERRAL_STATUS = ["sent", "accepted", "rejected", "completed"] as 
 export const REFERRAL_NEXT: Record<string, string[]> = { sent: ["accepted", "rejected"], accepted: ["completed"] };
 export const REFERRAL_TONE: Record<string, "info" | "ok" | "urgent" | "inactive"> = { sent: "info", accepted: "ok", rejected: "urgent", completed: "inactive" };
 export const REFERRAL_WRITE_ROLES = ["super_admin", "admin", "dept_head", "doctor", "er_officer"];
-export const REFERRAL_INVALIDATE = [["referrals"], ["er-cases"], ["emergency"]];
+export const REFERRAL_INVALIDATE = [["referrals"], ["er-cases"], ["beds"], ["patient-summary"]];
 
 export interface Referral {
   id: string; patient_id: string; direction: "in" | "out"; from_facility: string; to_facility: string; reason: string; summary: string | null;
