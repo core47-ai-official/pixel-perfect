@@ -42,12 +42,12 @@ export function SyncChip() {
             {items.map((i) => (
               <li key={i.id} className="flex items-start gap-2 p-3 text-sm">
                 {i.status === "failed"
-                  ? <AlertTriangle className="mt-0.5 size-4 shrink-0 text-danger" aria-hidden />
+                  ? <AlertTriangle className="mt-0.5 size-4 shrink-0 text-destructive" aria-hidden />
                   : <Clock className="mt-0.5 size-4 shrink-0 text-muted-foreground" aria-label={t("offline.waiting")} />}
                 <div className="min-w-0 flex-1">
                   <p className="font-medium">{t(`offline.kind.${i.kind}`)} · {i.label}</p>
                   <p className="text-xs text-muted-foreground"><Ltr>{i.temp_no}</Ltr> · {new Date(i.created_at).toLocaleTimeString()}</p>
-                  {i.error && <p className="text-xs text-danger">{i.error}</p>}
+                  {i.error && <p className="text-xs text-destructive">{i.error}</p>}
                 </div>
                 {i.status === "failed" && (
                   <div className="flex gap-1">

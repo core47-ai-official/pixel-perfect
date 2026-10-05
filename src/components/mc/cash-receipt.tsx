@@ -4,6 +4,8 @@ import { Ltr } from "@/components/mc/ltr";
 export interface ReceiptData {
   kind: "payment" | "deposit" | "refund" | "deposit_applied";
   receipt_no: string;
+  /** Saved offline: temporary number, real receipt number assigned on sync. */
+  provisional?: boolean;
   amount: number;
   tendered?: number | null;
   change?: number | null;
@@ -34,7 +36,9 @@ export function CashReceipt({ data, open, onOpenChange }: { data: ReceiptData; o
       {(pt) => (
         <div className="space-y-2">
           <p className="text-center font-bold uppercase">{pt(`cash.print.title.${data.kind}`)}</p>
+          {data.provisional && <p className="border-2 border-current py-0.5 text-center font-bold uppercase tracking-widest">{pt("cash.print.provisional")}</p>}
           <p className="text-center text-lg font-bold"><Ltr>{data.receipt_no}</Ltr></p>
+          {data.provisional && <p className="text-center text-xs">{pt("cash.print.provisionalNote")}</p>}
           <div className="grid grid-cols-2 gap-x-2 gap-y-0.5">
             <span>{pt("cash.print.date")}</span><span className="text-end"><Ltr>{when}</Ltr></span>
             <span>{pt("cash.print.patient")}</span><span className="text-end">{data.patient.full_name}</span>
