@@ -32,8 +32,10 @@ import { Route as AuthenticatedAppEmergencyRouteImport } from './routes/_authent
 import { Route as AuthenticatedAppHelpRouteImport } from './routes/_authenticated/_app/help'
 import { Route as AuthenticatedAppInventoryRouteImport } from './routes/_authenticated/_app/inventory'
 import { Route as AuthenticatedAppLabRouteImport } from './routes/_authenticated/_app/lab'
+import { Route as AuthenticatedAppLeaveApprovalsRouteImport } from './routes/_authenticated/_app/leave-approvals'
 import { Route as AuthenticatedAppMyAppointmentsRouteImport } from './routes/_authenticated/_app/my-appointments'
 import { Route as AuthenticatedAppMyBillsRouteImport } from './routes/_authenticated/_app/my-bills'
+import { Route as AuthenticatedAppMyLeaveRouteImport } from './routes/_authenticated/_app/my-leave'
 import { Route as AuthenticatedAppMyRecordsRouteImport } from './routes/_authenticated/_app/my-records'
 import { Route as AuthenticatedAppNursingRouteImport } from './routes/_authenticated/_app/nursing'
 import { Route as AuthenticatedAppOpdQueueRouteImport } from './routes/_authenticated/_app/opd-queue'
@@ -173,6 +175,12 @@ const AuthenticatedAppLabRoute = AuthenticatedAppLabRouteImport.update({
   path: '/lab',
   getParentRoute: () => AuthenticatedAppRouteRoute,
 } as any)
+const AuthenticatedAppLeaveApprovalsRoute =
+  AuthenticatedAppLeaveApprovalsRouteImport.update({
+    id: '/leave-approvals',
+    path: '/leave-approvals',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
 const AuthenticatedAppMyAppointmentsRoute =
   AuthenticatedAppMyAppointmentsRouteImport.update({
     id: '/my-appointments',
@@ -182,6 +190,11 @@ const AuthenticatedAppMyAppointmentsRoute =
 const AuthenticatedAppMyBillsRoute = AuthenticatedAppMyBillsRouteImport.update({
   id: '/my-bills',
   path: '/my-bills',
+  getParentRoute: () => AuthenticatedAppRouteRoute,
+} as any)
+const AuthenticatedAppMyLeaveRoute = AuthenticatedAppMyLeaveRouteImport.update({
+  id: '/my-leave',
+  path: '/my-leave',
   getParentRoute: () => AuthenticatedAppRouteRoute,
 } as any)
 const AuthenticatedAppMyRecordsRoute =
@@ -285,8 +298,10 @@ export interface FileRoutesByFullPath {
   '/help': typeof AuthenticatedAppHelpRoute
   '/inventory': typeof AuthenticatedAppInventoryRoute
   '/lab': typeof AuthenticatedAppLabRoute
+  '/leave-approvals': typeof AuthenticatedAppLeaveApprovalsRoute
   '/my-appointments': typeof AuthenticatedAppMyAppointmentsRoute
   '/my-bills': typeof AuthenticatedAppMyBillsRoute
+  '/my-leave': typeof AuthenticatedAppMyLeaveRoute
   '/my-records': typeof AuthenticatedAppMyRecordsRoute
   '/nursing': typeof AuthenticatedAppNursingRoute
   '/opd-queue': typeof AuthenticatedAppOpdQueueRoute
@@ -324,8 +339,10 @@ export interface FileRoutesByTo {
   '/help': typeof AuthenticatedAppHelpRoute
   '/inventory': typeof AuthenticatedAppInventoryRoute
   '/lab': typeof AuthenticatedAppLabRoute
+  '/leave-approvals': typeof AuthenticatedAppLeaveApprovalsRoute
   '/my-appointments': typeof AuthenticatedAppMyAppointmentsRoute
   '/my-bills': typeof AuthenticatedAppMyBillsRoute
+  '/my-leave': typeof AuthenticatedAppMyLeaveRoute
   '/my-records': typeof AuthenticatedAppMyRecordsRoute
   '/nursing': typeof AuthenticatedAppNursingRoute
   '/opd-queue': typeof AuthenticatedAppOpdQueueRoute
@@ -366,8 +383,10 @@ export interface FileRoutesById {
   '/_authenticated/_app/help': typeof AuthenticatedAppHelpRoute
   '/_authenticated/_app/inventory': typeof AuthenticatedAppInventoryRoute
   '/_authenticated/_app/lab': typeof AuthenticatedAppLabRoute
+  '/_authenticated/_app/leave-approvals': typeof AuthenticatedAppLeaveApprovalsRoute
   '/_authenticated/_app/my-appointments': typeof AuthenticatedAppMyAppointmentsRoute
   '/_authenticated/_app/my-bills': typeof AuthenticatedAppMyBillsRoute
+  '/_authenticated/_app/my-leave': typeof AuthenticatedAppMyLeaveRoute
   '/_authenticated/_app/my-records': typeof AuthenticatedAppMyRecordsRoute
   '/_authenticated/_app/nursing': typeof AuthenticatedAppNursingRoute
   '/_authenticated/_app/opd-queue': typeof AuthenticatedAppOpdQueueRoute
@@ -407,8 +426,10 @@ export interface FileRouteTypes {
     | '/help'
     | '/inventory'
     | '/lab'
+    | '/leave-approvals'
     | '/my-appointments'
     | '/my-bills'
+    | '/my-leave'
     | '/my-records'
     | '/nursing'
     | '/opd-queue'
@@ -446,8 +467,10 @@ export interface FileRouteTypes {
     | '/help'
     | '/inventory'
     | '/lab'
+    | '/leave-approvals'
     | '/my-appointments'
     | '/my-bills'
+    | '/my-leave'
     | '/my-records'
     | '/nursing'
     | '/opd-queue'
@@ -487,8 +510,10 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/help'
     | '/_authenticated/_app/inventory'
     | '/_authenticated/_app/lab'
+    | '/_authenticated/_app/leave-approvals'
     | '/_authenticated/_app/my-appointments'
     | '/_authenticated/_app/my-bills'
+    | '/_authenticated/_app/my-leave'
     | '/_authenticated/_app/my-records'
     | '/_authenticated/_app/nursing'
     | '/_authenticated/_app/opd-queue'
@@ -678,6 +703,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppLabRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
+    '/_authenticated/_app/leave-approvals': {
+      id: '/_authenticated/_app/leave-approvals'
+      path: '/leave-approvals'
+      fullPath: '/leave-approvals'
+      preLoaderRoute: typeof AuthenticatedAppLeaveApprovalsRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
     '/_authenticated/_app/my-appointments': {
       id: '/_authenticated/_app/my-appointments'
       path: '/my-appointments'
@@ -690,6 +722,13 @@ declare module '@tanstack/react-router' {
       path: '/my-bills'
       fullPath: '/my-bills'
       preLoaderRoute: typeof AuthenticatedAppMyBillsRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/my-leave': {
+      id: '/_authenticated/_app/my-leave'
+      path: '/my-leave'
+      fullPath: '/my-leave'
+      preLoaderRoute: typeof AuthenticatedAppMyLeaveRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
     '/_authenticated/_app/my-records': {
@@ -808,8 +847,10 @@ interface AuthenticatedAppRouteRouteChildren {
   AuthenticatedAppHelpRoute: typeof AuthenticatedAppHelpRoute
   AuthenticatedAppInventoryRoute: typeof AuthenticatedAppInventoryRoute
   AuthenticatedAppLabRoute: typeof AuthenticatedAppLabRoute
+  AuthenticatedAppLeaveApprovalsRoute: typeof AuthenticatedAppLeaveApprovalsRoute
   AuthenticatedAppMyAppointmentsRoute: typeof AuthenticatedAppMyAppointmentsRoute
   AuthenticatedAppMyBillsRoute: typeof AuthenticatedAppMyBillsRoute
+  AuthenticatedAppMyLeaveRoute: typeof AuthenticatedAppMyLeaveRoute
   AuthenticatedAppMyRecordsRoute: typeof AuthenticatedAppMyRecordsRoute
   AuthenticatedAppNursingRoute: typeof AuthenticatedAppNursingRoute
   AuthenticatedAppOpdQueueRoute: typeof AuthenticatedAppOpdQueueRoute
@@ -841,8 +882,10 @@ const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
   AuthenticatedAppHelpRoute: AuthenticatedAppHelpRoute,
   AuthenticatedAppInventoryRoute: AuthenticatedAppInventoryRoute,
   AuthenticatedAppLabRoute: AuthenticatedAppLabRoute,
+  AuthenticatedAppLeaveApprovalsRoute: AuthenticatedAppLeaveApprovalsRoute,
   AuthenticatedAppMyAppointmentsRoute: AuthenticatedAppMyAppointmentsRoute,
   AuthenticatedAppMyBillsRoute: AuthenticatedAppMyBillsRoute,
+  AuthenticatedAppMyLeaveRoute: AuthenticatedAppMyLeaveRoute,
   AuthenticatedAppMyRecordsRoute: AuthenticatedAppMyRecordsRoute,
   AuthenticatedAppNursingRoute: AuthenticatedAppNursingRoute,
   AuthenticatedAppOpdQueueRoute: AuthenticatedAppOpdQueueRoute,

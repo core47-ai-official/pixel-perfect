@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { supabase } from "@/integrations/supabase/client";
 import { useMyContext } from "@/hooks/use-my-context";
 import { useDepartmentsData } from "@/lib/departments-data";
+import { onLeaveToday, useLeaves } from "@/lib/doctor-leaves";
 import { DOCTOR_STATUSES, toneFor, useDoctorsRealtime } from "@/lib/doctor-status";
 
 export const Route = createFileRoute("/_authenticated/_app/doctors-now")({
@@ -30,6 +31,8 @@ function Board() {
   const hid = context?.hospital?.id;
   useDoctorsRealtime(hid);
   const { depts, doctors, people } = useDepartmentsData();
+  const leaves = useLeaves(hid);
+  const away = onLeaveToday(leaves.data);
   const today = new Date().getDay();
   const sched = useQuery({
     queryKey: ["doctor-schedules", hid, "today", today], enabled: !!hid,
@@ -41,7 +44,7 @@ function Board() {
   });
 
   if (doctors.isLoading) return <Skeleton className="h-64 w-full" />;
-  const list = [...(doctors.data ?? [])].sort((a, b) => DOCTOR_STATUSES.indexOf(a.status as never) - DOCTOR_STATUSES.indexOf(b.status as never));
+  const list = (doctors.data ?? []).map((d) => (away.has(d.id) ? { ...d, status: "on_leave" } : d)).sort((a, b) => DOCTOR_STATUSES.indexOf(a.status as never) - DOCTOR_STATUSES.indexOf(b.status as never));
   if (list.length === 0) return <EmptyState icon={Radio} title={t("sched.boardEmpty")} description={t("sched.boardEmptyBody")} />;
 
   return (
