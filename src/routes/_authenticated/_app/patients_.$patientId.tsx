@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { callEdgeFunction } from "@/hooks/use-edge-function";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { ArrowLeft, CalendarPlus, Pencil, Printer } from "lucide-react";
@@ -46,6 +47,11 @@ function PatientPage() {
   const [slip, setSlip] = useState(false);
   const [booking, setBooking] = useState(false);
   const canEdit = PATIENT_ROLES_EDIT.some((r) => hasRole(r));
+  const isDeptHead = roles.includes("dept_head");
+  // Department heads opening a record outside their own list are audit-logged (decided server-side).
+  useEffect(() => {
+    if (isDeptHead) void callEdgeFunction("log-record-view", { patient_id: patientId }).catch(() => undefined);
+  }, [isDeptHead, patientId]);
 
   if (p.isLoading) return <Skeleton className="h-96 w-full" />;
   if (!p.data) return <p className="text-sm text-muted-foreground">{t("pat.notFound")}</p>;

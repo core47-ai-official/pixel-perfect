@@ -27,6 +27,8 @@ import { Route as AuthenticatedAppCashRegisterRouteImport } from './routes/_auth
 import { Route as AuthenticatedAppCompanySettingsRouteImport } from './routes/_authenticated/_app/company-settings'
 import { Route as AuthenticatedAppConsultationsRouteImport } from './routes/_authenticated/_app/consultations'
 import { Route as AuthenticatedAppDashboardRouteImport } from './routes/_authenticated/_app/dashboard'
+import { Route as AuthenticatedAppDepartmentDoctorsRouteImport } from './routes/_authenticated/_app/department-doctors'
+import { Route as AuthenticatedAppDepartmentPatientsRouteImport } from './routes/_authenticated/_app/department-patients'
 import { Route as AuthenticatedAppDepartmentsRouteImport } from './routes/_authenticated/_app/departments'
 import { Route as AuthenticatedAppDoctorsRouteImport } from './routes/_authenticated/_app/doctors'
 import { Route as AuthenticatedAppDoctorsNowRouteImport } from './routes/_authenticated/_app/doctors-now'
@@ -164,6 +166,18 @@ const AuthenticatedAppDashboardRoute =
   AuthenticatedAppDashboardRouteImport.update({
     id: '/dashboard',
     path: '/dashboard',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
+const AuthenticatedAppDepartmentDoctorsRoute =
+  AuthenticatedAppDepartmentDoctorsRouteImport.update({
+    id: '/department-doctors',
+    path: '/department-doctors',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
+const AuthenticatedAppDepartmentPatientsRoute =
+  AuthenticatedAppDepartmentPatientsRouteImport.update({
+    id: '/department-patients',
+    path: '/department-patients',
     getParentRoute: () => AuthenticatedAppRouteRoute,
   } as any)
 const AuthenticatedAppDepartmentsRoute =
@@ -422,6 +436,8 @@ export interface FileRoutesByFullPath {
   '/company-settings': typeof AuthenticatedAppCompanySettingsRoute
   '/consultations': typeof AuthenticatedAppConsultationsRoute
   '/dashboard': typeof AuthenticatedAppDashboardRoute
+  '/department-doctors': typeof AuthenticatedAppDepartmentDoctorsRoute
+  '/department-patients': typeof AuthenticatedAppDepartmentPatientsRoute
   '/departments': typeof AuthenticatedAppDepartmentsRoute
   '/doctors': typeof AuthenticatedAppDoctorsRoute
   '/doctors-now': typeof AuthenticatedAppDoctorsNowRoute
@@ -482,6 +498,8 @@ export interface FileRoutesByTo {
   '/company-settings': typeof AuthenticatedAppCompanySettingsRoute
   '/consultations': typeof AuthenticatedAppConsultationsRoute
   '/dashboard': typeof AuthenticatedAppDashboardRoute
+  '/department-doctors': typeof AuthenticatedAppDepartmentDoctorsRoute
+  '/department-patients': typeof AuthenticatedAppDepartmentPatientsRoute
   '/departments': typeof AuthenticatedAppDepartmentsRoute
   '/doctors': typeof AuthenticatedAppDoctorsRoute
   '/doctors-now': typeof AuthenticatedAppDoctorsNowRoute
@@ -545,6 +563,8 @@ export interface FileRoutesById {
   '/_authenticated/_app/company-settings': typeof AuthenticatedAppCompanySettingsRoute
   '/_authenticated/_app/consultations': typeof AuthenticatedAppConsultationsRoute
   '/_authenticated/_app/dashboard': typeof AuthenticatedAppDashboardRoute
+  '/_authenticated/_app/department-doctors': typeof AuthenticatedAppDepartmentDoctorsRoute
+  '/_authenticated/_app/department-patients': typeof AuthenticatedAppDepartmentPatientsRoute
   '/_authenticated/_app/departments': typeof AuthenticatedAppDepartmentsRoute
   '/_authenticated/_app/doctors': typeof AuthenticatedAppDoctorsRoute
   '/_authenticated/_app/doctors-now': typeof AuthenticatedAppDoctorsNowRoute
@@ -607,6 +627,8 @@ export interface FileRouteTypes {
     | '/company-settings'
     | '/consultations'
     | '/dashboard'
+    | '/department-doctors'
+    | '/department-patients'
     | '/departments'
     | '/doctors'
     | '/doctors-now'
@@ -667,6 +689,8 @@ export interface FileRouteTypes {
     | '/company-settings'
     | '/consultations'
     | '/dashboard'
+    | '/department-doctors'
+    | '/department-patients'
     | '/departments'
     | '/doctors'
     | '/doctors-now'
@@ -729,6 +753,8 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/company-settings'
     | '/_authenticated/_app/consultations'
     | '/_authenticated/_app/dashboard'
+    | '/_authenticated/_app/department-doctors'
+    | '/_authenticated/_app/department-patients'
     | '/_authenticated/_app/departments'
     | '/_authenticated/_app/doctors'
     | '/_authenticated/_app/doctors-now'
@@ -911,6 +937,20 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof AuthenticatedAppDashboardRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/department-doctors': {
+      id: '/_authenticated/_app/department-doctors'
+      path: '/department-doctors'
+      fullPath: '/department-doctors'
+      preLoaderRoute: typeof AuthenticatedAppDepartmentDoctorsRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/department-patients': {
+      id: '/_authenticated/_app/department-patients'
+      path: '/department-patients'
+      fullPath: '/department-patients'
+      preLoaderRoute: typeof AuthenticatedAppDepartmentPatientsRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
     '/_authenticated/_app/departments': {
@@ -1219,6 +1259,8 @@ interface AuthenticatedAppRouteRouteChildren {
   AuthenticatedAppCompanySettingsRoute: typeof AuthenticatedAppCompanySettingsRoute
   AuthenticatedAppConsultationsRoute: typeof AuthenticatedAppConsultationsRoute
   AuthenticatedAppDashboardRoute: typeof AuthenticatedAppDashboardRoute
+  AuthenticatedAppDepartmentDoctorsRoute: typeof AuthenticatedAppDepartmentDoctorsRoute
+  AuthenticatedAppDepartmentPatientsRoute: typeof AuthenticatedAppDepartmentPatientsRoute
   AuthenticatedAppDepartmentsRoute: typeof AuthenticatedAppDepartmentsRoute
   AuthenticatedAppDoctorsRoute: typeof AuthenticatedAppDoctorsRoute
   AuthenticatedAppDoctorsNowRoute: typeof AuthenticatedAppDoctorsNowRoute
@@ -1271,6 +1313,10 @@ const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
   AuthenticatedAppCompanySettingsRoute: AuthenticatedAppCompanySettingsRoute,
   AuthenticatedAppConsultationsRoute: AuthenticatedAppConsultationsRoute,
   AuthenticatedAppDashboardRoute: AuthenticatedAppDashboardRoute,
+  AuthenticatedAppDepartmentDoctorsRoute:
+    AuthenticatedAppDepartmentDoctorsRoute,
+  AuthenticatedAppDepartmentPatientsRoute:
+    AuthenticatedAppDepartmentPatientsRoute,
   AuthenticatedAppDepartmentsRoute: AuthenticatedAppDepartmentsRoute,
   AuthenticatedAppDoctorsRoute: AuthenticatedAppDoctorsRoute,
   AuthenticatedAppDoctorsNowRoute: AuthenticatedAppDoctorsNowRoute,
