@@ -279,7 +279,7 @@ function DepositsSummary({ data }: WidgetProps<{ value: number; count: number; h
 type NoDept = { no_department?: boolean };
 function NoDeptNote({ title, icon }: { title: string; icon: LucideIcon }) {
   const { t } = useTranslation();
-  return <Panel title={title} icon={icon}><p className="text-sm text-muted-foreground">{t("dept.noDepartment")}</p></Panel>;
+  return <Panel title={title} icon={icon}><p className="text-sm text-muted-foreground">{t("dh.noDepartment")}</p></Panel>;
 }
 function DeptOpdByDoctor({ data }: WidgetProps<NoDept & { department?: string; doctors?: { name: string; opd: number; done: number }[] }>) {
   const { t } = useTranslation();
@@ -288,7 +288,7 @@ function DeptOpdByDoctor({ data }: WidgetProps<NoDept & { department?: string; d
   const max = Math.max(1, ...docs.map((d) => d.opd));
   return (
     <Panel title={t("dash.w.deptOpd")} icon={Building2} action={<Link to="/reports" className="text-xs font-medium hover:underline">{t("dash.w.open")}</Link>}>
-      {docs.length === 0 ? <p className="text-sm text-muted-foreground">{t("dept.noDoctors")}</p> : (
+      {docs.length === 0 ? <p className="text-sm text-muted-foreground">{t("dh.noDoctors")}</p> : (
         <ul className="space-y-2 text-sm">
           {docs.map((d, i) => (
             <li key={i}>
@@ -319,7 +319,7 @@ function DeptTopDiagnoses({ data }: WidgetProps<NoDept & { items?: { code: strin
   const items = data.items ?? [];
   return (
     <Panel title={t("dash.w.deptDiagnoses")} icon={Stethoscope}>
-      {items.length === 0 ? <p className="text-sm text-muted-foreground">{t("dept.noData")}</p> : (
+      {items.length === 0 ? <p className="text-sm text-muted-foreground">{t("dh.noData")}</p> : (
         <ol className="divide-y text-sm">
           {items.map((d, i) => <li key={i} className="flex justify-between gap-2 py-1.5"><span className="truncate"><Ltr className="me-1 font-medium">{d.code}</Ltr>{d.description}</span><Ltr className="text-muted-foreground">{d.count}</Ltr></li>)}
         </ol>
