@@ -60,6 +60,12 @@ const WIDGET_ROLES: Record<string, string[]> = {
   shift_cash: ["cashier", "admin", "super_admin"],
   pending_bills: ["cashier", "admin", "super_admin"],
   deposits_summary: ["cashier", "admin", "super_admin"],
+  dept_opd_by_doctor: ["dept_head"],
+  dept_waiting_now: ["dept_head"],
+  dept_admissions: ["dept_head"],
+  dept_top_diagnoses: ["dept_head"],
+  dept_revenue: ["dept_head"],
+  dept_on_leave: ["dept_head"],
 };
 const DEFAULT_LAYOUTS: Record<string, { id: string; size: string }[]> = {
   super_admin: [{ id: "active_users", size: "small" }, { id: "errors_today", size: "small" }, { id: "bed_occupancy", size: "small" }, { id: "opd_today", size: "small" }, { id: "adm_dis_trend", size: "wide" }],
@@ -69,7 +75,7 @@ const DEFAULT_LAYOUTS: Record<string, { id: string; size: string }[]> = {
   nurse: [{ id: "ward_beds", size: "medium" }, { id: "vitals_due", size: "medium" }],
   cashier: [{ id: "shift_cash", size: "small" }, { id: "pending_bills", size: "small" }, { id: "deposits_summary", size: "small" }],
   er_officer: [{ id: "er_waiting", size: "small" }, { id: "bed_occupancy", size: "small" }],
-  dept_head: [{ id: "opd_today", size: "small" }, { id: "bed_occupancy", size: "small" }, { id: "adm_dis_trend", size: "wide" }],
+  dept_head: [{ id: "dept_opd_by_doctor", size: "medium" }, { id: "dept_waiting_now", size: "small" }, { id: "dept_revenue", size: "small" }, { id: "dept_admissions", size: "small" }, { id: "dept_on_leave", size: "medium" }, { id: "dept_top_diagnoses", size: "medium" }],
 };
 const SIZES = ["small", "medium", "wide"];
 const MAX_WIDGETS = 12;
