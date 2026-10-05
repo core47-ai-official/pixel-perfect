@@ -3405,6 +3405,107 @@ export type Database = {
           },
         ]
       }
+      referrals: {
+        Row: {
+          contact_person: string | null
+          contact_phone: string | null
+          created_at: string
+          created_by: string | null
+          direction: string
+          emergency_case_id: string | null
+          from_facility: string
+          hospital_id: string
+          id: string
+          patient_id: string
+          reason: string
+          referred_by: string | null
+          referred_by_name: string | null
+          status: string
+          status_at: string | null
+          status_note: string | null
+          summary: string | null
+          to_facility: string
+          updated_at: string
+          urgency: string
+          visit_id: string | null
+        }
+        Insert: {
+          contact_person?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          created_by?: string | null
+          direction: string
+          emergency_case_id?: string | null
+          from_facility: string
+          hospital_id: string
+          id?: string
+          patient_id: string
+          reason: string
+          referred_by?: string | null
+          referred_by_name?: string | null
+          status?: string
+          status_at?: string | null
+          status_note?: string | null
+          summary?: string | null
+          to_facility: string
+          updated_at?: string
+          urgency?: string
+          visit_id?: string | null
+        }
+        Update: {
+          contact_person?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          created_by?: string | null
+          direction?: string
+          emergency_case_id?: string | null
+          from_facility?: string
+          hospital_id?: string
+          id?: string
+          patient_id?: string
+          reason?: string
+          referred_by?: string | null
+          referred_by_name?: string | null
+          status?: string
+          status_at?: string | null
+          status_note?: string | null
+          summary?: string | null
+          to_facility?: string
+          updated_at?: string
+          urgency?: string
+          visit_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referrals_emergency_case_id_fkey"
+            columns: ["emergency_case_id"]
+            isOneToOne: false
+            referencedRelation: "emergency_cases"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referrals_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referrals_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referrals_visit_id_fkey"
+            columns: ["visit_id"]
+            isOneToOne: false
+            referencedRelation: "visits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       roster_shifts: {
         Row: {
           checked_in_at: string | null
