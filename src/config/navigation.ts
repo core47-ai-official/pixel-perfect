@@ -104,6 +104,7 @@ export const QUICK_ACTIONS = {
   newStaff: { id: "newStaff", icon: UserCog },
   newOtBooking: { id: "newOtBooking", icon: Scissors },
   newDispense: { id: "newDispense", icon: Pill },
+  newSample: { id: "newSample", icon: TestTube },
 } satisfies Record<string, QuickAction>;
 
 export type QuickActionId = keyof typeof QUICK_ACTIONS;
@@ -118,7 +119,7 @@ export const ROLE_QUICK_ADD: Record<AppRole, QuickActionId[]> = {
   ot_coordinator: ["newOtBooking"],
   receptionist: ["newPatient", "newAppointment", "newAdmission", "newEmergency"],
   pharmacist: ["newDispense", "newSale"],
-  lab_tech: ["newLabOrder"],
+  lab_tech: ["newSample", "newLabOrder"],
   cashier: ["newReceipt", "newDeposit"],
   patient: [],
 };

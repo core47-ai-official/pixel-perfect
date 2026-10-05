@@ -70,7 +70,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const [erOpen, setErOpen] = useState(false);
   const [otOpen, setOtOpen] = useState(false);
   const openQuick = (q: QuickAction) =>
-    q.id === "newPatient" ? void navigate({ to: "/patients/new" }) : q.id === "newAdmission" ? void navigate({ to: "/admissions/new" }) : q.id === "newAppointment" ? setBookOpen(true) : q.id === "newEmergency" ? setErOpen(true) : q.id === "newOtBooking" ? setOtOpen(true) : q.id === "newDispense" ? void navigate({ to: "/pharmacy" }) : q.id === "newReceipt" ? void navigate({ to: "/billing" }) : q.id === "newDeposit" ? void navigate({ to: "/billing", search: { mode: "deposit" } }) : setPanel(q);
+    q.id === "newPatient" ? void navigate({ to: "/patients/new" }) : q.id === "newAdmission" ? void navigate({ to: "/admissions/new" }) : q.id === "newAppointment" ? setBookOpen(true) : q.id === "newEmergency" ? setErOpen(true) : q.id === "newOtBooking" ? setOtOpen(true) : q.id === "newDispense" ? void navigate({ to: "/pharmacy" }) : q.id === "newSample" ? void navigate({ to: "/lab" }) : q.id === "newReceipt" ? void navigate({ to: "/billing" }) : q.id === "newDeposit" ? void navigate({ to: "/billing", search: { mode: "deposit" } }) : setPanel(q);
 
   return (
     <SidebarProvider open={open} onOpenChange={setOpen}>
