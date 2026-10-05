@@ -74,7 +74,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const soon = () => toast(t("shell.placeholder"));
   const [bookOpen, setBookOpen] = useState(false);
   const openQuick = (q: QuickAction) =>
-    q.id === "newPatient" ? void navigate({ to: "/patients/new" }) : q.id === "newAppointment" ? setBookOpen(true) : setPanel(q);
+    q.id === "newPatient" ? void navigate({ to: "/patients/new" }) : q.id === "newAdmission" ? void navigate({ to: "/admissions/new" }) : q.id === "newAppointment" ? setBookOpen(true) : setPanel(q);
 
   return (
     <SidebarProvider open={open} onOpenChange={setOpen}>

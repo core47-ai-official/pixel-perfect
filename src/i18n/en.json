@@ -1559,5 +1559,65 @@
       },
       "by": "by {{name}}"
     }
+  },
+  "adm": {
+    "admit": "Admit patient",
+    "admitted": "Patient admitted",
+    "requestBed": "Request bed",
+    "requested": "Bed requested",
+    "none": "No admissions yet.",
+    "transfer": "Transfer",
+    "transferred": "Patient transferred",
+    "transferReason": "Reason for transfer",
+    "transferNote": "The old bed will be marked for cleaning.",
+    "discharge": "Discharge",
+    "discharged": "Patient discharged",
+    "dischargeType": "Discharge type",
+    "dischargeNote": "Discharge note",
+    "billingNote": "Billing clearance will be checked here once billing is set up. For now discharge is always allowed.",
+    "bed": "Bed",
+    "anyClass": "Any class",
+    "noBeds": "No free beds match this patient's gender and class.",
+    "doctor": "Admitting doctor",
+    "pickDoctor": "Choose doctor",
+    "reason": "Reason for admission",
+    "deposit": "Deposit (Rs)",
+    "depositNote": "Recorded only. Cash collection comes with billing.",
+    "day": "day",
+    "back": "Back",
+    "next": "Next",
+    "since": "Admitted",
+    "transfers": "Transferred {{count}} time(s)",
+    "requests": "Bed requests",
+    "allot": "Allot bed",
+    "allotted": "Bed allotted",
+    "reqCancelled": "Request cancelled",
+    "source": "From",
+    "priority": "Priority",
+    "steps": {
+      "patient": "Patient",
+      "bed": "Bed",
+      "details": "Doctor & reason",
+      "confirm": "Confirm"
+    },
+    "status": {
+      "admitted": "Admitted",
+      "discharged": "Discharged"
+    },
+    "dtypes": {
+      "regular": "Regular",
+      "lama": "Left against medical advice (LAMA)",
+      "referred": "Referred",
+      "death": "Death",
+      "absconded": "Absconded"
+    },
+    "sources": {
+      "opd": "OPD",
+      "er": "Emergency"
+    },
+    "priorities": {
+      "routine": "Routine",
+      "urgent": "Urgent"
+    }
   }
 }
