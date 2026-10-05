@@ -53,6 +53,8 @@ export const PAGES = {
   departments: { id: "departments", path: "/departments", icon: Building2, group: "admin" },
   doctors: { id: "doctors", path: "/doctors", icon: BriefcaseMedical, group: "admin" },
   leaveApprovals: { id: "leaveApprovals", path: "/leave-approvals", icon: CalendarCheck2, group: "admin" },
+  deptDoctors: { id: "deptDoctors", path: "/department-doctors", icon: BriefcaseMedical, group: "overview" },
+  deptPatients: { id: "deptPatients", path: "/department-patients", icon: Users, group: "patients" },
   reports: { id: "reports", path: "/reports", icon: BarChart3, group: "admin" },
   auditLogs: { id: "auditLogs", path: "/audit-logs", icon: ScrollText, group: "admin" },
   companySettings: { id: "companySettings", path: "/company-settings", icon: SlidersHorizontal, group: "admin" },
@@ -75,7 +77,7 @@ export const FOOTER_PAGES: NavPage[] = [
 export const ROLE_PAGES: Record<AppRole, PageId[]> = {
   super_admin: ["dashboard", "users", "reports", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "doctorsNow", "leaveApprovals", "ot", "patients", "appointments", "billing", "approvals", "cashRegister", "unpaid", "inventory", "purchaseRequests", "formulary", "labTests", "wardSetup", "wards", "emergency", "nursing", "handover", "tariffs", "packages"],
   admin: ["dashboard", "users", "departments", "doctors", "doctorsNow", "leaveApprovals", "companySettings", "reports", "patients", "appointments", "ot", "billing", "approvals", "unpaid", "inventory", "purchaseRequests", "formulary", "labTests", "wardSetup", "wards", "emergency", "nursing", "handover", "tariffs", "packages"],
-  dept_head: ["dashboard", "consultations", "wards", "emergency", "nursing", "handover", "reports", "patients", "appointments", "staff", "doctors", "doctorsNow", "leaveApprovals"],
+  dept_head: ["dashboard", "deptPatients", "deptDoctors", "reports", "consultations", "leaveApprovals", "patients", "appointments", "wards", "emergency", "nursing", "handover", "staff", "doctors", "doctorsNow"],
   doctor: ["myDay", "opdQueue", "mySchedule", "patients", "consultations", "appointments", "ot", "myLeave", "wards", "emergency", "lab", "formulary", "dashboard"],
   nurse: ["nursing", "wards", "handover", "patients", "emergency", "dashboard"],
   er_officer: ["dashboard", "emergency", "patients", "wards", "lab"],
