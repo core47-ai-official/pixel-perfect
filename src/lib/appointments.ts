@@ -1,4 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { callEdgeFunction } from "@/hooks/use-edge-function";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -52,4 +53,54 @@ export function useDayAppointments(date: string) {
       return data as unknown as (Appointment & { patients: { full_name: string; mrn: string } | null })[];
     },
   });
+}
+
+export interface ScheduleRow { doctor_id: string; weekday: number; start_time: string; end_time: string; slot_minutes: number; room: string | null }
+export interface LeaveRow { doctor_id: string; from_date: string; to_date: string; type: string }
+export type RangeAppointment = Appointment & { patients: { full_name: string; mrn: string } | null };
+
+/** Appointments, schedules and approved leave for a date range (staff RLS reads). */
+export function useCalendarData(from: string, to: string) {
+  const appts = useQuery({
+    queryKey: ["appointments", "range", from, to],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("appointments").select("*, patients(full_name, mrn)")
+        .gte("slot_start", `${from}T00:00:00+05:00`).lte("slot_start", `${to}T23:59:59+05:00`).order("slot_start");
+      if (error) throw error;
+      return data as unknown as RangeAppointment[];
+    },
+  });
+  const schedules = useQuery({
+    queryKey: ["doctor-schedules", "all"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("doctor_schedules").select("doctor_id, weekday, start_time, end_time, slot_minutes, room");
+      if (error) throw error;
+      return data as ScheduleRow[];
+    },
+    staleTime: 60_000,
+  });
+  const leaves = useQuery({
+    queryKey: ["doctor-leaves", "approved", from, to],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("doctor_leaves").select("doctor_id, from_date, to_date, type")
+        .eq("status", "approved").lte("from_date", to).gte("to_date", from);
+      if (error) throw error;
+      return data as LeaveRow[];
+    },
+  });
+  return { appts, schedules, leaves };
+}
+
+/** Live updates: any appointment change in the hospital refreshes appointment queries. */
+export function useAppointmentsRealtime(hospitalId: string | undefined) {
+  const qc = useQueryClient();
+  useEffect(() => {
+    if (!hospitalId) return;
+    const channel = supabase
+      .channel(`appointments-${hospitalId}`)
+      .on("postgres_changes", { event: "*", schema: "public", table: "appointments", filter: `hospital_id=eq.${hospitalId}` },
+        () => { void qc.invalidateQueries({ queryKey: ["appointments"] }); })
+      .subscribe();
+    return () => { void supabase.removeChannel(channel); };
+  }, [hospitalId, qc]);
 }
