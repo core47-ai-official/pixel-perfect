@@ -968,7 +968,11 @@
     "payer": "Payer",
     "balance": "Balance due",
     "payers": {
-      "cash": "Self-pay (cash)"
+      "cash": "Self-pay (cash)",
+      "self": "Self-pay (cash)",
+      "welfare": "Welfare",
+      "panel": "Panel",
+      "health_card": "Health card"
     }
   },
   "ptab": {
@@ -1767,5 +1771,41 @@
     "missing": "Tariff not found",
     "saved": "Package saved",
     "required": "Name, price, valid days and at least one tariff are required."
+  },
+  "bill": {
+    "unavailable": "Bills can't be loaded right now",
+    "none": "No bills yet",
+    "opd": "Outpatient",
+    "ipd": "Admission",
+    "balance": "Balance",
+    "payer": "Payer",
+    "payers": {
+      "self": "Self-pay (cash)",
+      "welfare": "Welfare",
+      "panel": "Panel",
+      "health_card": "Health card",
+      "cash": "Self-pay (cash)"
+    },
+    "item": "Item",
+    "qty": "Qty",
+    "rate": "Rate",
+    "amount": "Amount",
+    "noLines": "No charges yet",
+    "total": "Total",
+    "discount": "Discount",
+    "paid": "Paid",
+    "statuses": {
+      "open": "Open",
+      "partly_paid": "Partly paid",
+      "paid": "Paid",
+      "waived": "Waived",
+      "closed": "Closed"
+    },
+    "sources": {
+      "appointment": "Consultation",
+      "order": "Test",
+      "room_day": "Room",
+      "manual": ""
+    }
   }
 }
