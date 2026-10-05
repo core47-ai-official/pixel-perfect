@@ -921,6 +921,97 @@ export type Database = {
           },
         ]
       }
+      dispensations: {
+        Row: {
+          batch_id: string
+          created_at: string
+          dispensed_by: string | null
+          hospital_id: string
+          id: string
+          item_id: string
+          medicine_id: string
+          prescription_id: string
+          qty: number
+          substituted_medicine_id: string | null
+          substitution_reason: string | null
+          unit_price: number
+          updated_at: string
+        }
+        Insert: {
+          batch_id: string
+          created_at?: string
+          dispensed_by?: string | null
+          hospital_id: string
+          id?: string
+          item_id: string
+          medicine_id: string
+          prescription_id: string
+          qty: number
+          substituted_medicine_id?: string | null
+          substitution_reason?: string | null
+          unit_price?: number
+          updated_at?: string
+        }
+        Update: {
+          batch_id?: string
+          created_at?: string
+          dispensed_by?: string | null
+          hospital_id?: string
+          id?: string
+          item_id?: string
+          medicine_id?: string
+          prescription_id?: string
+          qty?: number
+          substituted_medicine_id?: string | null
+          substitution_reason?: string | null
+          unit_price?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dispensations_batch_id_fkey"
+            columns: ["batch_id"]
+            isOneToOne: false
+            referencedRelation: "stock_batches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dispensations_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dispensations_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "prescription_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dispensations_medicine_id_fkey"
+            columns: ["medicine_id"]
+            isOneToOne: false
+            referencedRelation: "medicines"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dispensations_prescription_id_fkey"
+            columns: ["prescription_id"]
+            isOneToOne: false
+            referencedRelation: "prescriptions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dispensations_substituted_medicine_id_fkey"
+            columns: ["substituted_medicine_id"]
+            isOneToOne: false
+            referencedRelation: "medicines"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       doctor_leaves: {
         Row: {
           affected_appointments: number
