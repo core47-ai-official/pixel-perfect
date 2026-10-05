@@ -1959,6 +1959,47 @@ export type Database = {
         }
         Relationships: []
       }
+      operation_theatres: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          hospital_id: string
+          id: string
+          name: string
+          status: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          hospital_id: string
+          id?: string
+          name: string
+          status?: string
+          type?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          hospital_id?: string
+          id?: string
+          name?: string
+          status?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "operation_theatres_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       orders: {
         Row: {
           cancel_reason: string | null
@@ -2054,6 +2095,124 @@ export type Database = {
             columns: ["visit_id"]
             isOneToOne: false
             referencedRelation: "visits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ot_bookings: {
+        Row: {
+          actual_end: string | null
+          actual_start: string | null
+          admission_id: string | null
+          anesthetist_id: string | null
+          bump_reason: string | null
+          cleaning_minutes: number
+          created_at: string
+          hospital_id: string
+          id: string
+          note: string | null
+          ot_id: string | null
+          patient_id: string
+          planned_minutes: number
+          planned_start: string | null
+          priority: string
+          procedure: string
+          requested_by: string | null
+          scheduled_by: string | null
+          status: string
+          surgeon_id: string
+          team_ids: string[]
+          updated_at: string
+        }
+        Insert: {
+          actual_end?: string | null
+          actual_start?: string | null
+          admission_id?: string | null
+          anesthetist_id?: string | null
+          bump_reason?: string | null
+          cleaning_minutes?: number
+          created_at?: string
+          hospital_id: string
+          id?: string
+          note?: string | null
+          ot_id?: string | null
+          patient_id: string
+          planned_minutes?: number
+          planned_start?: string | null
+          priority?: string
+          procedure: string
+          requested_by?: string | null
+          scheduled_by?: string | null
+          status?: string
+          surgeon_id: string
+          team_ids?: string[]
+          updated_at?: string
+        }
+        Update: {
+          actual_end?: string | null
+          actual_start?: string | null
+          admission_id?: string | null
+          anesthetist_id?: string | null
+          bump_reason?: string | null
+          cleaning_minutes?: number
+          created_at?: string
+          hospital_id?: string
+          id?: string
+          note?: string | null
+          ot_id?: string | null
+          patient_id?: string
+          planned_minutes?: number
+          planned_start?: string | null
+          priority?: string
+          procedure?: string
+          requested_by?: string | null
+          scheduled_by?: string | null
+          status?: string
+          surgeon_id?: string
+          team_ids?: string[]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ot_bookings_admission_id_fkey"
+            columns: ["admission_id"]
+            isOneToOne: false
+            referencedRelation: "admissions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ot_bookings_anesthetist_id_fkey"
+            columns: ["anesthetist_id"]
+            isOneToOne: false
+            referencedRelation: "doctors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ot_bookings_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ot_bookings_ot_id_fkey"
+            columns: ["ot_id"]
+            isOneToOne: false
+            referencedRelation: "operation_theatres"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ot_bookings_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ot_bookings_surgeon_id_fkey"
+            columns: ["surgeon_id"]
+            isOneToOne: false
+            referencedRelation: "doctors"
             referencedColumns: ["id"]
           },
         ]
