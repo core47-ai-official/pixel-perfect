@@ -133,7 +133,7 @@ function PatientPage() {
         </TabsContent>
         <TabsContent value="prescriptions">{soon("prescriptions")}</TabsContent>
         <TabsContent value="lab"><PatientLabTab patientId={patientId} /></TabsContent>
-        <TabsContent value="admissions" className="space-y-6"><PatientAdmissionsTab patient={{ id: patientId, full_name: x.full_name, gender: x.gender }} /><PatientMarHistory patientId={patientId} /></TabsContent>
+        <TabsContent value="admissions" className="space-y-6"><PatientAdmissionsTab patient={{ id: patientId, full_name: x.full_name, gender: x.gender, mrn: x.mrn, print_language: x.print_language }} /><PatientMarHistory patientId={patientId} /></TabsContent>
         <TabsContent value="bills"><PatientBillsTab patientId={patientId} /></TabsContent>
         <TabsContent value="documents">{soon("documents")}</TabsContent>
       </Tabs>

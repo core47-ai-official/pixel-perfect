@@ -6,6 +6,7 @@ import { Ltr } from "@/components/mc/ltr";
 import { StatusChip } from "@/components/mc/status-chip";
 import { SidePanel } from "@/components/mc/side-panel";
 import { TransferPanel, DischargePanel } from "@/components/mc/admission-actions";
+import { DischargeSummaryPanel } from "@/components/mc/discharge-summary";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -20,7 +21,7 @@ const fmt = (iso: string) => new Date(iso).toLocaleString("en-PK", { dateStyle: 
 const MOVE = ["super_admin", "admin", "dept_head", "doctor", "nurse"];
 const ADMIT = [...MOVE, "er_officer", "receptionist"];
 
-export function PatientAdmissionsTab({ patient }: { patient: { id: string; full_name: string; gender: string | null } }) {
+export function PatientAdmissionsTab({ patient }: { patient: { id: string; full_name: string; gender: string | null; mrn?: string | null; print_language?: string | null } }) {
   const { t } = useTranslation();
   const { context } = useMyContext();
   const roles = (context?.roles ?? []) as string[];
@@ -30,6 +31,8 @@ export function PatientAdmissionsTab({ patient }: { patient: { id: string; full_
   const beds = useBeds();
   const wards = useWards();
   const [panel, setPanel] = useState<"transfer" | "discharge" | "request" | null>(null);
+  const [summaryFor, setSummaryFor] = useState<string | null>(null);
+  const canWrite = roles.some((r) => ["super_admin", "admin", "dept_head", "doctor"].includes(r));
   const bedName = (id: string | null) => {
     const b = (beds.data ?? []).find((x) => x.id === id);
     const w = (wards.data ?? []).find((x) => x.id === b?.ward_id);
@@ -55,16 +58,20 @@ export function PatientAdmissionsTab({ patient }: { patient: { id: string; full_
           <p className="mt-2 text-sm">{a.reason}</p>
           {a.discharge_type && <p className="mt-1 text-xs text-muted-foreground">{t("adm.dischargeType")}: {t(`adm.dtypes.${a.discharge_type}`)}</p>}
           {a.transfers.length > 0 && <p className="mt-1 text-xs text-muted-foreground">{t("adm.transfers", { count: a.transfers.length })}</p>}
-          {a.status === "admitted" && canMove && (
-            <div className="mt-3 flex gap-2">
+          {(a.status === "admitted" ? canMove : true) && (
+            <div className="mt-3 flex flex-wrap gap-2">
+              <Button size="sm" variant="outline" onClick={() => setSummaryFor(a.id)}>{t("ds.title")}</Button>
+              {a.status === "admitted" && canMove && <>
               <Button size="sm" variant="outline" onClick={() => setPanel("transfer")}>{t("adm.transfer")}</Button>
               <Button size="sm" variant="outline" onClick={() => setPanel("discharge")}>{t("adm.discharge")}</Button>
+              </>}
             </div>
           )}
         </div>
       ))}
       {panel === "transfer" && active && <TransferPanel admissionId={active.id} currentBedId={active.bed_id} patientGender={patient.gender} patientName={patient.full_name} onClose={() => setPanel(null)} />}
       {panel === "discharge" && active && <DischargePanel admissionId={active.id} patientName={patient.full_name} bedLabel={bedName(active.bed_id)} onClose={() => setPanel(null)} />}
+      {summaryFor && (() => { const a = (list.data ?? []).find((x) => x.id === summaryFor); return a ? <DischargeSummaryPanel admission={a} patient={patient} canEdit={canWrite && a.status === "admitted"} onClose={() => setSummaryFor(null)} /> : null; })()}
       {panel === "request" && <RequestBedPanel patientId={patient.id} patientName={patient.full_name} onClose={() => setPanel(null)} />}
     </div>
   );

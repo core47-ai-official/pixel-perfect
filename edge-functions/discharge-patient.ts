@@ -1,5 +1,5 @@
 // Paste into Supabase → Edge Functions → new function "discharge-patient". Turn "Enforce JWT Verification" OFF.
-// Discharge an admitted patient. Body: { admission_id, discharge_type: regular|lama|referred|death|absconded, note? }. Blocked unless every bill of the admission is paid, waived, or on an approved installment plan. Bed → cleaning.
+// Discharge an admitted patient. Body: { admission_id, discharge_type: regular|lama|referred|death|absconded, note? }. Blocked until the discharge summary is finalized and every bill of the admission is paid, waived, or on an approved installment plan. Bed → cleaning.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const cors = {
@@ -120,6 +120,8 @@ Deno.serve(async (req) => {
   if (!adm || adm.status !== "admitted") return fail("not_found", "Active admission not found.", 404);
   const clear = await dischargeClearance(db, c.hospitalId, adm.id);
   if (!clear.cleared) return fail("billing", clear.reason, 409);
+  const { data: ds } = await db.from("discharge_summaries").select("finalized_at").eq("admission_id", adm.id).maybeSingle();
+  if (!ds?.finalized_at) return fail("summary", "Finalize the discharge summary before discharging.", 409);
   const now = new Date().toISOString();
   const { data: upd, error } = await db.from("admissions").update({ status: "discharged", discharged_at: now, discharge_type: b.discharge_type,
     discharge_note: String(b.note ?? "").trim().slice(0, 2000) || null, updated_at: now }).eq("id", adm.id).eq("status", "admitted").select().maybeSingle();
