@@ -267,7 +267,8 @@
     "tariffs": "Tariffs",
     "packages": "Packages",
     "approvals": "Approvals",
-    "unpaid": "Unpaid balances"
+    "unpaid": "Unpaid balances",
+    "purchaseRequests": "Purchase requests"
   },
   "navGroup": {
     "overview": "Overview",
@@ -2358,5 +2359,50 @@
     "saved": "Dose recorded.",
     "history": "Medication record",
     "noHistory": "No doses recorded yet."
+  },
+  "pr": {
+    "title": "Purchase requests",
+    "hint": "Request medicines, get admin approval, then receive them into stock.",
+    "new": "New request",
+    "empty": "No purchase requests yet.",
+    "created": "Created",
+    "by": "Requested by",
+    "items": "Medicines",
+    "status": "Status",
+    "st": {
+      "draft": "Draft",
+      "submitted": "Waiting for approval",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "received": "Received"
+    },
+    "addLow": "Add low-stock items",
+    "addLowNone": "No medicines are below their reorder level.",
+    "addLowDone": "{{n}} low-stock medicines added.",
+    "addItem": "Add medicine",
+    "medicine": "Medicine",
+    "qty": "Qty",
+    "onHand": "On hand",
+    "reorder": "Reorder level",
+    "note": "Note",
+    "supplier": "Supplier",
+    "noSupplier": "No supplier",
+    "saveDraft": "Save draft",
+    "submit": "Submit for approval",
+    "approve": "Approve",
+    "reject": "Reject",
+    "rejectReason": "Reason (required to reject)",
+    "receive": "Receive into stock",
+    "batch": "Batch no.",
+    "expiry": "Expiry",
+    "cost": "Cost price",
+    "saved": "Saved.",
+    "submitted": "Sent for approval.",
+    "decided": "Decision saved.",
+    "received": "Received. Stock updated.",
+    "decisionNote": "Admin note",
+    "receivedBatches": "Batches added",
+    "edit": "Edit",
+    "view": "Open"
   }
 }

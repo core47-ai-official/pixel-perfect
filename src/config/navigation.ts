@@ -2,7 +2,7 @@ import { ReceiptText, Package as PackageIcon } from "lucide-react";
 import { Hourglass,
   LayoutDashboard, NotebookPen, Users, CalendarDays, ListOrdered, Stethoscope, BedDouble, HeartPulse, Siren, Scissors,
   FlaskConical, Pill, Boxes, Receipt, Wallet, UserCog, Building2, BarChart3, ScrollText, Settings, LifeBuoy,
-  CalendarCheck, FileHeart, FileText, UserPlus, CalendarPlus, ClipboardPlus, TestTube, ShoppingCart, BadgePlus, BadgeCheck, PiggyBank,
+  CalendarCheck, FileHeart, FileText, UserPlus, CalendarPlus, ClipboardPlus, TestTube, ShoppingCart, ClipboardList, BadgePlus, BadgeCheck, PiggyBank,
   Ambulance, UsersRound, BriefcaseMedical, Radio, CalendarOff, CalendarCheck2, OctagonAlert, Ticket, SlidersHorizontal, Sun, CalendarRange, BookMarked, TestTubes, type LucideIcon,
 } from "lucide-react";
 import type { AppRole } from "@/hooks/use-my-context";
@@ -43,6 +43,7 @@ export const PAGES = {
   wardSetup: { id: "wardSetup", path: "/ward-setup", icon: BedDouble, group: "admin" },
   labTests: { id: "labTests", path: "/lab-tests", icon: TestTubes, group: "diagnostics" },
   inventory: { id: "inventory", path: "/inventory", icon: Boxes, group: "diagnostics" },
+  purchaseRequests: { id: "purchaseRequests", path: "/purchase-requests", icon: ClipboardList, group: "diagnostics" },
   billing: { id: "billing", path: "/billing", icon: Receipt, group: "finance" },
   approvals: { id: "approvals", path: "/approvals", icon: BadgeCheck, group: "finance" },
   cashRegister: { id: "cashRegister", path: "/cash-register", icon: Wallet, group: "finance" },
@@ -72,15 +73,15 @@ export const FOOTER_PAGES: NavPage[] = [
 
 /** Role → pages, in priority order (first four become the mobile bottom nav). */
 export const ROLE_PAGES: Record<AppRole, PageId[]> = {
-  super_admin: ["dashboard", "users", "reports", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "doctorsNow", "leaveApprovals", "ot", "patients", "appointments", "billing", "approvals", "cashRegister", "unpaid", "inventory", "formulary", "labTests", "wardSetup", "wards", "emergency", "nursing", "handover", "tariffs", "packages"],
-  admin: ["dashboard", "users", "departments", "doctors", "doctorsNow", "leaveApprovals", "companySettings", "reports", "patients", "appointments", "ot", "billing", "approvals", "unpaid", "inventory", "formulary", "labTests", "wardSetup", "wards", "emergency", "nursing", "handover", "tariffs", "packages"],
+  super_admin: ["dashboard", "users", "reports", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "doctorsNow", "leaveApprovals", "ot", "patients", "appointments", "billing", "approvals", "cashRegister", "unpaid", "inventory", "purchaseRequests", "formulary", "labTests", "wardSetup", "wards", "emergency", "nursing", "handover", "tariffs", "packages"],
+  admin: ["dashboard", "users", "departments", "doctors", "doctorsNow", "leaveApprovals", "companySettings", "reports", "patients", "appointments", "ot", "billing", "approvals", "unpaid", "inventory", "purchaseRequests", "formulary", "labTests", "wardSetup", "wards", "emergency", "nursing", "handover", "tariffs", "packages"],
   dept_head: ["dashboard", "consultations", "wards", "emergency", "nursing", "handover", "reports", "patients", "appointments", "staff", "doctors", "doctorsNow", "leaveApprovals"],
   doctor: ["myDay", "opdQueue", "mySchedule", "patients", "consultations", "appointments", "ot", "myLeave", "wards", "emergency", "lab", "formulary", "dashboard"],
   nurse: ["nursing", "wards", "handover", "patients", "emergency", "dashboard"],
   er_officer: ["dashboard", "emergency", "patients", "wards", "lab"],
   ot_coordinator: ["dashboard", "ot", "patients", "wards", "inventory"],
   receptionist: ["dashboard", "patients", "doctorsNow", "appointments", "opdQueue", "billing", "approvals", "wards", "emergency", "tariffs", "packages"],
-  pharmacist: ["dashboard", "pharmacy", "formulary", "inventory", "patients"],
+  pharmacist: ["dashboard", "pharmacy", "formulary", "inventory", "purchaseRequests", "patients"],
   lab_tech: ["dashboard", "lab", "labTests", "patients", "inventory"],
   cashier: ["dashboard", "billing", "approvals", "cashRegister", "unpaid", "patients", "tariffs", "packages"],
   patient: ["dashboard", "myAppointments", "myRecords", "myBills"],
