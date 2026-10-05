@@ -91,10 +91,8 @@ function Approvals() {
           title={deciding.decision === "approved" ? t("leave.approveTitle", { name: deciding.row.name }) : t("leave.rejectTitle", { name: deciding.row.name })}
           description={deciding.decision === "approved" ? t("leave.approveBody") : t("leave.rejectBody")}
           confirmLabel={deciding.decision === "approved" ? t("leave.approve") : t("leave.reject")}
-          destructive={deciding.decision === "rejected"}
-          onConfirm={(note: string) => decide.mutateAsync({ leave_id: deciding.row.id, decision: deciding.decision, note }).then(() => {
-            setDeciding(null);
-          })}
+          danger={deciding.decision === "rejected"}
+          onConfirm={(note) => decide.mutate({ leave_id: deciding.row.id, decision: deciding.decision, note }, { onSuccess: () => setDeciding(null) })}
         />
       )}
     </div>

@@ -255,7 +255,9 @@
     "supportTickets": "Support tickets",
     "companySettings": "Company settings",
     "doctors": "Doctors",
-    "doctorsNow": "Doctors now"
+    "doctorsNow": "Doctors now",
+    "myLeave": "My schedule & leave",
+    "leaveApprovals": "Leave approvals"
   },
   "navGroup": {
     "overview": "Overview",
@@ -777,6 +779,46 @@
       "4": "Thursday",
       "5": "Friday",
       "6": "Saturday"
+    }
+  },
+  "leave": {
+    "request": "Request leave",
+    "from": "From",
+    "to": "To",
+    "type": "Leave type",
+    "reason": "Reason",
+    "submit": "Send request",
+    "requested": "Leave request sent",
+    "history": "My leave",
+    "none": "No leave requested yet.",
+    "note": "Note",
+    "badDates": "End date must be on or after the start date.",
+    "needReason": "Please give a short reason.",
+    "noProfile": "No doctor profile",
+    "noProfileBody": "Ask an admin to set up your doctor profile first.",
+    "editSchedule": "View or change your weekly hours",
+    "dates": "Dates",
+    "approve": "Approve",
+    "reject": "Reject",
+    "approvalsIntro": "Leave requests from doctors. Pending requests are listed first.",
+    "approveTitle": "Approve leave for {{name}}?",
+    "rejectTitle": "Reject leave for {{name}}?",
+    "approveBody": "Booked appointments on these dates will be marked “Needs rebooking”, and patients and reception will be told.",
+    "rejectBody": "The doctor will be told their leave wasn't approved.",
+    "affected_one": "{{count}} appointment needs rebooking",
+    "affected_other": "{{count}} appointments need rebooking",
+    "types": {
+      "casual": "Casual",
+      "sick": "Sick",
+      "annual": "Annual",
+      "conference": "Conference / training",
+      "emergency": "Emergency",
+      "other": "Other"
+    },
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
     }
   }
 }
