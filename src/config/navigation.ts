@@ -73,7 +73,7 @@ export const ROLE_PAGES: Record<AppRole, PageId[]> = {
   nurse: ["dashboard", "nursing", "wards", "patients", "emergency"],
   er_officer: ["dashboard", "emergency", "patients", "wards", "lab"],
   ot_coordinator: ["dashboard", "ot", "patients", "wards", "inventory"],
-  receptionist: ["wards", "dashboard", "patients", "doctorsNow", "appointments", "opdQueue", "billing"],
+  receptionist: ["dashboard", "patients", "doctorsNow", "appointments", "opdQueue", "billing", "wards"],
   pharmacist: ["dashboard", "pharmacy", "formulary", "inventory", "patients"],
   lab_tech: ["dashboard", "lab", "labTests", "patients", "inventory"],
   cashier: ["dashboard", "billing", "cashRegister", "patients"],
