@@ -12,6 +12,10 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useEdgeFunction } from "@/hooks/use-edge-function";
+import { Link } from "@tanstack/react-router";
+import { TransferPanel, DischargePanel } from "@/components/mc/admission-actions";
+import { BedPicker } from "@/components/mc/bed-picker";
+import { ADMISSION_INVALIDATE, useAdmission, useOpenBedRequests, type BedRequest } from "@/lib/admissions";
 import { useMyContext } from "@/hooks/use-my-context";
 import { cn } from "@/lib/utils";
 import {
@@ -55,6 +59,8 @@ function BedBoard() {
           <SelectContent><SelectItem value="all">{t("bb.allGenders")}</SelectItem>{WARD_GENDERS.map((v) => <SelectItem key={v} value={v}>{t(`wd.genders.${v}`)}</SelectItem>)}</SelectContent></Select>
         <span className="ms-auto inline-flex items-center gap-1.5 text-xs text-muted-foreground"><Radio className="size-3.5 text-ok" />{t("bb.live")}</span>
       </div>
+
+      <BedRequests canAllot={isAdmin || hasRole("nurse")} />
 
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
         <CountButton label={t("bb.total")} value={inScope.length} active={status === "all"} onClick={() => setStatus("all")} className="bg-card" />
@@ -108,6 +114,8 @@ function CountButton({ label, value, active, onClick, className }: { label: stri
 
 function BedPanel({ bed, ward, canAct, isAdmin, onClose }: { bed: Bed; ward: Ward | undefined; canAct: boolean; isAdmin: boolean; onClose: () => void }) {
   const { t } = useTranslation();
+  const { hasRole } = useMyContext();
+  const canMoveExtra = hasRole("doctor") || hasRole("dept_head");
   const update = useEdgeFunction("update-bed-status", { invalidate: [["beds"]], successMessage: t("bb.updated") });
   const actions = canAct ? allowedBedActions(bed.status, isAdmin) : [];
   const act = async (to: BedStatus) => {
@@ -126,7 +134,7 @@ function BedPanel({ bed, ward, canAct, isAdmin, onClose }: { bed: Bed; ward: War
           {row(t("wd.ventilator"), bed.has_ventilator ? t("bb.yes") : t("bb.no"))}
           {row(t("bb.since"), <Ltr>{new Date(bed.updated_at).toLocaleString("en-PK", { dateStyle: "medium", timeStyle: "short" })}</Ltr>)}
         </div>
-        {bed.status === "occupied" && <p className="rounded-md bg-muted p-3 text-sm text-muted-foreground">{t("bb.occupiedNote")}</p>}
+        {bed.status === "occupied" && <OccupiedInfo bed={bed} canMove={canAct || canMoveExtra} onDone={onClose} />}
         {actions.length > 0 && (
           <div className="space-y-2">
             {actions.map((to) => (
@@ -138,6 +146,83 @@ function BedPanel({ bed, ward, canAct, isAdmin, onClose }: { bed: Bed; ward: War
         )}
         {!canAct && <p className="text-sm text-muted-foreground">{t("bb.viewOnly")}</p>}
       </div>
+    </SidePanel>
+  );
+}
+
+function OccupiedInfo({ bed, canMove, onDone }: { bed: Bed; canMove: boolean; onDone: () => void }) {
+  const { t } = useTranslation();
+  const adm = useAdmission(bed.current_admission_id);
+  const [panel, setPanel] = useState<"transfer" | "discharge" | null>(null);
+  if (!bed.current_admission_id) return <p className="rounded-md bg-muted p-3 text-sm text-muted-foreground">{t("bb.occupiedNote")}</p>;
+  if (adm.isLoading) return <Skeleton className="h-20" />;
+  const a = adm.data; const p = a?.patients;
+  if (!a || !p) return null;
+  const close = () => { setPanel(null); onDone(); };
+  return (
+    <div className="space-y-3 rounded-md border p-3">
+      <div>
+        <Link to="/patients/$patientId" params={{ patientId: p.id }} className="font-medium underline-offset-2 hover:underline">{p.full_name}</Link>
+        <p className="text-xs text-muted-foreground"><Ltr>{p.mrn}</Ltr> · {t("adm.since")} <Ltr>{new Date(a.admitted_at).toLocaleDateString("en-PK", { timeZone: "Asia/Karachi" })}</Ltr></p>
+        <p className="mt-1 text-sm">{a.reason}</p>
+      </div>
+      {canMove && (
+        <div className="flex gap-2">
+          <Button size="sm" variant="outline" onClick={() => setPanel("transfer")}>{t("adm.transfer")}</Button>
+          <Button size="sm" variant="outline" onClick={() => setPanel("discharge")}>{t("adm.discharge")}</Button>
+        </div>
+      )}
+      <p className="text-xs text-muted-foreground">{t("bb.occupiedNote")}</p>
+      {panel === "transfer" && <TransferPanel admissionId={a.id} currentBedId={bed.id} patientGender={p.gender} patientName={p.full_name} onClose={close} />}
+      {panel === "discharge" && <DischargePanel admissionId={a.id} patientName={p.full_name} bedLabel={bed.label} onClose={close} />}
+    </div>
+  );
+}
+
+function BedRequests({ canAllot }: { canAllot: boolean }) {
+  const { t } = useTranslation();
+  const reqs = useOpenBedRequests();
+  const beds = useBeds();
+  const [allotFor, setAllotFor] = useState<BedRequest | null>(null);
+  const cancel = useEdgeFunction("allot-bed", { invalidate: ADMISSION_INVALIDATE, successMessage: t("adm.reqCancelled") });
+  const list = reqs.data ?? [];
+  if (!list.length) return null;
+  return (
+    <section className="space-y-2 rounded-lg border bg-card p-3">
+      <h2 className="font-semibold">{t("adm.requests")} <Ltr className="text-muted-foreground">({list.length})</Ltr></h2>
+      <ul className="divide-y">
+        {list.map((r) => {
+          const bed = (beds.data ?? []).find((b) => b.id === r.bed_id);
+          return (
+            <li key={r.id} className="flex flex-wrap items-center gap-2 py-2 text-sm">
+              {r.priority === "urgent" && <StatusChip status="urgent">{t("adm.priorities.urgent")}</StatusChip>}
+              <span className="font-medium">{r.patients?.full_name}</span>
+              <Ltr className="text-xs text-muted-foreground">{r.patients?.mrn}</Ltr>
+              <span className="text-xs text-muted-foreground">{t(`adm.sources.${r.source}`)} · {t(`wd.types.${r.bed_class}`)}</span>
+              {bed && <span className="text-xs">→ <Ltr className="font-mono font-semibold">{bed.label}</Ltr></span>}
+              <span className="ms-auto flex gap-2">
+                {canAllot && r.status === "pending" && <Button size="sm" variant="outline" onClick={() => setAllotFor(r)}>{t("adm.allot")}</Button>}
+                {r.status === "allotted" && <Button size="sm" asChild><Link to="/admissions/new" search={{ request: r.id }}>{t("adm.admit")}</Link></Button>}
+                {canAllot && <Button size="sm" variant="ghost" disabled={cancel.isPending} onClick={() => void cancel.mutateAsync({ request_id: r.id, cancel: true, reason: "Cancelled from bed board" }).catch(() => {})}>{t("wd.cancel")}</Button>}
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+      {allotFor && <AllotPanel req={allotFor} onClose={() => setAllotFor(null)} />}
+    </section>
+  );
+}
+
+function AllotPanel({ req, onClose }: { req: BedRequest; onClose: () => void }) {
+  const { t } = useTranslation();
+  const [bed, setBed] = useState<string | null>(null);
+  const save = useEdgeFunction("allot-bed", { invalidate: ADMISSION_INVALIDATE, successMessage: t("adm.allotted") });
+  return (
+    <SidePanel open onOpenChange={(o) => !o && onClose()} title={`${t("adm.allot")} · ${req.patients?.full_name ?? ""}`}
+      footer={<div className="flex justify-end gap-2"><Button variant="outline" onClick={onClose}>{t("wd.cancel")}</Button>
+        <Button disabled={!bed || save.isPending} onClick={async () => { try { await save.mutateAsync({ request_id: req.id, bed_id: bed }); onClose(); } catch { /* shown */ } }}>{t("adm.allot")}</Button></div>}>
+      <BedPicker patientGender={req.patients?.gender ?? null} value={bed} onChange={setBed} initialClass={req.bed_class} />
     </SidePanel>
   );
 }

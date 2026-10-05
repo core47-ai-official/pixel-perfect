@@ -54,7 +54,7 @@ export function PatientAdmissionsTab({ patient }: { patient: { id: string; full_
           </div>
           <p className="mt-2 text-sm">{a.reason}</p>
           {a.discharge_type && <p className="mt-1 text-xs text-muted-foreground">{t("adm.dischargeType")}: {t(`adm.dtypes.${a.discharge_type}`)}</p>}
-          {a.transfers.length > 0 && <p className="mt-1 text-xs text-muted-foreground">{t("adm.transfers", { n: a.transfers.length })}</p>}
+          {a.transfers.length > 0 && <p className="mt-1 text-xs text-muted-foreground">{t("adm.transfers", { count: a.transfers.length })}</p>}
           {a.status === "admitted" && canMove && (
             <div className="mt-3 flex gap-2">
               <Button size="sm" variant="outline" onClick={() => setPanel("transfer")}>{t("adm.transfer")}</Button>
