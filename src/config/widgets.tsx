@@ -154,7 +154,7 @@ function AppointmentsToday({ data }: WidgetProps<{ total: number; by_status: Rec
   const { t } = useTranslation();
   const b = data.by_status;
   return <StatCard label={t("dash.w.appointmentsToday")} value={data.total} icon={CalendarCheck}
-    caption={t("dash.w.appointmentsTodayCap", { booked: b.booked ?? 0, waiting: (b.waiting ?? 0) + (b.in_consultation ?? 0), done: b.done ?? 0 })} />;
+    caption={t("dash.w.appointmentsTodayCap", { booked: b['booked'] ?? 0, waiting: (b['waiting'] ?? 0) + (b['in_consultation'] ?? 0), done: b['done'] ?? 0 })} />;
 }
 function WalkIns({ data }: WidgetProps<CountData>) {
   const { t } = useTranslation();
