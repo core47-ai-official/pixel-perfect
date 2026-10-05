@@ -50,6 +50,7 @@ import { Route as AuthenticatedAppOtRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedAppPackagesRouteImport } from './routes/_authenticated/_app/packages'
 import { Route as AuthenticatedAppPatientsRouteImport } from './routes/_authenticated/_app/patients'
 import { Route as AuthenticatedAppPharmacyRouteImport } from './routes/_authenticated/_app/pharmacy'
+import { Route as AuthenticatedAppPurchaseRequestsRouteImport } from './routes/_authenticated/_app/purchase-requests'
 import { Route as AuthenticatedAppReportsRouteImport } from './routes/_authenticated/_app/reports'
 import { Route as AuthenticatedAppSettingsRouteImport } from './routes/_authenticated/_app/settings'
 import { Route as AuthenticatedAppStaffRouteImport } from './routes/_authenticated/_app/staff'
@@ -295,6 +296,12 @@ const AuthenticatedAppPharmacyRoute =
     path: '/pharmacy',
     getParentRoute: () => AuthenticatedAppRouteRoute,
   } as any)
+const AuthenticatedAppPurchaseRequestsRoute =
+  AuthenticatedAppPurchaseRequestsRouteImport.update({
+    id: '/purchase-requests',
+    path: '/purchase-requests',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
 const AuthenticatedAppReportsRoute = AuthenticatedAppReportsRouteImport.update({
   id: '/reports',
   path: '/reports',
@@ -438,6 +445,7 @@ export interface FileRoutesByFullPath {
   '/packages': typeof AuthenticatedAppPackagesRoute
   '/patients': typeof AuthenticatedAppPatientsRoute
   '/pharmacy': typeof AuthenticatedAppPharmacyRoute
+  '/purchase-requests': typeof AuthenticatedAppPurchaseRequestsRoute
   '/reports': typeof AuthenticatedAppReportsRoute
   '/settings': typeof AuthenticatedAppSettingsRoute
   '/staff': typeof AuthenticatedAppStaffRoute
@@ -497,6 +505,7 @@ export interface FileRoutesByTo {
   '/packages': typeof AuthenticatedAppPackagesRoute
   '/patients': typeof AuthenticatedAppPatientsRoute
   '/pharmacy': typeof AuthenticatedAppPharmacyRoute
+  '/purchase-requests': typeof AuthenticatedAppPurchaseRequestsRoute
   '/reports': typeof AuthenticatedAppReportsRoute
   '/settings': typeof AuthenticatedAppSettingsRoute
   '/staff': typeof AuthenticatedAppStaffRoute
@@ -559,6 +568,7 @@ export interface FileRoutesById {
   '/_authenticated/_app/packages': typeof AuthenticatedAppPackagesRoute
   '/_authenticated/_app/patients': typeof AuthenticatedAppPatientsRoute
   '/_authenticated/_app/pharmacy': typeof AuthenticatedAppPharmacyRoute
+  '/_authenticated/_app/purchase-requests': typeof AuthenticatedAppPurchaseRequestsRoute
   '/_authenticated/_app/reports': typeof AuthenticatedAppReportsRoute
   '/_authenticated/_app/settings': typeof AuthenticatedAppSettingsRoute
   '/_authenticated/_app/staff': typeof AuthenticatedAppStaffRoute
@@ -620,6 +630,7 @@ export interface FileRouteTypes {
     | '/packages'
     | '/patients'
     | '/pharmacy'
+    | '/purchase-requests'
     | '/reports'
     | '/settings'
     | '/staff'
@@ -679,6 +690,7 @@ export interface FileRouteTypes {
     | '/packages'
     | '/patients'
     | '/pharmacy'
+    | '/purchase-requests'
     | '/reports'
     | '/settings'
     | '/staff'
@@ -740,6 +752,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/packages'
     | '/_authenticated/_app/patients'
     | '/_authenticated/_app/pharmacy'
+    | '/_authenticated/_app/purchase-requests'
     | '/_authenticated/_app/reports'
     | '/_authenticated/_app/settings'
     | '/_authenticated/_app/staff'
@@ -1061,6 +1074,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppPharmacyRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
+    '/_authenticated/_app/purchase-requests': {
+      id: '/_authenticated/_app/purchase-requests'
+      path: '/purchase-requests'
+      fullPath: '/purchase-requests'
+      preLoaderRoute: typeof AuthenticatedAppPurchaseRequestsRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
     '/_authenticated/_app/reports': {
       id: '/_authenticated/_app/reports'
       path: '/reports'
@@ -1222,6 +1242,7 @@ interface AuthenticatedAppRouteRouteChildren {
   AuthenticatedAppPackagesRoute: typeof AuthenticatedAppPackagesRoute
   AuthenticatedAppPatientsRoute: typeof AuthenticatedAppPatientsRoute
   AuthenticatedAppPharmacyRoute: typeof AuthenticatedAppPharmacyRoute
+  AuthenticatedAppPurchaseRequestsRoute: typeof AuthenticatedAppPurchaseRequestsRoute
   AuthenticatedAppReportsRoute: typeof AuthenticatedAppReportsRoute
   AuthenticatedAppSettingsRoute: typeof AuthenticatedAppSettingsRoute
   AuthenticatedAppStaffRoute: typeof AuthenticatedAppStaffRoute
@@ -1273,6 +1294,7 @@ const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
   AuthenticatedAppPackagesRoute: AuthenticatedAppPackagesRoute,
   AuthenticatedAppPatientsRoute: AuthenticatedAppPatientsRoute,
   AuthenticatedAppPharmacyRoute: AuthenticatedAppPharmacyRoute,
+  AuthenticatedAppPurchaseRequestsRoute: AuthenticatedAppPurchaseRequestsRoute,
   AuthenticatedAppReportsRoute: AuthenticatedAppReportsRoute,
   AuthenticatedAppSettingsRoute: AuthenticatedAppSettingsRoute,
   AuthenticatedAppStaffRoute: AuthenticatedAppStaffRoute,
