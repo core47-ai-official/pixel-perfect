@@ -20,6 +20,7 @@ import { Route as AuthenticatedAppRouteRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedChangePasswordRouteImport } from './routes/_authenticated/change-password'
 import { Route as TvDoctorIdRouteImport } from './routes/tv.$doctorId'
 import { Route as AuthenticatedAppAppointmentsRouteImport } from './routes/_authenticated/_app/appointments'
+import { Route as AuthenticatedAppApprovalsRouteImport } from './routes/_authenticated/_app/approvals'
 import { Route as AuthenticatedAppAuditLogsRouteImport } from './routes/_authenticated/_app/audit-logs'
 import { Route as AuthenticatedAppBillingRouteImport } from './routes/_authenticated/_app/billing'
 import { Route as AuthenticatedAppCashRegisterRouteImport } from './routes/_authenticated/_app/cash-register'
@@ -118,6 +119,12 @@ const AuthenticatedAppAppointmentsRoute =
   AuthenticatedAppAppointmentsRouteImport.update({
     id: '/appointments',
     path: '/appointments',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
+const AuthenticatedAppApprovalsRoute =
+  AuthenticatedAppApprovalsRouteImport.update({
+    id: '/approvals',
+    path: '/approvals',
     getParentRoute: () => AuthenticatedAppRouteRoute,
   } as any)
 const AuthenticatedAppAuditLogsRoute =
@@ -381,6 +388,7 @@ export interface FileRoutesByFullPath {
   '/change-password': typeof AuthenticatedChangePasswordRoute
   '/tv/$doctorId': typeof TvDoctorIdRoute
   '/appointments': typeof AuthenticatedAppAppointmentsRoute
+  '/approvals': typeof AuthenticatedAppApprovalsRoute
   '/audit-logs': typeof AuthenticatedAppAuditLogsRoute
   '/billing': typeof AuthenticatedAppBillingRoute
   '/cash-register': typeof AuthenticatedAppCashRegisterRoute
@@ -436,6 +444,7 @@ export interface FileRoutesByTo {
   '/change-password': typeof AuthenticatedChangePasswordRoute
   '/tv/$doctorId': typeof TvDoctorIdRoute
   '/appointments': typeof AuthenticatedAppAppointmentsRoute
+  '/approvals': typeof AuthenticatedAppApprovalsRoute
   '/audit-logs': typeof AuthenticatedAppAuditLogsRoute
   '/billing': typeof AuthenticatedAppBillingRoute
   '/cash-register': typeof AuthenticatedAppCashRegisterRoute
@@ -494,6 +503,7 @@ export interface FileRoutesById {
   '/_authenticated/change-password': typeof AuthenticatedChangePasswordRoute
   '/tv/$doctorId': typeof TvDoctorIdRoute
   '/_authenticated/_app/appointments': typeof AuthenticatedAppAppointmentsRoute
+  '/_authenticated/_app/approvals': typeof AuthenticatedAppApprovalsRoute
   '/_authenticated/_app/audit-logs': typeof AuthenticatedAppAuditLogsRoute
   '/_authenticated/_app/billing': typeof AuthenticatedAppBillingRoute
   '/_authenticated/_app/cash-register': typeof AuthenticatedAppCashRegisterRoute
@@ -551,6 +561,7 @@ export interface FileRouteTypes {
     | '/change-password'
     | '/tv/$doctorId'
     | '/appointments'
+    | '/approvals'
     | '/audit-logs'
     | '/billing'
     | '/cash-register'
@@ -606,6 +617,7 @@ export interface FileRouteTypes {
     | '/change-password'
     | '/tv/$doctorId'
     | '/appointments'
+    | '/approvals'
     | '/audit-logs'
     | '/billing'
     | '/cash-register'
@@ -663,6 +675,7 @@ export interface FileRouteTypes {
     | '/_authenticated/change-password'
     | '/tv/$doctorId'
     | '/_authenticated/_app/appointments'
+    | '/_authenticated/_app/approvals'
     | '/_authenticated/_app/audit-logs'
     | '/_authenticated/_app/billing'
     | '/_authenticated/_app/cash-register'
@@ -798,6 +811,13 @@ declare module '@tanstack/react-router' {
       path: '/appointments'
       fullPath: '/appointments'
       preLoaderRoute: typeof AuthenticatedAppAppointmentsRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/approvals': {
+      id: '/_authenticated/_app/approvals'
+      path: '/approvals'
+      fullPath: '/approvals'
+      preLoaderRoute: typeof AuthenticatedAppApprovalsRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
     '/_authenticated/_app/audit-logs': {
@@ -1113,6 +1133,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAppRouteRouteChildren {
   AuthenticatedAppAppointmentsRoute: typeof AuthenticatedAppAppointmentsRoute
+  AuthenticatedAppApprovalsRoute: typeof AuthenticatedAppApprovalsRoute
   AuthenticatedAppAuditLogsRoute: typeof AuthenticatedAppAuditLogsRoute
   AuthenticatedAppBillingRoute: typeof AuthenticatedAppBillingRoute
   AuthenticatedAppCashRegisterRoute: typeof AuthenticatedAppCashRegisterRoute
@@ -1160,6 +1181,7 @@ interface AuthenticatedAppRouteRouteChildren {
 
 const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
   AuthenticatedAppAppointmentsRoute: AuthenticatedAppAppointmentsRoute,
+  AuthenticatedAppApprovalsRoute: AuthenticatedAppApprovalsRoute,
   AuthenticatedAppAuditLogsRoute: AuthenticatedAppAuditLogsRoute,
   AuthenticatedAppBillingRoute: AuthenticatedAppBillingRoute,
   AuthenticatedAppCashRegisterRoute: AuthenticatedAppCashRegisterRoute,

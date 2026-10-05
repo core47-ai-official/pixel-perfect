@@ -80,6 +80,8 @@ export const SETTINGS_TABS: TabDef[] = [
     { key: "receipt_prefix", type: "text", default: "RCP-", ltr: true },
     { key: "round_to", type: "select", default: "1", options: ["1", "5", "10"] },
     { key: "max_discount_percent", type: "number", default: 10, min: 0, max: 100 },
+    { key: "max_discount_receptionist", type: "number", default: 0, min: 0, max: 100 },
+    { key: "max_discount_er_officer", type: "number", default: 0, min: 0, max: 100 },
     { key: "receipt_footer", type: "textarea", default: "Thank you. Get well soon." },
   ] },
   { id: "pharmacy", kind: "fields", fields: [
