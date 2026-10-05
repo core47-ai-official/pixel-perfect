@@ -809,7 +809,10 @@
       "pendingBillsCap": "{{n}} bills · {{old}} over 30 days",
       "deposits": "Deposits",
       "depositsDesc": "Deposits taken in the period.",
-      "depositsCap": "{{n}} deposits · {{held}} unused held"
+      "depositsCap": "{{n}} deposits · {{held}} unused held",
+      "criticalResults": "Critical results",
+      "criticalResultsDesc": "Verified critical lab values for your patients (last 7 days).",
+      "noCritical": "No critical results."
     }
   },
   "dept": {
@@ -1460,7 +1463,7 @@
     "noMatch": "No test found",
     "none": "No tests ordered yet",
     "noneYet": "Ordered tests and their results will appear here.",
-    "ordered": "Ordered",
+    "ordered": "Tests ordered",
     "order_one": "Order {{count}} test",
     "order_other": "Order {{count}} tests",
     "urgent": "Urgent",
@@ -1479,12 +1482,21 @@
       "lab": "Lab",
       "radiology": "Radiology"
     },
-    "status": "Status",
+    "status": {
+      "ordered": "Ordered",
+      "collected": "Sample collected",
+      "in_progress": "In progress",
+      "resulted": "Resulted",
+      "verified": "Verified",
+      "cancelled": "Cancelled",
+      "rejected": "Sample rejected"
+    },
     "flag": {
       "high": "High",
       "low": "Low",
       "abnormal": "Abnormal",
-      "critical": "Critical"
+      "critical": "Critical",
+      "normal": "Normal"
     },
     "date": "Date",
     "test": "Test",
@@ -1535,6 +1547,43 @@
       "test": "Test",
       "sample": "Sample",
       "collected": "Collected"
+    },
+    "orderedAt": "Ordered",
+    "enter": "Enter result",
+    "verify": "Verify",
+    "report": "Report",
+    "entryTitle": "Result — {{test}}",
+    "parameter": "Parameter",
+    "value": "Value",
+    "unit": "Unit",
+    "addRow": "Add row",
+    "notes": "Notes",
+    "saveResult": "Save result",
+    "savedResult": "Result saved — waiting for verification",
+    "flagAuto": "Flags are worked out from the normal range when you save.",
+    "verifiedOk": "Result verified",
+    "verifiedCritical": "Result verified — the doctor has been alerted about the critical value",
+    "verifiers": "Result verifiers",
+    "verifiersHint": "Senior lab techs or pathologists who may verify results.",
+    "noLabStaff": "No lab staff yet.",
+    "recent": "Lab results",
+    "noResults": "No results yet",
+    "criticalTag": "CRITICAL",
+    "unverified": "Not verified yet",
+    "rpt": {
+      "title": "Laboratory report",
+      "patient": "Patient",
+      "mrn": "MRN",
+      "test": "Test",
+      "parameter": "Parameter",
+      "result": "Result",
+      "range": "Normal range",
+      "flag": "Flag",
+      "collected": "Collected",
+      "verified": "Verified",
+      "sample": "Sample",
+      "critical": "Contains critical value(s) — inform the doctor immediately.",
+      "unverified": "PRELIMINARY — not yet verified"
     }
   },
   "wd": {

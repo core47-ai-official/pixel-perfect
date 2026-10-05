@@ -115,7 +115,7 @@ function Worklist() {
       </div>
       <div className="flex flex-wrap gap-2">
         <Select value={status} onValueChange={setStatus}>
-          <SelectTrigger className="w-48" aria-label={t("lab.status")}><SelectValue /></SelectTrigger>
+          <SelectTrigger className="w-48" aria-label={t("lab.statusLabel")}><SelectValue /></SelectTrigger>
           <SelectContent>
             <SelectItem value="open">{t("lab.st.ordered")} + {t("lab.st.collected")}</SelectItem>
             {STATUSES.map((s) => <SelectItem key={s} value={s}>{t(`lab.st.${s}`)}</SelectItem>)}
@@ -146,7 +146,7 @@ function Worklist() {
           <Table>
             <TableHeader><TableRow>
               <TableHead>{t("lab.patient")}</TableHead><TableHead>{t("lab.test")}</TableHead><TableHead>{t("lab.priority")}</TableHead>
-              <TableHead>{t("lab.ordered")}</TableHead><TableHead>{t("lab.status")}</TableHead><TableHead>{t("lab.barcode")}</TableHead><TableHead />
+              <TableHead>{t("lab.orderedAt")}</TableHead><TableHead>{t("lab.statusLabel")}</TableHead><TableHead>{t("lab.barcode")}</TableHead><TableHead />
             </TableRow></TableHeader>
             <TableBody>
               {rows.map((r) => {
