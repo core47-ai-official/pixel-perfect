@@ -1194,6 +1194,225 @@ export type Database = {
           },
         ]
       }
+      visit_addenda: {
+        Row: {
+          author_id: string
+          author_name: string
+          body: string
+          created_at: string
+          created_by: string | null
+          hospital_id: string
+          id: string
+          updated_at: string
+          visit_id: string
+        }
+        Insert: {
+          author_id: string
+          author_name: string
+          body: string
+          created_at?: string
+          created_by?: string | null
+          hospital_id: string
+          id?: string
+          updated_at?: string
+          visit_id: string
+        }
+        Update: {
+          author_id?: string
+          author_name?: string
+          body?: string
+          created_at?: string
+          created_by?: string | null
+          hospital_id?: string
+          id?: string
+          updated_at?: string
+          visit_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "visit_addenda_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "visit_addenda_visit_id_fkey"
+            columns: ["visit_id"]
+            isOneToOne: false
+            referencedRelation: "visits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      visits: {
+        Row: {
+          appointment_id: string | null
+          chief_complaint: string
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          doctor_id: string
+          examination: string
+          history: string
+          hospital_id: string
+          id: string
+          patient_id: string
+          plan: string
+          status: string
+          template: string | null
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          appointment_id?: string | null
+          chief_complaint?: string
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          doctor_id: string
+          examination?: string
+          history?: string
+          hospital_id: string
+          id?: string
+          patient_id: string
+          plan?: string
+          status?: string
+          template?: string | null
+          type?: string
+          updated_at?: string
+        }
+        Update: {
+          appointment_id?: string | null
+          chief_complaint?: string
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          doctor_id?: string
+          examination?: string
+          history?: string
+          hospital_id?: string
+          id?: string
+          patient_id?: string
+          plan?: string
+          status?: string
+          template?: string | null
+          type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "visits_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "visits_doctor_id_fkey"
+            columns: ["doctor_id"]
+            isOneToOne: false
+            referencedRelation: "doctors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "visits_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "visits_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vitals: {
+        Row: {
+          bp_dia: number | null
+          bp_sys: number | null
+          created_at: string
+          created_by: string | null
+          height_cm: number | null
+          hospital_id: string
+          id: string
+          patient_id: string
+          pulse: number | null
+          recorded_at: string
+          recorded_by: string
+          rr: number | null
+          spo2: number | null
+          temp_c: number | null
+          updated_at: string
+          visit_id: string | null
+          weight_kg: number | null
+        }
+        Insert: {
+          bp_dia?: number | null
+          bp_sys?: number | null
+          created_at?: string
+          created_by?: string | null
+          height_cm?: number | null
+          hospital_id: string
+          id?: string
+          patient_id: string
+          pulse?: number | null
+          recorded_at?: string
+          recorded_by: string
+          rr?: number | null
+          spo2?: number | null
+          temp_c?: number | null
+          updated_at?: string
+          visit_id?: string | null
+          weight_kg?: number | null
+        }
+        Update: {
+          bp_dia?: number | null
+          bp_sys?: number | null
+          created_at?: string
+          created_by?: string | null
+          height_cm?: number | null
+          hospital_id?: string
+          id?: string
+          patient_id?: string
+          pulse?: number | null
+          recorded_at?: string
+          recorded_by?: string
+          rr?: number | null
+          spo2?: number | null
+          temp_c?: number | null
+          updated_at?: string
+          visit_id?: string | null
+          weight_kg?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vitals_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vitals_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vitals_visit_id_fkey"
+            columns: ["visit_id"]
+            isOneToOne: false
+            referencedRelation: "visits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
