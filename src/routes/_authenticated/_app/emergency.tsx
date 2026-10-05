@@ -10,6 +10,8 @@ import { StatusChip } from "@/components/mc/status-chip";
 import { Ltr } from "@/components/mc/ltr";
 import { EmptyState } from "@/components/mc/empty-state";
 import { ErRegisterPanel } from "@/components/mc/er-register-panel";
+import { ReferralFormPanel, ReferralLetter } from "@/components/mc/referral-panels";
+import type { Referral } from "@/lib/referrals";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -151,6 +153,8 @@ function CasePanel({ c, bays, onClose }: { c: EmergencyCase; bays: { id: string;
   const seen = useEdgeFunction("mark-seen", { invalidate: ER_INVALIDATE, successMessage: t("er.markedSeen") });
   const [mlcOpen, setMlcOpen] = useState(false);
   const [dispOpen, setDispOpen] = useState(false);
+  const [referOpen, setReferOpen] = useState(false);
+  const [letter, setLetter] = useState<Referral | null>(null);
   const run = (p: Promise<unknown>) => p.catch(() => undefined);
 
   return (
@@ -199,7 +203,10 @@ function CasePanel({ c, bays, onClose }: { c: EmergencyCase; bays: { id: string;
         </div>
       </div>
       {mlcOpen && <MlcPanel c={c} onClose={() => setMlcOpen(false)} />}
-      {dispOpen && <DispositionPanel c={c} onClose={() => { setDispOpen(false); }} onDone={onClose} />}
+      {dispOpen && <DispositionPanel c={c} onClose={() => { setDispOpen(false); }} onDone={onClose} onRefer={() => { setDispOpen(false); setReferOpen(true); }} />}
+      {referOpen && <ReferralFormPanel direction="out" emergencyCaseId={c.id} patient={{ id: c.patient_id, label: `${c.patients?.full_name ?? ""} · ${c.patients?.mrn ?? ""}` }}
+        onClose={() => setReferOpen(false)} onSaved={(r) => setLetter(r)} />}
+      {letter && <ReferralLetter r={letter} onClose={() => { setLetter(null); onClose(); }} />}
     </SidePanel>
   );
 }
@@ -231,7 +238,7 @@ function MlcPanel({ c, onClose }: { c: EmergencyCase; onClose: () => void }) {
   );
 }
 
-function DispositionPanel({ c, onClose, onDone }: { c: EmergencyCase; onClose: () => void; onDone: () => void }) {
+function DispositionPanel({ c, onClose, onDone, onRefer }: { c: EmergencyCase; onClose: () => void; onDone: () => void; onRefer: () => void }) {
   const { t } = useTranslation();
   const [disp, setDisp] = useState<string>("discharge");
   const [note, setNote] = useState("");
@@ -239,6 +246,7 @@ function DispositionPanel({ c, onClose, onDone }: { c: EmergencyCase; onClose: (
   const [priority, setPriority] = useState("urgent");
   const save = useEdgeFunction("set-disposition", { invalidate: ER_INVALIDATE, successMessage: t("er.closed") });
   const submit = async () => {
+    if (disp === "refer") { onRefer(); return; }
     try { await save.mutateAsync({ case_id: c.id, disposition: disp, note, bed_class: bedClass, priority }); onClose(); onDone(); } catch { /* shown */ }
   };
   return (
@@ -248,6 +256,7 @@ function DispositionPanel({ c, onClose, onDone }: { c: EmergencyCase; onClose: (
         <div className="grid grid-cols-2 gap-2">
           {DISPOSITIONS.map((d) => <Button key={d} variant={disp === d ? "default" : "outline"} onClick={() => setDisp(d)}>{t(`er.dispositions.${d}`)}</Button>)}
         </div>
+        {disp === "refer" && <p className="rounded-md bg-muted p-3 text-xs text-muted-foreground">{t("er.referNote")}</p>}
         {disp === "admit" && (
           <>
             <div className="space-y-1.5"><Label>{t("er.bedClass")}</Label>
