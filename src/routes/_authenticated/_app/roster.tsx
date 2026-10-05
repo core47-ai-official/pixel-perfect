@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import type { TFunction } from "i18next";
 import { AlertTriangle, ChevronLeft, ChevronRight, Copy, Save } from "lucide-react";
 import { RequireRole } from "@/components/mc/require-role";
 import { rolesForPage } from "@/config/navigation";
@@ -198,7 +199,6 @@ function RosterPage() {
   );
 }
 
-import type { TFunction } from "i18next";
 type TFn = TFunction;
 function warnText(t: TFn, w: RosterWarning) {
   return t(`roster.warn.${w.kind}`, { name: w.name, date: w.date.split("-").reverse().join("/") });
