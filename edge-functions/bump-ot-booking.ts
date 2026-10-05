@@ -112,7 +112,7 @@ Deno.serve(async (req) => {
   }
   const notes = [];
   const { data: s } = await db.from("doctors").select("user_id").eq("id", el.surgeon_id).maybeSingle();
-  if (s?.user_id) notes.push({ hospital_id: c.hospitalId, user_id: s.user_id, type: "ot_bumped", priority: "urgent",
+  if (s?.user_id) notes.push({ hospital_id: c.hospitalId, user_id: s.user_id, type: "ot_bumped",
     title: "Your OT case was moved for an emergency", body: `${el.procedure}: ${reason}`, link: "/ot", created_by: c.userId });
   const { data: p } = await db.from("patients").select("user_id").eq("id", el.patient_id).maybeSingle();
   if (p?.user_id) notes.push({ hospital_id: c.hospitalId, user_id: p.user_id, type: "ot_bumped",

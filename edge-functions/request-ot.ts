@@ -119,7 +119,7 @@ Deno.serve(async (req) => {
   if (error) return fail("server", "Could not save the request.", 500);
   const { data: coords } = await db.from("user_roles").select("user_id").eq("hospital_id", c.hospitalId).eq("role", "ot_coordinator");
   const notes = [...new Set((coords ?? []).map((x: { user_id: string }) => x.user_id))].filter((u) => u !== c.userId).map((u) => ({
-    hospital_id: c.hospitalId, user_id: u, type: "ot_requested", priority: priority === "emergency" ? "urgent" : "normal",
+    hospital_id: c.hospitalId, user_id: u, type: "ot_requested",
     title: priority === "emergency" ? "Emergency OT request" : "New OT request", body: procedure, link: "/ot", created_by: c.userId,
   }));
   if (notes.length) await db.from("notifications").insert(notes);
