@@ -105,7 +105,7 @@ function MyDay() {
                   <Ltr className="w-8 font-medium">{a.token_no}</Ltr>
                   <Link to="/patients/$patientId" params={{ patientId: a.patient_id }} className="flex-1 truncate hover:underline">{a.patients?.full_name}</Link>
                   <span className="hidden text-muted-foreground sm:inline">{t(`appt.types.${a.type}`, { defaultValue: a.type })}</span>
-                  <StatusChip status={TONE[a.status] ?? "inactive"}>{t(`appt.status.${a.status}`, { defaultValue: a.status })}</StatusChip>
+                  <StatusChip status={TONE[a.status] ?? "inactive"}>{t(`appt.statuses.${a.status}`, { defaultValue: a.status })}</StatusChip>
                 </li>
               ))}
             </ul>
