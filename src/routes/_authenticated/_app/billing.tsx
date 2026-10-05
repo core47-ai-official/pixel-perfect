@@ -115,7 +115,7 @@ function BillingCounter() {
     try {
       const res = await callEdgeFunction<{ payment: Payment; invoice: Invoice; change: number }>("record-payment", { invoice_id: invoice.id, amount: toApply, tendered });
       setReceipt({ kind: "payment", receipt_no: res.payment.receipt_no, amount: res.payment.amount, tendered, change: res.change, balance: Number(res.invoice.balance), invoice_no: invoice.invoice_no, patient: ptInfo, at: res.payment.created_at });
-      toast.success(t("cash.paid", { change: formatPkr(res.change) }));
+      toast.success(t("cash.paidOk", { change: formatPkr(res.change) }));
       setCash(""); refresh();
     } catch (e) { toast.error(errMsg(e, t("cash.failed"))); } finally { setBusy(false); }
   };
@@ -141,7 +141,7 @@ function BillingCounter() {
   const pending = usePendingReversals(isAdmin);
 
   const decide = async (id: string, action: "approve" | "reject") => {
-    try { await callEdgeFunction("reverse-payment", { payment_id: id, action }); toast.success(t(`cash.rev.${action}d`)); refresh(); }
+    try { await callEdgeFunction("reverse-payment", { payment_id: id, action }); toast.success(t(action === "approve" ? "cash.rev.approved" : "cash.rev.rejectd")); refresh(); }
     catch (e) { toast.error(errMsg(e, t("cash.failed"))); }
   };
 

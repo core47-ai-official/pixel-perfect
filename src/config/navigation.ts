@@ -2,7 +2,7 @@ import { ReceiptText, Package as PackageIcon } from "lucide-react";
 import {
   LayoutDashboard, NotebookPen, Users, CalendarDays, ListOrdered, Stethoscope, BedDouble, HeartPulse, Siren, Scissors,
   FlaskConical, Pill, Boxes, Receipt, Wallet, UserCog, Building2, BarChart3, ScrollText, Settings, LifeBuoy,
-  CalendarCheck, FileHeart, FileText, UserPlus, CalendarPlus, ClipboardPlus, TestTube, ShoppingCart, BadgePlus,
+  CalendarCheck, FileHeart, FileText, UserPlus, CalendarPlus, ClipboardPlus, TestTube, ShoppingCart, BadgePlus, PiggyBank,
   Ambulance, UsersRound, BriefcaseMedical, Radio, CalendarOff, CalendarCheck2, OctagonAlert, Ticket, SlidersHorizontal, Sun, CalendarRange, BookMarked, TestTubes, type LucideIcon,
 } from "lucide-react";
 import type { AppRole } from "@/hooks/use-my-context";
@@ -95,7 +95,8 @@ export const QUICK_ACTIONS = {
   newAdmission: { id: "newAdmission", icon: ClipboardPlus },
   newLabOrder: { id: "newLabOrder", icon: TestTube },
   newSale: { id: "newSale", icon: ShoppingCart },
-  newBill: { id: "newBill", icon: BadgePlus },
+  newReceipt: { id: "newReceipt", icon: BadgePlus },
+  newDeposit: { id: "newDeposit", icon: PiggyBank },
   newEmergency: { id: "newEmergency", icon: Ambulance },
   newStaff: { id: "newStaff", icon: UserCog },
 } satisfies Record<string, QuickAction>;
@@ -104,7 +105,7 @@ export type QuickActionId = keyof typeof QUICK_ACTIONS;
 
 export const ROLE_QUICK_ADD: Record<AppRole, QuickActionId[]> = {
   super_admin: ["newStaff"],
-  admin: ["newStaff", "newPatient", "newAppointment", "newAdmission"],
+  admin: ["newStaff", "newPatient", "newAppointment", "newAdmission", "newReceipt"],
   dept_head: ["newAppointment"],
   doctor: ["newAppointment", "newLabOrder", "newAdmission"],
   nurse: ["newAdmission"],
@@ -113,7 +114,7 @@ export const ROLE_QUICK_ADD: Record<AppRole, QuickActionId[]> = {
   receptionist: ["newPatient", "newAppointment", "newAdmission", "newEmergency"],
   pharmacist: ["newSale"],
   lab_tech: ["newLabOrder"],
-  cashier: ["newBill"],
+  cashier: ["newReceipt", "newDeposit"],
   patient: [],
 };
 
