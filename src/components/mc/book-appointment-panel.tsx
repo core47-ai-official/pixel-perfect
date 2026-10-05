@@ -236,7 +236,7 @@ export function BookAppointmentPanel({ open, onOpenChange, patientId, initialDoc
   );
 }
 
-function PatientPicker({ onPick }: { onPick: (p: PickedPatient) => void }) {
+export function PatientPicker({ onPick }: { onPick: (p: PickedPatient) => void }) {
   const { t } = useTranslation();
   const [q, setQ] = useState("");
   const [deb, setDeb] = useState("");
