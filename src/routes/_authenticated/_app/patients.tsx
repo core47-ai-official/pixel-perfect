@@ -62,7 +62,7 @@ function PatientsPage() {
       {list.isLoading ? <Skeleton className="h-64 w-full" /> : list.isError ? (
         <p className="text-sm text-destructive">{t("pat.loadError")}</p>
       ) : (list.data ?? []).length === 0 ? (
-        <EmptyState icon={Users} title={term ? t("pat.noMatch") : t("pat.empty")} description={canRegister ? t("pat.emptyBody") : undefined} />
+        <EmptyState icon={Users} title={term ? t("pat.noMatch") : t("pat.empty")} {...(canRegister ? { description: t("pat.emptyBody") } : {})} />
       ) : (
         <div className="overflow-hidden rounded-staff border bg-card">
           <table className="w-full text-sm">
