@@ -151,7 +151,7 @@ function OtPage() {
             {canSchedule && selected.status === "scheduled" && <Button variant="outline" onClick={() => { setScheduling(selected); setSelected(null); }}><CalendarClock className="size-4" />{t("ot.reschedule")}</Button>}
             {selected.status === "scheduled" && <Button variant="outline" onClick={() => act("start-ot-case", selected)}><Play className="size-4" />{t("ot.start_case")}</Button>}
             {selected.status === "in_progress" && <Button variant="outline" onClick={() => act("complete-ot-case", selected)}><CheckCircle2 className="size-4" />{t("ot.complete_case")}</Button>}
-            <Button asChild><Link to="/patients/$patientId" params={{ patientId: selected.patient_id }}><ExternalLink className="size-4" />{t("pat.openRecord")}</Link></Button>
+            <Button asChild><Link to="/ot/$bookingId" params={{ bookingId: selected.id }}><ExternalLink className="size-4" />{t("ot.openCase")}</Link></Button>
           </>
         )}>
         {selected && (

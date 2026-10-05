@@ -73,3 +73,13 @@ export function useOtRealtime(hospitalId: string | undefined) {
 
 export const caseEnd = (b: Pick<OtBooking, "planned_start" | "planned_minutes">) =>
   new Date(new Date(b.planned_start!).getTime() + b.planned_minutes * 60_000);
+
+/** Checklist items; must mirror CHECKLIST_ITEMS in edge-functions/save-ot-checklist.ts. */
+export const CHECKLIST_KINDS = ["pre_op", "who_sign_in", "who_time_out", "who_sign_out"] as const;
+export type ChecklistKind = (typeof CHECKLIST_KINDS)[number];
+export const CHECKLIST_ITEMS: Record<ChecklistKind, string[]> = {
+  pre_op: ["consent_signed", "site_marked", "fasting_confirmed", "allergies_checked", "labs_reviewed", "blood_arranged", "anesthesia_review", "jewellery_removed"],
+  who_sign_in: ["identity_confirmed", "site_procedure_consent", "site_marked", "anesthesia_check", "pulse_oximeter", "known_allergy", "airway_risk", "blood_loss_risk"],
+  who_time_out: ["team_introduced", "patient_site_procedure", "antibiotic_given", "critical_events_surgeon", "critical_events_anesthesia", "sterility_confirmed", "imaging_displayed"],
+  who_sign_out: ["procedure_recorded", "counts_correct", "specimen_labelled", "equipment_issues", "recovery_concerns"],
+};
