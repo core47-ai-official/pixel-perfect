@@ -1970,5 +1970,51 @@
     "paid": "Paid",
     "overdue": "Overdue",
     "due": "Due"
+  },
+  "shift": {
+    "opened": "Shift opened",
+    "closed": "Shift closed",
+    "openTitle": "Open your shift",
+    "openHint": "Count the cash in your drawer before you start. Payments, deposits and refunds need an open shift.",
+    "openingCash": "Opening cash (Rs)",
+    "open": "Open shift",
+    "current": "Current shift",
+    "status": {
+      "open": "Open"
+    },
+    "countedCash": "Cash counted (Rs)",
+    "matches": "Matches expected cash",
+    "over": "Over",
+    "short": "Short",
+    "noteRequired": "Note (required — explain the difference)",
+    "close": "Close shift",
+    "printReport": "Print shift report",
+    "report": "Report",
+    "history": "Shift history",
+    "none": "No shifts yet",
+    "needOpen": "Open your cash shift first",
+    "needOpenBody": "Payments, deposits and refunds are blocked until you open a shift.",
+    "goRegister": "Go to Cash register",
+    "col": {
+      "cashier": "Cashier",
+      "opened": "Opened",
+      "closedAt": "Closed",
+      "expected": "Expected",
+      "counted": "Counted",
+      "difference": "Difference"
+    },
+    "t": {
+      "opening": "Opening cash",
+      "payments": "Payments",
+      "deposits": "Deposits",
+      "refunds": "Refunds",
+      "reversals": "Reversals",
+      "expected": "Expected cash"
+    },
+    "print": {
+      "title": "Shift report",
+      "note": "Note",
+      "signature": "Cashier signature"
+    }
   }
 }
