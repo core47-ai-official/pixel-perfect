@@ -265,7 +265,8 @@
     "wardSetup": "Ward setup",
     "handover": "Handover",
     "tariffs": "Tariffs",
-    "packages": "Packages"
+    "packages": "Packages",
+    "approvals": "Approvals"
   },
   "navGroup": {
     "overview": "Overview",
@@ -551,7 +552,7 @@
       "invoice_prefix": "Invoice number prefix",
       "receipt_prefix": "Receipt number prefix",
       "round_to": "Round totals to (PKR)",
-      "max_discount_percent": "Maximum discount without approval (%)",
+      "max_discount_percent": "Cashier: maximum discount without approval (%)",
       "receipt_footer": "Receipt footer",
       "low_stock_days": "Low stock warning (days of stock left)",
       "expiry_warning_days": "Expiry warning (days before)",
@@ -582,7 +583,9 @@
       "bilingual_layout": "Second language layout",
       "show_qr": "Show QR code on prints",
       "avg_consult_minutes": "Average consultation time (minutes)",
-      "tv_display_token": "TV display token (min 8 characters)"
+      "tv_display_token": "TV display token (min 8 characters)",
+      "max_discount_receptionist": "Reception: maximum discount without approval (%)",
+      "max_discount_er_officer": "ER officer: maximum discount without approval (%)"
     },
     "o": {
       "punjab": "Punjab",
@@ -1895,5 +1898,52 @@
       "thanks": "Thank you. Please keep this receipt."
     },
     "paidOk": "Payment saved. Change due: {{change}}"
+  },
+  "apv": {
+    "inbox": "Approvals inbox",
+    "mine": "My approval requests",
+    "tab": {
+      "pending": "Waiting",
+      "decided": "Decided"
+    },
+    "loadError": "Approvals can't be loaded right now",
+    "nonePending": "Nothing waiting for approval",
+    "noneDecided": "No decided requests yet",
+    "type": {
+      "discount": "Discount",
+      "waiver": "Waiver",
+      "installment": "Installments",
+      "refund": "Refund",
+      "reversal": "Payment reversal"
+    },
+    "status": {
+      "pending": "Waiting",
+      "deciding": "Being decided",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "approve": "Approve",
+    "reject": "Reject",
+    "note": "Note",
+    "approveTitle": "Approve request",
+    "rejectTitle": "Reject request",
+    "noteRequired": "Reason for rejecting (required)",
+    "noteOptional": "Note (optional)",
+    "approvedToast": "Approved and applied to the bill",
+    "rejectedToast": "Rejected. The requester has been told.",
+    "installmentsN": "{{n}} installments",
+    "requestTitle": "Discount, waiver or installments",
+    "requestHint": "Small discounts within your limit apply at once. Anything else goes to an admin.",
+    "submit": "Submit",
+    "appliedNow": "Discount applied",
+    "sent": "Sent to an admin for approval",
+    "percent": "Discount (%)",
+    "amount": "Discount (Rs)",
+    "discountIs": "Discount:",
+    "waiverIs": "Waive the whole balance:",
+    "installments": "Number of installments",
+    "requestBtn": "Discount / waiver",
+    "waitingBanner": "{{n}} approval request(s) waiting",
+    "openInbox": "Open approvals"
   }
 }

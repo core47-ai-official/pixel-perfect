@@ -3,7 +3,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { Banknote, PiggyBank, Printer, RotateCcw, Search, Undo2, Check, X } from "lucide-react";
+import { BadgePercent, Banknote, PiggyBank, Printer, RotateCcw, Search, Undo2 } from "lucide-react";
 import { RequireRole } from "@/components/mc/require-role";
 import { rolesForPage } from "@/config/navigation";
 import { callEdgeFunction } from "@/hooks/use-edge-function";
@@ -21,11 +21,13 @@ import { CashReceipt, type ReceiptData } from "@/components/mc/cash-receipt";
 import { formatPkr } from "@/lib/patient-summary";
 import { usePatientAdmissions } from "@/lib/admissions";
 import {
-  CASH_INVALIDATE, r2, useBillingInvoices, useInvoicePayments, usePatientDeposits, usePendingReversals,
+  CASH_INVALIDATE, r2, useBillingInvoices, useInvoicePayments, usePatientDeposits,
   type Payment, type SearchPatient,
 } from "@/lib/cash";
 import type { Invoice } from "@/components/mc/patient-bills-tab";
 import { cn } from "@/lib/utils";
+import { useApprovals } from "@/lib/approvals";
+import { RequestApprovalPanel } from "@/components/mc/request-approval-panel";
 
 export const Route = createFileRoute("/_authenticated/_app/billing")({
   validateSearch: (s: Record<string, unknown>): { mode?: "deposit" } => (s["mode"] === "deposit" ? { mode: "deposit" } : {}),
@@ -138,12 +140,9 @@ function BillingCounter() {
   // ---- refund / reversal panels ----
   const [refundOpen, setRefundOpen] = useState(false);
   const [reversal, setReversal] = useState<Payment | null>(null);
-  const pending = usePendingReversals(isAdmin);
-
-  const decide = async (id: string, action: "approve" | "reject") => {
-    try { await callEdgeFunction("reverse-payment", { payment_id: id, action }); toast.success(t(action === "approve" ? "cash.rev.approved" : "cash.rev.rejectd")); refresh(); }
-    catch (e) { toast.error(errMsg(e, t("cash.failed"))); }
-  };
+  const pendingApprovals = useApprovals({ status: "pending" });
+  const billApprovals = useApprovals({ status: "pending", invoiceId: invoice?.id ?? null });
+  const [apvOpen, setApvOpen] = useState(false);
 
   return (
     <div className="mx-auto max-w-6xl space-y-4 p-4">
@@ -157,21 +156,10 @@ function BillingCounter() {
 
       {!canCash && <Banner title={t("cash.viewOnly")} />}
 
-      {isAdmin && (pending.data?.length ?? 0) > 0 && (
-        <section className="rounded-staff border border-warning bg-warning-soft p-3">
-          <h2 className="mb-2 font-semibold text-warning-fg">{t("cash.rev.pendingTitle")}</h2>
-          <ul className="space-y-2">
-            {pending.data!.map((p) => (
-              <li key={p.id} className="flex flex-wrap items-center justify-between gap-2 rounded-staff bg-surface p-2 text-sm">
-                <span><Ltr>{p.receipt_no}</Ltr> · {p.patients?.full_name} · <Ltr>{p.invoices?.invoice_no}</Ltr> · <Ltr>{formatPkr(p.amount)}</Ltr> — {p.reversal_reason}</span>
-                <span className="flex gap-1">
-                  <Button size="sm" onClick={() => void decide(p.id, "approve")}><Check /> {t("cash.rev.approve")}</Button>
-                  <Button size="sm" variant="outline" onClick={() => void decide(p.id, "reject")}><X /> {t("cash.rev.reject")}</Button>
-                </span>
-              </li>
-            ))}
-          </ul>
-        </section>
+      {isAdmin && (pendingApprovals.data?.length ?? 0) > 0 && (
+        <Banner title={t("apv.waitingBanner", { n: pendingApprovals.data!.length })}>
+          <Button size="sm" variant="outline" onClick={() => void navigate({ to: "/approvals" })}>{t("apv.openInbox")}</Button>
+        </Banner>
       )}
 
       <div className="grid gap-4 lg:grid-cols-[320px_1fr]">
@@ -252,6 +240,15 @@ function BillingCounter() {
                 ))}
               </div>
 
+              {payable && (
+                <div className="flex flex-wrap items-center gap-2">
+                  <Button size="sm" variant="outline" onClick={() => setApvOpen(true)}><BadgePercent /> {t("apv.requestBtn")}</Button>
+                  {billApprovals.data?.filter((a) => a.invoice_id === invoice.id).map((a) => (
+                    <StatusChip key={a.id} status="caution">{t(`apv.type.${a.type}`)} · <Ltr>{formatPkr(a.amount)}</Ltr> · {t("apv.status.pending")}</StatusChip>
+                  ))}
+                </div>
+              )}
+
               {canCash && payable && (
                 <form className="space-y-3 rounded-staff border bg-surface p-4" onSubmit={(e) => { e.preventDefault(); void takePayment(); }}>
                   <div className="grid gap-3 sm:grid-cols-3">
@@ -329,6 +326,7 @@ function BillingCounter() {
         <RefundPanel open={refundOpen} onOpenChange={setRefundOpen} invoice={invoice}
           onDone={(r) => { setReceipt({ ...r, patient: ptInfo }); setReceiptOpen(true); refresh(); }} />
       )}
+      {invoice && <RequestApprovalPanel open={apvOpen} onOpenChange={setApvOpen} invoice={invoice} onDone={() => { refresh(); void qc.invalidateQueries({ queryKey: ["approvals"] }); }} />}
       <ReversalPanel payment={reversal} onClose={() => setReversal(null)} onDone={refresh} />
     </div>
   );
@@ -426,7 +424,7 @@ function ReversalPanel({ payment, onClose, onDone }: { payment: Payment | null; 
   const save = async () => {
     if (!payment) return;
     setBusy(true);
-    try { await callEdgeFunction("reverse-payment", { payment_id: payment.id, action: "request", reason }); toast.success(t("cash.rev.requested")); onDone(); onClose(); }
+    try { await callEdgeFunction("request-approval", { type: "reversal", invoice_id: payment.invoice_id, payment_id: payment.id, reason }); toast.success(t("cash.rev.requested")); onDone(); onClose(); }
     catch (e) { toast.error(errMsg(e, t("cash.failed"))); } finally { setBusy(false); }
   };
   return (
