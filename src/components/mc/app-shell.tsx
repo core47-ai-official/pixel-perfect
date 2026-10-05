@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { GlobalSearch } from "@/components/mc/global-search";
 import { BookAppointmentPanel } from "@/components/mc/book-appointment-panel";
 import { ErRegisterPanel } from "@/components/mc/er-register-panel";
+import { OtBookingPanel } from "@/components/mc/ot-panels";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -67,8 +68,9 @@ export function AppShell({ children }: { children: ReactNode }) {
   const soon = () => toast(t("shell.placeholder"));
   const [bookOpen, setBookOpen] = useState(false);
   const [erOpen, setErOpen] = useState(false);
+  const [otOpen, setOtOpen] = useState(false);
   const openQuick = (q: QuickAction) =>
-    q.id === "newPatient" ? void navigate({ to: "/patients/new" }) : q.id === "newAdmission" ? void navigate({ to: "/admissions/new" }) : q.id === "newAppointment" ? setBookOpen(true) : q.id === "newEmergency" ? setErOpen(true) : q.id === "newReceipt" ? void navigate({ to: "/billing" }) : q.id === "newDeposit" ? void navigate({ to: "/billing", search: { mode: "deposit" } }) : setPanel(q);
+    q.id === "newPatient" ? void navigate({ to: "/patients/new" }) : q.id === "newAdmission" ? void navigate({ to: "/admissions/new" }) : q.id === "newAppointment" ? setBookOpen(true) : q.id === "newEmergency" ? setErOpen(true) : q.id === "newOtBooking" ? setOtOpen(true) : q.id === "newReceipt" ? void navigate({ to: "/billing" }) : q.id === "newDeposit" ? void navigate({ to: "/billing", search: { mode: "deposit" } }) : setPanel(q);
 
   return (
     <SidebarProvider open={open} onOpenChange={setOpen}>
@@ -203,6 +205,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     <ReportProblemPanel open={reportOpen} onOpenChange={setReportOpen} />
     <BookAppointmentPanel open={bookOpen} onOpenChange={setBookOpen} />
     <ErRegisterPanel open={erOpen} onOpenChange={setErOpen} />
+    <OtBookingPanel open={otOpen} onOpenChange={setOtOpen} />
     </SidebarProvider>
   );
 }

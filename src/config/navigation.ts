@@ -72,10 +72,10 @@ export const FOOTER_PAGES: NavPage[] = [
 
 /** Role → pages, in priority order (first four become the mobile bottom nav). */
 export const ROLE_PAGES: Record<AppRole, PageId[]> = {
-  super_admin: ["dashboard", "users", "reports", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "doctorsNow", "leaveApprovals", "leaveApprovals", "patients", "appointments", "billing", "approvals", "cashRegister", "unpaid", "inventory", "formulary", "labTests", "wardSetup", "wards", "emergency", "nursing", "handover", "tariffs", "packages"],
-  admin: ["dashboard", "users", "departments", "doctors", "doctorsNow", "leaveApprovals", "companySettings", "reports", "patients", "appointments", "billing", "approvals", "unpaid", "inventory", "formulary", "labTests", "wardSetup", "wards", "emergency", "nursing", "handover", "tariffs", "packages"],
+  super_admin: ["dashboard", "users", "reports", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "doctorsNow", "leaveApprovals", "ot", "patients", "appointments", "billing", "approvals", "cashRegister", "unpaid", "inventory", "formulary", "labTests", "wardSetup", "wards", "emergency", "nursing", "handover", "tariffs", "packages"],
+  admin: ["dashboard", "users", "departments", "doctors", "doctorsNow", "leaveApprovals", "companySettings", "reports", "patients", "appointments", "ot", "billing", "approvals", "unpaid", "inventory", "formulary", "labTests", "wardSetup", "wards", "emergency", "nursing", "handover", "tariffs", "packages"],
   dept_head: ["dashboard", "consultations", "wards", "emergency", "nursing", "handover", "reports", "patients", "appointments", "staff", "doctors", "doctorsNow", "leaveApprovals"],
-  doctor: ["myDay", "opdQueue", "mySchedule", "patients", "consultations", "appointments", "myLeave", "wards", "emergency", "lab", "formulary", "dashboard"],
+  doctor: ["myDay", "opdQueue", "mySchedule", "patients", "consultations", "appointments", "ot", "myLeave", "wards", "emergency", "lab", "formulary", "dashboard"],
   nurse: ["nursing", "wards", "handover", "patients", "emergency", "dashboard"],
   er_officer: ["dashboard", "emergency", "patients", "wards", "lab"],
   ot_coordinator: ["dashboard", "ot", "patients", "wards", "inventory"],
@@ -101,6 +101,7 @@ export const QUICK_ACTIONS = {
   newDeposit: { id: "newDeposit", icon: PiggyBank },
   newEmergency: { id: "newEmergency", icon: Ambulance },
   newStaff: { id: "newStaff", icon: UserCog },
+  newOtBooking: { id: "newOtBooking", icon: Scissors },
 } satisfies Record<string, QuickAction>;
 
 export type QuickActionId = keyof typeof QUICK_ACTIONS;
@@ -109,10 +110,10 @@ export const ROLE_QUICK_ADD: Record<AppRole, QuickActionId[]> = {
   super_admin: ["newStaff"],
   admin: ["newStaff", "newPatient", "newAppointment", "newAdmission", "newReceipt"],
   dept_head: ["newAppointment"],
-  doctor: ["newAppointment", "newLabOrder", "newAdmission"],
+  doctor: ["newAppointment", "newLabOrder", "newAdmission", "newOtBooking"],
   nurse: ["newAdmission"],
   er_officer: ["newEmergency", "newPatient"],
-  ot_coordinator: [],
+  ot_coordinator: ["newOtBooking"],
   receptionist: ["newPatient", "newAppointment", "newAdmission", "newEmergency"],
   pharmacist: ["newSale"],
   lab_tech: ["newLabOrder"],
