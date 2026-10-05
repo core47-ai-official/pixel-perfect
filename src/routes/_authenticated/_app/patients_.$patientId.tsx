@@ -86,7 +86,7 @@ function PatientPage() {
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
-          {summary.isError && <Banner tone="warning">{t("ptab.summaryUnavailable")}</Banner>}
+          {summary.isError && <Banner tone="warning" title={t("ptab.summaryUnavailable")} />}
           {admission && (
             <div className="rounded-staff border border-progress bg-progress-soft/40 p-3 text-sm">
               {t("ptab.activeAdmission")}{admission.ward && <> · {admission.ward}</>}{admission.bed && <> · <Ltr>{admission.bed}</Ltr></>}
