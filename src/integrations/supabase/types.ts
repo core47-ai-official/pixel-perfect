@@ -1432,6 +1432,89 @@ export type Database = {
           },
         ]
       }
+      installment_plans: {
+        Row: {
+          approval_id: string | null
+          approved_at: string | null
+          approved_by: string | null
+          created_at: string
+          created_by: string | null
+          hospital_id: string
+          id: string
+          invoice_id: string
+          last_reminded_on: string | null
+          paid_at_start: number
+          patient_id: string
+          schedule: Json
+          status: string
+          total: number
+          updated_at: string
+        }
+        Insert: {
+          approval_id?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          hospital_id: string
+          id?: string
+          invoice_id: string
+          last_reminded_on?: string | null
+          paid_at_start?: number
+          patient_id: string
+          schedule?: Json
+          status?: string
+          total: number
+          updated_at?: string
+        }
+        Update: {
+          approval_id?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          hospital_id?: string
+          id?: string
+          invoice_id?: string
+          last_reminded_on?: string | null
+          paid_at_start?: number
+          patient_id?: string
+          schedule?: Json
+          status?: string
+          total?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "installment_plans_approval_id_fkey"
+            columns: ["approval_id"]
+            isOneToOne: false
+            referencedRelation: "approvals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "installment_plans_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "installment_plans_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "installment_plans_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       invoice_lines: {
         Row: {
           amount: number

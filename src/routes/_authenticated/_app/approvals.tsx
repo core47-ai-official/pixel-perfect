@@ -59,7 +59,9 @@ function ApprovalsPage() {
                 <p className="text-sm">{a.patients?.full_name} · <Ltr>{a.patients?.mrn}</Ltr> · <Ltr>{a.invoices?.invoice_no}</Ltr>
                   {a.invoices && <> · {t("cash.balance")} <Ltr>{formatPkr(a.invoices.balance)}</Ltr></>}</p>
                 <p className="text-sm text-muted-foreground">{a.reason}</p>
-                {a.type === "installment" && a.details?.["installments"] != null && <p className="text-sm">{t("apv.installmentsN", { n: Number(a.details["installments"]) })}</p>}
+                {a.type === "installment" && Array.isArray(a.details?.["schedule"]) && (
+                  <p className="text-sm">{t("apv.installmentsN", { n: (a.details["schedule"] as unknown[]).length })}: {(a.details["schedule"] as { due_date: string; amount: number }[]).map((x) => <Ltr key={x.due_date} className="me-2">{`${x.due_date} ${formatPkr(x.amount)}`}</Ltr>)}</p>
+                )}
                 <p className="text-xs text-muted-foreground">{a.requested_by_name} · <Ltr>{new Date(a.created_at).toLocaleString()}</Ltr></p>
                 {a.decision_note && <p className="text-sm">{t("apv.note")}: {a.decision_note}</p>}
               </div>

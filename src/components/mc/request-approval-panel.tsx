@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { Send } from "lucide-react";
@@ -13,6 +13,7 @@ import { formatPkr } from "@/lib/patient-summary";
 import type { Invoice } from "@/components/mc/patient-bills-tab";
 import type { Approval } from "@/lib/approvals";
 import { cn } from "@/lib/utils";
+import { addDays, splitSchedule, todayPk } from "@/lib/installments";
 
 type Kind = "discount" | "waiver" | "installment";
 
@@ -24,23 +25,27 @@ export function RequestApprovalPanel({ open, onOpenChange, invoice, onDone }: {
   const [kind, setKind] = useState<Kind>("discount");
   const [byPercent, setByPercent] = useState(true);
   const [value, setValue] = useState("");
-  const [installments, setInstallments] = useState("2");
+  const [installments, setInstallments] = useState("3");
+  const [firstDue, setFirstDue] = useState(() => addDays(todayPk(), 30));
+  const [everyDays, setEveryDays] = useState("30");
   const [reason, setReason] = useState("");
   const [busy, setBusy] = useState(false);
-  useEffect(() => { if (open) { setKind("discount"); setValue(""); setReason(""); setByPercent(true); setInstallments("2"); } }, [open]);
+  useEffect(() => { if (open) { setKind("discount"); setValue(""); setReason(""); setByPercent(true); setInstallments("3"); setFirstDue(addDays(todayPk(), 30)); setEveryDays("30"); } }, [open]);
 
   const total = Number(invoice.total), balance = Number(invoice.balance);
   const v = Number(value) || 0;
   const amount = kind === "waiver" ? balance : kind === "discount" ? Math.round((byPercent ? (total * v) / 100 : v) * 100) / 100 : balance;
-  const valid = reason.trim().length >= 3 && (kind !== "discount" || (v > 0 && amount <= balance && (!byPercent || v <= 100)));
+  const schedule = useMemo(() => splitSchedule(balance, Math.min(24, Math.max(2, Number(installments) || 2)), firstDue, Math.max(1, Number(everyDays) || 30)), [balance, installments, firstDue, everyDays]);
+  const valid = reason.trim().length >= 3 && (kind !== "discount" || (v > 0 && amount <= balance && (!byPercent || v <= 100)))
+    && (kind !== "installment" || (firstDue >= todayPk() && balance > 0));
 
   const save = async () => {
     setBusy(true);
     try {
-      const res = await callEdgeFunction<{ approval: Approval; applied: boolean }>("request-approval", {
+      const res = await callEdgeFunction<{ approval: Approval; applied: boolean }>(kind === "installment" ? "create-installment-plan" : "request-approval", {
         type: kind, invoice_id: invoice.id, reason,
         ...(kind === "discount" ? (byPercent ? { percent: v } : { amount: v }) : {}),
-        ...(kind === "installment" ? { details: { installments: Number(installments) || 2 } } : {}),
+        ...(kind === "installment" ? { details: { schedule } } : {}),
       });
       toast.success(res.applied ? t("apv.appliedNow") : t("apv.sent"));
       onDone(); onOpenChange(false);
@@ -70,9 +75,21 @@ export function RequestApprovalPanel({ open, onOpenChange, invoice, onDone }: {
         )}
         {kind === "waiver" && <p className="text-sm">{t("apv.waiverIs")} <Ltr className="font-semibold">{formatPkr(balance)}</Ltr></p>}
         {kind === "installment" && (
-          <div className="space-y-1">
-            <Label htmlFor="apv-n">{t("apv.installments")}</Label>
-            <Input id="apv-n" dir="ltr" inputMode="numeric" value={installments} onChange={(e) => setInstallments(e.target.value.replace(/\D/g, "").slice(0, 2))} />
+          <div className="space-y-3">
+            <div className="grid grid-cols-3 gap-2">
+              <div className="space-y-1"><Label htmlFor="apv-n">{t("apv.installments")}</Label>
+                <Input id="apv-n" dir="ltr" inputMode="numeric" value={installments} onChange={(e) => setInstallments(e.target.value.replace(/\D/g, "").slice(0, 2))} /></div>
+              <div className="space-y-1"><Label htmlFor="apv-d">{t("apv.firstDue")}</Label>
+                <Input id="apv-d" type="date" dir="ltr" min={todayPk()} value={firstDue} onChange={(e) => setFirstDue(e.target.value)} /></div>
+              <div className="space-y-1"><Label htmlFor="apv-e">{t("apv.everyDays")}</Label>
+                <Input id="apv-e" dir="ltr" inputMode="numeric" value={everyDays} onChange={(e) => setEveryDays(e.target.value.replace(/\D/g, "").slice(0, 3))} /></div>
+            </div>
+            <ol className="divide-y rounded-staff border text-sm">
+              {schedule.map((s, i) => (
+                <li key={s.due_date} className="flex justify-between p-2"><span>{i + 1}. <Ltr>{s.due_date}</Ltr></span><Ltr className="font-medium">{formatPkr(s.amount)}</Ltr></li>
+              ))}
+            </ol>
+            <p className="text-xs text-muted-foreground">{t("apv.planHint")}</p>
           </div>
         )}
         <div className="space-y-1">
