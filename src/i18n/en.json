@@ -570,7 +570,9 @@
       "show_lab_results": "Patients see lab results",
       "welcome_message": "Portal welcome message",
       "bilingual_layout": "Second language layout",
-      "show_qr": "Show QR code on prints"
+      "show_qr": "Show QR code on prints",
+      "avg_consult_minutes": "Average consultation time (minutes)",
+      "tv_display_token": "TV display token (min 8 characters)"
     },
     "o": {
       "punjab": "Punjab",
@@ -1098,5 +1100,40 @@
         "off": "Off"
       }
     }
+  },
+  "queue": {
+    "title": "Token queue",
+    "today": "Today",
+    "walkIn": "Walk-in",
+    "walkInTitle": "Add walk-in patient",
+    "walkInDone": "Walk-in added. Token {{token}}",
+    "callNext": "Call next token",
+    "called": "Token {{token}} called",
+    "queueEmpty": "No one is waiting",
+    "nowServing": "Now serving",
+    "waiting": "Waiting",
+    "expected": "Booked, not arrived",
+    "checkIn": "Check in",
+    "checkedIn": "Checked in",
+    "noShow": "No-show",
+    "noShowConfirm": "Mark token {{token}} as no-show?",
+    "estWait": "~{{min}} min",
+    "none": "—",
+    "room": "Room {{room}}",
+    "noDoctors": "No doctors to show",
+    "tvScreen": "TV screen",
+    "tvNoToken": "Set a display token in Company settings → OPD to use TV screens.",
+    "tvCopied": "TV link copied",
+    "pickDoctor": "Doctor",
+    "pickPatient": "Patient",
+    "add": "Add",
+    "waitingCount": "{{count}} waiting",
+    "tvNext": "Next",
+    "tvBad": "This screen isn't set up. Ask the admin for a new TV link.",
+    "tvLoading": "Loading…",
+    "tvWait": "Approx. wait per patient: {{min}} min",
+    "tvAll": "All doctors",
+    "copyLink": "Copy TV link",
+    "department": "Department screen"
   }
 }

@@ -66,6 +66,8 @@ export const SETTINGS_TABS: TabDef[] = [
     { key: "slot_minutes", type: "number", default: 15, min: 5, max: 120 },
     { key: "token_reset", type: "select", default: "daily", options: ["daily", "never"] },
     { key: "consultation_fee", type: "number", default: 0, min: 0 },
+    { key: "avg_consult_minutes", type: "number", default: 10, min: 1, max: 120 },
+    { key: "tv_display_token", type: "text", default: "", ltr: true },
   ] },
   { id: "appointments", kind: "fields", fields: [
     { key: "booking_window_days", type: "number", default: 30, min: 1, max: 365 },
