@@ -2,7 +2,7 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { Bug, Languages, LogOut, MoreHorizontal, Plus, Search, WifiOff, Wifi } from "lucide-react";
+import { Bug, Languages, LogOut, MoreHorizontal, Plus, Search, WifiOff } from "lucide-react";
 import { toast } from "sonner";
 import { GlobalSearch } from "@/components/mc/global-search";
 import { BookAppointmentPanel } from "@/components/mc/book-appointment-panel";
@@ -18,6 +18,12 @@ import { SidePanel } from "@/components/mc/side-panel";
 import { NotificationBell } from "@/components/mc/notification-bell";
 import { DoctorStatusSwitcher } from "@/components/mc/doctor-status-switcher";
 import { PushPrompt } from "@/components/mc/push-prompt";
+import { SyncChip } from "@/components/mc/sync-chip";
+import { EmptyState } from "@/components/mc/empty-state";
+import { useOfflineQueue } from "@/lib/offline-queue";
+
+/** Pages that keep working offline (registration and billing only). */
+const OFFLINE_PATHS = ["/patients/new", "/billing"];
 import { FOOTER_PAGES, findPage, pagesForRoles, quickActionsForRoles, type QuickAction } from "@/config/navigation";
 import { useMyContext } from "@/hooks/use-my-context";
 import { usePreferences } from "@/lib/preferences";
@@ -36,21 +42,6 @@ function useMinWidth(px: number) {
   return ok;
 }
 
-function useOnline() {
-  const [online, setOnline] = useState(true);
-  useEffect(() => {
-    const on = () => setOnline(navigator.onLine);
-    on();
-    window.addEventListener("online", on);
-    window.addEventListener("offline", on);
-    return () => {
-      window.removeEventListener("online", on);
-      window.removeEventListener("offline", on);
-    };
-  }, []);
-  return online;
-}
-
 export function AppShell({ children }: { children: ReactNode }) {
   const { t } = useTranslation();
   const { language, setLanguage } = usePreferences();
@@ -61,7 +52,8 @@ export function AppShell({ children }: { children: ReactNode }) {
   const wide = useMinWidth(1280);
   const [open, setOpen] = useState(true);
   useEffect(() => setOpen(wide), [wide]);
-  const online = useOnline();
+  const { online } = useOfflineQueue();
+  const offlineOk = OFFLINE_PATHS.some((p) => pathname === p || pathname.startsWith(`${p}/`)) && !/^\/patients\/(?!new)/.test(pathname);
   const [panel, setPanel] = useState<QuickAction | null>(null);
   const [reportOpen, setReportOpen] = useState(false);
 
@@ -119,15 +111,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
             <div className="ms-auto flex items-center gap-1.5">
               <GlobalSearch className="w-40 sm:w-56 xl:w-72" />
-              <span
-                className={cn(
-                  "hidden items-center gap-1 rounded-full border px-2 py-0.5 text-xs sm:inline-flex",
-                  online ? "border-ok/40 text-ok" : "border-inactive/40 text-inactive",
-                )}
-              >
-                {online ? <Wifi className="size-3.5" aria-hidden /> : <WifiOff className="size-3.5" aria-hidden />}
-                {online ? t("shell.online") : t("shell.offline")}
-              </span>
+              <SyncChip />
               <Button size="sm" variant="ghost" onClick={() => setLanguage(language === "en" ? "ur" : "en")} aria-label={t("prefs.language")}>
                 <Languages />
                 <span className={cn("hidden sm:inline", language === "en" ? "font-urdu" : "font-sans")}>
@@ -147,7 +131,9 @@ export function AppShell({ children }: { children: ReactNode }) {
 
           <main className="flex-1 p-4 pb-24 md:p-6 md:pb-6">
             <div className="mb-4 empty:hidden"><PushPrompt /></div>
-            {children}
+            {online || offlineOk ? children : (
+              <EmptyState icon={WifiOff} title={t("offline.notAvailable")} description={t("offline.notAvailableBody")} />
+            )}
           </main>
         </SidebarInset>
       </div>
