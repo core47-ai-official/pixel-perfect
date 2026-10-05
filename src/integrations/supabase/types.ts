@@ -727,6 +727,114 @@ export type Database = {
           },
         ]
       }
+      patients: {
+        Row: {
+          address: string | null
+          allergies: string[]
+          b_form: string | null
+          blood_group: string | null
+          chronic_conditions: string[]
+          cnic: string | null
+          created_at: string
+          created_by: string | null
+          district: string | null
+          dob: string | null
+          email: string | null
+          father_or_husband_name: string | null
+          full_name: string
+          gender: string | null
+          guardian_name: string | null
+          guardian_phone: string | null
+          hospital_id: string
+          id: string
+          is_unknown: boolean
+          merged_into: string | null
+          mrn: string
+          phone: string | null
+          pregnancy_status: string | null
+          print_language: string | null
+          province: string | null
+          tehsil: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          address?: string | null
+          allergies?: string[]
+          b_form?: string | null
+          blood_group?: string | null
+          chronic_conditions?: string[]
+          cnic?: string | null
+          created_at?: string
+          created_by?: string | null
+          district?: string | null
+          dob?: string | null
+          email?: string | null
+          father_or_husband_name?: string | null
+          full_name: string
+          gender?: string | null
+          guardian_name?: string | null
+          guardian_phone?: string | null
+          hospital_id: string
+          id?: string
+          is_unknown?: boolean
+          merged_into?: string | null
+          mrn: string
+          phone?: string | null
+          pregnancy_status?: string | null
+          print_language?: string | null
+          province?: string | null
+          tehsil?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          address?: string | null
+          allergies?: string[]
+          b_form?: string | null
+          blood_group?: string | null
+          chronic_conditions?: string[]
+          cnic?: string | null
+          created_at?: string
+          created_by?: string | null
+          district?: string | null
+          dob?: string | null
+          email?: string | null
+          father_or_husband_name?: string | null
+          full_name?: string
+          gender?: string | null
+          guardian_name?: string | null
+          guardian_phone?: string | null
+          hospital_id?: string
+          id?: string
+          is_unknown?: boolean
+          merged_into?: string | null
+          mrn?: string
+          phone?: string | null
+          pregnancy_status?: string | null
+          print_language?: string | null
+          province?: string | null
+          tehsil?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patients_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patients_merged_into_fkey"
+            columns: ["merged_into"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       print_jobs: {
         Row: {
           copies: number
