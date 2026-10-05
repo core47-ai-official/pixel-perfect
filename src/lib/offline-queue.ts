@@ -11,7 +11,7 @@ export interface QueueItem {
   temp_no: string; // provisional number printed while offline
   created_at: string;
   status: "pending" | "failed";
-  error?: string;
+  error?: string | undefined;
 }
 export interface SyncResult { id: string; status: "done" | "failed"; data?: unknown; error?: EdgeError }
 
