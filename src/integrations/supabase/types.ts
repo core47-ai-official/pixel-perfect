@@ -308,6 +308,75 @@ export type Database = {
           },
         ]
       }
+      doctor_leaves: {
+        Row: {
+          affected_appointments: number
+          created_at: string
+          created_by: string | null
+          decided_at: string | null
+          decided_by: string | null
+          decision_note: string | null
+          doctor_id: string
+          from_date: string
+          hospital_id: string
+          id: string
+          reason: string
+          status: Database["public"]["Enums"]["leave_status"]
+          to_date: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          affected_appointments?: number
+          created_at?: string
+          created_by?: string | null
+          decided_at?: string | null
+          decided_by?: string | null
+          decision_note?: string | null
+          doctor_id: string
+          from_date: string
+          hospital_id: string
+          id?: string
+          reason?: string
+          status?: Database["public"]["Enums"]["leave_status"]
+          to_date: string
+          type?: string
+          updated_at?: string
+        }
+        Update: {
+          affected_appointments?: number
+          created_at?: string
+          created_by?: string | null
+          decided_at?: string | null
+          decided_by?: string | null
+          decision_note?: string | null
+          doctor_id?: string
+          from_date?: string
+          hospital_id?: string
+          id?: string
+          reason?: string
+          status?: Database["public"]["Enums"]["leave_status"]
+          to_date?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "doctor_leaves_doctor_id_fkey"
+            columns: ["doctor_id"]
+            isOneToOne: false
+            referencedRelation: "doctors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "doctor_leaves_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       doctor_schedules: {
         Row: {
           created_at: string
@@ -940,6 +1009,7 @@ export type Database = {
         | "on_round"
         | "on_leave"
         | "off_duty"
+      leave_status: "pending" | "approved" | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1089,6 +1159,7 @@ export const Constants = {
         "on_leave",
         "off_duty",
       ],
+      leave_status: ["pending", "approved", "rejected"],
     },
   },
 } as const
