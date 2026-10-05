@@ -667,6 +667,23 @@
         "female": "Female",
         "other": "Other"
       }
+    },
+    "appt": {
+      "title": "Appointment",
+      "token": "Token no.",
+      "doctor": "Doctor",
+      "department": "Department",
+      "date": "Date",
+      "time": "Time",
+      "room": "Room",
+      "type": "Type",
+      "fee": "Fee",
+      "arrive": "Please arrive 15 minutes early.",
+      "types": {
+        "new": "New",
+        "follow_up": "Follow-up",
+        "procedure": "Procedure"
+      }
     }
   },
   "dash": {
@@ -967,5 +984,55 @@
     "failed": "Search unavailable. Check that search-patients is deployed.",
     "none": "No patient found.",
     "register": "Register new patient"
+  },
+  "appt": {
+    "bookTitle": "Book appointment",
+    "book": "Book",
+    "booked": "Booked. Token {{token}}",
+    "confirmed": "Appointment confirmed",
+    "token": "Token",
+    "printSlip": "Print slip",
+    "slotTaken": "That slot was just booked by someone else. Please pick another.",
+    "fnMissing": "Booking is unavailable. Check that get-available-slots and book-appointment are deployed.",
+    "patient": "Patient",
+    "changePatient": "Change patient",
+    "department": "Department",
+    "gender": "Doctor gender",
+    "language": "Language",
+    "any": "Any",
+    "doctor": "Doctor",
+    "pickDoctor": "Choose a doctor",
+    "noDoctors": "No doctors match these filters.",
+    "date": "Date",
+    "type": "Type",
+    "slot": "Time slot",
+    "full": "Full",
+    "fee": "Consultation fee",
+    "tokenNote": "The token number is assigned when you book.",
+    "types": {
+      "new": "New",
+      "follow_up": "Follow-up",
+      "procedure": "Procedure"
+    },
+    "closed": {
+      "on_leave": "The doctor is on leave this day.",
+      "holiday": "Hospital holiday: {{name}}",
+      "no_schedule": "The doctor doesn't see patients on this day."
+    },
+    "statuses": {
+      "booked": "Booked",
+      "waiting": "Waiting",
+      "in_consultation": "In consultation",
+      "done": "Done",
+      "no_show": "No-show",
+      "cancelled": "Cancelled",
+      "needs_rebooking": "Needs rebooking"
+    },
+    "time": "Time",
+    "status": "Status",
+    "cancel": "Cancel",
+    "cancelTitle": "Cancel this appointment?",
+    "cancelled": "Appointment cancelled",
+    "noneForDay": "No appointments on this day."
   }
 }
