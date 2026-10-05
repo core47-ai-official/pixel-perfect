@@ -103,7 +103,7 @@ function ErBoard() {
               ) : (
                 <div key={b.id} className="space-y-1">
                   <Ltr className="font-mono text-xs font-semibold text-muted-foreground">{b.label}</Ltr>
-                  <div className="flex h-[88px] items-center justify-center rounded-lg border border-dashed text-xs text-muted-foreground">{t(`bb.statuses.${b.status}`, b.status)}</div>
+                  <div className="flex h-[88px] items-center justify-center rounded-lg border border-dashed text-xs text-muted-foreground">{t(`wd.statuses.${b.status}`, b.status)}</div>
                 </div>
               );
             })}
@@ -252,7 +252,7 @@ function DispositionPanel({ c, onClose, onDone }: { c: EmergencyCase; onClose: (
           <>
             <div className="space-y-1.5"><Label>{t("er.bedClass")}</Label>
               <Select value={bedClass} onValueChange={setBedClass}><SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>{WARD_TYPES.filter((w) => w !== "er").map((w) => <SelectItem key={w} value={w}>{t(`ws.types.${w}`, w)}</SelectItem>)}</SelectContent></Select></div>
+                <SelectContent>{WARD_TYPES.filter((w) => w !== "er").map((w) => <SelectItem key={w} value={w}>{t(`wd.types.${w}`, w)}</SelectItem>)}</SelectContent></Select></div>
             <div className="space-y-1.5"><Label>{t("adm.priority")}</Label>
               <Select value={priority} onValueChange={setPriority}><SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>{["urgent", "routine"].map((p) => <SelectItem key={p} value={p}>{t(`adm.priorities.${p}`)}</SelectItem>)}</SelectContent></Select></div>

@@ -1619,5 +1619,84 @@
       "routine": "Routine",
       "urgent": "Urgent"
     }
+  },
+  "er": {
+    "registerTitle": "Emergency patient",
+    "registerHint": "Only name, gender, age and complaint are needed. Use Unknown if the patient can't be identified.",
+    "register": "Register",
+    "registered": "Emergency patient registered",
+    "fillRequired": "Fill in name, gender, age and complaint.",
+    "unknown": "Unknown patient (not identified)",
+    "unknownPatient": "Unknown",
+    "name": "Name",
+    "gender": "Gender",
+    "genders": {
+      "male": "Male",
+      "female": "Female",
+      "other": "Other"
+    },
+    "age": "Approximate age (years)",
+    "complaint": "Main complaint",
+    "phone": "Phone",
+    "triage": "Triage colour",
+    "colors": {
+      "red": "Red",
+      "orange": "Orange",
+      "yellow": "Yellow",
+      "green": "Green"
+    },
+    "arrival": "Arrived by",
+    "modes": {
+      "walk_in": "Walk-in",
+      "ambulance": "Ambulance",
+      "police": "Police",
+      "referred": "Referred"
+    },
+    "noPayment": "No payment is taken at emergency registration.",
+    "untriaged": "Not triaged",
+    "waitingNoBay": "Waiting for a bay",
+    "noneWaiting": "Nobody is waiting.",
+    "bays": "Bays",
+    "noBays": "No emergency bays",
+    "noBaysHint": "Add a ward of type Emergency with beds on Ward setup.",
+    "min": "min",
+    "seen": "Seen",
+    "mlc": "Medico-legal case",
+    "bay": "Bay",
+    "noBay": "No bay",
+    "bayAssigned": "Bay updated",
+    "markSeen": "Mark seen by me",
+    "markedSeen": "Marked as seen",
+    "seenBy": "Seen by {{name}} at",
+    "notSeen": "Not seen by a doctor yet",
+    "arrivedAt": "Arrived",
+    "mlcMark": "Mark medico-legal",
+    "mlcEdit": "Medico-legal details",
+    "mlcIs": "This is a medico-legal case",
+    "mlcSaved": "Medico-legal details saved",
+    "mlcRequired": "FIR number, police station and officer name are required.",
+    "mlcFields": {
+      "fir_no": "FIR number",
+      "police_station": "Police station",
+      "officer_name": "Officer name",
+      "officer_badge": "Officer badge number",
+      "brought_by": "Brought by",
+      "injury_summary": "Injury summary"
+    },
+    "disposition": "Outcome",
+    "dispositions": {
+      "admit": "Admit",
+      "discharge": "Discharge",
+      "refer": "Refer",
+      "expired": "Expired",
+      "lama": "LAMA"
+    },
+    "bedClass": "Bed class",
+    "admitNote": "A bed request is sent to the bed board, where a bed is allotted and the admission completed.",
+    "note": "Note",
+    "confirm": "Confirm",
+    "closed": "Emergency case closed",
+    "save": "Save",
+    "openProfile": "Open profile"
   }
 }
