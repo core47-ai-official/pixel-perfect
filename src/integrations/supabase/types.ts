@@ -717,6 +717,30 @@ export type Database = {
         }
         Relationships: []
       }
+      icd10_codes: {
+        Row: {
+          chapter: string | null
+          code: string
+          created_at: string
+          description: string
+          updated_at: string
+        }
+        Insert: {
+          chapter?: string | null
+          code: string
+          created_at?: string
+          description: string
+          updated_at?: string
+        }
+        Update: {
+          chapter?: string | null
+          code?: string
+          created_at?: string
+          description?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       impersonation_sessions: {
         Row: {
           created_at: string
@@ -1238,6 +1262,64 @@ export type Database = {
           },
           {
             foreignKeyName: "visit_addenda_visit_id_fkey"
+            columns: ["visit_id"]
+            isOneToOne: false
+            referencedRelation: "visits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      visit_diagnoses: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string
+          hospital_id: string
+          icd10_code: string
+          id: string
+          is_primary: boolean
+          updated_at: string
+          visit_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description: string
+          hospital_id: string
+          icd10_code: string
+          id?: string
+          is_primary?: boolean
+          updated_at?: string
+          visit_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string
+          hospital_id?: string
+          icd10_code?: string
+          id?: string
+          is_primary?: boolean
+          updated_at?: string
+          visit_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "visit_diagnoses_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "visit_diagnoses_icd10_code_fkey"
+            columns: ["icd10_code"]
+            isOneToOne: false
+            referencedRelation: "icd10_codes"
+            referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "visit_diagnoses_visit_id_fkey"
             columns: ["visit_id"]
             isOneToOne: false
             referencedRelation: "visits"

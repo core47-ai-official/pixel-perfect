@@ -1221,5 +1221,17 @@
       "cardiology": "Cardiology",
       "ortho": "Orthopaedics"
     }
+  },
+  "dx": {
+    "searchPh": "Search ICD-10 by code or words",
+    "searching": "Searching…",
+    "unavailable": "Search unavailable",
+    "none": "No matching codes",
+    "empty": "No diagnosis added yet",
+    "primary": "Primary diagnosis",
+    "markPrimary": "Mark as primary",
+    "remove": "Remove",
+    "save": "Save diagnoses",
+    "saved": "Diagnoses saved"
   }
 }
