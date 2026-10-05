@@ -291,7 +291,8 @@
     "newReceipt": "New receipt",
     "newDeposit": "New deposit",
     "newOtBooking": "OT booking",
-    "newDispense": "Dispense"
+    "newDispense": "Dispense",
+    "newSample": "+ Sample"
   },
   "roles": {
     "super_admin": "Super admin",
@@ -1459,7 +1460,7 @@
     "noMatch": "No test found",
     "none": "No tests ordered yet",
     "noneYet": "Ordered tests and their results will appear here.",
-    "ordered": "Tests ordered",
+    "ordered": "Ordered",
     "order_one": "Order {{count}} test",
     "order_other": "Order {{count}} tests",
     "urgent": "Urgent",
@@ -1478,14 +1479,7 @@
       "lab": "Lab",
       "radiology": "Radiology"
     },
-    "status": {
-      "ordered": "Ordered",
-      "collected": "Sample collected",
-      "in_progress": "In progress",
-      "resulted": "Resulted",
-      "verified": "Verified",
-      "cancelled": "Cancelled"
-    },
+    "status": "Status",
     "flag": {
       "high": "High",
       "low": "Low",
@@ -1507,7 +1501,41 @@
     "add": "Add test",
     "edit": "Edit test",
     "saved": "Test saved",
-    "required": "Enter a code and name"
+    "required": "Enter a code and name",
+    "title": "Lab worklist",
+    "hint": "Orders waiting for samples and results, updated live. Urgent orders are on top.",
+    "priority": "Priority",
+    "all": "All",
+    "patient": "Patient",
+    "barcode": "Barcode",
+    "collect": "Collect",
+    "reject": "Reject",
+    "reprint": "Print label",
+    "empty": "No orders match these filters.",
+    "st": {
+      "ordered": "Waiting for sample",
+      "collected": "Collected",
+      "rejected": "Sample rejected",
+      "resulted": "Resulted",
+      "verified": "Verified",
+      "cancelled": "Cancelled"
+    },
+    "pr": {
+      "urgent": "Urgent",
+      "routine": "Routine"
+    },
+    "rejectTitle": "Reject sample",
+    "rejectReason": "Reason (e.g. haemolysed, clotted, wrong tube)",
+    "rejectConfirm": "Reject sample",
+    "collected": "Sample collected — label ready to print",
+    "rejectedOk": "Sample rejected; the order can be collected again",
+    "label": {
+      "title": "Sample label",
+      "mrn": "MRN",
+      "test": "Test",
+      "sample": "Sample",
+      "collected": "Collected"
+    }
   },
   "wd": {
     "title": "Wards and beds",
