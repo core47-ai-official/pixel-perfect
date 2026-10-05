@@ -3114,6 +3114,78 @@ export type Database = {
           },
         ]
       }
+      purchase_requests: {
+        Row: {
+          approved_by: string | null
+          created_at: string
+          decided_at: string | null
+          decision_note: string | null
+          hospital_id: string
+          id: string
+          items: Json
+          note: string | null
+          received_at: string | null
+          received_batches: Json
+          received_by: string | null
+          requested_by: string | null
+          status: string
+          submitted_at: string | null
+          supplier_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          approved_by?: string | null
+          created_at?: string
+          decided_at?: string | null
+          decision_note?: string | null
+          hospital_id: string
+          id?: string
+          items?: Json
+          note?: string | null
+          received_at?: string | null
+          received_batches?: Json
+          received_by?: string | null
+          requested_by?: string | null
+          status?: string
+          submitted_at?: string | null
+          supplier_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          approved_by?: string | null
+          created_at?: string
+          decided_at?: string | null
+          decision_note?: string | null
+          hospital_id?: string
+          id?: string
+          items?: Json
+          note?: string | null
+          received_at?: string | null
+          received_batches?: Json
+          received_by?: string | null
+          requested_by?: string | null
+          status?: string
+          submitted_at?: string | null
+          supplier_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "purchase_requests_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "purchase_requests_supplier_id_fkey"
+            columns: ["supplier_id"]
+            isOneToOne: false
+            referencedRelation: "suppliers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       push_subscriptions: {
         Row: {
           created_at: string
