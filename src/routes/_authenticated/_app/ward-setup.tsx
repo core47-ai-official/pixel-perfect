@@ -3,6 +3,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Checkbox } from "@/components/ui/checkbox";
+import { callEdgeFunction } from "@/hooks/use-edge-function";
 import { toast } from "sonner";
 import { Plus, Layers, Wind, Activity } from "lucide-react";
 import { RequireRole } from "@/components/mc/require-role";
@@ -125,6 +127,7 @@ function WardSetupPage() {
                 <DataTable rows={wardBeds} columns={columns} searchKeys={["label"]}
                   filters={[{ key: "status", label: t("wd.status"), options: BED_STATUSES.map((v) => ({ value: v, label: t(`wd.statuses.${v}`) })) }]} />
               )}
+              {canEdit && <NurseAssign key={current.id} wardId={current.id} />}
             </div>
           )}
         </div>
@@ -220,5 +223,31 @@ function BulkForm({ ward, onClose }: { ward: Ward; onClose: () => void }) {
         <div className="flex items-center justify-between"><Label htmlFor="bk-v">{t("wd.ventilator")}</Label><Switch id="bk-v" checked={f.has_ventilator} onCheckedChange={(v) => setF({ ...f, has_ventilator: v })} /></div>
       </div>
     </SidePanel>
+  );
+}
+
+type StaffRow = { id: string; full_name: string; is_active: boolean; roles: { role: string }[] };
+
+function NurseAssign({ wardId }: { wardId: string }) {
+  const { t } = useTranslation();
+  const staff = useQuery({ queryKey: ["users"], queryFn: () => callEdgeFunction<StaffRow[]>("list-users") });
+  const current = useQuery({ queryKey: ["ward-nurses", wardId], queryFn: () => callEdgeFunction<{ nurse_ids: string[] }>("set-nurse-wards", { ward_id: wardId }) });
+  const [picked, setPicked] = useState<Set<string> | null>(null);
+  const save = useEdgeFunction("set-nurse-wards", { invalidate: [["ward-nurses", wardId]], successMessage: t("nb.assign.saved") });
+  const nurses = (staff.data ?? []).filter((u) => u.is_active && u.roles.some((r) => r.role === "nurse"));
+  const sel = picked ?? new Set(current.data?.nurse_ids ?? []);
+  const toggle = (id: string) => { const n = new Set(sel); if (n.has(id)) n.delete(id); else n.add(id); setPicked(n); };
+  return (
+    <section className="space-y-3 rounded-lg border bg-card p-4">
+      <h3 className="font-semibold">{t("nb.assign.title")}</h3>
+      {staff.isLoading || current.isLoading ? <Skeleton className="h-16" /> : nurses.length === 0 ? <p className="text-sm text-muted-foreground">{t("nb.assign.none")}</p> : (
+        <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+          {nurses.map((n) => (
+            <label key={n.id} className="flex items-center gap-2 text-sm"><Checkbox checked={sel.has(n.id)} onCheckedChange={() => toggle(n.id)} />{n.full_name}</label>
+          ))}
+        </div>
+      )}
+      {picked && <div className="flex justify-end"><Button size="sm" disabled={save.isPending} onClick={async () => { try { await save.mutateAsync({ ward_id: wardId, nurse_ids: [...sel] }); setPicked(null); } catch { /* shown */ } }}>{t("nb.assign.save")}</Button></div>}
+    </section>
   );
 }
