@@ -42,7 +42,7 @@ export function usePatientAdmissions(patientId: string | undefined) {
 export function useOpenBedRequests() {
   const qc = useQueryClient();
   useEffect(() => {
-    const ch = supabase.channel("bed-requests")
+    const ch = supabase.channel(`bed-requests-${Math.random().toString(36).slice(2)}`)
       .on("postgres_changes", { event: "*", schema: "public", table: "bed_requests" }, () => qc.invalidateQueries({ queryKey: ["bed-requests"] }))
       .subscribe();
     return () => { supabase.removeChannel(ch); };

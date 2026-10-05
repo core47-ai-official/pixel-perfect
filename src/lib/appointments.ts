@@ -97,7 +97,7 @@ export function useAppointmentsRealtime(hospitalId: string | undefined) {
   useEffect(() => {
     if (!hospitalId) return;
     const channel = supabase
-      .channel(`appointments-${hospitalId}`)
+      .channel(`appointments-${hospitalId}-${Math.random().toString(36).slice(2)}`)
       .on("postgres_changes", { event: "*", schema: "public", table: "appointments", filter: `hospital_id=eq.${hospitalId}` },
         () => { void qc.invalidateQueries({ queryKey: ["appointments"] }); })
       .subscribe();

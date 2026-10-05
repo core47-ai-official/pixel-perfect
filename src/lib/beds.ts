@@ -48,7 +48,7 @@ export function useWards() {
 export function useBeds() {
   const qc = useQueryClient();
   useEffect(() => {
-    const ch = supabase.channel("beds-live")
+    const ch = supabase.channel(`beds-live-${Math.random().toString(36).slice(2)}`)
       .on("postgres_changes", { event: "*", schema: "public", table: "beds" }, () => qc.invalidateQueries({ queryKey: ["beds"] }))
       .subscribe();
     return () => { supabase.removeChannel(ch); };

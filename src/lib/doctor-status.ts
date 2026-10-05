@@ -16,7 +16,7 @@ export function useDoctorsRealtime(hospitalId: string | undefined) {
   useEffect(() => {
     if (!hospitalId) return;
     const channel = supabase
-      .channel(`doctors-${hospitalId}`)
+      .channel(`doctors-${hospitalId}-${Math.random().toString(36).slice(2)}`)
       .on("postgres_changes", { event: "*", schema: "public", table: "doctors", filter: `hospital_id=eq.${hospitalId}` },
         () => { void qc.invalidateQueries({ queryKey: ["doctors"] }); })
       .subscribe();
