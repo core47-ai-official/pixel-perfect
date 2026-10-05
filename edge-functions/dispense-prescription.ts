@@ -251,7 +251,7 @@ Deno.serve(async (req) => {
     if (error) { await undo(); return fail("server", "Could not save the dispensing. Nothing was taken from stock.", 500); }
     const charge = await addCharge(db, { hospitalId: c.hospitalId, patientId: rx.patient_id, admissionId: adm?.id ?? null, visitId: adm ? null : rx.visit_id,
       description: `Pharmacy — ${medName(w.med)} (batch ${p.batch_no})`, qty: p.qty, rate, sourceType: "dispensation", sourceId: d.id, postedBy: c.userId });
-    lines.push({ ...d, medicine_name: medName(w.med), batch_no: p.batch_no, expiry_date: p.expiry_date, invoice_no: charge?.invoice?.invoice_no ?? null });
+    lines.push({ ...d, medicine_name: medName(w.med), batch_no: p.batch_no, expiry_date: p.expiry_date, charge_amount: charge?.amount ?? 0 });
   }
 
   for (const w of work) given.set(w.it.id, (given.get(w.it.id) ?? 0) + w.qty);
