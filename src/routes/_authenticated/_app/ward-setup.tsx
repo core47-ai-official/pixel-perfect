@@ -1,3 +1,4 @@
+import type React from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -33,7 +34,7 @@ export const Route = createFileRoute("/_authenticated/_app/ward-setup")({
 export const WARD_TYPES = ["general", "semi_private", "private", "hdu", "icu", "nicu", "isolation", "er"] as const;
 export const WARD_GENDERS = ["male", "female", "any"] as const;
 export const BED_STATUSES = ["free", "occupied", "cleaning", "reserved", "out_of_service"] as const;
-const STATUS_TONE: Record<string, string> = { free: "ok", occupied: "urgent", cleaning: "caution", reserved: "progress", out_of_service: "inactive" };
+const STATUS_TONE: Record<string, React.ComponentProps<typeof StatusChip>["status"]> = { free: "ok", occupied: "urgent", cleaning: "caution", reserved: "progress", out_of_service: "inactive" };
 
 type Ward = { id: string; name: string; type: string; gender: string; floor: string | null; is_active: boolean };
 type Bed = { id: string; ward_id: string; label: string; bed_class: string; daily_rate: number; status: string; has_oxygen: boolean; has_ventilator: boolean };
