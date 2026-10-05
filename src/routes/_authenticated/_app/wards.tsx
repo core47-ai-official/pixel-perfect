@@ -106,7 +106,7 @@ function CountButton({ label, value, active, onClick, className }: { label: stri
   );
 }
 
-function BedPanel({ bed, ward, canAct, isAdmin, onClose }: { bed: Bed; ward?: Ward; canAct: boolean; isAdmin: boolean; onClose: () => void }) {
+function BedPanel({ bed, ward, canAct, isAdmin, onClose }: { bed: Bed; ward: Ward | undefined; canAct: boolean; isAdmin: boolean; onClose: () => void }) {
   const { t } = useTranslation();
   const update = useEdgeFunction("update-bed-status", { invalidate: [["beds"]], successMessage: t("bb.updated") });
   const actions = canAct ? allowedBedActions(bed.status, isAdmin) : [];
