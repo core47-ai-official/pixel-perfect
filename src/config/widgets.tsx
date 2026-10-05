@@ -209,7 +209,7 @@ function WardBeds({ data }: WidgetProps<OccupancyData & { no_wards?: boolean; wa
   return (
     <Panel title={t("dash.w.wardBeds")} icon={BedDouble} action={<Link to="/nursing" className="text-xs font-medium hover:underline">{t("dash.w.open")}</Link>}>
       <div className="grid grid-cols-4 gap-2">
-        {cells.map(([k, n, cls]) => <div key={k} className={`rounded-staff p-2 text-center ${cls}`}><p className="text-xl font-semibold"><Ltr>{n}</Ltr></p><p className="text-xs">{t(`beds.status.${k}`, k)}</p></div>)}
+        {cells.map(([k, n, cls]) => <div key={k} className={`rounded-staff p-2 text-center ${cls}`}><p className="text-xl font-semibold"><Ltr>{n}</Ltr></p><p className="text-xs">{t(`wd.statuses.${k}`, k)}</p></div>)}
       </div>
     </Panel>
   );
