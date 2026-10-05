@@ -678,6 +678,79 @@ export type Database = {
           },
         ]
       }
+      deposits: {
+        Row: {
+          admission_id: string | null
+          amount: number
+          applied_amount: number
+          created_at: string
+          created_by: string | null
+          hospital_id: string
+          id: string
+          note: string
+          patient_id: string
+          payment_mode: string
+          receipt_no: string
+          received_by: string
+          shift_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          admission_id?: string | null
+          amount: number
+          applied_amount?: number
+          created_at?: string
+          created_by?: string | null
+          hospital_id: string
+          id?: string
+          note?: string
+          patient_id: string
+          payment_mode?: string
+          receipt_no: string
+          received_by: string
+          shift_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          admission_id?: string | null
+          amount?: number
+          applied_amount?: number
+          created_at?: string
+          created_by?: string | null
+          hospital_id?: string
+          id?: string
+          note?: string
+          patient_id?: string
+          payment_mode?: string
+          receipt_no?: string
+          received_by?: string
+          shift_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deposits_admission_id_fkey"
+            columns: ["admission_id"]
+            isOneToOne: false
+            referencedRelation: "admissions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deposits_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deposits_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       doctor_leaves: {
         Row: {
           affected_appointments: number
@@ -1850,6 +1923,121 @@ export type Database = {
             columns: ["merged_into"]
             isOneToOne: false
             referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payments: {
+        Row: {
+          amount: number
+          created_at: string
+          created_by: string | null
+          deposit_id: string | null
+          hospital_id: string
+          id: string
+          invoice_id: string
+          kind: string
+          patient_id: string
+          payment_mode: string
+          reason: string | null
+          receipt_no: string
+          received_by: string
+          reversal_reason: string | null
+          reversal_requested_at: string | null
+          reversal_requested_by: string | null
+          reversed_by_id: string | null
+          reverses_id: string | null
+          shift_id: string | null
+          tendered: number | null
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          created_by?: string | null
+          deposit_id?: string | null
+          hospital_id: string
+          id?: string
+          invoice_id: string
+          kind?: string
+          patient_id: string
+          payment_mode?: string
+          reason?: string | null
+          receipt_no: string
+          received_by: string
+          reversal_reason?: string | null
+          reversal_requested_at?: string | null
+          reversal_requested_by?: string | null
+          reversed_by_id?: string | null
+          reverses_id?: string | null
+          shift_id?: string | null
+          tendered?: number | null
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          created_by?: string | null
+          deposit_id?: string | null
+          hospital_id?: string
+          id?: string
+          invoice_id?: string
+          kind?: string
+          patient_id?: string
+          payment_mode?: string
+          reason?: string | null
+          receipt_no?: string
+          received_by?: string
+          reversal_reason?: string | null
+          reversal_requested_at?: string | null
+          reversal_requested_by?: string | null
+          reversed_by_id?: string | null
+          reverses_id?: string | null
+          shift_id?: string | null
+          tendered?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_deposit_fk"
+            columns: ["deposit_id"]
+            isOneToOne: false
+            referencedRelation: "deposits"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_reversed_by_id_fkey"
+            columns: ["reversed_by_id"]
+            isOneToOne: false
+            referencedRelation: "payments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_reverses_id_fkey"
+            columns: ["reverses_id"]
+            isOneToOne: false
+            referencedRelation: "payments"
             referencedColumns: ["id"]
           },
         ]
