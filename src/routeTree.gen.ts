@@ -53,6 +53,7 @@ import { Route as AuthenticatedAppStaffRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedAppSupportTicketsRouteImport } from './routes/_authenticated/_app/support-tickets'
 import { Route as AuthenticatedAppSystemIssuesRouteImport } from './routes/_authenticated/_app/system-issues'
 import { Route as AuthenticatedAppUsersRouteImport } from './routes/_authenticated/_app/users'
+import { Route as AuthenticatedAppWardSetupRouteImport } from './routes/_authenticated/_app/ward-setup'
 import { Route as AuthenticatedAppWardsRouteImport } from './routes/_authenticated/_app/wards'
 import { Route as TvDepartmentDepartmentIdRouteImport } from './routes/tv.department.$departmentId'
 import { Route as AuthenticatedAppConsultationsVisitIdRouteImport } from './routes/_authenticated/_app/consultations_.$visitId'
@@ -301,6 +302,12 @@ const AuthenticatedAppUsersRoute = AuthenticatedAppUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => AuthenticatedAppRouteRoute,
 } as any)
+const AuthenticatedAppWardSetupRoute =
+  AuthenticatedAppWardSetupRouteImport.update({
+    id: '/ward-setup',
+    path: '/ward-setup',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
 const AuthenticatedAppWardsRoute = AuthenticatedAppWardsRouteImport.update({
   id: '/wards',
   path: '/wards',
@@ -380,6 +387,7 @@ export interface FileRoutesByFullPath {
   '/support-tickets': typeof AuthenticatedAppSupportTicketsRoute
   '/system-issues': typeof AuthenticatedAppSystemIssuesRoute
   '/users': typeof AuthenticatedAppUsersRoute
+  '/ward-setup': typeof AuthenticatedAppWardSetupRoute
   '/wards': typeof AuthenticatedAppWardsRoute
   '/tv/department/$departmentId': typeof TvDepartmentDepartmentIdRoute
   '/consultations/$visitId': typeof AuthenticatedAppConsultationsVisitIdRoute
@@ -430,6 +438,7 @@ export interface FileRoutesByTo {
   '/support-tickets': typeof AuthenticatedAppSupportTicketsRoute
   '/system-issues': typeof AuthenticatedAppSystemIssuesRoute
   '/users': typeof AuthenticatedAppUsersRoute
+  '/ward-setup': typeof AuthenticatedAppWardSetupRoute
   '/wards': typeof AuthenticatedAppWardsRoute
   '/tv/department/$departmentId': typeof TvDepartmentDepartmentIdRoute
   '/consultations/$visitId': typeof AuthenticatedAppConsultationsVisitIdRoute
@@ -483,6 +492,7 @@ export interface FileRoutesById {
   '/_authenticated/_app/support-tickets': typeof AuthenticatedAppSupportTicketsRoute
   '/_authenticated/_app/system-issues': typeof AuthenticatedAppSystemIssuesRoute
   '/_authenticated/_app/users': typeof AuthenticatedAppUsersRoute
+  '/_authenticated/_app/ward-setup': typeof AuthenticatedAppWardSetupRoute
   '/_authenticated/_app/wards': typeof AuthenticatedAppWardsRoute
   '/tv/department/$departmentId': typeof TvDepartmentDepartmentIdRoute
   '/_authenticated/_app/consultations_/$visitId': typeof AuthenticatedAppConsultationsVisitIdRoute
@@ -535,6 +545,7 @@ export interface FileRouteTypes {
     | '/support-tickets'
     | '/system-issues'
     | '/users'
+    | '/ward-setup'
     | '/wards'
     | '/tv/department/$departmentId'
     | '/consultations/$visitId'
@@ -585,6 +596,7 @@ export interface FileRouteTypes {
     | '/support-tickets'
     | '/system-issues'
     | '/users'
+    | '/ward-setup'
     | '/wards'
     | '/tv/department/$departmentId'
     | '/consultations/$visitId'
@@ -637,6 +649,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/support-tickets'
     | '/_authenticated/_app/system-issues'
     | '/_authenticated/_app/users'
+    | '/_authenticated/_app/ward-setup'
     | '/_authenticated/_app/wards'
     | '/tv/department/$departmentId'
     | '/_authenticated/_app/consultations_/$visitId'
@@ -967,6 +980,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppUsersRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
+    '/_authenticated/_app/ward-setup': {
+      id: '/_authenticated/_app/ward-setup'
+      path: '/ward-setup'
+      fullPath: '/ward-setup'
+      preLoaderRoute: typeof AuthenticatedAppWardSetupRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
     '/_authenticated/_app/wards': {
       id: '/_authenticated/_app/wards'
       path: '/wards'
@@ -1047,6 +1067,7 @@ interface AuthenticatedAppRouteRouteChildren {
   AuthenticatedAppSupportTicketsRoute: typeof AuthenticatedAppSupportTicketsRoute
   AuthenticatedAppSystemIssuesRoute: typeof AuthenticatedAppSystemIssuesRoute
   AuthenticatedAppUsersRoute: typeof AuthenticatedAppUsersRoute
+  AuthenticatedAppWardSetupRoute: typeof AuthenticatedAppWardSetupRoute
   AuthenticatedAppWardsRoute: typeof AuthenticatedAppWardsRoute
   AuthenticatedAppConsultationsVisitIdRoute: typeof AuthenticatedAppConsultationsVisitIdRoute
   AuthenticatedAppDoctorsDoctorIdRoute: typeof AuthenticatedAppDoctorsDoctorIdRoute
@@ -1089,6 +1110,7 @@ const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
   AuthenticatedAppSupportTicketsRoute: AuthenticatedAppSupportTicketsRoute,
   AuthenticatedAppSystemIssuesRoute: AuthenticatedAppSystemIssuesRoute,
   AuthenticatedAppUsersRoute: AuthenticatedAppUsersRoute,
+  AuthenticatedAppWardSetupRoute: AuthenticatedAppWardSetupRoute,
   AuthenticatedAppWardsRoute: AuthenticatedAppWardsRoute,
   AuthenticatedAppConsultationsVisitIdRoute:
     AuthenticatedAppConsultationsVisitIdRoute,
