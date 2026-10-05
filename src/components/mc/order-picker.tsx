@@ -135,9 +135,8 @@ function CancelOrder({ order, onClose }: { order: LabOrder; onClose: () => void 
       title={t("lab.cancelTitle", { test: order.test?.code ?? "" })}
       description={order.test?.name ?? ""}
       confirmLabel={t("lab.cancelOrder")}
-      destructive
-      requireReason
-      onConfirm={async (reason?: string) => {
+      danger
+      onConfirm={async (reason: string) => {
         try {
           await callEdgeFunction("cancel-order", { order_id: order.id, reason });
           await qc.invalidateQueries({ queryKey: ["orders"] });

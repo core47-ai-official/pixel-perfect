@@ -28,6 +28,7 @@ import { useAddenda, usePatientVisits, useVisit, useVitals, type Visit } from "@
 import { NOTE_TEMPLATES, templateForSpecialty } from "@/config/note-templates";
 import { DiagnosisPicker } from "@/components/mc/diagnosis-picker";
 import { PrescriptionPanel } from "@/components/mc/prescription-panel";
+import { OrderPicker } from "@/components/mc/order-picker";
 
 export const Route = createFileRoute("/_authenticated/_app/consultations_/$visitId")({
   head: () => ({
@@ -384,7 +385,7 @@ function RightPanel({ visit }: { visit: Visit }) {
   return (
     <aside className="space-y-4">
       <DiagnosisPicker visitId={visit.id} canEdit={canEdit} />
-      {box(<FlaskConical className="size-4" />, t("consult.orders"))}
+      <OrderPicker visitId={visit.id} canEdit={canEdit} />
       <PrescriptionPanel visit={visit} canEdit={canEdit} />
     </aside>
   );
