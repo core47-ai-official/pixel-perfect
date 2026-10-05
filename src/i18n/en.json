@@ -1944,6 +1944,31 @@
     "installments": "Number of installments",
     "requestBtn": "Discount / waiver",
     "waitingBanner": "{{n}} approval request(s) waiting",
-    "openInbox": "Open approvals"
+    "openInbox": "Open approvals",
+    "firstDue": "First due date",
+    "everyDays": "Every (days)",
+    "planHint": "The plan starts once an admin approves it. Payments are counted against the earliest installment first."
+  },
+  "clr": {
+    "error": "Billing clearance can't be checked right now, so discharge is blocked.",
+    "cleared": "Billing cleared",
+    "blocked": "Not cleared: {{amount}} still due",
+    "howTo": "Take payment at the billing counter, or get a waiver or installment plan approved.",
+    "by": {
+      "paid": "Paid",
+      "waiver": "Waived",
+      "installment": "Installment plan"
+    }
+  },
+  "plan": {
+    "title": "Installment plan",
+    "status": {
+      "active": "Active",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "paid": "Paid",
+    "overdue": "Overdue",
+    "due": "Due"
   }
 }

@@ -27,6 +27,7 @@ import {
 import type { Invoice } from "@/components/mc/patient-bills-tab";
 import { cn } from "@/lib/utils";
 import { useApprovals } from "@/lib/approvals";
+import { useInvoicePlan, todayPk, type InstallmentPlan } from "@/lib/installments";
 import { RequestApprovalPanel } from "@/components/mc/request-approval-panel";
 
 export const Route = createFileRoute("/_authenticated/_app/billing")({
@@ -143,6 +144,7 @@ function BillingCounter() {
   const pendingApprovals = useApprovals({ status: "pending" });
   const billApprovals = useApprovals({ status: "pending", invoiceId: invoice?.id ?? null });
   const [apvOpen, setApvOpen] = useState(false);
+  const plan = useInvoicePlan(invoice?.id ?? null);
 
   return (
     <div className="mx-auto max-w-6xl space-y-4 p-4">
@@ -239,6 +241,8 @@ function BillingCounter() {
                   </div>
                 ))}
               </div>
+
+              {plan.data && <PlanCard plan={plan.data} />}
 
               {payable && (
                 <div className="flex flex-wrap items-center gap-2">
@@ -438,5 +442,32 @@ function ReversalPanel({ payment, onClose, onDone }: { payment: Payment | null; 
         </div>
       )}
     </SidePanel>
+  );
+}
+
+function PlanCard({ plan }: { plan: InstallmentPlan }) {
+  const { t } = useTranslation();
+  const today = todayPk();
+  return (
+    <div className="rounded-staff border bg-surface p-3">
+      <div className="mb-2 flex items-center justify-between">
+        <h3 className="font-semibold">{t("plan.title")}</h3>
+        <StatusChip status={plan.status === "active" ? "progress" : "ok"}>{t(`plan.status.${plan.status}`)}</StatusChip>
+      </div>
+      <ol className="divide-y text-sm">
+        {plan.schedule.map((s, i) => {
+          const done = s.paid >= s.amount;
+          const late = !done && s.due_date < today;
+          return (
+            <li key={s.due_date} className="flex flex-wrap justify-between gap-2 py-1.5">
+              <span>{i + 1}. <Ltr>{s.due_date}</Ltr></span>
+              <span className={cn(late && "font-semibold text-urgent-fg", done && "text-ok-fg")}>
+                <Ltr>{formatPkr(s.paid)}</Ltr> / <Ltr>{formatPkr(s.amount)}</Ltr> · {done ? t("plan.paid") : late ? t("plan.overdue") : t("plan.due")}
+              </span>
+            </li>
+          );
+        })}
+      </ol>
+    </div>
   );
 }
