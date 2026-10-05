@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 export const REFERRAL_URGENCY = ["routine", "urgent", "emergency"] as const;
 export const REFERRAL_STATUS = ["sent", "accepted", "rejected", "completed"] as const;
 export const REFERRAL_NEXT: Record<string, string[]> = { sent: ["accepted", "rejected"], accepted: ["completed"] };
-export const REFERRAL_TONE: Record<string, "info" | "ok" | "urgent" | "inactive"> = { sent: "info", accepted: "ok", rejected: "urgent", completed: "inactive" };
+export const REFERRAL_TONE: Record<string, "progress" | "ok" | "urgent" | "inactive"> = { sent: "progress", accepted: "ok", rejected: "urgent", completed: "inactive" };
 export const REFERRAL_WRITE_ROLES = ["super_admin", "admin", "dept_head", "doctor", "er_officer"];
 export const REFERRAL_INVALIDATE = [["referrals"], ["er-cases"], ["beds"], ["patient-summary"]];
 

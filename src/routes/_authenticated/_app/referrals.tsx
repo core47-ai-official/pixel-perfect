@@ -68,8 +68,8 @@ function ReferralTable({ direction, canWrite, onLetter, onStatus }: { direction:
     { key: "patient", header: t("ref.col.patient"), sortable: true, render: (r) => <div><p className="font-medium">{r.patient}</p><Ltr className="font-mono text-xs text-muted-foreground">{r.mrn}</Ltr></div> },
     { key: "facility", header: t("ref.col.facility"), sortable: true, render: (r) => <Ltr>{r.facility}</Ltr> },
     { key: "reason", header: t("ref.col.reason"), render: (r) => <span className="line-clamp-2 text-sm">{r.reason}</span> },
-    { key: "urgency", header: t("ref.col.urgency"), render: (r) => <StatusChip status={r.urgency === "routine" ? "info" : "urgent"}>{t(`ref.urg.${r.urgency}`)}</StatusChip> },
-    { key: "status", header: t("ref.col.status"), render: (r) => <div><StatusChip status={REFERRAL_TONE[r.status] ?? "info"}>{t(`ref.status.${r.status}`)}</StatusChip>
+    { key: "urgency", header: t("ref.col.urgency"), render: (r) => <StatusChip status={r.urgency === "routine" ? "inactive" : r.urgency === "urgent" ? "warning" : "urgent"}>{t(`ref.urg.${r.urgency}`)}</StatusChip> },
+    { key: "status", header: t("ref.col.status"), render: (r) => <div><StatusChip status={REFERRAL_TONE[r.status] ?? "progress"}>{t(`ref.status.${r.status}`)}</StatusChip>
       {r.status_note && <p className="mt-1 text-xs text-muted-foreground">{r.status_note}</p>}</div> },
     { key: "id", header: t("ref.col.actions"), render: (r) => (
       <div className="flex justify-end gap-1">
