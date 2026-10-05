@@ -232,7 +232,7 @@
     "appointments": "Appointments",
     "opdQueue": "OPD queue",
     "consultations": "Consultations",
-    "wards": "Wards & beds",
+    "wards": "Bed board",
     "nursing": "Nursing",
     "emergency": "Emergency",
     "ot": "Operation theatre",
@@ -728,7 +728,10 @@
       "activeUsersDesc": "Staff who signed in during the selected dates.",
       "errorsToday": "Errors today",
       "errorsTodayCap": "Recorded app errors",
-      "errorsTodayDesc": "App errors recorded during the selected dates."
+      "errorsTodayDesc": "App errors recorded during the selected dates.",
+      "bedOccupancy": "Bed occupancy",
+      "bedOccupancyDesc": "Occupied beds out of all beds, with free and cleaning counts.",
+      "bedOccupancyCap": "{{occupied}} of {{total}} beds occupied · {{free}} free · {{cleaning}} cleaning"
     }
   },
   "dept": {
@@ -1480,6 +1483,29 @@
       "cleaning": "Cleaning",
       "reserved": "Reserved",
       "out_of_service": "Out of service"
+    }
+  },
+  "bb": {
+    "allTypes": "All ward types",
+    "allGenders": "All genders",
+    "live": "Live",
+    "total": "All beds",
+    "empty": "No wards match these filters.",
+    "noBeds": "No beds in this ward yet.",
+    "bed": "Bed",
+    "ward": "Ward",
+    "since": "Status since",
+    "yes": "Yes",
+    "no": "No",
+    "updated": "Bed updated",
+    "viewOnly": "Only nurses and admins can change bed status.",
+    "occupiedNote": "This bed is occupied. It becomes free only through discharge or transfer.",
+    "to": {
+      "free": "Mark free",
+      "cleaning": "Mark cleaning",
+      "reserved": "Reserve",
+      "out_of_service": "Take out of service",
+      "occupied": "Occupied"
     }
   }
 }

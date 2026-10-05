@@ -1,3 +1,4 @@
+import type React from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -114,7 +115,7 @@ function BedPanel({ bed, ward, canAct, isAdmin, onClose }: { bed: Bed; ward?: Wa
   };
   const row = (k: string, v: React.ReactNode) => <div className="flex justify-between gap-3 py-1.5 text-sm"><span className="text-muted-foreground">{k}</span><span>{v}</span></div>;
   return (
-    <SidePanel open onOpenChange={(o) => !o && onClose()} title={<span>{t("bb.bed")} <Ltr className="font-mono">{bed.label}</Ltr></span> as unknown as string}>
+    <SidePanel open onOpenChange={(o) => !o && onClose()} title={`${t("bb.bed")} ${bed.label}`}>
       <div className="space-y-4">
         <StatusChip status={BED_TONE[bed.status]}>{t(`wd.statuses.${bed.status}`)}</StatusChip>
         <div className="divide-y">

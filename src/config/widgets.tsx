@@ -5,7 +5,7 @@
  */
 import type { ComponentType } from "react";
 import { useTranslation } from "react-i18next";
-import { AlertTriangle, Users } from "lucide-react";
+import { AlertTriangle, BedDouble, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { StatCard } from "@/components/mc/stat-card";
 import type { AppRole } from "@/hooks/use-my-context";
@@ -50,7 +50,21 @@ function ErrorsToday({ data }: WidgetProps<CountData>) {
   return <StatCard label={t("dash.w.errorsToday")} value={data.value} {...trendProp(data)} icon={AlertTriangle} goodWhen="down" caption={t("dash.w.errorsTodayCap")} />;
 }
 
+interface OccupancyData { total: number; occupied: number; free: number; cleaning: number; reserved: number; out_of_service: number }
+
+function BedOccupancy({ data }: WidgetProps<OccupancyData>) {
+  const { t } = useTranslation();
+  const usable = data.total - data.out_of_service;
+  const pct = usable > 0 ? Math.round((data.occupied / usable) * 100) : 0;
+  return <StatCard label={t("dash.w.bedOccupancy")} value={`${pct}%`} icon={BedDouble}
+    caption={t("dash.w.bedOccupancyCap", { occupied: data.occupied, total: usable, free: data.free, cleaning: data.cleaning })} />;
+}
+
 export const WIDGETS: WidgetDef[] = [
+  {
+    id: "bed_occupancy", title: "dash.w.bedOccupancy", description: "dash.w.bedOccupancyDesc", icon: BedDouble,
+    roles: ["super_admin", "admin", "nurse", "dept_head", "receptionist", "er_officer"], sizes: ["small", "medium", "wide"], defaultSize: "small", component: BedOccupancy,
+  },
   {
     id: "active_users", title: "dash.w.activeUsers", description: "dash.w.activeUsersDesc", icon: Users,
     roles: ["super_admin", "admin"], sizes: ["small", "medium", "wide"], defaultSize: "small", component: ActiveUsers,
@@ -69,8 +83,9 @@ export function widgetsForRoles(roles: AppRole[]) {
 
 /** Fallback when company settings have no role default (the server applies the same rule). */
 export const CODE_DEFAULTS: Partial<Record<AppRole, LayoutItem[]>> = {
-  super_admin: [{ id: "active_users", size: "small" }, { id: "errors_today", size: "small" }],
-  admin: [{ id: "active_users", size: "small" }],
+  super_admin: [{ id: "active_users", size: "small" }, { id: "errors_today", size: "small" }, { id: "bed_occupancy", size: "small" }],
+  admin: [{ id: "active_users", size: "small" }, { id: "bed_occupancy", size: "small" }],
+  nurse: [{ id: "bed_occupancy", size: "small" }],
 };
 
 export function defaultLayoutFor(roles: AppRole[]): LayoutItem[] {
