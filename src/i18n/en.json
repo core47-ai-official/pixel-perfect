@@ -2602,5 +2602,51 @@
       "on_call": "On call",
       "upcoming": "Upcoming"
     }
+  },
+  "ds": {
+    "title": "Discharge summary",
+    "saved": "Draft saved",
+    "finalized": "Summary finalized",
+    "print": "Print",
+    "saveDraft": "Save draft",
+    "finalize": "Finalize",
+    "none": "No discharge summary was written for this stay.",
+    "lockedAt": "Finalized and locked on",
+    "draftHint": "Prefilled from this stay's visits, diagnoses, operation notes and prescriptions. Review and edit before finalizing.",
+    "addMed": "Add medicine",
+    "removeMed": "Remove medicine",
+    "noMeds": "No discharge medicines.",
+    "fuHint": "The patient and doctor get a reminder the day before.",
+    "finalizeTitle": "Finalize discharge summary?",
+    "finalizeBody": "The summary will be locked and can no longer be edited. A follow-up reminder is scheduled if a date is set.",
+    "required": "Discharge summary not finalized",
+    "requiredBody": "A doctor must finalize the discharge summary before the patient can be discharged.",
+    "f": {
+      "diagnosis": "Diagnosis",
+      "procedures": "Procedures",
+      "course": "Hospital course",
+      "condition_at_discharge": "Condition at discharge",
+      "medicines": "Discharge medicines",
+      "follow_up_date": "Follow-up date",
+      "advice_en": "Advice (English)",
+      "advice_ur": "Advice (Urdu)"
+    },
+    "m": {
+      "name": "Medicine",
+      "dose": "Dose",
+      "frequency": "Frequency",
+      "days": "Days",
+      "instrEn": "Instructions (English)",
+      "instrUr": "Instructions (Urdu)"
+    },
+    "p": {
+      "title": "Discharge Summary",
+      "draft": "DRAFT — not finalized",
+      "patient": "Patient",
+      "mrn": "MRN",
+      "admitted": "Admitted",
+      "discharged": "Discharged",
+      "advice": "Advice"
+    }
   }
 }
