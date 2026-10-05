@@ -34,6 +34,7 @@ import { Route as AuthenticatedAppFormularyRouteImport } from './routes/_authent
 import { Route as AuthenticatedAppHelpRouteImport } from './routes/_authenticated/_app/help'
 import { Route as AuthenticatedAppInventoryRouteImport } from './routes/_authenticated/_app/inventory'
 import { Route as AuthenticatedAppLabRouteImport } from './routes/_authenticated/_app/lab'
+import { Route as AuthenticatedAppLabTestsRouteImport } from './routes/_authenticated/_app/lab-tests'
 import { Route as AuthenticatedAppLeaveApprovalsRouteImport } from './routes/_authenticated/_app/leave-approvals'
 import { Route as AuthenticatedAppMyAppointmentsRouteImport } from './routes/_authenticated/_app/my-appointments'
 import { Route as AuthenticatedAppMyBillsRouteImport } from './routes/_authenticated/_app/my-bills'
@@ -194,6 +195,12 @@ const AuthenticatedAppLabRoute = AuthenticatedAppLabRouteImport.update({
   path: '/lab',
   getParentRoute: () => AuthenticatedAppRouteRoute,
 } as any)
+const AuthenticatedAppLabTestsRoute =
+  AuthenticatedAppLabTestsRouteImport.update({
+    id: '/lab-tests',
+    path: '/lab-tests',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
 const AuthenticatedAppLeaveApprovalsRoute =
   AuthenticatedAppLeaveApprovalsRouteImport.update({
     id: '/leave-approvals',
@@ -354,6 +361,7 @@ export interface FileRoutesByFullPath {
   '/help': typeof AuthenticatedAppHelpRoute
   '/inventory': typeof AuthenticatedAppInventoryRoute
   '/lab': typeof AuthenticatedAppLabRoute
+  '/lab-tests': typeof AuthenticatedAppLabTestsRoute
   '/leave-approvals': typeof AuthenticatedAppLeaveApprovalsRoute
   '/my-appointments': typeof AuthenticatedAppMyAppointmentsRoute
   '/my-bills': typeof AuthenticatedAppMyBillsRoute
@@ -403,6 +411,7 @@ export interface FileRoutesByTo {
   '/help': typeof AuthenticatedAppHelpRoute
   '/inventory': typeof AuthenticatedAppInventoryRoute
   '/lab': typeof AuthenticatedAppLabRoute
+  '/lab-tests': typeof AuthenticatedAppLabTestsRoute
   '/leave-approvals': typeof AuthenticatedAppLeaveApprovalsRoute
   '/my-appointments': typeof AuthenticatedAppMyAppointmentsRoute
   '/my-bills': typeof AuthenticatedAppMyBillsRoute
@@ -455,6 +464,7 @@ export interface FileRoutesById {
   '/_authenticated/_app/help': typeof AuthenticatedAppHelpRoute
   '/_authenticated/_app/inventory': typeof AuthenticatedAppInventoryRoute
   '/_authenticated/_app/lab': typeof AuthenticatedAppLabRoute
+  '/_authenticated/_app/lab-tests': typeof AuthenticatedAppLabTestsRoute
   '/_authenticated/_app/leave-approvals': typeof AuthenticatedAppLeaveApprovalsRoute
   '/_authenticated/_app/my-appointments': typeof AuthenticatedAppMyAppointmentsRoute
   '/_authenticated/_app/my-bills': typeof AuthenticatedAppMyBillsRoute
@@ -506,6 +516,7 @@ export interface FileRouteTypes {
     | '/help'
     | '/inventory'
     | '/lab'
+    | '/lab-tests'
     | '/leave-approvals'
     | '/my-appointments'
     | '/my-bills'
@@ -555,6 +566,7 @@ export interface FileRouteTypes {
     | '/help'
     | '/inventory'
     | '/lab'
+    | '/lab-tests'
     | '/leave-approvals'
     | '/my-appointments'
     | '/my-bills'
@@ -606,6 +618,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/help'
     | '/_authenticated/_app/inventory'
     | '/_authenticated/_app/lab'
+    | '/_authenticated/_app/lab-tests'
     | '/_authenticated/_app/leave-approvals'
     | '/_authenticated/_app/my-appointments'
     | '/_authenticated/_app/my-bills'
@@ -821,6 +834,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppLabRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
+    '/_authenticated/_app/lab-tests': {
+      id: '/_authenticated/_app/lab-tests'
+      path: '/lab-tests'
+      fullPath: '/lab-tests'
+      preLoaderRoute: typeof AuthenticatedAppLabTestsRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
     '/_authenticated/_app/leave-approvals': {
       id: '/_authenticated/_app/leave-approvals'
       path: '/leave-approvals'
@@ -1008,6 +1028,7 @@ interface AuthenticatedAppRouteRouteChildren {
   AuthenticatedAppHelpRoute: typeof AuthenticatedAppHelpRoute
   AuthenticatedAppInventoryRoute: typeof AuthenticatedAppInventoryRoute
   AuthenticatedAppLabRoute: typeof AuthenticatedAppLabRoute
+  AuthenticatedAppLabTestsRoute: typeof AuthenticatedAppLabTestsRoute
   AuthenticatedAppLeaveApprovalsRoute: typeof AuthenticatedAppLeaveApprovalsRoute
   AuthenticatedAppMyAppointmentsRoute: typeof AuthenticatedAppMyAppointmentsRoute
   AuthenticatedAppMyBillsRoute: typeof AuthenticatedAppMyBillsRoute
@@ -1049,6 +1070,7 @@ const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
   AuthenticatedAppHelpRoute: AuthenticatedAppHelpRoute,
   AuthenticatedAppInventoryRoute: AuthenticatedAppInventoryRoute,
   AuthenticatedAppLabRoute: AuthenticatedAppLabRoute,
+  AuthenticatedAppLabTestsRoute: AuthenticatedAppLabTestsRoute,
   AuthenticatedAppLeaveApprovalsRoute: AuthenticatedAppLeaveApprovalsRoute,
   AuthenticatedAppMyAppointmentsRoute: AuthenticatedAppMyAppointmentsRoute,
   AuthenticatedAppMyBillsRoute: AuthenticatedAppMyBillsRoute,

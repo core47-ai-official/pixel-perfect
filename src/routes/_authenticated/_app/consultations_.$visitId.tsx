@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { FlaskConical, Lock, Stethoscope } from "lucide-react";
+import { Lock, Stethoscope } from "lucide-react";
 import { RequireRole } from "@/components/mc/require-role";
 import { rolesForPage } from "@/config/navigation";
 import { Button } from "@/components/ui/button";
@@ -28,6 +28,7 @@ import { useAddenda, usePatientVisits, useVisit, useVitals, type Visit } from "@
 import { NOTE_TEMPLATES, templateForSpecialty } from "@/config/note-templates";
 import { DiagnosisPicker } from "@/components/mc/diagnosis-picker";
 import { PrescriptionPanel } from "@/components/mc/prescription-panel";
+import { OrderPicker } from "@/components/mc/order-picker";
 
 export const Route = createFileRoute("/_authenticated/_app/consultations_/$visitId")({
   head: () => ({
@@ -367,7 +368,7 @@ function VitalsPanel({ open, onOpenChange, patientId, visitId }: { open: boolean
   );
 }
 
-/* ---------------------------------------------- right: placeholders B12-B15 */
+/* ---------------------------------------------- right: diagnosis, orders, prescription */
 
 function RightPanel({ visit }: { visit: Visit }) {
   const { t } = useTranslation();
@@ -375,16 +376,10 @@ function RightPanel({ visit }: { visit: Visit }) {
   const { doctors } = useDepartmentsData();
   const me = (doctors.data ?? []).find((d) => d.user_id === context?.profile?.id);
   const canEdit = visit.status === "draft" && me?.id === visit.doctor_id;
-  const box = (icon: React.ReactNode, title: string) => (
-    <section className="rounded-lg border border-dashed bg-card p-4 text-sm">
-      <h2 className="mb-1 flex items-center gap-2 font-semibold">{icon}{title}</h2>
-      <p className="text-muted-foreground">{t("consult.soon")}</p>
-    </section>
-  );
   return (
     <aside className="space-y-4">
       <DiagnosisPicker visitId={visit.id} canEdit={canEdit} />
-      {box(<FlaskConical className="size-4" />, t("consult.orders"))}
+      <OrderPicker visitId={visit.id} canEdit={canEdit} />
       <PrescriptionPanel visit={visit} canEdit={canEdit} />
     </aside>
   );

@@ -260,7 +260,8 @@
     "leaveApprovals": "Leave approvals",
     "myDay": "My day",
     "mySchedule": "My schedule",
-    "formulary": "Formulary"
+    "formulary": "Formulary",
+    "labTests": "Lab tests"
   },
   "navGroup": {
     "overview": "Overview",
@@ -1369,5 +1370,60 @@
       "bedtime": "At bedtime",
       "whenNeeded": "When needed"
     }
+  },
+  "lab": {
+    "searchPh": "Search test by code or name",
+    "noMatch": "No test found",
+    "none": "No tests ordered yet",
+    "noneYet": "Ordered tests and their results will appear here.",
+    "ordered": "Tests ordered",
+    "order_one": "Order {{count}} test",
+    "order_other": "Order {{count}} tests",
+    "urgent": "Urgent",
+    "total": "Total",
+    "cancelOrder": "Cancel order",
+    "cancelTitle": "Cancel {{test}}?",
+    "panels": {
+      "cbc": "CBC",
+      "lft": "LFT",
+      "rft": "RFT",
+      "dengue": "Dengue (NS1 + CBC)",
+      "fever": "Fever panel",
+      "diabetes": "Diabetes panel"
+    },
+    "cat": {
+      "lab": "Lab",
+      "radiology": "Radiology"
+    },
+    "status": {
+      "ordered": "Ordered",
+      "collected": "Sample collected",
+      "in_progress": "In progress",
+      "resulted": "Resulted",
+      "verified": "Verified",
+      "cancelled": "Cancelled"
+    },
+    "flag": {
+      "high": "High",
+      "low": "Low",
+      "abnormal": "Abnormal",
+      "critical": "Critical"
+    },
+    "date": "Date",
+    "test": "Test",
+    "result": "Result",
+    "range": "Normal range",
+    "statusLabel": "Status",
+    "pending": "Awaiting result",
+    "code": "Code",
+    "category": "Category",
+    "sample": "Sample",
+    "price": "Price (PKR)",
+    "tat": "Turnaround (hours)",
+    "intro": "Lab and radiology tests doctors can order.",
+    "add": "Add test",
+    "edit": "Edit test",
+    "saved": "Test saved",
+    "required": "Enter a code and name"
   }
 }

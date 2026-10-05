@@ -10,6 +10,7 @@ import { RegistrationSlip } from "@/components/mc/registration-slip";
 import { StatusChip } from "@/components/mc/status-chip";
 import { Ltr } from "@/components/mc/ltr";
 import { EmptyState } from "@/components/mc/empty-state";
+import { PatientLabTab } from "@/components/mc/patient-lab-tab";
 import { Banner } from "@/components/mc/banner";
 import { PatientHeader } from "@/components/mc/patient-header";
 import { BookAppointmentPanel } from "@/components/mc/book-appointment-panel";
@@ -122,7 +123,7 @@ function PatientPage() {
           )}
         </TabsContent>
         <TabsContent value="prescriptions">{soon("prescriptions")}</TabsContent>
-        <TabsContent value="lab">{soon("lab")}</TabsContent>
+        <TabsContent value="lab"><PatientLabTab patientId={patientId} /></TabsContent>
         <TabsContent value="admissions">{soon("admissions")}</TabsContent>
         <TabsContent value="bills">
           {bills.length === 0 ? soon("bills") : (
