@@ -57,6 +57,7 @@ import { Route as AuthenticatedAppUsersRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedAppWardSetupRouteImport } from './routes/_authenticated/_app/ward-setup'
 import { Route as AuthenticatedAppWardsRouteImport } from './routes/_authenticated/_app/wards'
 import { Route as TvDepartmentDepartmentIdRouteImport } from './routes/tv.department.$departmentId'
+import { Route as AuthenticatedAppAdmissionsNewRouteImport } from './routes/_authenticated/_app/admissions_.new'
 import { Route as AuthenticatedAppConsultationsVisitIdRouteImport } from './routes/_authenticated/_app/consultations_.$visitId'
 import { Route as AuthenticatedAppDoctorsDoctorIdRouteImport } from './routes/_authenticated/_app/doctors_.$doctorId'
 import { Route as AuthenticatedAppPatientsPatientIdRouteImport } from './routes/_authenticated/_app/patients_.$patientId'
@@ -326,6 +327,12 @@ const TvDepartmentDepartmentIdRoute =
     path: '/tv/department/$departmentId',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AuthenticatedAppAdmissionsNewRoute =
+  AuthenticatedAppAdmissionsNewRouteImport.update({
+    id: '/admissions_/new',
+    path: '/admissions/new',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
 const AuthenticatedAppConsultationsVisitIdRoute =
   AuthenticatedAppConsultationsVisitIdRouteImport.update({
     id: '/consultations_/$visitId',
@@ -398,6 +405,7 @@ export interface FileRoutesByFullPath {
   '/ward-setup': typeof AuthenticatedAppWardSetupRoute
   '/wards': typeof AuthenticatedAppWardsRoute
   '/tv/department/$departmentId': typeof TvDepartmentDepartmentIdRoute
+  '/admissions/new': typeof AuthenticatedAppAdmissionsNewRoute
   '/consultations/$visitId': typeof AuthenticatedAppConsultationsVisitIdRoute
   '/doctors/$doctorId': typeof AuthenticatedAppDoctorsDoctorIdRoute
   '/patients/$patientId': typeof AuthenticatedAppPatientsPatientIdRoute
@@ -450,6 +458,7 @@ export interface FileRoutesByTo {
   '/ward-setup': typeof AuthenticatedAppWardSetupRoute
   '/wards': typeof AuthenticatedAppWardsRoute
   '/tv/department/$departmentId': typeof TvDepartmentDepartmentIdRoute
+  '/admissions/new': typeof AuthenticatedAppAdmissionsNewRoute
   '/consultations/$visitId': typeof AuthenticatedAppConsultationsVisitIdRoute
   '/doctors/$doctorId': typeof AuthenticatedAppDoctorsDoctorIdRoute
   '/patients/$patientId': typeof AuthenticatedAppPatientsPatientIdRoute
@@ -505,6 +514,7 @@ export interface FileRoutesById {
   '/_authenticated/_app/ward-setup': typeof AuthenticatedAppWardSetupRoute
   '/_authenticated/_app/wards': typeof AuthenticatedAppWardsRoute
   '/tv/department/$departmentId': typeof TvDepartmentDepartmentIdRoute
+  '/_authenticated/_app/admissions_/new': typeof AuthenticatedAppAdmissionsNewRoute
   '/_authenticated/_app/consultations_/$visitId': typeof AuthenticatedAppConsultationsVisitIdRoute
   '/_authenticated/_app/doctors_/$doctorId': typeof AuthenticatedAppDoctorsDoctorIdRoute
   '/_authenticated/_app/patients_/$patientId': typeof AuthenticatedAppPatientsPatientIdRoute
@@ -559,6 +569,7 @@ export interface FileRouteTypes {
     | '/ward-setup'
     | '/wards'
     | '/tv/department/$departmentId'
+    | '/admissions/new'
     | '/consultations/$visitId'
     | '/doctors/$doctorId'
     | '/patients/$patientId'
@@ -611,6 +622,7 @@ export interface FileRouteTypes {
     | '/ward-setup'
     | '/wards'
     | '/tv/department/$departmentId'
+    | '/admissions/new'
     | '/consultations/$visitId'
     | '/doctors/$doctorId'
     | '/patients/$patientId'
@@ -665,6 +677,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/ward-setup'
     | '/_authenticated/_app/wards'
     | '/tv/department/$departmentId'
+    | '/_authenticated/_app/admissions_/new'
     | '/_authenticated/_app/consultations_/$visitId'
     | '/_authenticated/_app/doctors_/$doctorId'
     | '/_authenticated/_app/patients_/$patientId'
@@ -1021,6 +1034,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TvDepartmentDepartmentIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/_app/admissions_/new': {
+      id: '/_authenticated/_app/admissions_/new'
+      path: '/admissions/new'
+      fullPath: '/admissions/new'
+      preLoaderRoute: typeof AuthenticatedAppAdmissionsNewRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
     '/_authenticated/_app/consultations_/$visitId': {
       id: '/_authenticated/_app/consultations_/$visitId'
       path: '/consultations/$visitId'
@@ -1090,6 +1110,7 @@ interface AuthenticatedAppRouteRouteChildren {
   AuthenticatedAppUsersRoute: typeof AuthenticatedAppUsersRoute
   AuthenticatedAppWardSetupRoute: typeof AuthenticatedAppWardSetupRoute
   AuthenticatedAppWardsRoute: typeof AuthenticatedAppWardsRoute
+  AuthenticatedAppAdmissionsNewRoute: typeof AuthenticatedAppAdmissionsNewRoute
   AuthenticatedAppConsultationsVisitIdRoute: typeof AuthenticatedAppConsultationsVisitIdRoute
   AuthenticatedAppDoctorsDoctorIdRoute: typeof AuthenticatedAppDoctorsDoctorIdRoute
   AuthenticatedAppPatientsPatientIdRoute: typeof AuthenticatedAppPatientsPatientIdRoute
@@ -1134,6 +1155,7 @@ const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
   AuthenticatedAppUsersRoute: AuthenticatedAppUsersRoute,
   AuthenticatedAppWardSetupRoute: AuthenticatedAppWardSetupRoute,
   AuthenticatedAppWardsRoute: AuthenticatedAppWardsRoute,
+  AuthenticatedAppAdmissionsNewRoute: AuthenticatedAppAdmissionsNewRoute,
   AuthenticatedAppConsultationsVisitIdRoute:
     AuthenticatedAppConsultationsVisitIdRoute,
   AuthenticatedAppDoctorsDoctorIdRoute: AuthenticatedAppDoctorsDoctorIdRoute,
