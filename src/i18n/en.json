@@ -2335,5 +2335,28 @@
     "address": "Address",
     "inactive": "Inactive",
     "active": "Active"
+  },
+  "mar": {
+    "open": "MAR",
+    "title": "Medication record",
+    "prev": "Previous day",
+    "next": "Next day",
+    "empty": "No doses scheduled for this day.",
+    "medicine": "Medicine",
+    "due": "Due",
+    "overdue": "Overdue",
+    "st": {
+      "given": "Given",
+      "held": "Held",
+      "refused": "Refused",
+      "missed": "Missed"
+    },
+    "reason": "Reason",
+    "noteOptional": "Note (optional)",
+    "reasonRequired": "A reason is required when a dose is not given.",
+    "save": "Save",
+    "saved": "Dose recorded.",
+    "history": "Medication record",
+    "noHistory": "No doses recorded yet."
   }
 }

@@ -1893,6 +1893,99 @@ export type Database = {
           },
         ]
       }
+      med_administrations: {
+        Row: {
+          admission_id: string
+          created_at: string
+          dose: string
+          given_at: string | null
+          given_by: string | null
+          hospital_id: string
+          id: string
+          medicine_name: string
+          note: string | null
+          patient_id: string
+          prescription_id: string | null
+          prescription_item_id: string | null
+          route: string
+          scheduled_at: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          admission_id: string
+          created_at?: string
+          dose?: string
+          given_at?: string | null
+          given_by?: string | null
+          hospital_id: string
+          id?: string
+          medicine_name: string
+          note?: string | null
+          patient_id: string
+          prescription_id?: string | null
+          prescription_item_id?: string | null
+          route?: string
+          scheduled_at: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          admission_id?: string
+          created_at?: string
+          dose?: string
+          given_at?: string | null
+          given_by?: string | null
+          hospital_id?: string
+          id?: string
+          medicine_name?: string
+          note?: string | null
+          patient_id?: string
+          prescription_id?: string | null
+          prescription_item_id?: string | null
+          route?: string
+          scheduled_at?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "med_administrations_admission_id_fkey"
+            columns: ["admission_id"]
+            isOneToOne: false
+            referencedRelation: "admissions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "med_administrations_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "med_administrations_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "med_administrations_prescription_id_fkey"
+            columns: ["prescription_id"]
+            isOneToOne: false
+            referencedRelation: "prescriptions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "med_administrations_prescription_item_id_fkey"
+            columns: ["prescription_item_id"]
+            isOneToOne: false
+            referencedRelation: "prescription_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       medicines: {
         Row: {
           brand_name: string | null

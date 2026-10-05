@@ -7,6 +7,7 @@ import { rolesForPage } from "@/config/navigation";
 import { Ltr } from "@/components/mc/ltr";
 import { Banner } from "@/components/mc/banner";
 import { VitalsPanel } from "@/components/mc/vitals-panel";
+import { MarDialog } from "@/components/mc/mar-grid";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
@@ -28,6 +29,7 @@ function WardBoardPage() {
   const { t } = useTranslation();
   const q = useWardBoard();
   const [vitalsFor, setVitalsFor] = useState<BoardBed | null>(null);
+  const [marFor, setMarFor] = useState<BoardBed | null>(null);
   if (q.isLoading) return <Skeleton className="h-96" />;
   if (q.isError || !q.data) return <Banner tone="warning" title={t("dash.widgetFailed")} />;
   const { wards, beds, due_hours, assigned } = q.data;
@@ -42,17 +44,18 @@ function WardBoardPage() {
           <section key={w.id} className="space-y-2">
             <h2 className="text-base font-semibold">{w.name} <span className="text-xs font-normal text-muted-foreground">· {t(`wd.types.${w.type}`)}</span></h2>
             <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-              {list.map((b) => <BedCard key={b.id} bed={b} onVitals={() => setVitalsFor(b)} />)}
+              {list.map((b) => <BedCard key={b.id} bed={b} onVitals={() => setVitalsFor(b)} onMar={() => setMarFor(b)} />)}
             </div>
           </section>
         );
       })}
       {vitalsFor?.patient && <VitalsPanel patientId={vitalsFor.patient.id} title={`${t("nb.vitals.title")} · ${vitalsFor.label} · ${vitalsFor.patient.full_name}`} onClose={() => setVitalsFor(null)} />}
+      {marFor?.admission_id && marFor.patient && <MarDialog admissionId={marFor.admission_id} title={`${marFor.label} · ${marFor.patient.full_name}`} onClose={() => setMarFor(null)} />}
     </div>
   );
 }
 
-function BedCard({ bed, onVitals }: { bed: BoardBed; onVitals: () => void }) {
+function BedCard({ bed, onVitals, onMar }: { bed: BoardBed; onVitals: () => void; onMar: () => void }) {
   const { t } = useTranslation();
   const p = bed.patient;
   const v = bed.latest_vitals;
@@ -87,7 +90,10 @@ function BedCard({ bed, onVitals }: { bed: BoardBed; onVitals: () => void }) {
                 {overdue ? t("nb.overdue") : t("nb.dueIn", { time: fmtTime(bed.vitals_due_at) })}
               </span>
             )}
-            <Button size="sm" variant={overdue ? "default" : "outline"} onClick={onVitals}>{t("nb.record")}</Button>
+            <div className="flex gap-1">
+              <Button size="sm" variant="outline" onClick={onMar}>{t("mar.open")}</Button>
+              <Button size="sm" variant={overdue ? "default" : "outline"} onClick={onVitals}>{t("nb.record")}</Button>
+            </div>
           </div>
         </div>
       )}

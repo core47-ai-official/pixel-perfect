@@ -21,6 +21,7 @@ import { useMyContext } from "@/hooks/use-my-context";
 import { PATIENT_ROLES_EDIT, usePatient } from "@/lib/patients";
 import { PatientAdmissionsTab } from "@/components/mc/patient-admissions-tab";
 import { PatientBillsTab } from "@/components/mc/patient-bills-tab";
+import { PatientMarHistory } from "@/components/mc/mar-grid";
 import { formatPkr, usePatientSummary } from "@/lib/patient-summary";
 import { PATIENT_TABS, TAB_ICON_FALLBACK, tabsForRoles, type PatientTabId } from "@/config/patient-tabs";
 
@@ -126,7 +127,7 @@ function PatientPage() {
         </TabsContent>
         <TabsContent value="prescriptions">{soon("prescriptions")}</TabsContent>
         <TabsContent value="lab"><PatientLabTab patientId={patientId} /></TabsContent>
-        <TabsContent value="admissions"><PatientAdmissionsTab patient={{ id: patientId, full_name: x.full_name, gender: x.gender }} /></TabsContent>
+        <TabsContent value="admissions" className="space-y-6"><PatientAdmissionsTab patient={{ id: patientId, full_name: x.full_name, gender: x.gender }} /><PatientMarHistory patientId={patientId} /></TabsContent>
         <TabsContent value="bills"><PatientBillsTab patientId={patientId} /></TabsContent>
         <TabsContent value="documents">{soon("documents")}</TabsContent>
       </Tabs>
