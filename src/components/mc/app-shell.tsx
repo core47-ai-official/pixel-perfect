@@ -70,6 +70,8 @@ export function AppShell({ children }: { children: ReactNode }) {
   const bottom = pages.slice(0, 4);
   const more = [...pages.slice(4), ...FOOTER_PAGES];
   const soon = () => toast(t("shell.placeholder"));
+  const navigateTo = useNavigate();
+  const openQuick = (q: QuickAction) => (q.id === "newPatient" ? void navigateTo({ to: "/patients/new" }) : setPanel(q));
 
   return (
     <SidebarProvider open={open} onOpenChange={setOpen}>
@@ -85,7 +87,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
             <div className="ms-2 hidden items-center gap-1.5 lg:flex">
               {quick.map((q) => (
-                <Button key={q.id} size="sm" variant="secondary" onClick={() => setPanel(q)}>
+                <Button key={q.id} size="sm" variant="secondary" onClick={() => openQuick(q)}>
                   <q.icon />
                   {t(`quick.${q.id}`)}
                 </Button>
@@ -101,7 +103,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start">
                   {quick.map((q) => (
-                    <DropdownMenuItem key={q.id} onSelect={() => setPanel(q)}>
+                    <DropdownMenuItem key={q.id} onSelect={() => openQuick(q)}>
                       <q.icon />
                       {t(`quick.${q.id}`)}
                     </DropdownMenuItem>
@@ -164,7 +166,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" side="top">
             {quick.map((q) => (
-              <DropdownMenuItem key={q.id} onSelect={() => setPanel(q)}>
+              <DropdownMenuItem key={q.id} onSelect={() => openQuick(q)}>
                 <q.icon />
                 {t(`quick.${q.id}`)}
               </DropdownMenuItem>

@@ -649,6 +649,24 @@
       "consult": "Consultation",
       "cbc": "CBC",
       "paracetamol": "Paracetamol 500mg"
+    },
+    "slip": {
+      "title": "Patient registration",
+      "name": "Name",
+      "father": "Father/Husband",
+      "age": "Age",
+      "gender": "Gender",
+      "cnic": "CNIC",
+      "phone": "Mobile",
+      "blood": "Blood group",
+      "date": "Registered",
+      "allergies": "Allergies",
+      "keep": "Please bring this slip on every visit.",
+      "g": {
+        "male": "Male",
+        "female": "Female",
+        "other": "Other"
+      }
     }
   },
   "dash": {
@@ -819,6 +837,98 @@
       "pending": "Pending",
       "approved": "Approved",
       "rejected": "Rejected"
+    }
+  },
+  "pat": {
+    "registerNew": "Register patient",
+    "register": "Register patient",
+    "saveAnyway": "Save as new patient anyway",
+    "updated": "Patient details updated",
+    "registered": "Patient registered — {{mrn}}",
+    "isUnknown": "Unknown patient (name or details not known yet)",
+    "fullName": "Full name",
+    "fatherOrHusband": "Father's / husband's name",
+    "cnic": "CNIC",
+    "cnicHint": "13 digits. Leave empty for children (use B-form).",
+    "bForm": "B-form (child registration)",
+    "bFormHint": "For children without a CNIC.",
+    "dob": "Date of birth",
+    "ageYears_one": "{{count}} year old",
+    "ageYears_other": "{{count}} years old",
+    "age": "Age",
+    "gender": "Gender",
+    "phone": "Mobile number",
+    "email": "Email",
+    "guardianName": "Guardian name",
+    "guardianPhone": "Guardian mobile",
+    "province": "Province",
+    "district": "District",
+    "tehsil": "Tehsil",
+    "address": "Address",
+    "bloodGroup": "Blood group",
+    "pregnancy": "Pregnancy status",
+    "allergies": "Allergies",
+    "chronic": "Long-term conditions",
+    "commaHint": "Separate with commas, e.g. Penicillin, Peanuts",
+    "printLanguage": "Second print language",
+    "printLanguageHint": "Printed papers are always in English; choose Urdu to print a second copy below it.",
+    "urdu": "Urdu",
+    "englishOnly": "English only",
+    "dupTitle_one": "1 possible duplicate found",
+    "dupTitle_other": "{{count}} possible duplicates found",
+    "dupBody": "This person may already be registered. Use the existing record if it's the same person.",
+    "useThis": "Use this patient",
+    "reason": {
+      "cnic": "Same CNIC",
+      "phone": "Same mobile number",
+      "name_dob": "Same name and date of birth"
+    },
+    "doneTitle": "{{name}} is registered",
+    "mrnLabel": "MRN",
+    "bookAppointment": "Book appointment",
+    "printSlip": "Print registration slip",
+    "openRecord": "Open patient record",
+    "registerAnother": "Register another",
+    "notFound": "Patient not found.",
+    "all": "All patients",
+    "unknownChip": "Unknown patient",
+    "searchPlaceholder": "Search by name, MRN, CNIC or mobile",
+    "loadError": "Couldn't load patients.",
+    "noMatch": "No patients match your search",
+    "empty": "No patients yet",
+    "emptyBody": "Register the first patient to get started.",
+    "s": {
+      "identity": "Identity",
+      "contact": "Contact",
+      "address": "Address",
+      "medical": "Medical",
+      "print": "Print language"
+    },
+    "err": {
+      "name": "Enter the patient's full name.",
+      "gender": "Choose a gender.",
+      "dob": "Enter a date of birth (an estimate is fine).",
+      "dobFuture": "Date of birth can't be in the future.",
+      "cnic": "CNIC must be 13 digits.",
+      "bform": "B-form number must be 13 digits.",
+      "phone": "Enter a valid Pakistani mobile number (03XX XXXXXXX).",
+      "email": "Email address is not valid.",
+      "preg": "Pregnancy status doesn't match gender."
+    },
+    "provinces": {
+      "punjab": "Punjab",
+      "sindh": "Sindh",
+      "kpk": "Khyber Pakhtunkhwa",
+      "balochistan": "Balochistan",
+      "islamabad": "Islamabad Capital Territory",
+      "gb": "Gilgit-Baltistan",
+      "ajk": "Azad Jammu & Kashmir"
+    },
+    "preg": {
+      "not_applicable": "Not applicable",
+      "not_pregnant": "Not pregnant",
+      "pregnant": "Pregnant",
+      "unknown": "Unknown"
     }
   }
 }
