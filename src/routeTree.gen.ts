@@ -54,6 +54,7 @@ import { Route as AuthenticatedAppPatientsRouteImport } from './routes/_authenti
 import { Route as AuthenticatedAppPharmacyRouteImport } from './routes/_authenticated/_app/pharmacy'
 import { Route as AuthenticatedAppPurchaseRequestsRouteImport } from './routes/_authenticated/_app/purchase-requests'
 import { Route as AuthenticatedAppReportsRouteImport } from './routes/_authenticated/_app/reports'
+import { Route as AuthenticatedAppRosterRouteImport } from './routes/_authenticated/_app/roster'
 import { Route as AuthenticatedAppSettingsRouteImport } from './routes/_authenticated/_app/settings'
 import { Route as AuthenticatedAppStaffRouteImport } from './routes/_authenticated/_app/staff'
 import { Route as AuthenticatedAppSupportTicketsRouteImport } from './routes/_authenticated/_app/support-tickets'
@@ -321,6 +322,11 @@ const AuthenticatedAppReportsRoute = AuthenticatedAppReportsRouteImport.update({
   path: '/reports',
   getParentRoute: () => AuthenticatedAppRouteRoute,
 } as any)
+const AuthenticatedAppRosterRoute = AuthenticatedAppRosterRouteImport.update({
+  id: '/roster',
+  path: '/roster',
+  getParentRoute: () => AuthenticatedAppRouteRoute,
+} as any)
 const AuthenticatedAppSettingsRoute =
   AuthenticatedAppSettingsRouteImport.update({
     id: '/settings',
@@ -463,6 +469,7 @@ export interface FileRoutesByFullPath {
   '/pharmacy': typeof AuthenticatedAppPharmacyRoute
   '/purchase-requests': typeof AuthenticatedAppPurchaseRequestsRoute
   '/reports': typeof AuthenticatedAppReportsRoute
+  '/roster': typeof AuthenticatedAppRosterRoute
   '/settings': typeof AuthenticatedAppSettingsRoute
   '/staff': typeof AuthenticatedAppStaffRoute
   '/support-tickets': typeof AuthenticatedAppSupportTicketsRoute
@@ -525,6 +532,7 @@ export interface FileRoutesByTo {
   '/pharmacy': typeof AuthenticatedAppPharmacyRoute
   '/purchase-requests': typeof AuthenticatedAppPurchaseRequestsRoute
   '/reports': typeof AuthenticatedAppReportsRoute
+  '/roster': typeof AuthenticatedAppRosterRoute
   '/settings': typeof AuthenticatedAppSettingsRoute
   '/staff': typeof AuthenticatedAppStaffRoute
   '/support-tickets': typeof AuthenticatedAppSupportTicketsRoute
@@ -590,6 +598,7 @@ export interface FileRoutesById {
   '/_authenticated/_app/pharmacy': typeof AuthenticatedAppPharmacyRoute
   '/_authenticated/_app/purchase-requests': typeof AuthenticatedAppPurchaseRequestsRoute
   '/_authenticated/_app/reports': typeof AuthenticatedAppReportsRoute
+  '/_authenticated/_app/roster': typeof AuthenticatedAppRosterRoute
   '/_authenticated/_app/settings': typeof AuthenticatedAppSettingsRoute
   '/_authenticated/_app/staff': typeof AuthenticatedAppStaffRoute
   '/_authenticated/_app/support-tickets': typeof AuthenticatedAppSupportTicketsRoute
@@ -654,6 +663,7 @@ export interface FileRouteTypes {
     | '/pharmacy'
     | '/purchase-requests'
     | '/reports'
+    | '/roster'
     | '/settings'
     | '/staff'
     | '/support-tickets'
@@ -716,6 +726,7 @@ export interface FileRouteTypes {
     | '/pharmacy'
     | '/purchase-requests'
     | '/reports'
+    | '/roster'
     | '/settings'
     | '/staff'
     | '/support-tickets'
@@ -780,6 +791,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/pharmacy'
     | '/_authenticated/_app/purchase-requests'
     | '/_authenticated/_app/reports'
+    | '/_authenticated/_app/roster'
     | '/_authenticated/_app/settings'
     | '/_authenticated/_app/staff'
     | '/_authenticated/_app/support-tickets'
@@ -1128,6 +1140,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppReportsRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
+    '/_authenticated/_app/roster': {
+      id: '/_authenticated/_app/roster'
+      path: '/roster'
+      fullPath: '/roster'
+      preLoaderRoute: typeof AuthenticatedAppRosterRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
     '/_authenticated/_app/settings': {
       id: '/_authenticated/_app/settings'
       path: '/settings'
@@ -1286,6 +1305,7 @@ interface AuthenticatedAppRouteRouteChildren {
   AuthenticatedAppPharmacyRoute: typeof AuthenticatedAppPharmacyRoute
   AuthenticatedAppPurchaseRequestsRoute: typeof AuthenticatedAppPurchaseRequestsRoute
   AuthenticatedAppReportsRoute: typeof AuthenticatedAppReportsRoute
+  AuthenticatedAppRosterRoute: typeof AuthenticatedAppRosterRoute
   AuthenticatedAppSettingsRoute: typeof AuthenticatedAppSettingsRoute
   AuthenticatedAppStaffRoute: typeof AuthenticatedAppStaffRoute
   AuthenticatedAppSupportTicketsRoute: typeof AuthenticatedAppSupportTicketsRoute
@@ -1342,6 +1362,7 @@ const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
   AuthenticatedAppPharmacyRoute: AuthenticatedAppPharmacyRoute,
   AuthenticatedAppPurchaseRequestsRoute: AuthenticatedAppPurchaseRequestsRoute,
   AuthenticatedAppReportsRoute: AuthenticatedAppReportsRoute,
+  AuthenticatedAppRosterRoute: AuthenticatedAppRosterRoute,
   AuthenticatedAppSettingsRoute: AuthenticatedAppSettingsRoute,
   AuthenticatedAppStaffRoute: AuthenticatedAppStaffRoute,
   AuthenticatedAppSupportTicketsRoute: AuthenticatedAppSupportTicketsRoute,
