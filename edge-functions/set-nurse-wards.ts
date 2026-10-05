@@ -49,15 +49,22 @@ Deno.serve(async (req) => {
   if (!ward) return fail("not_found", "Ward not found.", 404);
   if (!Array.isArray(b.nurse_ids)) {
     // Read-only: who is assigned now.
-    const { data: rows } = await db.from("user_roles").select("user_id").eq("hospital_id", c.hospitalId).eq("role", "nurse").contains("ward_ids", [ward.id]);
-    return json({ ok: true, data: { ward_id: ward.id, nurse_ids: (rows ?? []).map((r: { user_id: string }) => r.user_id) } });
+    const { data: rows } = await db.from("user_roles").select("user_id, is_in_charge").eq("hospital_id", c.hospitalId).eq("role", "nurse").contains("ward_ids", [ward.id]);
+    return json({ ok: true, data: { ward_id: ward.id, nurse_ids: (rows ?? []).map((r: { user_id: string }) => r.user_id),
+      in_charge_ids: (rows ?? []).filter((r: { is_in_charge: boolean }) => r.is_in_charge).map((r: { user_id: string }) => r.user_id) } });
   }
   const want = new Set((Array.isArray(b.nurse_ids) ? b.nurse_ids : []).map(String).slice(0, 200));
-  const { data: rows } = await db.from("user_roles").select("id, user_id, ward_ids").eq("hospital_id", c.hospitalId).eq("role", "nurse");
+  const { data: rows } = await db.from("user_roles").select("id, user_id, ward_ids, is_in_charge").eq("hospital_id", c.hospitalId).eq("role", "nurse");
+  // Ward in-charge is one flag per nurse (it applies to every ward they are assigned to); it can run the duty roster for those wards.
+  const charge = Array.isArray(b.in_charge_ids) ? new Set(b.in_charge_ids.map(String)) : null;
   const before: Record<string, string[]> = {}, after: Record<string, string[]> = {};
   for (const r of rows ?? []) {
     const has = (r.ward_ids ?? []).includes(ward.id);
     const should = want.has(r.user_id);
+    if (charge && should) {
+      const flag = charge.has(r.user_id);
+      if (flag !== !!r.is_in_charge) await db.from("user_roles").update({ is_in_charge: flag, updated_at: new Date().toISOString() }).eq("id", r.id);
+    }
     if (has === should) continue;
     const next = should ? [...(r.ward_ids ?? []), ward.id] : (r.ward_ids ?? []).filter((x: string) => x !== ward.id);
     const { error } = await db.from("user_roles").update({ ward_ids: next, updated_at: new Date().toISOString() }).eq("id", r.id);
@@ -66,5 +73,5 @@ Deno.serve(async (req) => {
   }
   await audit(db, req, c, "assign_nurses", "ward", ward.id, before, after);
   const assigned = (rows ?? []).filter((r: { user_id: string }) => want.has(r.user_id)).map((r: { user_id: string }) => r.user_id);
-  return json({ ok: true, data: { ward_id: ward.id, nurse_ids: assigned } });
+  return json({ ok: true, data: { ward_id: ward.id, nurse_ids: assigned, in_charge_ids: charge ? [...charge].filter((u) => want.has(u as string)) : undefined } });
 });
