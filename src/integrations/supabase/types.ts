@@ -1923,6 +1923,42 @@ export type Database = {
           },
         ]
       }
+      offline_sync_items: {
+        Row: {
+          created_at: string
+          error: Json | null
+          hospital_id: string
+          id: string
+          kind: string
+          result: Json | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          error?: Json | null
+          hospital_id: string
+          id: string
+          kind: string
+          result?: Json | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          error?: Json | null
+          hospital_id?: string
+          id?: string
+          kind?: string
+          result?: Json | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       orders: {
         Row: {
           cancel_reason: string | null

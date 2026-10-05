@@ -12,6 +12,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { callEdgeFunction, type EdgeError } from "@/hooks/use-edge-function";
+import { callOrQueue, isOffline, type QueueItem } from "@/lib/offline-queue";
 import {
   BLOOD_GROUPS, GENDERS, PREGNANCY, PROVINCES, ageFrom, type DuplicateMatch, type Patient, type PatientInput,
 } from "@/lib/patients";
@@ -27,8 +28,10 @@ const NONE = "__none";
 
 /** Single-column registration/edit form. Checks for duplicates before saving a new patient. */
 export function PatientForm({
-  initial, onSaved, onUseExisting, onCancel,
+  initial, onSaved, onQueued, onUseExisting, onCancel,
 }: {
+  /** New registrations only: called when the form was saved to the offline queue. */
+  onQueued?: (item: QueueItem) => void;
   initial?: Patient;
   onSaved: (p: Patient) => void;
   onUseExisting?: (id: string) => void;
@@ -69,6 +72,11 @@ export function PatientForm({
     try {
       const fn = initial ? "update-patient" : "register-patient";
       const body = initial ? { id: initial.id, ...payload(), confirm_duplicate: confirmDuplicate } : { ...payload(), confirm_duplicate: confirmDuplicate };
+      if (!initial && onQueued) {
+        const r = await callOrQueue<Patient>("register-patient", body, body.full_name);
+        if (r.queued) { toast.success(t("offline.queuedPatient")); onQueued(r.queued); return; }
+        toast.success(t("pat.registered", { mrn: r.data.mrn })); onSaved(r.data); return;
+      }
       const saved = await callEdgeFunction<Patient>(fn, body);
       toast.success(initial ? t("pat.updated") : t("pat.registered", { mrn: saved.mrn }));
       onSaved(saved);
@@ -90,7 +98,7 @@ export function PatientForm({
   const submit = async () => {
     const err = validate();
     if (err) { toast.error(err); return; }
-    if (dupes === null) {
+    if (dupes === null && !(isOffline() && !initial && onQueued)) {
       setBusy(true);
       try {
         const m = await check();
@@ -100,6 +108,7 @@ export function PatientForm({
       }
       setBusy(false);
     }
+    // Offline: the duplicate check happens on the server when the queue syncs.
     await save((dupes ?? []).length > 0);
   };
 

@@ -16,6 +16,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { installErrorReporter, reportClientError } from "@/lib/error-reporter";
 import { PreferencesProvider, usePreferences } from "@/lib/preferences";
 import "@/i18n";
+import { setupPwa } from "@/lib/pwa-register";
 
 function NotFoundComponent() {
   return (
@@ -127,6 +128,7 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   useEffect(() => installErrorReporter(), []);
+  useEffect(() => { void setupPwa(); }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

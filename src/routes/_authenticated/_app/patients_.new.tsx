@@ -2,9 +2,10 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { CalendarPlus, CheckCircle2, Printer, UserPlus } from "lucide-react";
+import { CalendarPlus, CheckCircle2, Clock, Printer, UserPlus } from "lucide-react";
 import { RequireRole } from "@/components/mc/require-role";
 import { PatientForm } from "@/components/mc/patient-form";
+import type { QueueItem } from "@/lib/offline-queue";
 import { RegistrationSlip } from "@/components/mc/registration-slip";
 import { Ltr } from "@/components/mc/ltr";
 import { BookAppointmentPanel } from "@/components/mc/book-appointment-panel";
@@ -26,8 +27,25 @@ function NewPatient() {
   const qc = useQueryClient();
   const [saved, setSaved] = useState<Patient | null>(null);
   const [formKey, setFormKey] = useState(0);
+  const [queued, setQueued] = useState<QueueItem | null>(null);
   const [slip, setSlip] = useState(false);
   const [booking, setBooking] = useState(false);
+
+  if (queued) {
+    return (
+      <div className="mx-auto max-w-lg space-y-4 rounded-staff border bg-card p-6 text-center">
+        <Clock className="mx-auto size-12 text-warning" />
+        <div>
+          <h2 className="text-xl font-semibold">{t("offline.queuedTitle", { name: queued.label })}</h2>
+          <p className="mt-1 text-muted-foreground">{t("offline.queuedBody")}</p>
+          <p className="mt-2 text-sm">{t("offline.tempNo")}: <Ltr className="font-semibold">{queued.temp_no}</Ltr></p>
+        </div>
+        <button className="inline-flex items-center gap-1 text-primary hover:underline" onClick={() => { setQueued(null); setFormKey((k) => k + 1); }}>
+          <UserPlus className="size-4" />{t("pat.registerAnother")}
+        </button>
+      </div>
+    );
+  }
 
   if (saved) {
     return (
@@ -57,6 +75,7 @@ function NewPatient() {
     <PatientForm
       key={formKey}
       onSaved={(p) => { void qc.invalidateQueries({ queryKey: ["patients"] }); setSaved(p); }}
+      onQueued={setQueued}
       onUseExisting={(id) => navigate({ to: "/patients/$patientId", params: { patientId: id } })}
       onCancel={() => navigate({ to: "/patients" })}
     />

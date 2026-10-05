@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { BadgePercent, Banknote, PiggyBank, Printer, RotateCcw, Search, Undo2 } from "lucide-react";
 import { RequireRole } from "@/components/mc/require-role";
 import { rolesForPage } from "@/config/navigation";
+import { callOrQueue } from "@/lib/offline-queue";
 import { callEdgeFunction } from "@/hooks/use-edge-function";
 import { useMyContext } from "@/hooks/use-my-context";
 import { Button } from "@/components/ui/button";
@@ -118,7 +119,12 @@ function BillingCounter() {
     if (!invoice || !ptInfo || toApply <= 0 || busy) return;
     setBusy(true);
     try {
-      const res = await callEdgeFunction<{ payment: Payment; invoice: Invoice; change: number }>("record-payment", { invoice_id: invoice.id, amount: toApply, tendered });
+      const r = await callOrQueue<{ payment: Payment; invoice: Invoice; change: number }>("record-payment", { invoice_id: invoice.id, amount: toApply, tendered }, `${ptInfo.full_name} · ${invoice.invoice_no}`);
+      if (r.queued) {
+        setReceipt({ kind: "payment", provisional: true, receipt_no: r.queued.temp_no, amount: toApply, tendered, change, balance: r2(balance - toApply), invoice_no: invoice.invoice_no, patient: ptInfo, at: r.queued.created_at });
+        toast.success(t("offline.queuedPayment")); setCash(""); setReceiptOpen(true); return;
+      }
+      const res = r.data;
       setReceipt({ kind: "payment", receipt_no: res.payment.receipt_no, amount: res.payment.amount, tendered, change: res.change, balance: Number(res.invoice.balance), invoice_no: invoice.invoice_no, patient: ptInfo, at: res.payment.created_at });
       toast.success(t("cash.paidOk", { change: formatPkr(res.change) }));
       setCash(""); refresh();
@@ -361,9 +367,15 @@ function DepositPanel({ open, onOpenChange, patient, onDone }: {
     if (!patient || amt <= 0) return;
     setBusy(true);
     try {
-      const res = await callEdgeFunction<{ deposit: { receipt_no: string; amount: number; created_at: string }; change: number }>("record-deposit", {
+      const pi = { id: patient.id, full_name: patient.full_name, mrn: patient.mrn, print_language: patient.print_language };
+      const r = await callOrQueue<{ deposit: { receipt_no: string; amount: number; created_at: string }; change: number }>("record-deposit", {
         patient_id: patient.id, amount: amt, tendered: tnd, note, admission_id: admissionId || null,
-      });
+      }, patient.full_name);
+      if (r.queued) {
+        onDone({ kind: "deposit", provisional: true, receipt_no: r.queued.temp_no, amount: amt, tendered: tnd, change: r2(Math.max(0, tnd - amt)), patient: pi, at: r.queued.created_at });
+        toast.success(t("offline.queuedDeposit")); onOpenChange(false); return;
+      }
+      const res = r.data;
       onDone({ kind: "deposit", receipt_no: res.deposit.receipt_no, amount: res.deposit.amount, tendered: tnd, change: res.change, patient: { id: patient.id, full_name: patient.full_name, mrn: patient.mrn, print_language: patient.print_language }, at: res.deposit.created_at });
       toast.success(t("cash.depositSaved")); onOpenChange(false);
     } catch (e) { toast.error(errMsg(e, t("cash.failed"))); } finally { setBusy(false); }
