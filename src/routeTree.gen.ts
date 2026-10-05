@@ -36,8 +36,10 @@ import { Route as AuthenticatedAppLabRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedAppLeaveApprovalsRouteImport } from './routes/_authenticated/_app/leave-approvals'
 import { Route as AuthenticatedAppMyAppointmentsRouteImport } from './routes/_authenticated/_app/my-appointments'
 import { Route as AuthenticatedAppMyBillsRouteImport } from './routes/_authenticated/_app/my-bills'
+import { Route as AuthenticatedAppMyDayRouteImport } from './routes/_authenticated/_app/my-day'
 import { Route as AuthenticatedAppMyLeaveRouteImport } from './routes/_authenticated/_app/my-leave'
 import { Route as AuthenticatedAppMyRecordsRouteImport } from './routes/_authenticated/_app/my-records'
+import { Route as AuthenticatedAppMyScheduleRouteImport } from './routes/_authenticated/_app/my-schedule'
 import { Route as AuthenticatedAppNursingRouteImport } from './routes/_authenticated/_app/nursing'
 import { Route as AuthenticatedAppOpdQueueRouteImport } from './routes/_authenticated/_app/opd-queue'
 import { Route as AuthenticatedAppOtRouteImport } from './routes/_authenticated/_app/ot'
@@ -201,6 +203,11 @@ const AuthenticatedAppMyBillsRoute = AuthenticatedAppMyBillsRouteImport.update({
   path: '/my-bills',
   getParentRoute: () => AuthenticatedAppRouteRoute,
 } as any)
+const AuthenticatedAppMyDayRoute = AuthenticatedAppMyDayRouteImport.update({
+  id: '/my-day',
+  path: '/my-day',
+  getParentRoute: () => AuthenticatedAppRouteRoute,
+} as any)
 const AuthenticatedAppMyLeaveRoute = AuthenticatedAppMyLeaveRouteImport.update({
   id: '/my-leave',
   path: '/my-leave',
@@ -210,6 +217,12 @@ const AuthenticatedAppMyRecordsRoute =
   AuthenticatedAppMyRecordsRouteImport.update({
     id: '/my-records',
     path: '/my-records',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
+const AuthenticatedAppMyScheduleRoute =
+  AuthenticatedAppMyScheduleRouteImport.update({
+    id: '/my-schedule',
+    path: '/my-schedule',
     getParentRoute: () => AuthenticatedAppRouteRoute,
   } as any)
 const AuthenticatedAppNursingRoute = AuthenticatedAppNursingRouteImport.update({
@@ -329,8 +342,10 @@ export interface FileRoutesByFullPath {
   '/leave-approvals': typeof AuthenticatedAppLeaveApprovalsRoute
   '/my-appointments': typeof AuthenticatedAppMyAppointmentsRoute
   '/my-bills': typeof AuthenticatedAppMyBillsRoute
+  '/my-day': typeof AuthenticatedAppMyDayRoute
   '/my-leave': typeof AuthenticatedAppMyLeaveRoute
   '/my-records': typeof AuthenticatedAppMyRecordsRoute
+  '/my-schedule': typeof AuthenticatedAppMyScheduleRoute
   '/nursing': typeof AuthenticatedAppNursingRoute
   '/opd-queue': typeof AuthenticatedAppOpdQueueRoute
   '/ot': typeof AuthenticatedAppOtRoute
@@ -374,8 +389,10 @@ export interface FileRoutesByTo {
   '/leave-approvals': typeof AuthenticatedAppLeaveApprovalsRoute
   '/my-appointments': typeof AuthenticatedAppMyAppointmentsRoute
   '/my-bills': typeof AuthenticatedAppMyBillsRoute
+  '/my-day': typeof AuthenticatedAppMyDayRoute
   '/my-leave': typeof AuthenticatedAppMyLeaveRoute
   '/my-records': typeof AuthenticatedAppMyRecordsRoute
+  '/my-schedule': typeof AuthenticatedAppMyScheduleRoute
   '/nursing': typeof AuthenticatedAppNursingRoute
   '/opd-queue': typeof AuthenticatedAppOpdQueueRoute
   '/ot': typeof AuthenticatedAppOtRoute
@@ -422,8 +439,10 @@ export interface FileRoutesById {
   '/_authenticated/_app/leave-approvals': typeof AuthenticatedAppLeaveApprovalsRoute
   '/_authenticated/_app/my-appointments': typeof AuthenticatedAppMyAppointmentsRoute
   '/_authenticated/_app/my-bills': typeof AuthenticatedAppMyBillsRoute
+  '/_authenticated/_app/my-day': typeof AuthenticatedAppMyDayRoute
   '/_authenticated/_app/my-leave': typeof AuthenticatedAppMyLeaveRoute
   '/_authenticated/_app/my-records': typeof AuthenticatedAppMyRecordsRoute
+  '/_authenticated/_app/my-schedule': typeof AuthenticatedAppMyScheduleRoute
   '/_authenticated/_app/nursing': typeof AuthenticatedAppNursingRoute
   '/_authenticated/_app/opd-queue': typeof AuthenticatedAppOpdQueueRoute
   '/_authenticated/_app/ot': typeof AuthenticatedAppOtRoute
@@ -469,8 +488,10 @@ export interface FileRouteTypes {
     | '/leave-approvals'
     | '/my-appointments'
     | '/my-bills'
+    | '/my-day'
     | '/my-leave'
     | '/my-records'
+    | '/my-schedule'
     | '/nursing'
     | '/opd-queue'
     | '/ot'
@@ -514,8 +535,10 @@ export interface FileRouteTypes {
     | '/leave-approvals'
     | '/my-appointments'
     | '/my-bills'
+    | '/my-day'
     | '/my-leave'
     | '/my-records'
+    | '/my-schedule'
     | '/nursing'
     | '/opd-queue'
     | '/ot'
@@ -561,8 +584,10 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/leave-approvals'
     | '/_authenticated/_app/my-appointments'
     | '/_authenticated/_app/my-bills'
+    | '/_authenticated/_app/my-day'
     | '/_authenticated/_app/my-leave'
     | '/_authenticated/_app/my-records'
+    | '/_authenticated/_app/my-schedule'
     | '/_authenticated/_app/nursing'
     | '/_authenticated/_app/opd-queue'
     | '/_authenticated/_app/ot'
@@ -784,6 +809,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppMyBillsRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
+    '/_authenticated/_app/my-day': {
+      id: '/_authenticated/_app/my-day'
+      path: '/my-day'
+      fullPath: '/my-day'
+      preLoaderRoute: typeof AuthenticatedAppMyDayRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
     '/_authenticated/_app/my-leave': {
       id: '/_authenticated/_app/my-leave'
       path: '/my-leave'
@@ -796,6 +828,13 @@ declare module '@tanstack/react-router' {
       path: '/my-records'
       fullPath: '/my-records'
       preLoaderRoute: typeof AuthenticatedAppMyRecordsRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/my-schedule': {
+      id: '/_authenticated/_app/my-schedule'
+      path: '/my-schedule'
+      fullPath: '/my-schedule'
+      preLoaderRoute: typeof AuthenticatedAppMyScheduleRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
     '/_authenticated/_app/nursing': {
@@ -931,8 +970,10 @@ interface AuthenticatedAppRouteRouteChildren {
   AuthenticatedAppLeaveApprovalsRoute: typeof AuthenticatedAppLeaveApprovalsRoute
   AuthenticatedAppMyAppointmentsRoute: typeof AuthenticatedAppMyAppointmentsRoute
   AuthenticatedAppMyBillsRoute: typeof AuthenticatedAppMyBillsRoute
+  AuthenticatedAppMyDayRoute: typeof AuthenticatedAppMyDayRoute
   AuthenticatedAppMyLeaveRoute: typeof AuthenticatedAppMyLeaveRoute
   AuthenticatedAppMyRecordsRoute: typeof AuthenticatedAppMyRecordsRoute
+  AuthenticatedAppMyScheduleRoute: typeof AuthenticatedAppMyScheduleRoute
   AuthenticatedAppNursingRoute: typeof AuthenticatedAppNursingRoute
   AuthenticatedAppOpdQueueRoute: typeof AuthenticatedAppOpdQueueRoute
   AuthenticatedAppOtRoute: typeof AuthenticatedAppOtRoute
@@ -968,8 +1009,10 @@ const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
   AuthenticatedAppLeaveApprovalsRoute: AuthenticatedAppLeaveApprovalsRoute,
   AuthenticatedAppMyAppointmentsRoute: AuthenticatedAppMyAppointmentsRoute,
   AuthenticatedAppMyBillsRoute: AuthenticatedAppMyBillsRoute,
+  AuthenticatedAppMyDayRoute: AuthenticatedAppMyDayRoute,
   AuthenticatedAppMyLeaveRoute: AuthenticatedAppMyLeaveRoute,
   AuthenticatedAppMyRecordsRoute: AuthenticatedAppMyRecordsRoute,
+  AuthenticatedAppMyScheduleRoute: AuthenticatedAppMyScheduleRoute,
   AuthenticatedAppNursingRoute: AuthenticatedAppNursingRoute,
   AuthenticatedAppOpdQueueRoute: AuthenticatedAppOpdQueueRoute,
   AuthenticatedAppOtRoute: AuthenticatedAppOtRoute,
