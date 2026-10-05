@@ -1034,5 +1034,69 @@
     "cancelTitle": "یہ اپائنٹمنٹ منسوخ کریں؟",
     "cancelled": "اپائنٹمنٹ منسوخ ہو گئی",
     "noneForDay": "اس دن کوئی اپائنٹمنٹ نہیں۔"
+  },
+  "cal": {
+    "prev": "پچھلا",
+    "next": "اگلا",
+    "today": "آج",
+    "views": {
+      "day": "دن",
+      "byDoctor": "ڈاکٹر وار",
+      "week": "ہفتہ",
+      "month": "مہینہ"
+    },
+    "tabs": {
+      "all": "سب",
+      "waiting": "انتظار میں",
+      "completed": "مکمل"
+    },
+    "filters": {
+      "department": "شعبہ",
+      "doctor": "ڈاکٹر",
+      "type": "قسم",
+      "status": "حالت"
+    },
+    "legendLabel": "رنگوں کی وضاحت",
+    "notBookable": "بکنگ دستیاب نہیں",
+    "leave": "چھٹی",
+    "onLeave": "چھٹی پر",
+    "count_one": "{{count}} اپائنٹمنٹ",
+    "count_other": "{{count}} اپائنٹمنٹس",
+    "empty": "اس دن کوئی اپائنٹمنٹ نہیں۔",
+    "details": "اپائنٹمنٹ",
+    "dragHint": "کارڈ کو کیلنڈر پر گھسیٹ کر دوسرے وقت یا ڈاکٹر پر منتقل کریں۔",
+    "moveTitle": "یہ اپائنٹمنٹ منتقل کریں؟",
+    "moveDesc": "{{name}} ← {{doctor}}، {{when}}۔ مریض کو اطلاع دی جائے گی۔",
+    "move": "منتقل کریں",
+    "moved": "اپائنٹمنٹ منتقل ہو گئی۔ مریض کو اطلاع دے دی گئی۔",
+    "legend": {
+      "status": {
+        "booked": "بک شدہ",
+        "waiting": "انتظار میں",
+        "in_consultation": "معائنے میں",
+        "done": "مکمل",
+        "needs_rebooking": "دوبارہ بکنگ درکار",
+        "no_show": "نہیں آئے",
+        "cancelled": "منسوخ"
+      },
+      "eventKind": {
+        "appointment": "اپائنٹمنٹ",
+        "surgery": "آپریشن",
+        "round": "وارڈ راؤنڈ",
+        "meeting": "میٹنگ",
+        "leave": "چھٹی"
+      },
+      "otPriority": {
+        "emergency": "ایمرجنسی",
+        "urgent": "فوری",
+        "elective": "منصوبہ بند"
+      },
+      "shiftType": {
+        "morning": "صبح",
+        "evening": "شام",
+        "night": "رات",
+        "off": "چھٹی"
+      }
+    }
   }
 }
