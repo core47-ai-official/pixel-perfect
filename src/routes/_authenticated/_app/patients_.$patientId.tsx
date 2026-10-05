@@ -18,7 +18,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useMyContext } from "@/hooks/use-my-context";
 import { PATIENT_ROLES_EDIT, usePatient } from "@/lib/patients";
 import { formatPkr, usePatientSummary } from "@/lib/patient-summary";
-import { PATIENT_TABS, tabsForRoles, type PatientTabId } from "@/config/patient-tabs";
+import { PATIENT_TABS, TAB_ICON_FALLBACK, tabsForRoles, type PatientTabId } from "@/config/patient-tabs";
 
 export const Route = createFileRoute("/_authenticated/_app/patients_/$patientId")({
   head: () => ({ meta: [{ title: "Patient profile — MediCore HMS" }, { name: "description", content: "Patient profile with visits, prescriptions, lab, admissions, bills and documents." }] }),
@@ -59,7 +59,7 @@ function PatientPage() {
   ) : null;
   const soon = (id: PatientTabId) => (
     <div className="rounded-staff border bg-card">
-      <EmptyState icon={PATIENT_TABS.find((tb) => tb.id === id)?.icon} title={t(`ptab.empty.${id}`)} description={t("ptab.comingSoon")} />
+      <EmptyState icon={PATIENT_TABS.find((tb) => tb.id === id)?.icon ?? TAB_ICON_FALLBACK} title={t(`ptab.empty.${id}`)} description={t("ptab.comingSoon")} />
     </div>
   );
 
@@ -86,7 +86,7 @@ function PatientPage() {
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
-          {summary.isError && <Banner variant="warning">{t("ptab.summaryUnavailable")}</Banner>}
+          {summary.isError && <Banner tone="warning">{t("ptab.summaryUnavailable")}</Banner>}
           {admission && (
             <div className="rounded-staff border border-progress bg-progress-soft/40 p-3 text-sm">
               {t("ptab.activeAdmission")}{admission.ward && <> · {admission.ward}</>}{admission.bed && <> · <Ltr>{admission.bed}</Ltr></>}
