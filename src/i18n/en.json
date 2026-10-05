@@ -261,7 +261,8 @@
     "myDay": "My day",
     "mySchedule": "My schedule",
     "formulary": "Formulary",
-    "labTests": "Lab tests"
+    "labTests": "Lab tests",
+    "wardSetup": "Ward setup"
   },
   "navGroup": {
     "overview": "Overview",
@@ -1425,5 +1426,60 @@
     "edit": "Edit test",
     "saved": "Test saved",
     "required": "Enter a code and name"
+  },
+  "wd": {
+    "title": "Wards and beds",
+    "intro": "Set up wards and their beds. Bed status changes happen during admissions.",
+    "addWard": "Add ward",
+    "editWard": "Edit ward",
+    "name": "Ward name",
+    "type": "Type",
+    "gender": "Gender",
+    "floor": "Floor",
+    "beds": "Beds",
+    "free": "free",
+    "addBed": "Add bed",
+    "editBed": "Edit bed",
+    "bulk": "Add many beds",
+    "label": "Bed label",
+    "class": "Bed class",
+    "rate": "Daily rate (Rs)",
+    "status": "Status",
+    "oxygen": "Oxygen",
+    "ventilator": "Ventilator",
+    "prefix": "Label prefix",
+    "from": "From number",
+    "to": "To number",
+    "preview": "Will create",
+    "noWards": "No wards yet. Add the first one.",
+    "pick": "Select a ward to see its beds.",
+    "saved": "Saved",
+    "required": "Please fill the required fields.",
+    "active": "Active",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "types": {
+      "general": "General",
+      "semi_private": "Semi-private",
+      "private": "Private",
+      "hdu": "HDU",
+      "icu": "ICU",
+      "nicu": "NICU",
+      "isolation": "Isolation",
+      "er": "Emergency"
+    },
+    "genders": {
+      "male": "Male",
+      "female": "Female",
+      "any": "Any"
+    },
+    "statuses": {
+      "free": "Free",
+      "occupied": "Occupied",
+      "cleaning": "Cleaning",
+      "reserved": "Reserved",
+      "out_of_service": "Out of service"
+    }
   }
 }

@@ -36,6 +36,7 @@ export const PAGES = {
   lab: { id: "lab", path: "/lab", icon: FlaskConical, group: "diagnostics" },
   pharmacy: { id: "pharmacy", path: "/pharmacy", icon: Pill, group: "diagnostics" },
   formulary: { id: "formulary", path: "/formulary", icon: BookMarked, group: "diagnostics" },
+  wardSetup: { id: "wardSetup", path: "/ward-setup", icon: BedDouble, group: "admin" },
   labTests: { id: "labTests", path: "/lab-tests", icon: TestTubes, group: "diagnostics" },
   inventory: { id: "inventory", path: "/inventory", icon: Boxes, group: "diagnostics" },
   billing: { id: "billing", path: "/billing", icon: Receipt, group: "finance" },
@@ -65,8 +66,8 @@ export const FOOTER_PAGES: NavPage[] = [
 
 /** Role → pages, in priority order (first four become the mobile bottom nav). */
 export const ROLE_PAGES: Record<AppRole, PageId[]> = {
-  super_admin: ["dashboard", "users", "reports", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "doctorsNow", "leaveApprovals", "leaveApprovals", "patients", "appointments", "billing", "cashRegister", "inventory", "formulary", "labTests"],
-  admin: ["dashboard", "users", "departments", "doctors", "doctorsNow", "leaveApprovals", "companySettings", "reports", "patients", "appointments", "billing", "inventory", "formulary", "labTests"],
+  super_admin: ["dashboard", "users", "reports", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "doctorsNow", "leaveApprovals", "leaveApprovals", "patients", "appointments", "billing", "cashRegister", "inventory", "formulary", "labTests", "wardSetup"],
+  admin: ["dashboard", "users", "departments", "doctors", "doctorsNow", "leaveApprovals", "companySettings", "reports", "patients", "appointments", "billing", "inventory", "formulary", "labTests", "wardSetup"],
   dept_head: ["dashboard", "consultations", "wards", "reports", "patients", "appointments", "staff", "doctors", "doctorsNow", "leaveApprovals"],
   doctor: ["myDay", "opdQueue", "mySchedule", "patients", "consultations", "appointments", "myLeave", "wards", "lab", "formulary", "dashboard"],
   nurse: ["dashboard", "nursing", "wards", "patients", "emergency"],
