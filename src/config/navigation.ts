@@ -95,7 +95,7 @@ export type QuickActionId = keyof typeof QUICK_ACTIONS;
 
 export const ROLE_QUICK_ADD: Record<AppRole, QuickActionId[]> = {
   super_admin: ["newStaff"],
-  admin: ["newStaff", "newPatient"],
+  admin: ["newStaff", "newPatient", "newAppointment"],
   dept_head: ["newAppointment"],
   doctor: ["newAppointment", "newLabOrder", "newAdmission"],
   nurse: ["newAdmission"],

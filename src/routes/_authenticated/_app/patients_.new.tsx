@@ -7,6 +7,7 @@ import { RequireRole } from "@/components/mc/require-role";
 import { PatientForm } from "@/components/mc/patient-form";
 import { RegistrationSlip } from "@/components/mc/registration-slip";
 import { Ltr } from "@/components/mc/ltr";
+import { BookAppointmentPanel } from "@/components/mc/book-appointment-panel";
 import { Button } from "@/components/ui/button";
 import { PATIENT_ROLES_EDIT, type Patient } from "@/lib/patients";
 
@@ -26,6 +27,7 @@ function NewPatient() {
   const [saved, setSaved] = useState<Patient | null>(null);
   const [formKey, setFormKey] = useState(0);
   const [slip, setSlip] = useState(false);
+  const [booking, setBooking] = useState(false);
 
   if (saved) {
     return (
@@ -36,7 +38,7 @@ function NewPatient() {
           <p className="mt-1 text-muted-foreground">{t("pat.mrnLabel")}: <Ltr className="font-semibold text-foreground">{saved.mrn}</Ltr></p>
         </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:justify-center">
-          <Button asChild><Link to="/appointments"><CalendarPlus className="size-4" />{t("pat.bookAppointment")}</Link></Button>
+          <Button onClick={() => setBooking(true)}><CalendarPlus className="size-4" />{t("pat.bookAppointment")}</Button>
           <Button variant="outline" onClick={() => setSlip(true)}><Printer className="size-4" />{t("pat.printSlip")}</Button>
         </div>
         <div className="flex justify-center gap-4 text-sm">
@@ -46,6 +48,7 @@ function NewPatient() {
           </button>
         </div>
         <RegistrationSlip patient={saved} open={slip} onOpenChange={setSlip} />
+        <BookAppointmentPanel open={booking} onOpenChange={setBooking} patientId={saved.id} />
       </div>
     );
   }

@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Bug, Languages, LogOut, MoreHorizontal, Plus, Search, WifiOff, Wifi } from "lucide-react";
 import { toast } from "sonner";
 import { GlobalSearch } from "@/components/mc/global-search";
+import { BookAppointmentPanel } from "@/components/mc/book-appointment-panel";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -71,7 +72,9 @@ export function AppShell({ children }: { children: ReactNode }) {
   const bottom = pages.slice(0, 4);
   const more = [...pages.slice(4), ...FOOTER_PAGES];
   const soon = () => toast(t("shell.placeholder"));
-  const openQuick = (q: QuickAction) => (q.id === "newPatient" ? void navigate({ to: "/patients/new" }) : setPanel(q));
+  const [bookOpen, setBookOpen] = useState(false);
+  const openQuick = (q: QuickAction) =>
+    q.id === "newPatient" ? void navigate({ to: "/patients/new" }) : q.id === "newAppointment" ? setBookOpen(true) : setPanel(q);
 
   return (
     <SidebarProvider open={open} onOpenChange={setOpen}>
@@ -210,6 +213,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <p className="text-sm text-muted-foreground">{t("shell.panelBody")}</p>
       </SidePanel>
     <ReportProblemPanel open={reportOpen} onOpenChange={setReportOpen} />
+    <BookAppointmentPanel open={bookOpen} onOpenChange={setBookOpen} />
     </SidebarProvider>
   );
 }
