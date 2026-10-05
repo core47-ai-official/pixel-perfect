@@ -2244,6 +2244,8 @@ export type Database = {
       orders: {
         Row: {
           cancel_reason: string | null
+          collected_at: string | null
+          collected_by: string | null
           created_at: string
           created_by: string | null
           doctor_id: string | null
@@ -2253,9 +2255,13 @@ export type Database = {
           patient_id: string
           price: number
           priority: string
+          rejected_at: string | null
+          rejected_by: string | null
+          rejected_reason: string | null
           result: string | null
           result_flag: string | null
           resulted_at: string | null
+          sample_barcode: string | null
           status: string
           test_id: string
           updated_at: string
@@ -2264,6 +2270,8 @@ export type Database = {
         }
         Insert: {
           cancel_reason?: string | null
+          collected_at?: string | null
+          collected_by?: string | null
           created_at?: string
           created_by?: string | null
           doctor_id?: string | null
@@ -2273,9 +2281,13 @@ export type Database = {
           patient_id: string
           price?: number
           priority?: string
+          rejected_at?: string | null
+          rejected_by?: string | null
+          rejected_reason?: string | null
           result?: string | null
           result_flag?: string | null
           resulted_at?: string | null
+          sample_barcode?: string | null
           status?: string
           test_id: string
           updated_at?: string
@@ -2284,6 +2296,8 @@ export type Database = {
         }
         Update: {
           cancel_reason?: string | null
+          collected_at?: string | null
+          collected_by?: string | null
           created_at?: string
           created_by?: string | null
           doctor_id?: string | null
@@ -2293,9 +2307,13 @@ export type Database = {
           patient_id?: string
           price?: number
           priority?: string
+          rejected_at?: string | null
+          rejected_by?: string | null
+          rejected_reason?: string | null
           result?: string | null
           result_flag?: string | null
           resulted_at?: string | null
+          sample_barcode?: string | null
           status?: string
           test_id?: string
           updated_at?: string
