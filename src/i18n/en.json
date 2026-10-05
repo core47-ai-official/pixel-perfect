@@ -1961,7 +1961,9 @@
       "change": "Change",
       "balance": "Balance due",
       "reason": "Reason",
-      "thanks": "Thank you. Please keep this receipt."
+      "thanks": "Thank you. Please keep this receipt.",
+      "provisional": "Provisional",
+      "provisionalNote": "Offline receipt. Final receipt number issued when synced."
     },
     "paidOk": "Payment saved. Change due: {{change}}"
   },
@@ -2118,5 +2120,28 @@
     "saved": "Note saved",
     "none": "No unpaid balances",
     "noDept": "No department"
+  },
+  "offline": {
+    "notAvailable": "Not available offline",
+    "notAvailableBody": "Only patient registration and billing work without internet. This page will load again when you're back online.",
+    "syncing": "Syncing ({{n}})",
+    "queueTitle": "Saved offline",
+    "syncNow": "Sync now",
+    "allSynced": "Everything is synced.",
+    "emptyOffline": "You're offline. Registrations, payments and deposits will be saved here and sent when the internet is back.",
+    "waiting": "Waiting to sync",
+    "retry": "Try again",
+    "discard": "Discard",
+    "kind": {
+      "register-patient": "Registration",
+      "record-payment": "Payment",
+      "record-deposit": "Deposit"
+    },
+    "queuedPatient": "Saved offline. The MRN will be assigned when back online.",
+    "queuedTitle": "{{name}} saved offline",
+    "queuedBody": "The real MRN is assigned automatically when the internet is back.",
+    "tempNo": "Temporary number",
+    "queuedPayment": "Payment saved offline. Print the provisional receipt.",
+    "queuedDeposit": "Deposit saved offline. Print the provisional receipt."
   }
 }
