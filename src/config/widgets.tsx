@@ -6,10 +6,15 @@
 import type { ComponentType } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { callEdgeFunction } from "@/hooks/use-edge-function";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
   Activity, AlertTriangle, BedDouble, BedSingle, CalendarCheck, CalendarX, ClipboardList, Footprints, HandCoins,
-  HeartPulse, ListOrdered, PiggyBank, ReceiptText, Siren, Stethoscope, TrendingUp, Users, Wallet, CalendarOff, Building2, Banknote, ClipboardPlus, Hourglass,
+  HeartPulse, ListOrdered, PiggyBank, ReceiptText, Siren, Stethoscope, TrendingUp, Users, Wallet, CalendarOff, Building2, Clock, Banknote, ClipboardPlus, Hourglass,
 } from "lucide-react";
 import { ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart";
 import { Ltr } from "@/components/mc/ltr";
@@ -346,6 +351,37 @@ function DeptOnLeave({ data }: WidgetProps<NoDept & { count?: number; pending?: 
   );
 }
 
+interface DutyShift { id: string; date: string; shift: string; start_time: string; end_time: string; checked_in_at: string | null; checked_out_at: string | null }
+function MyDuty({ data }: WidgetProps<{ shifts: DutyShift[] }>) {
+  const { t } = useTranslation();
+  const qc = useQueryClient();
+  const [busy, setBusy] = useState(false);
+  const act = async (fn: "check-in-duty" | "check-out-duty", id: string) => {
+    setBusy(true);
+    try {
+      const r = await callEdgeFunction<{ late_min?: number; early_min?: number }>(fn, { shift_id: id });
+      toast.success(fn === "check-in-duty" ? (r.late_min && r.late_min > 15 ? t("roster.checkedInLate", { n: r.late_min }) : t("roster.checkedIn")) : t("roster.checkedOut"));
+      await qc.invalidateQueries({ queryKey: ["widget-data", "my_duty"] });
+    } catch (e) { toast.error((e as { message?: string }).message ?? t("roster.failed")); } finally { setBusy(false); }
+  };
+  return (
+    <Panel title={t("dash.w.myDuty")} icon={Clock}>
+      {data.shifts.length === 0 ? <p className="text-sm text-muted-foreground">{t("roster.noDutyToday")}</p> : (
+        <ul className="divide-y text-sm">
+          {data.shifts.map((s) => (
+            <li key={s.id} className="flex items-center justify-between gap-2 py-2">
+              <span><span className="font-medium">{t(`roster.shift.${s.shift}`)}</span> <Ltr className="text-muted-foreground">{s.start_time.slice(0, 5)}–{s.end_time.slice(0, 5)}</Ltr></span>
+              {!s.checked_in_at ? <Button size="sm" disabled={busy} onClick={() => void act("check-in-duty", s.id)}>{t("roster.checkIn")}</Button>
+                : !s.checked_out_at ? <Button size="sm" variant="outline" disabled={busy} onClick={() => void act("check-out-duty", s.id)}>{t("roster.checkOut")}</Button>
+                : <span className="text-xs text-ok-fg">{t("roster.done")}</span>}
+            </li>
+          ))}
+        </ul>
+      )}
+    </Panel>
+  );
+}
+
 const ALL_SIZES: WidgetSize[] = ["small", "medium", "wide"];
 const w = (id: string, key: string, icon: LucideIcon, roles: AppRole[], defaultSize: WidgetSize, component: ComponentType<WidgetProps<any>>, sizes = ALL_SIZES): WidgetDef =>
   ({ id, title: `dash.w.${key}`, description: `dash.w.${key}Desc`, icon, roles, sizes, defaultSize, component });
@@ -385,6 +421,7 @@ export const WIDGETS: WidgetDef[] = [
   w("shift_cash", "shiftCash", Wallet, ["cashier", "admin", "super_admin"], "small", ShiftCash),
   w("pending_bills", "pendingBills", ReceiptText, ["cashier", "admin", "super_admin"], "small", PendingBills),
   w("deposits_summary", "deposits", PiggyBank, ["cashier", "admin", "super_admin"], "small", DepositsSummary),
+  w("my_duty", "myDuty", Clock, ["super_admin", "admin", "dept_head", "doctor", "nurse", "er_officer", "ot_coordinator", "receptionist", "pharmacist", "lab_tech", "cashier"], "medium", MyDuty, ["small", "medium", "wide"]),
   // department head
   w("dept_opd_by_doctor", "deptOpd", Building2, ["dept_head"], "medium", DeptOpdByDoctor, ["medium", "wide"]),
   w("dept_waiting_now", "deptWaiting", Hourglass, ["dept_head"], "small", DeptWaitingNow),

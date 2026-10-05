@@ -66,6 +66,7 @@ const WIDGET_ROLES: Record<string, string[]> = {
   dept_top_diagnoses: ["dept_head"],
   dept_revenue: ["dept_head"],
   dept_on_leave: ["dept_head"],
+  my_duty: ["super_admin", "admin", "dept_head", "doctor", "nurse", "er_officer", "ot_coordinator", "receptionist", "pharmacist", "lab_tech", "cashier"],
 };
 const DEFAULT_LAYOUTS: Record<string, { id: string; size: string }[]> = {
   super_admin: [{ id: "active_users", size: "small" }, { id: "errors_today", size: "small" }, { id: "bed_occupancy", size: "small" }, { id: "opd_today", size: "small" }, { id: "adm_dis_trend", size: "wide" }],

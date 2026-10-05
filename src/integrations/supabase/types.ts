@@ -3320,6 +3320,82 @@ export type Database = {
           },
         ]
       }
+      roster_shifts: {
+        Row: {
+          checked_in_at: string | null
+          checked_out_at: string | null
+          created_at: string
+          created_by: string | null
+          date: string
+          department_id: string | null
+          end_time: string
+          hospital_id: string
+          id: string
+          note: string | null
+          shift: string
+          start_time: string
+          updated_at: string
+          user_id: string
+          ward_id: string | null
+        }
+        Insert: {
+          checked_in_at?: string | null
+          checked_out_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          date: string
+          department_id?: string | null
+          end_time: string
+          hospital_id: string
+          id?: string
+          note?: string | null
+          shift: string
+          start_time: string
+          updated_at?: string
+          user_id: string
+          ward_id?: string | null
+        }
+        Update: {
+          checked_in_at?: string | null
+          checked_out_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          date?: string
+          department_id?: string | null
+          end_time?: string
+          hospital_id?: string
+          id?: string
+          note?: string | null
+          shift?: string
+          start_time?: string
+          updated_at?: string
+          user_id?: string
+          ward_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "roster_shifts_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "roster_shifts_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "roster_shifts_ward_id_fkey"
+            columns: ["ward_id"]
+            isOneToOne: false
+            referencedRelation: "wards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       stock_adjustments: {
         Row: {
           adjusted_by: string | null
@@ -3654,6 +3730,7 @@ export type Database = {
           department_id: string | null
           hospital_id: string
           id: string
+          is_in_charge: boolean
           role: Database["public"]["Enums"]["app_role"]
           updated_at: string
           user_id: string
@@ -3666,6 +3743,7 @@ export type Database = {
           department_id?: string | null
           hospital_id: string
           id?: string
+          is_in_charge?: boolean
           role: Database["public"]["Enums"]["app_role"]
           updated_at?: string
           user_id: string
@@ -3678,6 +3756,7 @@ export type Database = {
           department_id?: string | null
           hospital_id?: string
           id?: string
+          is_in_charge?: boolean
           role?: Database["public"]["Enums"]["app_role"]
           updated_at?: string
           user_id?: string

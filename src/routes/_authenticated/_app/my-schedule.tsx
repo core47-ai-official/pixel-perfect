@@ -11,6 +11,7 @@ import { useMyContext } from "@/hooks/use-my-context";
 import { useDepartmentsData } from "@/lib/departments-data";
 import { useAppointmentsRealtime, useCalendarData, ymd } from "@/lib/appointments";
 import { caseEnd, useOtBookings, useOtRealtime } from "@/lib/ot";
+import { shiftSpan, useMyShifts } from "@/lib/roster";
 
 export const Route = createFileRoute("/_authenticated/_app/my-schedule")({
   head: () => ({
@@ -44,6 +45,7 @@ function MySchedule() {
   const to = view === "month" ? endOfWeek(endOfMonth(date), { weekStartsOn: 1 }) : view === "week" ? endOfWeek(date, { weekStartsOn: 1 }) : date;
   const { appts, schedules, leaves } = useCalendarData(ymd(from), ymd(to));
   useOtRealtime(context?.hospital?.id);
+  const myShifts = useMyShifts(context?.profile?.id, ymd(from), ymd(to));
   const ot = useOtBookings(startOfDay(from).toISOString(), addDays(startOfDay(to), 1).toISOString());
 
   if (doctors.isLoading) return <Skeleton className="h-64" />;
@@ -64,6 +66,13 @@ function MySchedule() {
       id: `ot-${b.id}`, start: new Date(b.planned_start), end: caseEnd(b), title: `${t("cal.legend.eventKind.surgery")}: ${b.procedure}`,
       subtitle: b.patients?.full_name, columnId: me.id, colorKey: "surgery", status: b.status,
     });
+  }
+  // On-call duty from the roster.
+  for (const s of myShifts.data ?? []) {
+    if (s.shift !== "on_call") continue;
+    const sp = shiftSpan(s);
+    events.push({ id: `oncall-${s.id}`, start: sp.start, end: sp.end, title: t("roster.onCall"), subtitle: `${s.start_time.slice(0, 5)}–${s.end_time.slice(0, 5)}`,
+      columnId: me.id, colorKey: "on_call", status: "on_call", draggable: false });
   }
   // Each leave day appears as one event across working hours.
   for (const l of myLeaves) {
@@ -91,6 +100,7 @@ function MySchedule() {
         view={view} onViewChange={(v) => setView(v === "byDoctor" ? "day" : v)}
         loading={appts.isLoading}
         onEventClick={(e) => {
+          if (e.id.startsWith("oncall-")) return;
           if (e.id.startsWith("ot-")) { void navigate({ to: "/ot" }); return; }
           const a = appts.data?.find((x) => x.id === e.id);
           if (a) void navigate({ to: "/patients/$patientId", params: { patientId: a.patient_id } });

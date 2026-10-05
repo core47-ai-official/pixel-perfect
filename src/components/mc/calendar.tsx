@@ -50,11 +50,11 @@ export interface Option { value: string; label: string }
 /** Colour palettes per mode (PRD 10.4.1). Labels come from i18n `cal.legend.<mode>.<key>`. */
 export const CALENDAR_PALETTES: Record<CalendarMode, Record<string, Tone>> = {
   status: { booked: "progress", waiting: "caution", in_consultation: "warning", done: "ok", needs_rebooking: "urgent", no_show: "inactive", cancelled: "inactive" },
-  eventKind: { appointment: "progress", surgery: "urgent", round: "ok", meeting: "inactive", leave: "warning" },
+  eventKind: { appointment: "progress", surgery: "urgent", round: "ok", meeting: "inactive", leave: "warning", on_call: "caution" },
   otPriority: { emergency: "urgent", urgent: "warning", elective: "ok" },
-  shiftType: { morning: "caution", evening: "warning", night: "progress", off: "inactive" },
+  shiftType: { morning: "caution", evening: "warning", night: "progress", on_call: "ok", off: "inactive" },
 };
-const TONE_CLASS: Record<Tone, string> = {
+export const TONE_CLASS: Record<Tone, string> = {
   urgent: "border-s-urgent bg-urgent-soft text-urgent-fg",
   warning: "border-s-warning bg-warning-soft text-warning-fg",
   caution: "border-s-caution bg-caution-soft text-caution-fg",
