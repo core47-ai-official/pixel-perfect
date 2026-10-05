@@ -202,6 +202,28 @@ function MyAdmitted({ data }: WidgetProps<{ count: number; patients: { patient_i
   );
 }
 
+function CriticalResults({ data }: WidgetProps<{ count: number; results: { order_id: string; patient_id: string; name: string; mrn: string; test: string; summary: string; verified_at: string }[] }>) {
+  const { t } = useTranslation();
+  return (
+    <Panel title={t("dash.w.criticalResults")} icon={AlertTriangle}>
+      <Big><span className={data.count ? "text-destructive" : ""}><Ltr>{data.count}</Ltr></span></Big>
+      {data.count === 0 ? <p className="text-sm text-muted-foreground">{t("dash.w.noCritical")}</p> : (
+        <ul className="mt-2 divide-y text-sm">
+          {data.results.map((r) => (
+            <li key={r.order_id} className="py-1.5">
+              <div className="flex justify-between gap-2">
+                <Link to="/patients/$patientId" params={{ patientId: r.patient_id }} className="truncate font-medium hover:underline">{r.name}</Link>
+                <Ltr className="text-muted-foreground">{r.test}</Ltr>
+              </div>
+              <Ltr className="block truncate text-xs text-destructive">{r.summary}</Ltr>
+            </li>
+          ))}
+        </ul>
+      )}
+    </Panel>
+  );
+}
+
 function WardBeds({ data }: WidgetProps<OccupancyData & { no_wards?: boolean; wards?: number }>) {
   const { t } = useTranslation();
   if (data.no_wards) return <Panel title={t("dash.w.wardBeds")} icon={BedDouble}><p className="text-sm text-muted-foreground">{t("dash.w.noWards")}</p></Panel>;
@@ -284,6 +306,7 @@ export const WIDGETS: WidgetDef[] = [
   w("my_queue", "myQueue", ClipboardList, ["doctor"], "medium", MyQueue, ["medium", "wide"]),
   w("waiting_patients", "waitingPatients", Activity, ["doctor"], "small", WaitingPatients),
   w("my_admitted", "myAdmitted", BedSingle, ["doctor"], "medium", MyAdmitted, ["medium", "wide"]),
+  w("critical_results", "criticalResults", AlertTriangle, ["doctor"], "medium", CriticalResults, ["medium", "wide"]),
   // nurse
   w("ward_beds", "wardBeds", BedDouble, ["nurse"], "medium", WardBeds, ["medium", "wide"]),
   w("vitals_due", "vitalsDue", HeartPulse, ["nurse"], "medium", VitalsDue, ["medium", "wide"]),
@@ -304,7 +327,7 @@ export const CODE_DEFAULTS: Partial<Record<AppRole, LayoutItem[]>> = {
   super_admin: [{ id: "active_users", size: "small" }, { id: "errors_today", size: "small" }, { id: "bed_occupancy", size: "small" }, { id: "opd_today", size: "small" }, { id: "adm_dis_trend", size: "wide" }],
   admin: [{ id: "bed_occupancy", size: "small" }, { id: "opd_today", size: "small" }, { id: "er_waiting", size: "small" }, { id: "cash_vs_unpaid", size: "small" }, { id: "adm_dis_trend", size: "wide" }],
   receptionist: [{ id: "token_queue", size: "medium" }, { id: "appointments_today", size: "small" }, { id: "walk_ins", size: "small" }, { id: "no_shows", size: "small" }],
-  doctor: [{ id: "my_queue", size: "medium" }, { id: "waiting_patients", size: "small" }, { id: "my_admitted", size: "medium" }],
+  doctor: [{ id: "my_queue", size: "medium" }, { id: "waiting_patients", size: "small" }, { id: "my_admitted", size: "medium" }, { id: "critical_results", size: "medium" }],
   nurse: [{ id: "ward_beds", size: "medium" }, { id: "vitals_due", size: "medium" }],
   cashier: [{ id: "shift_cash", size: "small" }, { id: "pending_bills", size: "small" }, { id: "deposits_summary", size: "small" }],
   er_officer: [{ id: "er_waiting", size: "small" }, { id: "bed_occupancy", size: "small" }],

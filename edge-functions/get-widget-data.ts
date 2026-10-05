@@ -54,6 +54,7 @@ const WIDGET_ROLES: Record<string, string[]> = {
   my_queue: ["doctor"],
   waiting_patients: ["doctor"],
   my_admitted: ["doctor"],
+  critical_results: ["doctor"],
   ward_beds: ["nurse"],
   vitals_due: ["nurse"],
   shift_cash: ["cashier", "admin", "super_admin"],
@@ -64,7 +65,7 @@ const DEFAULT_LAYOUTS: Record<string, { id: string; size: string }[]> = {
   super_admin: [{ id: "active_users", size: "small" }, { id: "errors_today", size: "small" }, { id: "bed_occupancy", size: "small" }, { id: "opd_today", size: "small" }, { id: "adm_dis_trend", size: "wide" }],
   admin: [{ id: "bed_occupancy", size: "small" }, { id: "opd_today", size: "small" }, { id: "er_waiting", size: "small" }, { id: "cash_vs_unpaid", size: "small" }, { id: "adm_dis_trend", size: "wide" }],
   receptionist: [{ id: "token_queue", size: "medium" }, { id: "appointments_today", size: "small" }, { id: "walk_ins", size: "small" }, { id: "no_shows", size: "small" }],
-  doctor: [{ id: "my_queue", size: "medium" }, { id: "waiting_patients", size: "small" }, { id: "my_admitted", size: "medium" }],
+  doctor: [{ id: "my_queue", size: "medium" }, { id: "waiting_patients", size: "small" }, { id: "my_admitted", size: "medium" }, { id: "critical_results", size: "medium" }],
   nurse: [{ id: "ward_beds", size: "medium" }, { id: "vitals_due", size: "medium" }],
   cashier: [{ id: "shift_cash", size: "small" }, { id: "pending_bills", size: "small" }, { id: "deposits_summary", size: "small" }],
   er_officer: [{ id: "er_waiting", size: "small" }, { id: "bed_occupancy", size: "small" }],
@@ -227,6 +228,17 @@ Deno.serve(async (req) => {
       // deno-lint-ignore no-explicit-any
       next: wait.slice(0, 5).map((r: any) => ({ token: r.token_no, name: r.patients?.full_name ?? "", waited_min: r.checked_in_at ? mins(r.checked_in_at) : 0 })),
       waiting: wait.length, avg_wait_min: w.length ? Math.round(w.reduce((a: number, b: number) => a + b, 0) / w.length) : 0, longest_min: w.length ? Math.max(...w) : 0 } });
+  }
+  if (id === "critical_results") {
+    const doc = await myDoctor();
+    if (!doc) return json({ ok: true, data: { count: 0, results: [] } });
+    const since = new Date(Math.min(from.getTime(), Date.now() - 7 * 86400e3)).toISOString();
+    const { data: rows } = await db.from("orders").select("id, patient_id, verified_at, result, patients(full_name, mrn), lab_tests(code, name)").eq("hospital_id", H)
+      .eq("doctor_id", doc).eq("status", "verified").eq("has_critical", true).gte("verified_at", since).order("verified_at", { ascending: false }).limit(50);
+    // deno-lint-ignore no-explicit-any
+    const results = (rows ?? []).map((r: any) => ({ order_id: r.id, patient_id: r.patient_id, name: r.patients?.full_name ?? "", mrn: r.patients?.mrn ?? "",
+      test: r.lab_tests?.code ?? "", summary: r.result ?? "", verified_at: r.verified_at }));
+    return json({ ok: true, data: { count: results.length, results: results.slice(0, 8) } });
   }
   if (id === "my_admitted") {
     const doc = await myDoctor();
