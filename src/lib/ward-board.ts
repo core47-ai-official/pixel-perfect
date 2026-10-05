@@ -29,7 +29,7 @@ export interface WardBoard {
 export function useWardBoard() {
   const qc = useQueryClient();
   useEffect(() => {
-    const ch = supabase.channel("ward-board")
+    const ch = supabase.channel(`ward-board-${Math.random().toString(36).slice(2)}`)
       .on("postgres_changes", { event: "*", schema: "public", table: "beds" }, () => qc.invalidateQueries({ queryKey: ["ward-board"] }))
       .subscribe();
     // Refresh "due" states every minute.

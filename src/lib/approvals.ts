@@ -21,7 +21,7 @@ export function useApprovals(filter: { status?: "pending" | "decided"; mine?: st
   const qc = useQueryClient();
   const uid = useId();
   useEffect(() => {
-    const ch = supabase.channel(`approvals-${uid}`)
+    const ch = supabase.channel(`approvals-${uid}-${Math.random().toString(36).slice(2)}`)
       .on("postgres_changes", { event: "*", schema: "public", table: "approvals" }, () => void qc.invalidateQueries({ queryKey: ["approvals"] }))
       .subscribe();
     return () => { void supabase.removeChannel(ch); };

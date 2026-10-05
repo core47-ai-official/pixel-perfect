@@ -50,7 +50,7 @@ function useWards() {
 function useBeds() {
   const qc = useQueryClient();
   useEffect(() => {
-    const ch = supabase.channel("beds-setup").on("postgres_changes", { event: "*", schema: "public", table: "beds" }, () => qc.invalidateQueries({ queryKey: ["beds"] })).subscribe();
+    const ch = supabase.channel(`beds-setup-${Math.random().toString(36).slice(2)}`).on("postgres_changes", { event: "*", schema: "public", table: "beds" }, () => qc.invalidateQueries({ queryKey: ["beds"] })).subscribe();
     return () => { supabase.removeChannel(ch); };
   }, [qc]);
   return useQuery({ queryKey: ["beds"], queryFn: async () => {

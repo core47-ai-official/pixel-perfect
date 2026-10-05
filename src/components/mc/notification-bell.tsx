@@ -40,7 +40,7 @@ export function NotificationBell() {
   useEffect(() => {
     if (!userId) return;
     const ch = supabase
-      .channel(`notifications:${userId}`)
+      .channel(`notifications:${userId}-${Math.random().toString(36).slice(2)}`)
       .on("postgres_changes", { event: "*", schema: "public", table: "notifications", filter: `user_id=eq.${userId}` }, () =>
         qc.invalidateQueries({ queryKey: QK }),
       )

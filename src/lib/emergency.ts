@@ -27,7 +27,7 @@ export interface EmergencyCase {
 export function useOpenEmergencyCases() {
   const qc = useQueryClient();
   useEffect(() => {
-    const ch = supabase.channel("er-cases")
+    const ch = supabase.channel(`er-cases-${Math.random().toString(36).slice(2)}`)
       .on("postgres_changes", { event: "*", schema: "public", table: "emergency_cases" }, () => qc.invalidateQueries({ queryKey: ["er-cases"] }))
       .subscribe();
     return () => { supabase.removeChannel(ch); };
