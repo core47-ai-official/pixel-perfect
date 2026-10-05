@@ -227,7 +227,7 @@ function BillingCounter() {
                   className={cn("w-full rounded-staff border bg-surface p-3 text-start", i.id === invoiceId && "border-primary ring-1 ring-primary")}>
                   <div className="flex items-center justify-between gap-2">
                     <Ltr className="font-medium">{i.invoice_no}</Ltr>
-                    <StatusChip status={TONE[i.status]}>{t(`bill.status.${i.status}`, i.status)}</StatusChip>
+                    <StatusChip status={TONE[i.status]}>{t(`bill.statuses.${i.status}`)}</StatusChip>
                   </div>
                   <p className={cn("mt-1 text-sm", Number(i.balance) > 0 ? "font-semibold text-urgent-fg" : "text-muted-foreground")}>
                     {t("cash.balance")}: <Ltr>{formatPkr(i.balance)}</Ltr>
