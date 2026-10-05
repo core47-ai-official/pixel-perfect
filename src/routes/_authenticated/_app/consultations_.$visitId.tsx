@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { ClipboardList, FlaskConical, Lock, Pill, Stethoscope } from "lucide-react";
+import { FlaskConical, Lock, Pill, Stethoscope } from "lucide-react";
 import { RequireRole } from "@/components/mc/require-role";
 import { rolesForPage } from "@/config/navigation";
 import { Button } from "@/components/ui/button";
