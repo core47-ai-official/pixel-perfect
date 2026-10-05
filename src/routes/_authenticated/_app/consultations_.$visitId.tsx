@@ -29,6 +29,8 @@ import { NOTE_TEMPLATES, templateForSpecialty } from "@/config/note-templates";
 import { DiagnosisPicker } from "@/components/mc/diagnosis-picker";
 import { PrescriptionPanel } from "@/components/mc/prescription-panel";
 import { OrderPicker } from "@/components/mc/order-picker";
+import { ResultValues } from "@/components/mc/lab-results";
+import { usePatientOrders } from "@/lib/lab";
 
 export const Route = createFileRoute("/_authenticated/_app/consultations_/$visitId")({
   head: () => ({
@@ -277,6 +279,8 @@ function LeftPanel({ visit }: { visit: Visit }) {
   const patient = usePatient(visit.patient_id);
   const visits = usePatientVisits(visit.patient_id);
   const vitals = useVitals(visit.patient_id);
+  const labs = usePatientOrders(visit.patient_id);
+  const results = (labs.data ?? []).filter((o) => ["resulted", "verified"].includes(o.status)).slice(0, 6);
   const [vOpen, setVOpen] = useState(false);
   const past = (visits.data ?? []).filter((v) => v.id !== visit.id);
   const p = patient.data as { allergies?: string[]; chronic_conditions?: string[] } | null | undefined;
@@ -313,6 +317,22 @@ function LeftPanel({ visit }: { visit: Visit }) {
               </tbody>
             </table>
           </div>
+        )}
+      </section>
+
+      <section className="rounded-lg border bg-card p-4 text-sm">
+        <h2 className="mb-2 font-semibold">{t("lab.recent")}</h2>
+        {results.length === 0 ? <p className="text-muted-foreground">{t("lab.noResults")}</p> : (
+          <ul className="space-y-3">
+            {results.map((o) => (
+              <li key={o.id} className={o.has_critical ? "rounded-md border border-destructive p-2" : ""}>
+                <p className="text-xs font-semibold"><Ltr>{o.test?.code}</Ltr> · <Ltr>{fmt(o.resulted_at ?? o.created_at)}</Ltr>
+                  {o.has_critical && <span className="ms-1 text-destructive">{t("lab.criticalTag")}</span>}
+                  {o.status === "resulted" && <span className="ms-1 font-normal text-muted-foreground">{t("lab.unverified")}</span>}</p>
+                {o.values.length ? <ResultValues values={o.values} /> : <Ltr className="whitespace-pre-wrap text-xs">{o.result}</Ltr>}
+              </li>
+            ))}
+          </ul>
         )}
       </section>
 
