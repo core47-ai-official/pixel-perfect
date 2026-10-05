@@ -1814,6 +1814,7 @@ export type Database = {
           id: string
           interaction_group: string[]
           is_active: boolean
+          reorder_level: number
           route: string
           strength: string | null
           unit_price: number
@@ -1830,6 +1831,7 @@ export type Database = {
           id?: string
           interaction_group?: string[]
           is_active?: boolean
+          reorder_level?: number
           route?: string
           strength?: string | null
           unit_price?: number
@@ -1846,6 +1848,7 @@ export type Database = {
           id?: string
           interaction_group?: string[]
           is_active?: boolean
+          reorder_level?: number
           route?: string
           strength?: string | null
           unit_price?: number
@@ -2964,6 +2967,171 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "push_subscriptions_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stock_adjustments: {
+        Row: {
+          adjusted_by: string | null
+          batch_id: string
+          created_at: string
+          hospital_id: string
+          id: string
+          note: string | null
+          qty_change: number
+          reason: string
+        }
+        Insert: {
+          adjusted_by?: string | null
+          batch_id: string
+          created_at?: string
+          hospital_id: string
+          id?: string
+          note?: string | null
+          qty_change: number
+          reason: string
+        }
+        Update: {
+          adjusted_by?: string | null
+          batch_id?: string
+          created_at?: string
+          hospital_id?: string
+          id?: string
+          note?: string | null
+          qty_change?: number
+          reason?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stock_adjustments_batch_id_fkey"
+            columns: ["batch_id"]
+            isOneToOne: false
+            referencedRelation: "stock_batches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stock_adjustments_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stock_batches: {
+        Row: {
+          batch_no: string
+          cost_price: number
+          created_at: string
+          expiry_date: string
+          hospital_id: string
+          id: string
+          medicine_id: string
+          qty_on_hand: number
+          qty_received: number
+          received_at: string
+          received_by: string | null
+          supplier_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          batch_no: string
+          cost_price?: number
+          created_at?: string
+          expiry_date: string
+          hospital_id: string
+          id?: string
+          medicine_id: string
+          qty_on_hand: number
+          qty_received: number
+          received_at?: string
+          received_by?: string | null
+          supplier_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          batch_no?: string
+          cost_price?: number
+          created_at?: string
+          expiry_date?: string
+          hospital_id?: string
+          id?: string
+          medicine_id?: string
+          qty_on_hand?: number
+          qty_received?: number
+          received_at?: string
+          received_by?: string | null
+          supplier_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stock_batches_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stock_batches_medicine_id_fkey"
+            columns: ["medicine_id"]
+            isOneToOne: false
+            referencedRelation: "medicines"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stock_batches_supplier_id_fkey"
+            columns: ["supplier_id"]
+            isOneToOne: false
+            referencedRelation: "suppliers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      suppliers: {
+        Row: {
+          address: string | null
+          created_at: string
+          created_by: string | null
+          hospital_id: string
+          id: string
+          is_active: boolean
+          name: string
+          ntn: string | null
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          created_by?: string | null
+          hospital_id: string
+          id?: string
+          is_active?: boolean
+          name: string
+          ntn?: string | null
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          created_by?: string | null
+          hospital_id?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          ntn?: string | null
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "suppliers_hospital_id_fkey"
             columns: ["hospital_id"]
             isOneToOne: false
             referencedRelation: "hospitals"
