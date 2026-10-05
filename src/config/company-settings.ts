@@ -21,12 +21,12 @@ export interface FieldDef {
 
 export type TabId =
   | "general" | "branding" | "contacts" | "localization" | "security" | "opd" | "appointments" | "billing"
-  | "pharmacy" | "lab" | "wards" | "emergency" | "printing" | "notifications" | "holidays" | "patient_portal";
+  | "pharmacy" | "lab" | "wards" | "emergency" | "printing" | "notifications" | "holidays" | "patient_portal" | "dashboards";
 
 export interface TabDef {
   id: TabId;
   /** Stored in company_settings column of the same name; contacts/holidays use their own tables. */
-  kind: "fields" | "contacts" | "holidays";
+  kind: "fields" | "contacts" | "holidays" | "dashboards";
   fields: FieldDef[];
 }
 
@@ -127,6 +127,7 @@ export const SETTINGS_TABS: TabDef[] = [
     { key: "show_lab_results", type: "toggle", default: true },
     { key: "welcome_message", type: "textarea", default: "" },
   ] },
+  { id: "dashboards", kind: "dashboards", fields: [] },
 ];
 
 export type TabValues = Record<string, string | number | boolean>;

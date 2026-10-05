@@ -645,6 +645,7 @@ export type Database = {
           branding: Json
           created_at: string
           created_by: string | null
+          dashboards: Json
           emergency: Json
           general: Json
           hospital_id: string
@@ -666,6 +667,7 @@ export type Database = {
           branding?: Json
           created_at?: string
           created_by?: string | null
+          dashboards?: Json
           emergency?: Json
           general?: Json
           hospital_id: string
@@ -687,6 +689,7 @@ export type Database = {
           branding?: Json
           created_at?: string
           created_by?: string | null
+          dashboards?: Json
           emergency?: Json
           general?: Json
           hospital_id?: string

@@ -1,0 +1,2 @@
+ALTER TABLE public.company_settings ADD COLUMN IF NOT EXISTS dashboards jsonb NOT NULL DEFAULT '{}'::jsonb;
+CREATE UNIQUE INDEX IF NOT EXISTS dashboard_layouts_user_dash ON public.dashboard_layouts (user_id, dashboard);

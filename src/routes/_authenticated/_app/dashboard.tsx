@@ -17,6 +17,7 @@ import {
   type LayoutItem, type WidgetSize,
 } from "@/config/widgets";
 import { cn } from "@/lib/utils";
+import { useRoleDashboards } from "@/components/mc/role-dashboards-tab";
 
 export const Route = createFileRoute("/_authenticated/_app/dashboard")({
   head: () => ({
@@ -59,10 +60,13 @@ function Dashboard() {
   const roles = context?.roles ?? [];
   const navigate = useNavigate();
   // Doctors' home is "My day".
+  // Only on first landing per tab session, so they can still open their dashboard from the menu.
   useEffect(() => {
-    if (roles.length && roles.every((r) => r === "doctor")) void navigate({ to: "/my-day", replace: true });
+    if (!roles.length || sessionStorage.getItem("mc.landed")) return;
+    sessionStorage.setItem("mc.landed", "1");
+    if (roles.every((r) => r === "doctor")) void navigate({ to: "/my-day", replace: true });
     // Nurses' home is the Ward board.
-    else if (roles.length && roles.every((r) => r === "nurse")) void navigate({ to: "/nursing", replace: true });
+    else if (roles.every((r) => r === "nurse")) void navigate({ to: "/nursing", replace: true });
   }, [roles, navigate]);
   const allowed = useMemo(() => widgetsForRoles(roles), [roles]);
   const wide = useWide();
@@ -79,7 +83,8 @@ function Dashboard() {
     retry: false,
     queryFn: () => callEdgeFunction<{ widgets: LayoutItem[] }>("get-dashboard-layout", { dashboard: DASHBOARD }),
   });
-  const fallback = defaultLayoutFor(roles);
+  const roleDefaults = useRoleDashboards();
+  const fallback = defaultLayoutFor(roles, roleDefaults.data);
   const saved = (layoutQ.data?.widgets ?? (layoutQ.isError ? fallback : []))
     .filter((w) => allowed.some((a) => a.id === w.id));
   const shown = editing ? draft : saved;
