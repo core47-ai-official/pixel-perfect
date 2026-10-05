@@ -266,7 +266,8 @@
     "handover": "Handover",
     "tariffs": "Tariffs",
     "packages": "Packages",
-    "approvals": "Approvals"
+    "approvals": "Approvals",
+    "unpaid": "Unpaid balances"
   },
   "navGroup": {
     "overview": "Overview",
@@ -2016,5 +2017,41 @@
       "note": "Note",
       "signature": "Cashier signature"
     }
+  },
+  "unpaid": {
+    "title": "Unpaid balances",
+    "desc": "Open bills by age, with follow-up notes.",
+    "bucket": {
+      "b0_30": "0–30 days",
+      "b31_60": "31–60 days",
+      "b60": "Over 60 days",
+      "total": "Total due"
+    },
+    "dept": "Department",
+    "payer": "Payer type",
+    "all": "All",
+    "export": "Export to Excel",
+    "col": {
+      "invoice_no": "Bill no.",
+      "patient": "Patient",
+      "mrn": "MRN",
+      "phone": "Phone",
+      "department": "Department",
+      "payer_type": "Payer",
+      "created": "Bill date",
+      "age": "Days",
+      "bucket": "Age",
+      "total": "Total",
+      "paid": "Paid",
+      "balance": "Balance",
+      "last": "Last follow-up"
+    },
+    "followups": "Follow-up notes",
+    "addNote": "Add note",
+    "notePh": "e.g. Called patient, will pay Friday",
+    "noNotes": "No follow-ups yet",
+    "saved": "Note saved",
+    "none": "No unpaid balances",
+    "noDept": "No department"
   }
 }

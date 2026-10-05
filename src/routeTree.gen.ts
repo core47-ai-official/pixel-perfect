@@ -56,6 +56,7 @@ import { Route as AuthenticatedAppStaffRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedAppSupportTicketsRouteImport } from './routes/_authenticated/_app/support-tickets'
 import { Route as AuthenticatedAppSystemIssuesRouteImport } from './routes/_authenticated/_app/system-issues'
 import { Route as AuthenticatedAppTariffsRouteImport } from './routes/_authenticated/_app/tariffs'
+import { Route as AuthenticatedAppUnpaidRouteImport } from './routes/_authenticated/_app/unpaid'
 import { Route as AuthenticatedAppUsersRouteImport } from './routes/_authenticated/_app/users'
 import { Route as AuthenticatedAppWardSetupRouteImport } from './routes/_authenticated/_app/ward-setup'
 import { Route as AuthenticatedAppWardsRouteImport } from './routes/_authenticated/_app/wards'
@@ -325,6 +326,11 @@ const AuthenticatedAppTariffsRoute = AuthenticatedAppTariffsRouteImport.update({
   path: '/tariffs',
   getParentRoute: () => AuthenticatedAppRouteRoute,
 } as any)
+const AuthenticatedAppUnpaidRoute = AuthenticatedAppUnpaidRouteImport.update({
+  id: '/unpaid',
+  path: '/unpaid',
+  getParentRoute: () => AuthenticatedAppRouteRoute,
+} as any)
 const AuthenticatedAppUsersRoute = AuthenticatedAppUsersRouteImport.update({
   id: '/users',
   path: '/users',
@@ -424,6 +430,7 @@ export interface FileRoutesByFullPath {
   '/support-tickets': typeof AuthenticatedAppSupportTicketsRoute
   '/system-issues': typeof AuthenticatedAppSystemIssuesRoute
   '/tariffs': typeof AuthenticatedAppTariffsRoute
+  '/unpaid': typeof AuthenticatedAppUnpaidRoute
   '/users': typeof AuthenticatedAppUsersRoute
   '/ward-setup': typeof AuthenticatedAppWardSetupRoute
   '/wards': typeof AuthenticatedAppWardsRoute
@@ -480,6 +487,7 @@ export interface FileRoutesByTo {
   '/support-tickets': typeof AuthenticatedAppSupportTicketsRoute
   '/system-issues': typeof AuthenticatedAppSystemIssuesRoute
   '/tariffs': typeof AuthenticatedAppTariffsRoute
+  '/unpaid': typeof AuthenticatedAppUnpaidRoute
   '/users': typeof AuthenticatedAppUsersRoute
   '/ward-setup': typeof AuthenticatedAppWardSetupRoute
   '/wards': typeof AuthenticatedAppWardsRoute
@@ -539,6 +547,7 @@ export interface FileRoutesById {
   '/_authenticated/_app/support-tickets': typeof AuthenticatedAppSupportTicketsRoute
   '/_authenticated/_app/system-issues': typeof AuthenticatedAppSystemIssuesRoute
   '/_authenticated/_app/tariffs': typeof AuthenticatedAppTariffsRoute
+  '/_authenticated/_app/unpaid': typeof AuthenticatedAppUnpaidRoute
   '/_authenticated/_app/users': typeof AuthenticatedAppUsersRoute
   '/_authenticated/_app/ward-setup': typeof AuthenticatedAppWardSetupRoute
   '/_authenticated/_app/wards': typeof AuthenticatedAppWardsRoute
@@ -597,6 +606,7 @@ export interface FileRouteTypes {
     | '/support-tickets'
     | '/system-issues'
     | '/tariffs'
+    | '/unpaid'
     | '/users'
     | '/ward-setup'
     | '/wards'
@@ -653,6 +663,7 @@ export interface FileRouteTypes {
     | '/support-tickets'
     | '/system-issues'
     | '/tariffs'
+    | '/unpaid'
     | '/users'
     | '/ward-setup'
     | '/wards'
@@ -711,6 +722,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/support-tickets'
     | '/_authenticated/_app/system-issues'
     | '/_authenticated/_app/tariffs'
+    | '/_authenticated/_app/unpaid'
     | '/_authenticated/_app/users'
     | '/_authenticated/_app/ward-setup'
     | '/_authenticated/_app/wards'
@@ -1065,6 +1077,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppTariffsRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
+    '/_authenticated/_app/unpaid': {
+      id: '/_authenticated/_app/unpaid'
+      path: '/unpaid'
+      fullPath: '/unpaid'
+      preLoaderRoute: typeof AuthenticatedAppUnpaidRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
     '/_authenticated/_app/users': {
       id: '/_authenticated/_app/users'
       path: '/users'
@@ -1169,6 +1188,7 @@ interface AuthenticatedAppRouteRouteChildren {
   AuthenticatedAppSupportTicketsRoute: typeof AuthenticatedAppSupportTicketsRoute
   AuthenticatedAppSystemIssuesRoute: typeof AuthenticatedAppSystemIssuesRoute
   AuthenticatedAppTariffsRoute: typeof AuthenticatedAppTariffsRoute
+  AuthenticatedAppUnpaidRoute: typeof AuthenticatedAppUnpaidRoute
   AuthenticatedAppUsersRoute: typeof AuthenticatedAppUsersRoute
   AuthenticatedAppWardSetupRoute: typeof AuthenticatedAppWardSetupRoute
   AuthenticatedAppWardsRoute: typeof AuthenticatedAppWardsRoute
@@ -1217,6 +1237,7 @@ const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
   AuthenticatedAppSupportTicketsRoute: AuthenticatedAppSupportTicketsRoute,
   AuthenticatedAppSystemIssuesRoute: AuthenticatedAppSystemIssuesRoute,
   AuthenticatedAppTariffsRoute: AuthenticatedAppTariffsRoute,
+  AuthenticatedAppUnpaidRoute: AuthenticatedAppUnpaidRoute,
   AuthenticatedAppUsersRoute: AuthenticatedAppUsersRoute,
   AuthenticatedAppWardSetupRoute: AuthenticatedAppWardSetupRoute,
   AuthenticatedAppWardsRoute: AuthenticatedAppWardsRoute,
