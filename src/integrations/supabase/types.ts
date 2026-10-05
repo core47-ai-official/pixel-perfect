@@ -1264,6 +1264,162 @@ export type Database = {
           },
         ]
       }
+      invoice_lines: {
+        Row: {
+          amount: number
+          created_at: string
+          created_by: string | null
+          description: string
+          hospital_id: string
+          id: string
+          invoice_id: string
+          posted_by: string | null
+          qty: number
+          rate: number
+          source_id: string | null
+          source_type: string
+          tariff_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          created_by?: string | null
+          description: string
+          hospital_id: string
+          id?: string
+          invoice_id: string
+          posted_by?: string | null
+          qty?: number
+          rate?: number
+          source_id?: string | null
+          source_type?: string
+          tariff_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          created_by?: string | null
+          description?: string
+          hospital_id?: string
+          id?: string
+          invoice_id?: string
+          posted_by?: string | null
+          qty?: number
+          rate?: number
+          source_id?: string | null
+          source_type?: string
+          tariff_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoice_lines_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoice_lines_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoice_lines_tariff_id_fkey"
+            columns: ["tariff_id"]
+            isOneToOne: false
+            referencedRelation: "tariffs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invoices: {
+        Row: {
+          admission_id: string | null
+          balance: number
+          created_at: string
+          created_by: string | null
+          discount: number
+          hospital_id: string
+          id: string
+          invoice_no: string
+          paid: number
+          patient_id: string
+          payer_type: string
+          status: string
+          total: number
+          updated_at: string
+          visit_id: string | null
+        }
+        Insert: {
+          admission_id?: string | null
+          balance?: number
+          created_at?: string
+          created_by?: string | null
+          discount?: number
+          hospital_id: string
+          id?: string
+          invoice_no: string
+          paid?: number
+          patient_id: string
+          payer_type?: string
+          status?: string
+          total?: number
+          updated_at?: string
+          visit_id?: string | null
+        }
+        Update: {
+          admission_id?: string | null
+          balance?: number
+          created_at?: string
+          created_by?: string | null
+          discount?: number
+          hospital_id?: string
+          id?: string
+          invoice_no?: string
+          paid?: number
+          patient_id?: string
+          payer_type?: string
+          status?: string
+          total?: number
+          updated_at?: string
+          visit_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_admission_id_fkey"
+            columns: ["admission_id"]
+            isOneToOne: false
+            referencedRelation: "admissions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_visit_id_fkey"
+            columns: ["visit_id"]
+            isOneToOne: false
+            referencedRelation: "visits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lab_tests: {
         Row: {
           category: string
