@@ -14,6 +14,105 @@ export type Database = {
   }
   public: {
     Tables: {
+      admissions: {
+        Row: {
+          admitted_at: string
+          admitting_doctor_id: string
+          bed_id: string | null
+          bed_request_id: string | null
+          created_at: string
+          created_by: string | null
+          department_id: string | null
+          deposit_amount: number
+          discharge_note: string | null
+          discharge_type: string | null
+          discharged_at: string | null
+          hospital_id: string
+          id: string
+          patient_id: string
+          reason: string
+          status: string
+          transfers: Json
+          updated_at: string
+        }
+        Insert: {
+          admitted_at?: string
+          admitting_doctor_id: string
+          bed_id?: string | null
+          bed_request_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          department_id?: string | null
+          deposit_amount?: number
+          discharge_note?: string | null
+          discharge_type?: string | null
+          discharged_at?: string | null
+          hospital_id: string
+          id?: string
+          patient_id: string
+          reason: string
+          status?: string
+          transfers?: Json
+          updated_at?: string
+        }
+        Update: {
+          admitted_at?: string
+          admitting_doctor_id?: string
+          bed_id?: string | null
+          bed_request_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          department_id?: string | null
+          deposit_amount?: number
+          discharge_note?: string | null
+          discharge_type?: string | null
+          discharged_at?: string | null
+          hospital_id?: string
+          id?: string
+          patient_id?: string
+          reason?: string
+          status?: string
+          transfers?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "admissions_admitting_doctor_id_fkey"
+            columns: ["admitting_doctor_id"]
+            isOneToOne: false
+            referencedRelation: "doctors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "admissions_bed_id_fkey"
+            columns: ["bed_id"]
+            isOneToOne: false
+            referencedRelation: "beds"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "admissions_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "admissions_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "admissions_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       appointments: {
         Row: {
           called_at: string | null
@@ -169,6 +268,102 @@ export type Database = {
           },
         ]
       }
+      bed_requests: {
+        Row: {
+          admission_id: string | null
+          allotted_at: string | null
+          allotted_by: string | null
+          bed_class: string
+          bed_id: string | null
+          created_at: string
+          created_by: string | null
+          doctor_id: string | null
+          hospital_id: string
+          id: string
+          note: string
+          patient_id: string
+          priority: string
+          requested_by: string
+          source: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          admission_id?: string | null
+          allotted_at?: string | null
+          allotted_by?: string | null
+          bed_class?: string
+          bed_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          doctor_id?: string | null
+          hospital_id: string
+          id?: string
+          note?: string
+          patient_id: string
+          priority?: string
+          requested_by: string
+          source?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          admission_id?: string | null
+          allotted_at?: string | null
+          allotted_by?: string | null
+          bed_class?: string
+          bed_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          doctor_id?: string | null
+          hospital_id?: string
+          id?: string
+          note?: string
+          patient_id?: string
+          priority?: string
+          requested_by?: string
+          source?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bed_requests_admission_id_fkey"
+            columns: ["admission_id"]
+            isOneToOne: false
+            referencedRelation: "admissions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bed_requests_bed_id_fkey"
+            columns: ["bed_id"]
+            isOneToOne: false
+            referencedRelation: "beds"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bed_requests_doctor_id_fkey"
+            columns: ["doctor_id"]
+            isOneToOne: false
+            referencedRelation: "doctors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bed_requests_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bed_requests_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       beds: {
         Row: {
           bed_class: string
@@ -216,6 +411,13 @@ export type Database = {
           ward_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "beds_current_admission_fk"
+            columns: ["current_admission_id"]
+            isOneToOne: false
+            referencedRelation: "admissions"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "beds_hospital_id_fkey"
             columns: ["hospital_id"]
