@@ -67,10 +67,10 @@ export const FOOTER_PAGES: NavPage[] = [
 
 /** Role → pages, in priority order (first four become the mobile bottom nav). */
 export const ROLE_PAGES: Record<AppRole, PageId[]> = {
-  super_admin: ["dashboard", "users", "reports", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "doctorsNow", "leaveApprovals", "leaveApprovals", "patients", "appointments", "billing", "cashRegister", "inventory", "formulary", "labTests", "wardSetup", "wards", "nursing", "handover"],
-  admin: ["dashboard", "users", "departments", "doctors", "doctorsNow", "leaveApprovals", "companySettings", "reports", "patients", "appointments", "billing", "inventory", "formulary", "labTests", "wardSetup", "wards", "nursing", "handover"],
-  dept_head: ["dashboard", "consultations", "wards", "nursing", "handover", "reports", "patients", "appointments", "staff", "doctors", "doctorsNow", "leaveApprovals"],
-  doctor: ["myDay", "opdQueue", "mySchedule", "patients", "consultations", "appointments", "myLeave", "wards", "lab", "formulary", "dashboard"],
+  super_admin: ["dashboard", "users", "reports", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "doctorsNow", "leaveApprovals", "leaveApprovals", "patients", "appointments", "billing", "cashRegister", "inventory", "formulary", "labTests", "wardSetup", "wards", "emergency", "nursing", "handover"],
+  admin: ["dashboard", "users", "departments", "doctors", "doctorsNow", "leaveApprovals", "companySettings", "reports", "patients", "appointments", "billing", "inventory", "formulary", "labTests", "wardSetup", "wards", "emergency", "nursing", "handover"],
+  dept_head: ["dashboard", "consultations", "wards", "emergency", "nursing", "handover", "reports", "patients", "appointments", "staff", "doctors", "doctorsNow", "leaveApprovals"],
+  doctor: ["myDay", "opdQueue", "mySchedule", "patients", "consultations", "appointments", "myLeave", "wards", "emergency", "lab", "formulary", "dashboard"],
   nurse: ["nursing", "wards", "handover", "patients", "emergency", "dashboard"],
   er_officer: ["dashboard", "emergency", "patients", "wards", "lab"],
   ot_coordinator: ["dashboard", "ot", "patients", "wards", "inventory"],
