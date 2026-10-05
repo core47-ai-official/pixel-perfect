@@ -1,0 +1,24 @@
+
+DROP POLICY IF EXISTS "Clinical staff read visits" ON public.visits;
+CREATE POLICY "Clinical staff read visits" ON public.visits FOR SELECT TO authenticated USING (EXISTS (SELECT 1 FROM public.user_roles r WHERE r.user_id = auth.uid() AND r.hospital_id = visits.hospital_id AND r.role = ANY (ARRAY['doctor','nurse','er_officer','ot_coordinator']::public.app_role[])));
+CREATE POLICY "Department heads read department visits" ON public.visits FOR SELECT TO authenticated USING (EXISTS (SELECT 1 FROM public.user_roles r JOIN public.doctors d ON d.department_id = r.department_id WHERE r.user_id = auth.uid() AND r.role = 'dept_head' AND r.hospital_id = visits.hospital_id AND d.id = visits.doctor_id));
+
+DROP POLICY IF EXISTS "Clinical staff read diagnoses" ON public.visit_diagnoses;
+CREATE POLICY "Clinical staff read diagnoses" ON public.visit_diagnoses FOR SELECT TO authenticated USING (EXISTS (SELECT 1 FROM public.user_roles r WHERE r.user_id = auth.uid() AND r.hospital_id = visit_diagnoses.hospital_id AND r.role = ANY (ARRAY['doctor','nurse','er_officer','ot_coordinator']::public.app_role[])));
+CREATE POLICY "Department heads read department diagnoses" ON public.visit_diagnoses FOR SELECT TO authenticated USING (EXISTS (SELECT 1 FROM public.visits v JOIN public.doctors d ON d.id = v.doctor_id JOIN public.user_roles r ON r.department_id = d.department_id WHERE v.id = visit_diagnoses.visit_id AND r.user_id = auth.uid() AND r.role = 'dept_head' AND r.hospital_id = visit_diagnoses.hospital_id));
+
+DROP POLICY IF EXISTS "Clinical and pharmacy staff read prescriptions" ON public.prescriptions;
+CREATE POLICY "Clinical and pharmacy staff read prescriptions" ON public.prescriptions FOR SELECT TO authenticated USING (EXISTS (SELECT 1 FROM public.user_roles r WHERE r.user_id = auth.uid() AND r.hospital_id = prescriptions.hospital_id AND r.role = ANY (ARRAY['doctor','nurse','er_officer','ot_coordinator','pharmacist']::public.app_role[])));
+CREATE POLICY "Department heads read department prescriptions" ON public.prescriptions FOR SELECT TO authenticated USING (EXISTS (SELECT 1 FROM public.user_roles r JOIN public.doctors d ON d.department_id = r.department_id WHERE r.user_id = auth.uid() AND r.role = 'dept_head' AND r.hospital_id = prescriptions.hospital_id AND d.id = prescriptions.doctor_id));
+
+DROP POLICY IF EXISTS "Clinical and pharmacy staff read prescription items" ON public.prescription_items;
+CREATE POLICY "Clinical and pharmacy staff read prescription items" ON public.prescription_items FOR SELECT TO authenticated USING (EXISTS (SELECT 1 FROM public.user_roles r WHERE r.user_id = auth.uid() AND r.hospital_id = prescription_items.hospital_id AND r.role = ANY (ARRAY['doctor','nurse','er_officer','ot_coordinator','pharmacist']::public.app_role[])));
+CREATE POLICY "Department heads read department prescription items" ON public.prescription_items FOR SELECT TO authenticated USING (EXISTS (SELECT 1 FROM public.prescriptions x JOIN public.doctors d ON d.id = x.doctor_id JOIN public.user_roles r ON r.department_id = d.department_id WHERE x.id = prescription_items.prescription_id AND r.user_id = auth.uid() AND r.role = 'dept_head' AND r.hospital_id = prescription_items.hospital_id));
+
+DROP POLICY IF EXISTS "Clinical, lab and billing staff read orders" ON public.orders;
+CREATE POLICY "Clinical, lab and billing staff read orders" ON public.orders FOR SELECT TO authenticated USING (EXISTS (SELECT 1 FROM public.user_roles r WHERE r.user_id = auth.uid() AND r.hospital_id = orders.hospital_id AND r.role = ANY (ARRAY['doctor','nurse','er_officer','ot_coordinator','lab_tech','cashier','receptionist','admin','super_admin']::public.app_role[])));
+CREATE POLICY "Department heads read department orders" ON public.orders FOR SELECT TO authenticated USING (EXISTS (SELECT 1 FROM public.user_roles r JOIN public.doctors d ON d.department_id = r.department_id WHERE r.user_id = auth.uid() AND r.role = 'dept_head' AND r.hospital_id = orders.hospital_id AND d.id = orders.doctor_id));
+
+DROP POLICY IF EXISTS "Clinical, lab and billing staff read result values" ON public.lab_result_values;
+CREATE POLICY "Clinical, lab and billing staff read result values" ON public.lab_result_values FOR SELECT TO authenticated USING (EXISTS (SELECT 1 FROM public.user_roles r WHERE r.user_id = auth.uid() AND r.hospital_id = lab_result_values.hospital_id AND r.role = ANY (ARRAY['doctor','nurse','er_officer','ot_coordinator','lab_tech','cashier','receptionist','admin','super_admin']::public.app_role[])));
+CREATE POLICY "Department heads read department result values" ON public.lab_result_values FOR SELECT TO authenticated USING (EXISTS (SELECT 1 FROM public.orders o JOIN public.doctors d ON d.id = o.doctor_id JOIN public.user_roles r ON r.department_id = d.department_id WHERE o.id = lab_result_values.order_id AND r.user_id = auth.uid() AND r.role = 'dept_head' AND r.hospital_id = lab_result_values.hospital_id));
