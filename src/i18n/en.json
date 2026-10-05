@@ -271,7 +271,8 @@
     "purchaseRequests": "Purchase requests",
     "deptDoctors": "Department doctors",
     "deptPatients": "Department patients",
-    "roster": "Duty roster"
+    "roster": "Duty roster",
+    "referrals": "Referrals"
   },
   "navGroup": {
     "overview": "Overview",
@@ -1875,7 +1876,8 @@
     "confirm": "Confirm",
     "closed": "Emergency case closed",
     "save": "Save",
-    "openProfile": "Open profile"
+    "openProfile": "Open profile",
+    "referNote": "Next you'll fill in the referral form. Sending it closes this case and prints the referral letter."
   },
   "tf": {
     "intro": "The hospital's price list. Bills will pick prices from here.",
@@ -2647,6 +2649,74 @@
       "admitted": "Admitted",
       "discharged": "Discharged",
       "advice": "Advice"
+    }
+  },
+  "ref": {
+    "title": "Referrals",
+    "desc": "Patients referred out to other facilities and referred in to us.",
+    "new": "New referral",
+    "newOut": "Refer patient out",
+    "newIn": "Record incoming referral",
+    "dir": {
+      "out": "Referred out",
+      "in": "Referred in"
+    },
+    "patient": "Patient",
+    "findPatient": "Search MRN, name or phone",
+    "change": "Change",
+    "toFacility": "Referred to (facility)",
+    "fromFacility": "Referred from (facility)",
+    "reason": "Reason for referral",
+    "urgency": "Urgency",
+    "urg": {
+      "routine": "Routine",
+      "urgent": "Urgent",
+      "emergency": "Emergency"
+    },
+    "contactPerson": "Contact person",
+    "contactPhone": "Contact phone",
+    "summary": "Clinical summary",
+    "refill": "Refill from records",
+    "summaryHint": "Filled from the emergency case, latest visit, diagnoses, medicines and vitals. Edit as needed.",
+    "sendAndPrint": "Send referral",
+    "saveIn": "Save",
+    "saved": "Referral saved",
+    "updated": "Referral updated",
+    "updateStatus": "Update status",
+    "statusNote": "Note",
+    "rejectNote": "Enter why the referral was rejected.",
+    "to": {
+      "accepted": "Mark accepted",
+      "rejected": "Mark rejected",
+      "completed": "Mark completed"
+    },
+    "status": {
+      "sent": "Sent",
+      "accepted": "Accepted",
+      "rejected": "Rejected",
+      "completed": "Completed"
+    },
+    "col": {
+      "date": "Date",
+      "patient": "Patient",
+      "facility": "Facility",
+      "reason": "Reason",
+      "urgency": "Urgency",
+      "status": "Status",
+      "actions": ""
+    },
+    "letter": "Letter",
+    "none": "No referrals yet.",
+    "erRefer": "Referring closes this emergency case. Fill in the referral below.",
+    "p": {
+      "title": "Referral Letter",
+      "date": "Date",
+      "to": "To",
+      "from": "From",
+      "mrn": "MRN",
+      "summary": "Clinical summary",
+      "contact": "Contact",
+      "by": "Referring doctor"
     }
   }
 }
