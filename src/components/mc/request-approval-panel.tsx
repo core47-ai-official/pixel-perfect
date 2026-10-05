@@ -42,7 +42,7 @@ export function RequestApprovalPanel({ open, onOpenChange, invoice, onDone }: {
   const save = async () => {
     setBusy(true);
     try {
-      const res = await callEdgeFunction<{ approval: Approval; applied: boolean }>("request-approval", {
+      const res = await callEdgeFunction<{ approval: Approval; applied: boolean }>(kind === "installment" ? "create-installment-plan" : "request-approval", {
         type: kind, invoice_id: invoice.id, reason,
         ...(kind === "discount" ? (byPercent ? { percent: v } : { amount: v }) : {}),
         ...(kind === "installment" ? { details: { schedule } } : {}),
