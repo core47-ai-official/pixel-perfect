@@ -26,6 +26,7 @@ import { useDepartmentsData } from "@/lib/departments-data";
 import { usePatient } from "@/lib/patients";
 import { useAddenda, usePatientVisits, useVisit, useVitals, type Visit } from "@/lib/visits";
 import { NOTE_TEMPLATES, templateForSpecialty } from "@/config/note-templates";
+import { DiagnosisPicker } from "@/components/mc/diagnosis-picker";
 
 export const Route = createFileRoute("/_authenticated/_app/consultations_/$visitId")({
   head: () => ({
@@ -68,7 +69,7 @@ function Screen() {
   const v = visit.data;
   const left = <LeftPanel visit={v} />;
   const centre = <NotePanel visit={v} />;
-  const right = <RightPanel />;
+  const right = <RightPanel visit={v} />;
   return (
     <div className="space-y-4">
       <PatientHeader patientId={v.patient_id} />
@@ -367,8 +368,12 @@ function VitalsPanel({ open, onOpenChange, patientId, visitId }: { open: boolean
 
 /* ---------------------------------------------- right: placeholders B12-B15 */
 
-function RightPanel() {
+function RightPanel({ visit }: { visit: Visit }) {
   const { t } = useTranslation();
+  const { context } = useMyContext();
+  const { doctors } = useDepartmentsData();
+  const me = (doctors.data ?? []).find((d) => d.user_id === context?.profile?.id);
+  const canEdit = visit.status === "draft" && me?.id === visit.doctor_id;
   const box = (icon: React.ReactNode, title: string) => (
     <section className="rounded-lg border border-dashed bg-card p-4 text-sm">
       <h2 className="mb-1 flex items-center gap-2 font-semibold">{icon}{title}</h2>
@@ -377,7 +382,7 @@ function RightPanel() {
   );
   return (
     <aside className="space-y-4">
-      {box(<ClipboardList className="size-4" />, t("consult.diagnosis"))}
+      <DiagnosisPicker visitId={visit.id} canEdit={canEdit} />
       {box(<FlaskConical className="size-4" />, t("consult.orders"))}
       {box(<Pill className="size-4" />, t("consult.prescription"))}
     </aside>
