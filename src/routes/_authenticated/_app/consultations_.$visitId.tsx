@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { FlaskConical, Lock, Pill, Stethoscope } from "lucide-react";
+import { FlaskConical, Lock, Stethoscope } from "lucide-react";
 import { RequireRole } from "@/components/mc/require-role";
 import { rolesForPage } from "@/config/navigation";
 import { Button } from "@/components/ui/button";
@@ -27,6 +27,7 @@ import { usePatient } from "@/lib/patients";
 import { useAddenda, usePatientVisits, useVisit, useVitals, type Visit } from "@/lib/visits";
 import { NOTE_TEMPLATES, templateForSpecialty } from "@/config/note-templates";
 import { DiagnosisPicker } from "@/components/mc/diagnosis-picker";
+import { PrescriptionPanel } from "@/components/mc/prescription-panel";
 
 export const Route = createFileRoute("/_authenticated/_app/consultations_/$visitId")({
   head: () => ({
@@ -384,7 +385,7 @@ function RightPanel({ visit }: { visit: Visit }) {
     <aside className="space-y-4">
       <DiagnosisPicker visitId={visit.id} canEdit={canEdit} />
       {box(<FlaskConical className="size-4" />, t("consult.orders"))}
-      {box(<Pill className="size-4" />, t("consult.prescription"))}
+      <PrescriptionPanel visit={visit} canEdit={canEdit} />
     </aside>
   );
 }
