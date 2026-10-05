@@ -917,6 +917,110 @@ export type Database = {
           },
         ]
       }
+      emergency_cases: {
+        Row: {
+          arrival_mode: string
+          arrived_at: string
+          bay_bed_id: string | null
+          bed_request_id: string | null
+          complaint: string
+          created_at: string
+          created_by: string | null
+          disposition: string | null
+          disposition_at: string | null
+          disposition_note: string | null
+          hospital_id: string
+          id: string
+          mlc: boolean
+          mlc_details: Json
+          patient_id: string
+          seen_at: string | null
+          seen_by: string | null
+          seen_by_name: string | null
+          triage_color: string | null
+          triaged_at: string | null
+          triaged_by: string | null
+          updated_at: string
+        }
+        Insert: {
+          arrival_mode?: string
+          arrived_at?: string
+          bay_bed_id?: string | null
+          bed_request_id?: string | null
+          complaint?: string
+          created_at?: string
+          created_by?: string | null
+          disposition?: string | null
+          disposition_at?: string | null
+          disposition_note?: string | null
+          hospital_id: string
+          id?: string
+          mlc?: boolean
+          mlc_details?: Json
+          patient_id: string
+          seen_at?: string | null
+          seen_by?: string | null
+          seen_by_name?: string | null
+          triage_color?: string | null
+          triaged_at?: string | null
+          triaged_by?: string | null
+          updated_at?: string
+        }
+        Update: {
+          arrival_mode?: string
+          arrived_at?: string
+          bay_bed_id?: string | null
+          bed_request_id?: string | null
+          complaint?: string
+          created_at?: string
+          created_by?: string | null
+          disposition?: string | null
+          disposition_at?: string | null
+          disposition_note?: string | null
+          hospital_id?: string
+          id?: string
+          mlc?: boolean
+          mlc_details?: Json
+          patient_id?: string
+          seen_at?: string | null
+          seen_by?: string | null
+          seen_by_name?: string | null
+          triage_color?: string | null
+          triaged_at?: string | null
+          triaged_by?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "emergency_cases_bay_bed_id_fkey"
+            columns: ["bay_bed_id"]
+            isOneToOne: false
+            referencedRelation: "beds"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "emergency_cases_bed_request_id_fkey"
+            columns: ["bed_request_id"]
+            isOneToOne: false
+            referencedRelation: "bed_requests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "emergency_cases_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "emergency_cases_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       error_logs: {
         Row: {
           created_at: string

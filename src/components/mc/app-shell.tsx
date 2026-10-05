@@ -6,6 +6,7 @@ import { Bug, Languages, LogOut, MoreHorizontal, Plus, Search, WifiOff, Wifi } f
 import { toast } from "sonner";
 import { GlobalSearch } from "@/components/mc/global-search";
 import { BookAppointmentPanel } from "@/components/mc/book-appointment-panel";
+import { ErRegisterPanel } from "@/components/mc/er-register-panel";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -73,8 +74,9 @@ export function AppShell({ children }: { children: ReactNode }) {
   const more = [...pages.slice(4), ...FOOTER_PAGES];
   const soon = () => toast(t("shell.placeholder"));
   const [bookOpen, setBookOpen] = useState(false);
+  const [erOpen, setErOpen] = useState(false);
   const openQuick = (q: QuickAction) =>
-    q.id === "newPatient" ? void navigate({ to: "/patients/new" }) : q.id === "newAdmission" ? void navigate({ to: "/admissions/new" }) : q.id === "newAppointment" ? setBookOpen(true) : setPanel(q);
+    q.id === "newPatient" ? void navigate({ to: "/patients/new" }) : q.id === "newAdmission" ? void navigate({ to: "/admissions/new" }) : q.id === "newAppointment" ? setBookOpen(true) : q.id === "newEmergency" ? setErOpen(true) : setPanel(q);
 
   return (
     <SidebarProvider open={open} onOpenChange={setOpen}>
@@ -214,6 +216,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       </SidePanel>
     <ReportProblemPanel open={reportOpen} onOpenChange={setReportOpen} />
     <BookAppointmentPanel open={bookOpen} onOpenChange={setBookOpen} />
+    <ErRegisterPanel open={erOpen} onOpenChange={setErOpen} />
     </SidebarProvider>
   );
 }
