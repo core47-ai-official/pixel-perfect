@@ -107,7 +107,7 @@ export const ROLE_QUICK_ADD: Record<AppRole, QuickActionId[]> = {
   nurse: ["newAdmission"],
   er_officer: ["newEmergency", "newPatient"],
   ot_coordinator: [],
-  receptionist: ["newPatient", "newAppointment", "newAdmission"],
+  receptionist: ["newPatient", "newAppointment", "newAdmission", "newEmergency"],
   pharmacist: ["newSale"],
   lab_tech: ["newLabOrder"],
   cashier: ["newBill"],

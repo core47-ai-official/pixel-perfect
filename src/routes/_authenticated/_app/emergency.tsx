@@ -44,7 +44,7 @@ function useNow(ms = 30000) {
 function ErBoard() {
   const { t } = useTranslation();
   const { hasRole } = useMyContext();
-  const canRegister = ["super_admin", "admin", "er_officer", "receptionist"].some(hasRole);
+  const canRegister = ["super_admin", "admin", "er_officer", "receptionist"].some((r) => hasRole(r as never));
   const cases = useOpenEmergencyCases();
   const wards = useWards();
   const beds = useBeds();
@@ -143,7 +143,7 @@ function CaseCard({ c, now, onClick, compact }: { c: EmergencyCase; now: number;
 function CasePanel({ c, bays, onClose }: { c: EmergencyCase; bays: { id: string; label: string }[]; onClose: () => void }) {
   const { t } = useTranslation();
   const { hasRole } = useMyContext();
-  const any = (r: string[]) => r.some(hasRole);
+  const any = (r: string[]) => r.some((x) => hasRole(x as never));
   const canClinical = any(["super_admin", "admin", "er_officer", "nurse", "doctor", "dept_head"]);
   const canDecide = any(["super_admin", "admin", "er_officer", "doctor", "dept_head"]);
   const triage = useEdgeFunction("set-triage", { invalidate: ER_INVALIDATE });
@@ -206,7 +206,7 @@ function CasePanel({ c, bays, onClose }: { c: EmergencyCase; bays: { id: string;
 
 function MlcPanel({ c, onClose }: { c: EmergencyCase; onClose: () => void }) {
   const { t } = useTranslation();
-  const [mlc, setMlc] = useState(c.mlc || true);
+  const [mlc, setMlc] = useState<boolean>(true);
   const [d, setD] = useState<MlcDetails>(c.mlc_details ?? {});
   const save = useEdgeFunction("set-mlc", { invalidate: ER_INVALIDATE, successMessage: t("er.mlcSaved") });
   const f = (k: keyof MlcDetails, req = false, ltr = false) => (
