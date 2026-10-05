@@ -43,7 +43,7 @@ async function audit(db: DB, req: Request, c: any, action: string, resource: str
 const LAB_ROLES = ["lab_tech", "admin", "super_admin"];
 async function notify(db: DB, hospitalId: string, userIds: string[], type: string, title: string, body: string, by: string | null) {
   const ids = [...new Set(userIds.filter(Boolean))];
-  if (ids.length) await db.from("notifications").insert(ids.map((u) => ({ hospital_id: hospitalId, user_id: u, type, title, body: body.slice(0, 1000), link: "/purchase-requests", created_by: by })));
+  if (ids.length) await db.from("notifications").insert(ids.map((u) => ({ hospital_id: hospitalId, user_id: u, type, title, body: body.slice(0, 1000), link: "/lab", created_by: by })));
 }
 
 Deno.serve(async (req) => {
