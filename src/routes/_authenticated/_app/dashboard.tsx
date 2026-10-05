@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
@@ -57,6 +57,11 @@ function Dashboard() {
   const { t } = useTranslation();
   const { context } = useMyContext();
   const roles = context?.roles ?? [];
+  const navigate = useNavigate();
+  // Doctors' home is "My day".
+  useEffect(() => {
+    if (roles.length && roles.every((r) => r === "doctor")) void navigate({ to: "/my-day", replace: true });
+  }, [roles, navigate]);
   const allowed = useMemo(() => widgetsForRoles(roles), [roles]);
   const wide = useWide();
   const [range, setRange] = useState<RangeKey>("today");

@@ -2,7 +2,7 @@ import {
   LayoutDashboard, Users, CalendarDays, ListOrdered, Stethoscope, BedDouble, HeartPulse, Siren, Scissors,
   FlaskConical, Pill, Boxes, Receipt, Wallet, UserCog, Building2, BarChart3, ScrollText, Settings, LifeBuoy,
   CalendarCheck, FileHeart, FileText, UserPlus, CalendarPlus, ClipboardPlus, TestTube, ShoppingCart, BadgePlus,
-  Ambulance, UsersRound, BriefcaseMedical, Radio, CalendarOff, CalendarCheck2, OctagonAlert, Ticket, SlidersHorizontal, type LucideIcon,
+  Ambulance, UsersRound, BriefcaseMedical, Radio, CalendarOff, CalendarCheck2, OctagonAlert, Ticket, SlidersHorizontal, Sun, CalendarRange, type LucideIcon,
 } from "lucide-react";
 import type { AppRole } from "@/hooks/use-my-context";
 
@@ -24,6 +24,8 @@ export const PAGES = {
   patients: { id: "patients", path: "/patients", icon: Users, group: "patients" },
   appointments: { id: "appointments", path: "/appointments", icon: CalendarDays, group: "patients" },
   doctorsNow: { id: "doctorsNow", path: "/doctors-now", icon: Radio, group: "patients" },
+  myDay: { id: "myDay", path: "/my-day", icon: Sun, group: "overview" },
+  mySchedule: { id: "mySchedule", path: "/my-schedule", icon: CalendarRange, group: "clinical" },
   opdQueue: { id: "opdQueue", path: "/opd-queue", icon: ListOrdered, group: "patients" },
   consultations: { id: "consultations", path: "/consultations", icon: Stethoscope, group: "clinical" },
   myLeave: { id: "myLeave", path: "/my-leave", icon: CalendarOff, group: "clinical" },
@@ -64,7 +66,7 @@ export const ROLE_PAGES: Record<AppRole, PageId[]> = {
   super_admin: ["dashboard", "users", "reports", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "doctorsNow", "leaveApprovals", "leaveApprovals", "patients", "appointments", "billing", "cashRegister", "inventory"],
   admin: ["dashboard", "users", "departments", "doctors", "doctorsNow", "leaveApprovals", "companySettings", "reports", "patients", "appointments", "billing", "inventory"],
   dept_head: ["dashboard", "consultations", "wards", "reports", "patients", "appointments", "staff", "doctors", "doctorsNow", "leaveApprovals"],
-  doctor: ["dashboard", "opdQueue", "consultations", "patients", "appointments", "myLeave", "wards", "lab"],
+  doctor: ["myDay", "opdQueue", "mySchedule", "patients", "consultations", "appointments", "myLeave", "wards", "lab", "dashboard"],
   nurse: ["dashboard", "nursing", "wards", "patients", "emergency"],
   er_officer: ["dashboard", "emergency", "patients", "wards", "lab"],
   ot_coordinator: ["dashboard", "ot", "patients", "wards", "inventory"],
