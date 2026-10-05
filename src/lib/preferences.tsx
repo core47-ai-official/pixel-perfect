@@ -17,7 +17,10 @@ type Ctx = Prefs & {
 
 const KEY = "medicore.prefs";
 const DEFAULTS: Prefs = { language: "en", theme: "light", density: "comfortable" };
-const PreferencesContext = createContext<Ctx | null>(null);
+// Kept on globalThis so a hot reload of this file reuses the same context instead of
+// creating a second one that the already-mounted provider doesn't supply.
+const g = globalThis as { __mcPrefsCtx?: React.Context<Ctx | null> };
+const PreferencesContext = (g.__mcPrefsCtx ??= createContext<Ctx | null>(null));
 
 export function PreferencesProvider({ children }: { children: ReactNode }) {
   const [prefs, setPrefs] = useState<Prefs>(DEFAULTS);
