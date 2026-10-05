@@ -1,5 +1,5 @@
-// Paste into Supabase → Edge Functions → new function "start-ot-case". Turn "Enforce JWT Verification" OFF.
-// OT coordinator / surgeon / anesthetist: mark a scheduled case as started (needs completed pre_op and who_sign_in checklists). Body: { booking_id }
+// Paste into Supabase → Edge Functions → new function "save-operation-note". Turn "Enforce JWT Verification" OFF.
+// Surgeon / anesthetist / OT team (or admin): save the operation note. Body: { booking_id, anesthesia_note?, operation_note?, findings?, complications? }
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const cors = {
@@ -87,21 +87,26 @@ async function isSurgeonOf(db: DB, userId: string, bk: Booking) {
   return !!data?.length;
 }
 const now = () => new Date().toISOString();
+async function onTeam(db: DB, userId: string, bk: Booking) {
+  const ids = [bk.surgeon_id, bk.anesthetist_id, ...(bk.team_ids ?? [])].filter(Boolean);
+  const { data } = await db.from("doctors").select("id").eq("user_id", userId).in("id", ids);
+  return !!data?.length;
+}
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   const { db, c, b } = await BOOT(req);
   if ("error" in c) return c.error;
   const bk = await loadBooking(db, c.hospitalId, b.booking_id);
   if (!bk) return fail("not_found", "Booking not found.", 404);
-  if (!has(c, ["super_admin", "admin", "ot_coordinator"]) && !(await isSurgeonOf(db, c.userId, bk))) return fail("forbidden", "You can't start this case.", 403);
-  if (bk.status !== "scheduled") return fail("invalid", "Only a scheduled case can be started.");
-  const { data: lists } = await db.from("ot_checklists").select("kind, completed_at").eq("booking_id", bk.id).in("kind", ["pre_op", "who_sign_in"]);
-  const missing = ["pre_op", "who_sign_in"].filter((k) => !(lists ?? []).some((l: { kind: string; completed_at: string | null }) => l.kind === k && l.completed_at));
-  if (missing.length) return fail("checklist", `Complete the ${missing.map((k) => (k === "pre_op" ? "pre-op checklist" : "WHO sign-in")).join(" and ")} before starting the case.`, 409);
-  const { data: busy } = await db.from("ot_bookings").select("id").eq("ot_id", bk.ot_id).eq("status", "in_progress").limit(1);
-  if (busy?.length) return fail("busy", "Another case is still running in this theatre.", 409);
-  const { data } = await db.from("ot_bookings").update({ status: "in_progress", actual_start: now(), updated_at: now() }).eq("id", bk.id).eq("status", "scheduled").select().maybeSingle();
-  if (!data) return fail("stale", "This case was just changed by someone else.", 409);
-  await audit(db, req, c, "start", "ot_booking", bk.id, bk, data);
+  if (!has(c, ["super_admin", "admin"]) && !(await onTeam(db, c.userId, bk))) return fail("forbidden", "Only the operating team can write the operation note.", 403);
+  if (bk.status === "cancelled") return fail("invalid", "This case was cancelled.");
+  const txt = (v: unknown) => (v == null ? null : String(v).slice(0, 8000));
+  const { data: old } = await db.from("operation_notes").select("*").eq("booking_id", bk.id).maybeSingle();
+  const { data, error } = await db.from("operation_notes").upsert({
+    hospital_id: c.hospitalId, booking_id: bk.id, anesthesia_note: txt(b.anesthesia_note), operation_note: txt(b.operation_note),
+    findings: txt(b.findings), complications: txt(b.complications), written_by: c.userId, updated_at: now(),
+  }, { onConflict: "booking_id" }).select().single();
+  if (error) return fail("server", "Could not save the note.", 500);
+  await audit(db, req, c, old ? "update" : "create", "operation_note", data.id, old, data);
   return json({ ok: true, data });
 });

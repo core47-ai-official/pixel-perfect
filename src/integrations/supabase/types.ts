@@ -1959,6 +1959,60 @@ export type Database = {
         }
         Relationships: []
       }
+      operation_notes: {
+        Row: {
+          anesthesia_note: string | null
+          booking_id: string
+          complications: string | null
+          created_at: string
+          findings: string | null
+          hospital_id: string
+          id: string
+          operation_note: string | null
+          updated_at: string
+          written_by: string | null
+        }
+        Insert: {
+          anesthesia_note?: string | null
+          booking_id: string
+          complications?: string | null
+          created_at?: string
+          findings?: string | null
+          hospital_id: string
+          id?: string
+          operation_note?: string | null
+          updated_at?: string
+          written_by?: string | null
+        }
+        Update: {
+          anesthesia_note?: string | null
+          booking_id?: string
+          complications?: string | null
+          created_at?: string
+          findings?: string | null
+          hospital_id?: string
+          id?: string
+          operation_note?: string | null
+          updated_at?: string
+          written_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "operation_notes_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: true
+            referencedRelation: "ot_bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "operation_notes_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       operation_theatres: {
         Row: {
           created_at: string
@@ -2213,6 +2267,111 @@ export type Database = {
             columns: ["surgeon_id"]
             isOneToOne: false
             referencedRelation: "doctors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ot_checklists: {
+        Row: {
+          booking_id: string
+          completed_at: string | null
+          completed_by: string | null
+          created_at: string
+          hospital_id: string
+          id: string
+          items: Json
+          kind: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          booking_id: string
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string
+          hospital_id: string
+          id?: string
+          items?: Json
+          kind: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          booking_id?: string
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string
+          hospital_id?: string
+          id?: string
+          items?: Json
+          kind?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ot_checklists_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "ot_bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ot_checklists_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ot_consumables: {
+        Row: {
+          booking_id: string
+          created_at: string
+          hospital_id: string
+          id: string
+          logged_by: string | null
+          medicine_or_item: string
+          qty: number
+          unit_price: number
+          updated_at: string
+        }
+        Insert: {
+          booking_id: string
+          created_at?: string
+          hospital_id: string
+          id?: string
+          logged_by?: string | null
+          medicine_or_item: string
+          qty?: number
+          unit_price?: number
+          updated_at?: string
+        }
+        Update: {
+          booking_id?: string
+          created_at?: string
+          hospital_id?: string
+          id?: string
+          logged_by?: string | null
+          medicine_or_item?: string
+          qty?: number
+          unit_price?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ot_consumables_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "ot_bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ot_consumables_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
             referencedColumns: ["id"]
           },
         ]
