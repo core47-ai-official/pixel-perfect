@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useId } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -19,12 +19,13 @@ export const APPROVAL_TONE: Record<ApprovalStatus, "caution" | "ok" | "urgent" |
 
 export function useApprovals(filter: { status?: "pending" | "decided"; mine?: string | null; invoiceId?: string | null }) {
   const qc = useQueryClient();
+  const uid = useId();
   useEffect(() => {
-    const ch = supabase.channel("approvals-live")
+    const ch = supabase.channel(`approvals-${uid}`)
       .on("postgres_changes", { event: "*", schema: "public", table: "approvals" }, () => void qc.invalidateQueries({ queryKey: ["approvals"] }))
       .subscribe();
     return () => { void supabase.removeChannel(ch); };
-  }, [qc]);
+  }, [qc, uid]);
   return useQuery({
     queryKey: ["approvals", filter],
     queryFn: async () => {
