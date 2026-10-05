@@ -30,6 +30,7 @@ import { Route as AuthenticatedAppDepartmentsRouteImport } from './routes/_authe
 import { Route as AuthenticatedAppDoctorsRouteImport } from './routes/_authenticated/_app/doctors'
 import { Route as AuthenticatedAppDoctorsNowRouteImport } from './routes/_authenticated/_app/doctors-now'
 import { Route as AuthenticatedAppEmergencyRouteImport } from './routes/_authenticated/_app/emergency'
+import { Route as AuthenticatedAppFormularyRouteImport } from './routes/_authenticated/_app/formulary'
 import { Route as AuthenticatedAppHelpRouteImport } from './routes/_authenticated/_app/help'
 import { Route as AuthenticatedAppInventoryRouteImport } from './routes/_authenticated/_app/inventory'
 import { Route as AuthenticatedAppLabRouteImport } from './routes/_authenticated/_app/lab'
@@ -169,6 +170,12 @@ const AuthenticatedAppEmergencyRoute =
   AuthenticatedAppEmergencyRouteImport.update({
     id: '/emergency',
     path: '/emergency',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
+const AuthenticatedAppFormularyRoute =
+  AuthenticatedAppFormularyRouteImport.update({
+    id: '/formulary',
+    path: '/formulary',
     getParentRoute: () => AuthenticatedAppRouteRoute,
   } as any)
 const AuthenticatedAppHelpRoute = AuthenticatedAppHelpRouteImport.update({
@@ -343,6 +350,7 @@ export interface FileRoutesByFullPath {
   '/doctors': typeof AuthenticatedAppDoctorsRoute
   '/doctors-now': typeof AuthenticatedAppDoctorsNowRoute
   '/emergency': typeof AuthenticatedAppEmergencyRoute
+  '/formulary': typeof AuthenticatedAppFormularyRoute
   '/help': typeof AuthenticatedAppHelpRoute
   '/inventory': typeof AuthenticatedAppInventoryRoute
   '/lab': typeof AuthenticatedAppLabRoute
@@ -391,6 +399,7 @@ export interface FileRoutesByTo {
   '/doctors': typeof AuthenticatedAppDoctorsRoute
   '/doctors-now': typeof AuthenticatedAppDoctorsNowRoute
   '/emergency': typeof AuthenticatedAppEmergencyRoute
+  '/formulary': typeof AuthenticatedAppFormularyRoute
   '/help': typeof AuthenticatedAppHelpRoute
   '/inventory': typeof AuthenticatedAppInventoryRoute
   '/lab': typeof AuthenticatedAppLabRoute
@@ -442,6 +451,7 @@ export interface FileRoutesById {
   '/_authenticated/_app/doctors': typeof AuthenticatedAppDoctorsRoute
   '/_authenticated/_app/doctors-now': typeof AuthenticatedAppDoctorsNowRoute
   '/_authenticated/_app/emergency': typeof AuthenticatedAppEmergencyRoute
+  '/_authenticated/_app/formulary': typeof AuthenticatedAppFormularyRoute
   '/_authenticated/_app/help': typeof AuthenticatedAppHelpRoute
   '/_authenticated/_app/inventory': typeof AuthenticatedAppInventoryRoute
   '/_authenticated/_app/lab': typeof AuthenticatedAppLabRoute
@@ -492,6 +502,7 @@ export interface FileRouteTypes {
     | '/doctors'
     | '/doctors-now'
     | '/emergency'
+    | '/formulary'
     | '/help'
     | '/inventory'
     | '/lab'
@@ -540,6 +551,7 @@ export interface FileRouteTypes {
     | '/doctors'
     | '/doctors-now'
     | '/emergency'
+    | '/formulary'
     | '/help'
     | '/inventory'
     | '/lab'
@@ -590,6 +602,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/doctors'
     | '/_authenticated/_app/doctors-now'
     | '/_authenticated/_app/emergency'
+    | '/_authenticated/_app/formulary'
     | '/_authenticated/_app/help'
     | '/_authenticated/_app/inventory'
     | '/_authenticated/_app/lab'
@@ -778,6 +791,13 @@ declare module '@tanstack/react-router' {
       path: '/emergency'
       fullPath: '/emergency'
       preLoaderRoute: typeof AuthenticatedAppEmergencyRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/formulary': {
+      id: '/_authenticated/_app/formulary'
+      path: '/formulary'
+      fullPath: '/formulary'
+      preLoaderRoute: typeof AuthenticatedAppFormularyRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
     '/_authenticated/_app/help': {
@@ -984,6 +1004,7 @@ interface AuthenticatedAppRouteRouteChildren {
   AuthenticatedAppDoctorsRoute: typeof AuthenticatedAppDoctorsRoute
   AuthenticatedAppDoctorsNowRoute: typeof AuthenticatedAppDoctorsNowRoute
   AuthenticatedAppEmergencyRoute: typeof AuthenticatedAppEmergencyRoute
+  AuthenticatedAppFormularyRoute: typeof AuthenticatedAppFormularyRoute
   AuthenticatedAppHelpRoute: typeof AuthenticatedAppHelpRoute
   AuthenticatedAppInventoryRoute: typeof AuthenticatedAppInventoryRoute
   AuthenticatedAppLabRoute: typeof AuthenticatedAppLabRoute
@@ -1024,6 +1045,7 @@ const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
   AuthenticatedAppDoctorsRoute: AuthenticatedAppDoctorsRoute,
   AuthenticatedAppDoctorsNowRoute: AuthenticatedAppDoctorsNowRoute,
   AuthenticatedAppEmergencyRoute: AuthenticatedAppEmergencyRoute,
+  AuthenticatedAppFormularyRoute: AuthenticatedAppFormularyRoute,
   AuthenticatedAppHelpRoute: AuthenticatedAppHelpRoute,
   AuthenticatedAppInventoryRoute: AuthenticatedAppInventoryRoute,
   AuthenticatedAppLabRoute: AuthenticatedAppLabRoute,
