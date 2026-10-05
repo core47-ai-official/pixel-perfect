@@ -19,6 +19,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useMyContext } from "@/hooks/use-my-context";
 import { PATIENT_ROLES_EDIT, usePatient } from "@/lib/patients";
+import { PatientAdmissionsTab } from "@/components/mc/patient-admissions-tab";
 import { formatPkr, usePatientSummary } from "@/lib/patient-summary";
 import { PATIENT_TABS, TAB_ICON_FALLBACK, tabsForRoles, type PatientTabId } from "@/config/patient-tabs";
 
@@ -124,7 +125,7 @@ function PatientPage() {
         </TabsContent>
         <TabsContent value="prescriptions">{soon("prescriptions")}</TabsContent>
         <TabsContent value="lab"><PatientLabTab patientId={patientId} /></TabsContent>
-        <TabsContent value="admissions">{soon("admissions")}</TabsContent>
+        <TabsContent value="admissions"><PatientAdmissionsTab patient={{ id: patientId, full_name: x.full_name, gender: x.gender }} /></TabsContent>
         <TabsContent value="bills">
           {bills.length === 0 ? soon("bills") : (
             <ul className="divide-y rounded-staff border bg-card">
