@@ -1,5 +1,6 @@
+import { useMyOpenShift } from "@/lib/shifts";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -52,6 +53,7 @@ function BillingCounter() {
   const { hasRole } = useMyContext();
   const canCash = hasRole("super_admin", "admin", "cashier");
   const isAdmin = hasRole("super_admin", "admin");
+  const myShift = useMyOpenShift(canCash);
 
   // ---- patient search (F2) ----
   const searchRef = useRef<HTMLInputElement>(null);
@@ -148,6 +150,11 @@ function BillingCounter() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-4 p-4">
+      {canCash && myShift.isSuccess && !myShift.data && (
+        <Banner tone="warning" title={t("shift.needOpen")}>
+          {t("shift.needOpenBody")} <Link to="/cash-register" className="font-medium underline">{t("shift.goRegister")}</Link>
+        </Banner>
+      )}
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h1 className="text-2xl font-semibold">{t("cash.title")}</h1>
         <div className="flex gap-2">

@@ -529,6 +529,71 @@ export type Database = {
           },
         ]
       }
+      cashier_shifts: {
+        Row: {
+          cashier_id: string
+          cashier_name: string
+          closed_at: string | null
+          counted_cash: number | null
+          created_at: string
+          created_by: string | null
+          difference: number | null
+          expected_cash: number | null
+          hospital_id: string
+          id: string
+          note: string | null
+          opened_at: string
+          opening_cash: number
+          status: string
+          totals: Json
+          updated_at: string
+        }
+        Insert: {
+          cashier_id: string
+          cashier_name?: string
+          closed_at?: string | null
+          counted_cash?: number | null
+          created_at?: string
+          created_by?: string | null
+          difference?: number | null
+          expected_cash?: number | null
+          hospital_id: string
+          id?: string
+          note?: string | null
+          opened_at?: string
+          opening_cash?: number
+          status?: string
+          totals?: Json
+          updated_at?: string
+        }
+        Update: {
+          cashier_id?: string
+          cashier_name?: string
+          closed_at?: string | null
+          counted_cash?: number | null
+          created_at?: string
+          created_by?: string | null
+          difference?: number | null
+          expected_cash?: number | null
+          hospital_id?: string
+          id?: string
+          note?: string | null
+          opened_at?: string
+          opening_cash?: number
+          status?: string
+          totals?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cashier_shifts_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       company_contacts: {
         Row: {
           created_at: string
@@ -842,6 +907,13 @@ export type Database = {
             columns: ["patient_id"]
             isOneToOne: false
             referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deposits_shift_fk"
+            columns: ["shift_id"]
+            isOneToOne: false
+            referencedRelation: "cashier_shifts"
             referencedColumns: ["id"]
           },
         ]
@@ -2216,6 +2288,13 @@ export type Database = {
             columns: ["reverses_id"]
             isOneToOne: false
             referencedRelation: "payments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_shift_fk"
+            columns: ["shift_id"]
+            isOneToOne: false
+            referencedRelation: "cashier_shifts"
             referencedColumns: ["id"]
           },
         ]

@@ -62,4 +62,4 @@ export function usePendingReversals(enabled: boolean) {
   });
 }
 
-export const CASH_INVALIDATE = [["invoices"], ["payments"], ["deposits"], ["patient-summary"], ["installment-plan"], ["discharge-clearance"]];
+export const CASH_INVALIDATE = [["invoices"], ["payments"], ["deposits"], ["patient-summary"], ["installment-plan"], ["discharge-clearance"], ["shift"]];
