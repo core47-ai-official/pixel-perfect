@@ -169,6 +169,69 @@ export type Database = {
           },
         ]
       }
+      beds: {
+        Row: {
+          bed_class: string
+          created_at: string
+          created_by: string | null
+          current_admission_id: string | null
+          daily_rate: number
+          has_oxygen: boolean
+          has_ventilator: boolean
+          hospital_id: string
+          id: string
+          label: string
+          status: string
+          updated_at: string
+          ward_id: string
+        }
+        Insert: {
+          bed_class?: string
+          created_at?: string
+          created_by?: string | null
+          current_admission_id?: string | null
+          daily_rate?: number
+          has_oxygen?: boolean
+          has_ventilator?: boolean
+          hospital_id: string
+          id?: string
+          label: string
+          status?: string
+          updated_at?: string
+          ward_id: string
+        }
+        Update: {
+          bed_class?: string
+          created_at?: string
+          created_by?: string | null
+          current_admission_id?: string | null
+          daily_rate?: number
+          has_oxygen?: boolean
+          has_ventilator?: boolean
+          hospital_id?: string
+          id?: string
+          label?: string
+          status?: string
+          updated_at?: string
+          ward_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "beds_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "beds_ward_id_fkey"
+            columns: ["ward_id"]
+            isOneToOne: false
+            referencedRelation: "wards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       company_contacts: {
         Row: {
           created_at: string
@@ -1908,6 +1971,53 @@ export type Database = {
             columns: ["visit_id"]
             isOneToOne: false
             referencedRelation: "visits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wards: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          floor: string | null
+          gender: string
+          hospital_id: string
+          id: string
+          is_active: boolean
+          name: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          floor?: string | null
+          gender?: string
+          hospital_id: string
+          id?: string
+          is_active?: boolean
+          name: string
+          type?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          floor?: string | null
+          gender?: string
+          hospital_id?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wards_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
             referencedColumns: ["id"]
           },
         ]
