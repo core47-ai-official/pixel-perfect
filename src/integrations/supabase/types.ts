@@ -2724,6 +2724,57 @@ export type Database = {
           },
         ]
       }
+      unpaid_followups: {
+        Row: {
+          by_name: string
+          by_user: string
+          created_at: string
+          created_by: string | null
+          hospital_id: string
+          id: string
+          invoice_id: string
+          note: string
+          updated_at: string
+        }
+        Insert: {
+          by_name?: string
+          by_user: string
+          created_at?: string
+          created_by?: string | null
+          hospital_id: string
+          id?: string
+          invoice_id: string
+          note: string
+          updated_at?: string
+        }
+        Update: {
+          by_name?: string
+          by_user?: string
+          created_at?: string
+          created_by?: string | null
+          hospital_id?: string
+          id?: string
+          invoice_id?: string
+          note?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "unpaid_followups_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "unpaid_followups_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
