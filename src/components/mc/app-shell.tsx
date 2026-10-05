@@ -70,8 +70,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const bottom = pages.slice(0, 4);
   const more = [...pages.slice(4), ...FOOTER_PAGES];
   const soon = () => toast(t("shell.placeholder"));
-  const navigateTo = useNavigate();
-  const openQuick = (q: QuickAction) => (q.id === "newPatient" ? void navigateTo({ to: "/patients/new" }) : setPanel(q));
+  const openQuick = (q: QuickAction) => (q.id === "newPatient" ? void navigate({ to: "/patients/new" }) : setPanel(q));
 
   return (
     <SidebarProvider open={open} onOpenChange={setOpen}>
