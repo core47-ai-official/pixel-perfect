@@ -11,6 +11,8 @@ import { useEdgeFunction } from "@/hooks/use-edge-function";
 import { BedPicker } from "@/components/mc/bed-picker";
 import { ADMISSION_INVALIDATE, DISCHARGE_TYPES } from "@/lib/admissions";
 import { ClearanceBox, useDischargeClearance } from "@/components/mc/discharge-clearance";
+import { useDischargeSummary } from "@/components/mc/discharge-summary";
+import { Banner } from "@/components/mc/banner";
 
 export function TransferPanel({ admissionId, currentBedId, patientGender, patientName, onClose }: {
   admissionId: string; currentBedId: string | null; patientGender: string | null; patientName: string; onClose: () => void;
@@ -42,7 +44,9 @@ export function DischargePanel({ admissionId, patientName, bedLabel, onClose }: 
   const [note, setNote] = useState("");
   const save = useEdgeFunction("discharge-patient", { invalidate: ADMISSION_INVALIDATE, successMessage: t("adm.discharged") });
   const clearance = useDischargeClearance(admissionId);
-  const blocked = !clearance.data?.cleared;
+  const summary = useDischargeSummary(admissionId);
+  const noSummary = !summary.isLoading && !summary.data?.finalized_at;
+  const blocked = !clearance.data?.cleared || noSummary;
   const submit = async () => {
     try { await save.mutateAsync({ admission_id: admissionId, discharge_type: type, note }); onClose(); } catch { /* shown */ }
   };
@@ -50,6 +54,7 @@ export function DischargePanel({ admissionId, patientName, bedLabel, onClose }: 
     <SidePanel open onOpenChange={(o) => !o && onClose()} title={`${t("adm.discharge")} · ${patientName}`}
       footer={<div className="flex justify-end gap-2"><Button variant="outline" onClick={onClose}>{t("wd.cancel")}</Button><Button onClick={submit} disabled={save.isPending || blocked}>{t("adm.discharge")}</Button></div>}>
       <div className="space-y-4">
+        {noSummary && <Banner tone="warning" title={t("ds.required")}>{t("ds.requiredBody")}</Banner>}
         <ClearanceBox q={clearance} />
         {bedLabel && <p className="text-sm">{t("bb.bed")} <Ltr className="font-mono font-semibold">{bedLabel}</Ltr></p>}
         <div className="space-y-1.5"><Label>{t("adm.dischargeType")}</Label>

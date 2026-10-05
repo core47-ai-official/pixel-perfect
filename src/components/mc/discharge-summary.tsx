@@ -52,7 +52,7 @@ export function DischargeSummaryPanel({ admission, patient, canEdit, onClose }: 
   const setMed = (i: number, k: keyof DsMedicine, v: string) => f && setF({ ...f, medicines: f.medicines.map((m, j) => j === i ? { ...m, [k]: k === "duration_days" ? (Number(v) || null) : v } : m) });
 
   return (
-    <SidePanel open onOpenChange={(o) => !o && onClose()} title={`${t("ds.title")} · ${patient.full_name}`} className="sm:max-w-2xl"
+    <SidePanel open onOpenChange={(o) => !o && onClose()} title={`${t("ds.title")} · ${patient.full_name}`}
       footer={<div className="flex flex-wrap justify-end gap-2">
         <Button variant="outline" onClick={() => setPrint(true)} disabled={!f}><Printer /> {t("ds.print")}</Button>
         {!locked && <Button variant="outline" onClick={doSave} disabled={save.isPending}>{t("ds.saveDraft")}</Button>}
@@ -78,7 +78,7 @@ export function DischargeSummaryPanel({ admission, patient, canEdit, onClose }: 
                 <Input aria-label={t("ds.m.frequency")} placeholder={t("ds.m.frequency")} value={m.frequency ?? ""} disabled={locked} onChange={(e) => setMed(i, "frequency", e.target.value)} dir="ltr" />
                 <Input aria-label={t("ds.m.days")} placeholder={t("ds.m.days")} type="number" min={1} value={m.duration_days ?? ""} disabled={locked} onChange={(e) => setMed(i, "duration_days", e.target.value)} />
                 <Input aria-label={t("ds.m.instrEn")} placeholder={t("ds.m.instrEn")} value={m.instructions_en ?? ""} disabled={locked} onChange={(e) => setMed(i, "instructions_en", e.target.value)} />
-                <Input aria-label={t("ds.m.instrUr")} placeholder={t("ds.m.instrUr")} value={m.instructions_ur ?? ""} disabled={locked} onChange={(e) => setMed(i, "instructions_ur", e.target.value)} dir="rtl" className="font-urdu" />
+                <Input aria-label={t("ds.m.instrUr")} placeholder={t("ds.m.instrUr")} value={m.instructions_ur ?? ""} disabled={locked} onChange={(e) => setMed(i, "instructions_ur", e.target.value)} dir="rtl" lang="ur" />
                 {!locked && <Button size="icon" variant="ghost" aria-label={t("ds.removeMed")} onClick={() => setF({ ...f, medicines: f.medicines.filter((_, j) => j !== i) })}><Trash2 /></Button>}
               </div>
             ))}
@@ -89,7 +89,7 @@ export function DischargeSummaryPanel({ admission, patient, canEdit, onClose }: 
           <div className="space-y-1.5"><Label htmlFor="ds-aen">{t("ds.f.advice_en")}</Label>
             <Textarea id="ds-aen" rows={3} value={f.advice_en ?? ""} disabled={locked} onChange={(e) => setF({ ...f, advice_en: e.target.value })} dir="ltr" /></div>
           <div className="space-y-1.5"><Label htmlFor="ds-aur">{t("ds.f.advice_ur")}</Label>
-            <Textarea id="ds-aur" rows={3} value={f.advice_ur ?? ""} disabled={locked} onChange={(e) => setF({ ...f, advice_ur: e.target.value })} dir="rtl" className="font-urdu" /></div>
+            <Textarea id="ds-aur" rows={3} value={f.advice_ur ?? ""} disabled={locked} onChange={(e) => setF({ ...f, advice_ur: e.target.value })} dir="rtl" lang="ur" /></div>
         </div>
       )}
       <ConfirmDialog open={confirm} onOpenChange={setConfirm} title={t("ds.finalizeTitle")} description={t("ds.finalizeBody")} confirmLabel={t("ds.finalize")} onConfirm={doFinal} />
