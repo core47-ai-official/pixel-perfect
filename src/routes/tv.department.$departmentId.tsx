@@ -3,7 +3,7 @@ import { TvScreen } from "@/components/mc/tv-screen";
 
 export const Route = createFileRoute("/tv/department/$departmentId")({
   ssr: false,
-  validateSearch: (s: Record<string, unknown>) => ({ token: typeof s.token === "string" ? s.token : "" }),
+  validateSearch: (s: Record<string, unknown>) => ({ token: typeof s["token"] === "string" ? s["token"] : "" }),
   head: () => ({
     meta: [
       { title: "Department waiting screen — MediCore HMS" },

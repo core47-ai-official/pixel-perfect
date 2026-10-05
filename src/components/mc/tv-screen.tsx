@@ -7,8 +7,8 @@ import i18n from "@/i18n";
 interface TvDoctor { id: string; name: string; specialty: string; room: string | null; now_serving: number | null; waiting: number[]; waiting_count: number }
 interface TvData { hospital_id: string; hospital_name: string; logo: string | null; title: string | null; avg_consult_minutes: number; doctors: TvDoctor[] }
 
-const en = (k: string, o?: Record<string, unknown>) => i18n.getFixedT("en")(k, o);
-const ur = (k: string, o?: Record<string, unknown>) => i18n.getFixedT("ur")(k, o);
+const en = (k: string, o: Record<string, unknown> = {}) => i18n.getFixedT("en")(k, o) as string;
+const ur = (k: string, o: Record<string, unknown> = {}) => i18n.getFixedT("ur")(k, o) as string;
 
 /** Full-screen waiting-room display. Public; protected by the display token. Shows token numbers only. */
 export function TvScreen({ doctorId, departmentId, token }: { doctorId?: string; departmentId?: string; token: string }) {

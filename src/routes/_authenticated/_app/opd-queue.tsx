@@ -40,8 +40,8 @@ function Queue() {
   const docsQ = useBookableDoctors();
   const { doctors: myDocs } = useDepartmentsData();
   const { values } = useCompanySettings();
-  const avg = Number(values.opd?.avg_consult_minutes ?? 10) || 10;
-  const tvToken = String(values.opd?.tv_display_token ?? "");
+  const avg = Number(values.opd?.["avg_consult_minutes"] ?? 10) || 10;
+  const tvToken = String(values.opd?.["tv_display_token"] ?? "");
   const isReception = hasRole("receptionist", "admin", "super_admin");
   const myDoctor = (myDocs.data ?? []).find((d) => d.user_id === context?.profile?.id);
   const [busy, setBusy] = useState<string | null>(null);
@@ -73,7 +73,7 @@ function Queue() {
 
   const tvUrl = (doctorId: string) => `${window.location.origin}/tv/${doctorId}?token=${encodeURIComponent(tvToken)}`;
   const copyTv = (id: string) => {
-    if (tvToken.length < 8) return toast.error(t("queue.tvNoToken"));
+    if (tvToken.length < 8) { toast.error(t("queue.tvNoToken")); return; }
     void navigator.clipboard.writeText(tvUrl(id)); toast.success(t("queue.tvCopied"));
   };
 
