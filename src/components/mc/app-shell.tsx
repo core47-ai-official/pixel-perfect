@@ -4,6 +4,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Bug, Languages, LogOut, MoreHorizontal, Plus, Search, WifiOff, Wifi } from "lucide-react";
 import { toast } from "sonner";
+import { GlobalSearch } from "@/components/mc/global-search";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
