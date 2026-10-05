@@ -608,6 +608,50 @@ export type Database = {
           },
         ]
       }
+      drug_interactions: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          group_a: string
+          group_b: string
+          hospital_id: string
+          id: string
+          note: string
+          severity: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          group_a: string
+          group_b: string
+          hospital_id: string
+          id?: string
+          note?: string
+          severity?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          group_a?: string
+          group_b?: string
+          hospital_id?: string
+          id?: string
+          note?: string
+          severity?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "drug_interactions_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       error_logs: {
         Row: {
           created_at: string
@@ -787,6 +831,65 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "impersonation_sessions_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      medicines: {
+        Row: {
+          brand_name: string | null
+          created_at: string
+          created_by: string | null
+          drap_reg_no: string | null
+          form: string
+          generic_name: string
+          hospital_id: string
+          id: string
+          interaction_group: string[]
+          is_active: boolean
+          route: string
+          strength: string | null
+          unit_price: number
+          updated_at: string
+        }
+        Insert: {
+          brand_name?: string | null
+          created_at?: string
+          created_by?: string | null
+          drap_reg_no?: string | null
+          form?: string
+          generic_name: string
+          hospital_id: string
+          id?: string
+          interaction_group?: string[]
+          is_active?: boolean
+          route?: string
+          strength?: string | null
+          unit_price?: number
+          updated_at?: string
+        }
+        Update: {
+          brand_name?: string | null
+          created_at?: string
+          created_by?: string | null
+          drap_reg_no?: string | null
+          form?: string
+          generic_name?: string
+          hospital_id?: string
+          id?: string
+          interaction_group?: string[]
+          is_active?: boolean
+          route?: string
+          strength?: string | null
+          unit_price?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "medicines_hospital_id_fkey"
             columns: ["hospital_id"]
             isOneToOne: false
             referencedRelation: "hospitals"
