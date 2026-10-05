@@ -14,6 +14,102 @@ export type Database = {
   }
   public: {
     Tables: {
+      appointments: {
+        Row: {
+          cancel_reason: string | null
+          channel: string
+          created_at: string
+          created_by: string | null
+          department_id: string | null
+          doctor_id: string
+          fee: number
+          follow_up_of: string | null
+          hospital_id: string
+          id: string
+          patient_id: string
+          slot_end: string
+          slot_start: string
+          status: string
+          token_no: number | null
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          cancel_reason?: string | null
+          channel?: string
+          created_at?: string
+          created_by?: string | null
+          department_id?: string | null
+          doctor_id: string
+          fee?: number
+          follow_up_of?: string | null
+          hospital_id: string
+          id?: string
+          patient_id: string
+          slot_end: string
+          slot_start: string
+          status?: string
+          token_no?: number | null
+          type?: string
+          updated_at?: string
+        }
+        Update: {
+          cancel_reason?: string | null
+          channel?: string
+          created_at?: string
+          created_by?: string | null
+          department_id?: string | null
+          doctor_id?: string
+          fee?: number
+          follow_up_of?: string | null
+          hospital_id?: string
+          id?: string
+          patient_id?: string
+          slot_end?: string
+          slot_start?: string
+          status?: string
+          token_no?: number | null
+          type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "appointments_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "appointments_doctor_id_fkey"
+            columns: ["doctor_id"]
+            isOneToOne: false
+            referencedRelation: "doctors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "appointments_follow_up_of_fkey"
+            columns: ["follow_up_of"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "appointments_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "appointments_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_logs: {
         Row: {
           action: string
