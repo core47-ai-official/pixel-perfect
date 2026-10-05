@@ -930,5 +930,35 @@
       "pregnant": "Pregnant",
       "unknown": "Unknown"
     }
+  },
+  "ph": {
+    "ageUnknown": "Age unknown",
+    "admitted": "Admitted",
+    "noAllergies": "No known allergies",
+    "payer": "Payer",
+    "balance": "Balance due",
+    "payers": {
+      "cash": "Self-pay (cash)"
+    }
+  },
+  "ptab": {
+    "overview": "Overview",
+    "visits": "Visits",
+    "prescriptions": "Prescriptions",
+    "lab": "Lab",
+    "admissions": "Admissions",
+    "bills": "Bills",
+    "documents": "Documents",
+    "comingSoon": "This section fills in once its module is built.",
+    "summaryUnavailable": "Visit and billing summary could not load. Check that get-patient-summary is deployed.",
+    "activeAdmission": "Currently admitted",
+    "empty": {
+      "visits": "No visits yet",
+      "prescriptions": "No prescriptions yet",
+      "lab": "No lab results yet",
+      "admissions": "No admissions yet",
+      "bills": "No open bills",
+      "documents": "No documents yet"
+    }
   }
 }
