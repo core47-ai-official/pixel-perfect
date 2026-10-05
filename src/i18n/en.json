@@ -233,7 +233,7 @@
     "opdQueue": "OPD queue",
     "consultations": "Consultations",
     "wards": "Bed board",
-    "nursing": "Nursing",
+    "nursing": "Ward board",
     "emergency": "Emergency",
     "ot": "Operation theatre",
     "lab": "Laboratory",
@@ -262,7 +262,8 @@
     "mySchedule": "My schedule",
     "formulary": "Formulary",
     "labTests": "Lab tests",
-    "wardSetup": "Ward setup"
+    "wardSetup": "Ward setup",
+    "handover": "Handover"
   },
   "navGroup": {
     "overview": "Overview",
@@ -1506,6 +1507,57 @@
       "reserved": "Reserve",
       "out_of_service": "Take out of service",
       "occupied": "Occupied"
+    }
+  },
+  "nb": {
+    "title": "Ward board",
+    "noAssign": "You haven't been assigned to a ward yet. Ask your admin to assign you in Ward setup.",
+    "noWards": "No wards to show.",
+    "empty": "Empty",
+    "days": "Day {{n}}",
+    "due": "Vitals due",
+    "overdue": "Vitals overdue",
+    "dueIn": "Due {{time}}",
+    "noVitals": "No vitals yet",
+    "record": "Record vitals",
+    "patientSoon": "Patient details appear here once admissions are set up.",
+    "every": "Vitals every {{n}} hours",
+    "allergies": "Allergies",
+    "vitals": {
+      "title": "Record vitals",
+      "bp": "Blood pressure",
+      "sys": "Systolic",
+      "dia": "Diastolic",
+      "pulse": "Pulse (/min)",
+      "temp": "Temperature (°C)",
+      "spo2": "SpO₂ (%)",
+      "rr": "Resp. rate (/min)",
+      "weight": "Weight (kg)",
+      "saved": "Vitals saved",
+      "needOne": "Enter at least one reading."
+    },
+    "assign": {
+      "title": "Assigned nurses",
+      "none": "No nurses on staff yet.",
+      "saved": "Nurses assigned",
+      "save": "Save nurses"
+    },
+    "ho": {
+      "title": "Handover",
+      "ward": "Ward",
+      "date": "Date",
+      "shift": "Shift",
+      "write": "Write handover note",
+      "note": "Note",
+      "placeholder": "Patients to watch, pending tasks, events this shift…",
+      "saved": "Handover saved",
+      "none": "No handover notes for this shift.",
+      "shifts": {
+        "morning": "Morning",
+        "evening": "Evening",
+        "night": "Night"
+      },
+      "by": "by {{name}}"
     }
   }
 }

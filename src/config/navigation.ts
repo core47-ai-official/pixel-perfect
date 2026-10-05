@@ -1,5 +1,5 @@
 import {
-  LayoutDashboard, Users, CalendarDays, ListOrdered, Stethoscope, BedDouble, HeartPulse, Siren, Scissors,
+  LayoutDashboard, NotebookPen, Users, CalendarDays, ListOrdered, Stethoscope, BedDouble, HeartPulse, Siren, Scissors,
   FlaskConical, Pill, Boxes, Receipt, Wallet, UserCog, Building2, BarChart3, ScrollText, Settings, LifeBuoy,
   CalendarCheck, FileHeart, FileText, UserPlus, CalendarPlus, ClipboardPlus, TestTube, ShoppingCart, BadgePlus,
   Ambulance, UsersRound, BriefcaseMedical, Radio, CalendarOff, CalendarCheck2, OctagonAlert, Ticket, SlidersHorizontal, Sun, CalendarRange, BookMarked, TestTubes, type LucideIcon,
@@ -31,6 +31,7 @@ export const PAGES = {
   myLeave: { id: "myLeave", path: "/my-leave", icon: CalendarOff, group: "clinical" },
   wards: { id: "wards", path: "/wards", icon: BedDouble, group: "clinical" },
   nursing: { id: "nursing", path: "/nursing", icon: HeartPulse, group: "clinical" },
+  handover: { id: "handover", path: "/handover", icon: NotebookPen, group: "clinical" },
   emergency: { id: "emergency", path: "/emergency", icon: Siren, group: "clinical" },
   ot: { id: "ot", path: "/ot", icon: Scissors, group: "clinical" },
   lab: { id: "lab", path: "/lab", icon: FlaskConical, group: "diagnostics" },
@@ -66,11 +67,11 @@ export const FOOTER_PAGES: NavPage[] = [
 
 /** Role → pages, in priority order (first four become the mobile bottom nav). */
 export const ROLE_PAGES: Record<AppRole, PageId[]> = {
-  super_admin: ["dashboard", "users", "reports", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "doctorsNow", "leaveApprovals", "leaveApprovals", "patients", "appointments", "billing", "cashRegister", "inventory", "formulary", "labTests", "wardSetup", "wards"],
-  admin: ["dashboard", "users", "departments", "doctors", "doctorsNow", "leaveApprovals", "companySettings", "reports", "patients", "appointments", "billing", "inventory", "formulary", "labTests", "wardSetup", "wards"],
-  dept_head: ["dashboard", "consultations", "wards", "reports", "patients", "appointments", "staff", "doctors", "doctorsNow", "leaveApprovals"],
+  super_admin: ["dashboard", "users", "reports", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "doctorsNow", "leaveApprovals", "leaveApprovals", "patients", "appointments", "billing", "cashRegister", "inventory", "formulary", "labTests", "wardSetup", "wards", "nursing", "handover"],
+  admin: ["dashboard", "users", "departments", "doctors", "doctorsNow", "leaveApprovals", "companySettings", "reports", "patients", "appointments", "billing", "inventory", "formulary", "labTests", "wardSetup", "wards", "nursing", "handover"],
+  dept_head: ["dashboard", "consultations", "wards", "nursing", "handover", "reports", "patients", "appointments", "staff", "doctors", "doctorsNow", "leaveApprovals"],
   doctor: ["myDay", "opdQueue", "mySchedule", "patients", "consultations", "appointments", "myLeave", "wards", "lab", "formulary", "dashboard"],
-  nurse: ["dashboard", "nursing", "wards", "patients", "emergency"],
+  nurse: ["nursing", "wards", "handover", "patients", "emergency", "dashboard"],
   er_officer: ["dashboard", "emergency", "patients", "wards", "lab"],
   ot_coordinator: ["dashboard", "ot", "patients", "wards", "inventory"],
   receptionist: ["dashboard", "patients", "doctorsNow", "appointments", "opdQueue", "billing", "wards"],

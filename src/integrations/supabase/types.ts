@@ -756,6 +756,63 @@ export type Database = {
           },
         ]
       }
+      handover_notes: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          hospital_id: string
+          id: string
+          note: string
+          shift: string
+          shift_date: string
+          updated_at: string
+          ward_id: string
+          written_by: string
+          written_by_name: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          hospital_id: string
+          id?: string
+          note: string
+          shift: string
+          shift_date: string
+          updated_at?: string
+          ward_id: string
+          written_by: string
+          written_by_name?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          hospital_id?: string
+          id?: string
+          note?: string
+          shift?: string
+          shift_date?: string
+          updated_at?: string
+          ward_id?: string
+          written_by?: string
+          written_by_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "handover_notes_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "handover_notes_ward_id_fkey"
+            columns: ["ward_id"]
+            isOneToOne: false
+            referencedRelation: "wards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       holidays: {
         Row: {
           created_at: string
@@ -1660,6 +1717,7 @@ export type Database = {
           role: Database["public"]["Enums"]["app_role"]
           updated_at: string
           user_id: string
+          ward_ids: string[]
         }
         Insert: {
           created_at?: string
@@ -1670,6 +1728,7 @@ export type Database = {
           role: Database["public"]["Enums"]["app_role"]
           updated_at?: string
           user_id: string
+          ward_ids?: string[]
         }
         Update: {
           created_at?: string
@@ -1680,6 +1739,7 @@ export type Database = {
           role?: Database["public"]["Enums"]["app_role"]
           updated_at?: string
           user_id?: string
+          ward_ids?: string[]
         }
         Relationships: [
           {
