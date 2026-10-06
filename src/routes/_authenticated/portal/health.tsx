@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { HeartPulse, Pill, Phone, ShieldCheck } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -53,7 +53,7 @@ function Dashboard({ profile }: { profile: TrackerProfile }) {
         ) : <p className="text-sm text-muted-foreground">{t("trk.noConditions")}</p>}
       </PCard>
       <PCard>
-        <p className="mb-2 flex items-center gap-2 font-medium"><Pill className="size-4" aria-hidden />{t("trk.medicines")}</p>
+        <div className="mb-2 flex items-center justify-between gap-2"><p className="flex items-center gap-2 font-medium"><Pill className="size-4" aria-hidden />{t("trk.medicines")}</p><Link to="/portal/medicines" className="text-sm font-medium text-primary">{t("meds.open")}</Link></div>
         {lists.data?.medicines.length ? (
           <ul className="divide-y">{lists.data.medicines.map((m) => <li key={m.id} className="flex justify-between py-1.5 text-sm"><Ltr className="font-medium">{m.name}</Ltr><Ltr className="text-muted-foreground">{m.dose ?? ""}</Ltr></li>)}</ul>
         ) : <p className="text-sm text-muted-foreground">{t("trk.noMedicines")}</p>}

@@ -135,7 +135,7 @@ function MedicinesPage() {
 function StatusChip({ status, late }: { status: string | null; late: boolean }) {
   const { t } = useTranslation();
   const key = status ?? (late ? "due" : "upcoming");
-  const tone = status === "taken" ? "bg-success/15 text-success" : status === "missed" ? "bg-warning/15 text-warning-foreground" : "bg-muted text-muted-foreground";
+  const tone = status === "taken" ? "bg-primary/15 text-primary" : status === "missed" ? "bg-warning/15 text-foreground" : "bg-muted text-muted-foreground";
   return <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs ${tone}`}>{t(`meds.st_${key}`)}</span>;
 }
 

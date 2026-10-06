@@ -630,7 +630,9 @@
       "tpl_stock_expiring_en": "Batches expiring soon — English template",
       "tpl_stock_expiring_ur": "Batches expiring soon — Urdu template",
       "tpl_followup_due_en": "Follow-up due — English template",
-      "tpl_followup_due_ur": "Follow-up due — Urdu template"
+      "tpl_followup_due_ur": "Follow-up due — Urdu template",
+      "tpl_dose_reminder_en": "Medicine reminder — English template",
+      "tpl_dose_reminder_ur": "Medicine reminder — Urdu template"
     },
     "o": {
       "punjab": "Punjab",
@@ -2837,7 +2839,8 @@
       "ot_bumped": "OT case moved for an emergency",
       "stock_low": "Low stock",
       "stock_expiring": "Batches expiring soon",
-      "followup_due": "Follow-up due"
+      "followup_due": "Follow-up due",
+      "dose_reminder": "Medicine reminders"
     }
   },
   "portal": {

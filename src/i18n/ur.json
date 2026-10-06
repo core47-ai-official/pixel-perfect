@@ -630,7 +630,9 @@
       "tpl_stock_expiring_en": "جلد ختم ہونے والے بیچ — انگریزی سانچہ",
       "tpl_stock_expiring_ur": "جلد ختم ہونے والے بیچ — اردو سانچہ",
       "tpl_followup_due_en": "فالو اپ واجب — انگریزی سانچہ",
-      "tpl_followup_due_ur": "فالو اپ واجب — اردو سانچہ"
+      "tpl_followup_due_ur": "فالو اپ واجب — اردو سانچہ",
+      "tpl_dose_reminder_en": "دوا کی یاد دہانی — انگریزی سانچہ",
+      "tpl_dose_reminder_ur": "دوا کی یاد دہانی — اردو سانچہ"
     },
     "o": {
       "punjab": "پنجاب",
@@ -2837,7 +2839,8 @@
       "ot_bumped": "ایمرجنسی کے لیے آپریشن منتقل",
       "stock_low": "کم اسٹاک",
       "stock_expiring": "جلد ختم ہونے والے بیچ",
-      "followup_due": "فالو اپ واجب"
+      "followup_due": "فالو اپ واجب",
+      "dose_reminder": "دوا کی یاد دہانی"
     }
   },
   "portal": {
