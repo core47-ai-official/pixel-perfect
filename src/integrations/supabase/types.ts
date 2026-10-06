@@ -1963,6 +1963,84 @@ export type Database = {
           },
         ]
       }
+      health_report_shares: {
+        Row: {
+          appointment_id: string
+          created_at: string
+          date_from: string
+          date_to: string
+          doctor_id: string
+          hospital_id: string
+          id: string
+          patient_account_id: string
+          patient_id: string
+          report: Json
+          updated_at: string
+        }
+        Insert: {
+          appointment_id: string
+          created_at?: string
+          date_from: string
+          date_to: string
+          doctor_id: string
+          hospital_id: string
+          id?: string
+          patient_account_id: string
+          patient_id: string
+          report: Json
+          updated_at?: string
+        }
+        Update: {
+          appointment_id?: string
+          created_at?: string
+          date_from?: string
+          date_to?: string
+          doctor_id?: string
+          hospital_id?: string
+          id?: string
+          patient_account_id?: string
+          patient_id?: string
+          report?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "health_report_shares_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "health_report_shares_doctor_id_fkey"
+            columns: ["doctor_id"]
+            isOneToOne: false
+            referencedRelation: "doctors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "health_report_shares_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "health_report_shares_patient_account_id_fkey"
+            columns: ["patient_account_id"]
+            isOneToOne: false
+            referencedRelation: "patient_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "health_report_shares_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       holidays: {
         Row: {
           created_at: string
