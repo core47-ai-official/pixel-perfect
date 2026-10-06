@@ -11,6 +11,8 @@ import { HospitalLogo } from "@/components/mc/hospital-logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Ltr } from "@/components/mc/ltr";
+import { NOTIFICATION_TYPES } from "@/config/notification-types";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -164,7 +166,9 @@ function FieldInput({
     <div className="space-y-1.5">
       {label}
       {f.type === "text" && <Input id={id} dir={f.ltr ? "ltr" : undefined} value={String(value)} disabled={disabled} onChange={(e) => onChange(e.target.value)} />}
-      {f.type === "textarea" && <Textarea id={id} rows={3} value={String(value)} disabled={disabled} onChange={(e) => onChange(e.target.value)} />}
+      {f.type === "textarea" && <Textarea id={id} rows={3} value={String(value)} disabled={disabled} onChange={(e) => onChange(e.target.value)}
+        dir={f.key.endsWith("_ur") ? "rtl" : f.ltr ? "ltr" : undefined} lang={f.key.endsWith("_ur") ? "ur" : undefined} />}
+      {f.key.startsWith("tpl_") && <p className="text-xs text-muted-foreground">{t("cs.tplHint")} <Ltr className="font-mono">{(NOTIFICATION_TYPES.find((n) => f.key === `tpl_${n.id}_en` || f.key === `tpl_${n.id}_ur`)?.placeholders ?? []).map((x) => `{${x}}`).join(" ")}</Ltr></p>}
       {f.type === "number" && (
         <Input id={id} type="number" dir="ltr" className="tnum" value={String(value)} min={f.min} max={f.max} disabled={disabled}
           onChange={(e) => onChange(e.target.value === "" ? "" : Number(e.target.value))} />

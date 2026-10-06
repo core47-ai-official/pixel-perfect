@@ -595,7 +595,35 @@
       "avg_consult_minutes": "اوسط معائنہ وقت (منٹ)",
       "tv_display_token": "ٹی وی ڈسپلے ٹوکن (کم از کم 8 حروف)",
       "max_discount_receptionist": "استقبالیہ: بغیر منظوری زیادہ سے زیادہ رعایت (%)",
-      "max_discount_er_officer": "ایمرجنسی افسر: بغیر منظوری زیادہ سے زیادہ رعایت (%)"
+      "max_discount_er_officer": "ایمرجنسی افسر: بغیر منظوری زیادہ سے زیادہ رعایت (%)",
+      "reminder_first_hours": "پہلی یاد دہانی (کتنے گھنٹے پہلے؛ 0 = بند)",
+      "reminder_second_hours": "دوسری یاد دہانی (کتنے گھنٹے پہلے؛ 0 = بند)",
+      "tpl_appointment_booked_en": "اپائنٹمنٹ بک — انگریزی سانچہ",
+      "tpl_appointment_booked_ur": "اپائنٹمنٹ بک — اردو سانچہ",
+      "tpl_appointment_reminder_en": "اپائنٹمنٹ یاد دہانی — انگریزی سانچہ",
+      "tpl_appointment_reminder_ur": "اپائنٹمنٹ یاد دہانی — اردو سانچہ",
+      "tpl_appointment_cancelled_en": "اپائنٹمنٹ منسوخ — انگریزی سانچہ",
+      "tpl_appointment_cancelled_ur": "اپائنٹمنٹ منسوخ — اردو سانچہ",
+      "tpl_appointment_rescheduled_en": "اپائنٹمنٹ کا وقت تبدیل — انگریزی سانچہ",
+      "tpl_appointment_rescheduled_ur": "اپائنٹمنٹ کا وقت تبدیل — اردو سانچہ",
+      "tpl_appointment_needs_rebooking_en": "دوبارہ بکنگ والی اپائنٹمنٹس — انگریزی سانچہ",
+      "tpl_appointment_needs_rebooking_ur": "دوبارہ بکنگ والی اپائنٹمنٹس — اردو سانچہ",
+      "tpl_report_ready_en": "لیب رپورٹ تیار — انگریزی سانچہ",
+      "tpl_report_ready_ur": "لیب رپورٹ تیار — اردو سانچہ",
+      "tpl_critical_result_en": "خطرناک لیب نتائج — انگریزی سانچہ",
+      "tpl_critical_result_ur": "خطرناک لیب نتائج — اردو سانچہ",
+      "tpl_leave_decision_en": "چھٹی کے فیصلے — انگریزی سانچہ",
+      "tpl_leave_decision_ur": "چھٹی کے فیصلے — اردو سانچہ",
+      "tpl_approval_decision_en": "منظوری کے فیصلے — انگریزی سانچہ",
+      "tpl_approval_decision_ur": "منظوری کے فیصلے — اردو سانچہ",
+      "tpl_ot_bumped_en": "ایمرجنسی کے لیے آپریشن منتقل — انگریزی سانچہ",
+      "tpl_ot_bumped_ur": "ایمرجنسی کے لیے آپریشن منتقل — اردو سانچہ",
+      "tpl_stock_low_en": "کم اسٹاک — انگریزی سانچہ",
+      "tpl_stock_low_ur": "کم اسٹاک — اردو سانچہ",
+      "tpl_stock_expiring_en": "جلد ختم ہونے والے بیچ — انگریزی سانچہ",
+      "tpl_stock_expiring_ur": "جلد ختم ہونے والے بیچ — اردو سانچہ",
+      "tpl_followup_due_en": "فالو اپ واجب — انگریزی سانچہ",
+      "tpl_followup_due_ur": "فالو اپ واجب — اردو سانچہ"
     },
     "o": {
       "punjab": "پنجاب",
@@ -634,7 +662,8 @@
       "saved": "ڈیفالٹ محفوظ ہو گیا",
       "custom": "حسبِ منشا",
       "builtIn": "بلٹ اِن"
-    }
+    },
+    "tplHint": "پہلی سطر عنوان ہے، باقی پیغام۔ متغیرات:"
   },
   "notifications": {
     "title": "اطلاعات",
@@ -2717,6 +2746,31 @@
       "summary": "طبی خلاصہ",
       "contact": "رابطہ",
       "by": "ریفر کرنے والا ڈاکٹر"
+    }
+  },
+  "nset": {
+    "open": "اطلاعات کی ترتیبات",
+    "pageTitle": "میری ترتیبات",
+    "tabPrefs": "ڈسپلے اور زبان",
+    "tab": "اطلاعات",
+    "desc": "منتخب کریں کہ آپ کو کون سی اطلاعات ملیں۔ اہم اطلاعات ہمیشہ آن رہتی ہیں۔",
+    "critical": "اہم — بند نہیں ہو سکتی",
+    "save": "محفوظ کریں",
+    "saved": "ترتیبات محفوظ ہو گئیں",
+    "types": {
+      "appointment_booked": "اپائنٹمنٹ بک",
+      "appointment_reminder": "اپائنٹمنٹ یاد دہانی",
+      "appointment_cancelled": "اپائنٹمنٹ منسوخ",
+      "appointment_rescheduled": "اپائنٹمنٹ کا وقت تبدیل",
+      "appointment_needs_rebooking": "دوبارہ بکنگ والی اپائنٹمنٹس",
+      "report_ready": "لیب رپورٹ تیار",
+      "critical_result": "خطرناک لیب نتائج",
+      "leave_decision": "چھٹی کے فیصلے",
+      "approval_decision": "منظوری کے فیصلے",
+      "ot_bumped": "ایمرجنسی کے لیے آپریشن منتقل",
+      "stock_low": "کم اسٹاک",
+      "stock_expiring": "جلد ختم ہونے والے بیچ",
+      "followup_due": "فالو اپ واجب"
     }
   }
 }

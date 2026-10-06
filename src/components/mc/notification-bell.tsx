@@ -25,11 +25,13 @@ export function NotificationBell() {
   const { data = [] } = useQuery({
     queryKey: QK,
     enabled: !!userId,
+    refetchInterval: 60_000, // scheduled reminders appear when their time comes
     queryFn: async () => {
       const { data, error } = await supabase
         .from("notifications")
         .select("id,title,body,link,read_at,created_at,type")
         .eq("user_id", userId!)
+        .or(`scheduled_at.is.null,scheduled_at.lte.${new Date().toISOString()}`)
         .order("created_at", { ascending: false })
         .limit(30);
       if (error) throw error;
@@ -99,6 +101,7 @@ export function NotificationBell() {
             </li>
           ))}
         </ul>
+        <div className="border-t p-2"><Button size="sm" variant="ghost" className="w-full" onClick={() => void navigate({ to: "/settings", search: { tab: "notifications" } })}>{t("nset.open")}</Button></div>
       </PopoverContent>
     </Popover>
   );
