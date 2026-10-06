@@ -12,7 +12,7 @@ import { PCard } from "@/components/mc/portal-shell";
 import { callEdgeFunction } from "@/hooks/use-edge-function";
 import { firstName, pkDay, pkTime } from "@/lib/portal";
 import { formatReading, QUICK_TYPES, type Measurement, type MType } from "@/lib/measurements";
-import { dailySeries, lastDays, summarize, useTimeline, useTrendData, type TimelineKind } from "@/lib/trends";
+import { dailySeries, lastDays, summarize, useTimeline, useTrendData, type TimelineKind, type Target } from "@/lib/trends";
 import { cn } from "@/lib/utils";
 
 interface Dash {
@@ -103,7 +103,7 @@ export function TrendsView() {
   );
 }
 
-function TrendCard({ type, days, rows, target }: { type: MType; days: string[]; rows: Pick<Measurement, "value_1" | "value_2" | "measured_at">[]; target?: { low?: number | null; high?: number | null; low_2?: number | null; high_2?: number | null } }) {
+function TrendCard({ type, days, rows, target }: { type: MType; days: string[]; rows: Pick<Measurement, "value_1" | "value_2" | "measured_at">[]; target?: Target | undefined }) {
   const { t } = useTranslation();
   const pts = dailySeries(rows, days, target);
   const s = summarize(pts);
@@ -123,8 +123,8 @@ function TrendCard({ type, days, rows, target }: { type: MType; days: string[]; 
             <CartesianGrid vertical={false} />
             <XAxis dataKey="day" tickFormatter={(d: string) => d.slice(8, 10) + "/" + d.slice(5, 7)} tickLine={false} axisLine={false} minTickGap={16} />
             <YAxis tickLine={false} axisLine={false} domain={["auto", "auto"]} width={44} />
-            {target && (target.low != null || target.high != null) && <ReferenceArea y1={target.low ?? undefined} y2={target.high ?? undefined} fill="var(--primary)" fillOpacity={0.1} strokeOpacity={0} ifOverflow="extendDomain" />}
-            {type === "bp" && target && (target.low_2 != null || target.high_2 != null) && <ReferenceArea y1={target.low_2 ?? undefined} y2={target.high_2 ?? undefined} fill="var(--muted-foreground)" fillOpacity={0.08} strokeOpacity={0} ifOverflow="extendDomain" />}
+            {target && (target.low != null || target.high != null) && <ReferenceArea {...band(target.low, target.high)} fill="var(--primary)" fillOpacity={0.1} strokeOpacity={0} ifOverflow="extendDomain" />}
+            {type === "bp" && target && (target.low_2 != null || target.high_2 != null) && <ReferenceArea {...band(target.low_2, target.high_2)} fill="var(--muted-foreground)" fillOpacity={0.08} strokeOpacity={0} ifOverflow="extendDomain" />}
             <ChartTooltip content={<ChartTooltipContent />} />
             <Line dataKey="v1" type="monotone" stroke="var(--color-v1)" strokeWidth={2} dot={{ r: 3 }} connectNulls />
             {type === "bp" && <Line dataKey="v2" type="monotone" stroke="var(--color-v2)" strokeWidth={2} dot={{ r: 3 }} connectNulls />}
@@ -135,6 +135,8 @@ function TrendCard({ type, days, rows, target }: { type: MType; days: string[]; 
     </PCard>
   );
 }
+
+const band = (lo?: number | null, hi?: number | null) => ({ ...(lo != null ? { y1: lo } : {}), ...(hi != null ? { y2: hi } : {}) });
 
 const KINDS: TimelineKind[] = ["reading", "symptom", "dose", "appointment", "diagnosis"];
 
