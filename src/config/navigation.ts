@@ -115,16 +115,16 @@ export const QUICK_ACTIONS = {
 export type QuickActionId = keyof typeof QUICK_ACTIONS;
 
 export const ROLE_QUICK_ADD: Record<AppRole, QuickActionId[]> = {
-  super_admin: ["newStaff", "bloodBank"],
-  admin: ["newStaff", "newPatient", "newAppointment", "newAdmission", "newReceipt", "bloodBank"],
+  super_admin: ["newStaff"],
+  admin: ["newStaff", "newPatient", "newAppointment", "newAdmission", "newReceipt"],
   dept_head: ["newAppointment"],
-  doctor: ["newAppointment", "newLabOrder", "newAdmission", "newOtBooking", "bloodBank"],
+  doctor: ["newAppointment", "newLabOrder", "newAdmission", "newOtBooking"],
   nurse: ["newAdmission"],
-  er_officer: ["newEmergency", "newPatient", "bloodBank"],
+  er_officer: ["newEmergency", "newPatient"],
   ot_coordinator: ["newOtBooking"],
   receptionist: ["newPatient", "newAppointment", "newAdmission", "newEmergency"],
   pharmacist: ["newDispense", "newSale"],
-  lab_tech: ["newSample", "newLabOrder", "bloodBank"],
+  lab_tech: ["newSample", "newLabOrder"],
   cashier: ["newReceipt", "newDeposit"],
   patient: [],
 };
