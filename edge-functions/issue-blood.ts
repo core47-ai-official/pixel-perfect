@@ -139,8 +139,7 @@ function compatible(component: string, donor: string, recipient: string) {
   const dNeg = donor.endsWith("-"), rNeg = recipient.endsWith("-");
   if (component === "ffp") {
     const plasma: Record<string, string[]> = { O: ["O", "A", "B", "AB"], A: ["A", "AB"], B: ["B", "AB"], AB: ["AB"] };
-    return (plasma[rAbo] ?? []).length > 0 && (({ O: ["O"], A: ["A", "O"], B: ["B", "O"], AB: ["AB", "A", "B", "O"] } as Record<string, string[]>)[dAbo] ?? []).includes(rAbo) === false
-      ? false : ({ AB: ["AB"], A: ["A", "AB"], B: ["B", "AB"], O: ["O", "A", "B", "AB"] } as Record<string, string[]>)[rAbo]!.includes(dAbo);
+    return (plasma[rAbo] ?? []).includes(dAbo);
   }
   if (component === "platelets") return !(rNeg && !dNeg);
   const red: Record<string, string[]> = { O: ["O"], A: ["A", "O"], B: ["B", "O"], AB: ["AB", "A", "B", "O"] };
