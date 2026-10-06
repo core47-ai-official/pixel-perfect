@@ -1679,6 +1679,111 @@ export type Database = {
           },
         ]
       }
+      feedback: {
+        Row: {
+          assigned_at: string | null
+          assigned_to: string | null
+          category: string
+          channel: string
+          comment: string | null
+          created_at: string
+          created_by: string | null
+          department_id: string | null
+          doctor_id: string | null
+          hospital_id: string
+          id: string
+          is_complaint: boolean
+          patient_id: string | null
+          rating: number
+          resolution: string | null
+          resolved_at: string | null
+          resolved_by: string | null
+          status: string
+          updated_at: string
+          visit_id: string | null
+        }
+        Insert: {
+          assigned_at?: string | null
+          assigned_to?: string | null
+          category?: string
+          channel?: string
+          comment?: string | null
+          created_at?: string
+          created_by?: string | null
+          department_id?: string | null
+          doctor_id?: string | null
+          hospital_id: string
+          id?: string
+          is_complaint?: boolean
+          patient_id?: string | null
+          rating: number
+          resolution?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: string
+          updated_at?: string
+          visit_id?: string | null
+        }
+        Update: {
+          assigned_at?: string | null
+          assigned_to?: string | null
+          category?: string
+          channel?: string
+          comment?: string | null
+          created_at?: string
+          created_by?: string | null
+          department_id?: string | null
+          doctor_id?: string | null
+          hospital_id?: string
+          id?: string
+          is_complaint?: boolean
+          patient_id?: string | null
+          rating?: number
+          resolution?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: string
+          updated_at?: string
+          visit_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feedback_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "feedback_doctor_id_fkey"
+            columns: ["doctor_id"]
+            isOneToOne: false
+            referencedRelation: "doctors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "feedback_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "feedback_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "feedback_visit_id_fkey"
+            columns: ["visit_id"]
+            isOneToOne: false
+            referencedRelation: "visits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       handover_notes: {
         Row: {
           created_at: string

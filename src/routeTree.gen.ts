@@ -37,6 +37,8 @@ import { Route as AuthenticatedAppDepartmentsRouteImport } from './routes/_authe
 import { Route as AuthenticatedAppDoctorsRouteImport } from './routes/_authenticated/_app/doctors'
 import { Route as AuthenticatedAppDoctorsNowRouteImport } from './routes/_authenticated/_app/doctors-now'
 import { Route as AuthenticatedAppEmergencyRouteImport } from './routes/_authenticated/_app/emergency'
+import { Route as AuthenticatedAppFeedbackRouteImport } from './routes/_authenticated/_app/feedback'
+import { Route as AuthenticatedAppFeedbackKioskRouteImport } from './routes/_authenticated/_app/feedback-kiosk'
 import { Route as AuthenticatedAppFormularyRouteImport } from './routes/_authenticated/_app/formulary'
 import { Route as AuthenticatedAppHandoverRouteImport } from './routes/_authenticated/_app/handover'
 import { Route as AuthenticatedAppHelpRouteImport } from './routes/_authenticated/_app/help'
@@ -237,6 +239,18 @@ const AuthenticatedAppEmergencyRoute =
   AuthenticatedAppEmergencyRouteImport.update({
     id: '/emergency',
     path: '/emergency',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
+const AuthenticatedAppFeedbackRoute =
+  AuthenticatedAppFeedbackRouteImport.update({
+    id: '/feedback',
+    path: '/feedback',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
+const AuthenticatedAppFeedbackKioskRoute =
+  AuthenticatedAppFeedbackKioskRouteImport.update({
+    id: '/feedback-kiosk',
+    path: '/feedback-kiosk',
     getParentRoute: () => AuthenticatedAppRouteRoute,
   } as any)
 const AuthenticatedAppFormularyRoute =
@@ -539,6 +553,8 @@ export interface FileRoutesByFullPath {
   '/doctors': typeof AuthenticatedAppDoctorsRoute
   '/doctors-now': typeof AuthenticatedAppDoctorsNowRoute
   '/emergency': typeof AuthenticatedAppEmergencyRoute
+  '/feedback': typeof AuthenticatedAppFeedbackRoute
+  '/feedback-kiosk': typeof AuthenticatedAppFeedbackKioskRoute
   '/formulary': typeof AuthenticatedAppFormularyRoute
   '/handover': typeof AuthenticatedAppHandoverRoute
   '/help': typeof AuthenticatedAppHelpRoute
@@ -614,6 +630,8 @@ export interface FileRoutesByTo {
   '/doctors': typeof AuthenticatedAppDoctorsRoute
   '/doctors-now': typeof AuthenticatedAppDoctorsNowRoute
   '/emergency': typeof AuthenticatedAppEmergencyRoute
+  '/feedback': typeof AuthenticatedAppFeedbackRoute
+  '/feedback-kiosk': typeof AuthenticatedAppFeedbackKioskRoute
   '/formulary': typeof AuthenticatedAppFormularyRoute
   '/handover': typeof AuthenticatedAppHandoverRoute
   '/help': typeof AuthenticatedAppHelpRoute
@@ -693,6 +711,8 @@ export interface FileRoutesById {
   '/_authenticated/_app/doctors': typeof AuthenticatedAppDoctorsRoute
   '/_authenticated/_app/doctors-now': typeof AuthenticatedAppDoctorsNowRoute
   '/_authenticated/_app/emergency': typeof AuthenticatedAppEmergencyRoute
+  '/_authenticated/_app/feedback': typeof AuthenticatedAppFeedbackRoute
+  '/_authenticated/_app/feedback-kiosk': typeof AuthenticatedAppFeedbackKioskRoute
   '/_authenticated/_app/formulary': typeof AuthenticatedAppFormularyRoute
   '/_authenticated/_app/handover': typeof AuthenticatedAppHandoverRoute
   '/_authenticated/_app/help': typeof AuthenticatedAppHelpRoute
@@ -771,6 +791,8 @@ export interface FileRouteTypes {
     | '/doctors'
     | '/doctors-now'
     | '/emergency'
+    | '/feedback'
+    | '/feedback-kiosk'
     | '/formulary'
     | '/handover'
     | '/help'
@@ -846,6 +868,8 @@ export interface FileRouteTypes {
     | '/doctors'
     | '/doctors-now'
     | '/emergency'
+    | '/feedback'
+    | '/feedback-kiosk'
     | '/formulary'
     | '/handover'
     | '/help'
@@ -924,6 +948,8 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/doctors'
     | '/_authenticated/_app/doctors-now'
     | '/_authenticated/_app/emergency'
+    | '/_authenticated/_app/feedback'
+    | '/_authenticated/_app/feedback-kiosk'
     | '/_authenticated/_app/formulary'
     | '/_authenticated/_app/handover'
     | '/_authenticated/_app/help'
@@ -1183,6 +1209,20 @@ declare module '@tanstack/react-router' {
       path: '/emergency'
       fullPath: '/emergency'
       preLoaderRoute: typeof AuthenticatedAppEmergencyRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/feedback': {
+      id: '/_authenticated/_app/feedback'
+      path: '/feedback'
+      fullPath: '/feedback'
+      preLoaderRoute: typeof AuthenticatedAppFeedbackRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/feedback-kiosk': {
+      id: '/_authenticated/_app/feedback-kiosk'
+      path: '/feedback-kiosk'
+      fullPath: '/feedback-kiosk'
+      preLoaderRoute: typeof AuthenticatedAppFeedbackKioskRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
     '/_authenticated/_app/formulary': {
@@ -1541,6 +1581,8 @@ interface AuthenticatedAppRouteRouteChildren {
   AuthenticatedAppDoctorsRoute: typeof AuthenticatedAppDoctorsRoute
   AuthenticatedAppDoctorsNowRoute: typeof AuthenticatedAppDoctorsNowRoute
   AuthenticatedAppEmergencyRoute: typeof AuthenticatedAppEmergencyRoute
+  AuthenticatedAppFeedbackRoute: typeof AuthenticatedAppFeedbackRoute
+  AuthenticatedAppFeedbackKioskRoute: typeof AuthenticatedAppFeedbackKioskRoute
   AuthenticatedAppFormularyRoute: typeof AuthenticatedAppFormularyRoute
   AuthenticatedAppHandoverRoute: typeof AuthenticatedAppHandoverRoute
   AuthenticatedAppHelpRoute: typeof AuthenticatedAppHelpRoute
@@ -1603,6 +1645,8 @@ const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
   AuthenticatedAppDoctorsRoute: AuthenticatedAppDoctorsRoute,
   AuthenticatedAppDoctorsNowRoute: AuthenticatedAppDoctorsNowRoute,
   AuthenticatedAppEmergencyRoute: AuthenticatedAppEmergencyRoute,
+  AuthenticatedAppFeedbackRoute: AuthenticatedAppFeedbackRoute,
+  AuthenticatedAppFeedbackKioskRoute: AuthenticatedAppFeedbackKioskRoute,
   AuthenticatedAppFormularyRoute: AuthenticatedAppFormularyRoute,
   AuthenticatedAppHandoverRoute: AuthenticatedAppHandoverRoute,
   AuthenticatedAppHelpRoute: AuthenticatedAppHelpRoute,
