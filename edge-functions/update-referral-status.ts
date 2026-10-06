@@ -1,5 +1,6 @@
 // Paste into Supabase → Edge Functions → new function "update-referral-status". Turn "Enforce JWT Verification" OFF.
 // Body: { referral_id, status: accepted|rejected|completed, note? }. Allowed moves: sent → accepted/rejected, accepted → completed. Rejecting needs a note.
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const cors = {
   "Access-Control-Allow-Origin": "*",

@@ -1,5 +1,6 @@
 // Paste into Supabase → Edge Functions → new function "register-push-subscription". Turn "Enforce JWT Verification" OFF.
 // Any signed-in user. Body: { endpoint, keys: { p256dh, auth }, device? }. Saves (or moves to this user) the browser's push subscription.
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const cors = {
   "Access-Control-Allow-Origin": "*",

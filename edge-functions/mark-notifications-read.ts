@@ -1,5 +1,6 @@
 // Paste into Supabase → Edge Functions → new function "mark-notifications-read". Turn "Enforce JWT Verification" OFF.
 // Any signed-in user. Body: { ids?: string[], all?: boolean }. Marks the caller's own delivered notifications read.
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const cors = {
   "Access-Control-Allow-Origin": "*",

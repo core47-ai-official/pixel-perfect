@@ -1,6 +1,7 @@
 // Paste into Supabase → Edge Functions → new function "save-notification-preferences". Turn "Enforce JWT Verification" OFF.
 // Any signed-in user. Body: { disabled_types: string[] }. Saves which non-critical alert types the caller turned off.
 // Critical types (critical_result, ot_bumped) are always removed from the list, so they can never be turned off.
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const cors = {
   "Access-Control-Allow-Origin": "*",

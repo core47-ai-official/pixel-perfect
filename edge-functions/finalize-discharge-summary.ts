@@ -1,5 +1,6 @@
 // Paste into Supabase → Edge Functions → new function "finalize-discharge-summary". Turn "Enforce JWT Verification" OFF.
 // Body: { admission_id, ...fields? }. Doctor saves the last edits and locks the summary; queues the follow-up reminder (day before, 09:00 PKT) for the patient and the admitting doctor.
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const cors = {
   "Access-Control-Allow-Origin": "*",

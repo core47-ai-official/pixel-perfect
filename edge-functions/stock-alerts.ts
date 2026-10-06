@@ -24,7 +24,7 @@ const medName = (m: { generic_name: string; brand_name: string | null; strength:
 async function notifyStock(db: DB, hospitalId: string, type: string, title: string, body: string, by: string | null, vars?: Record<string, unknown>) {
   const { data: staff } = await db.from("user_roles").select("user_id").eq("hospital_id", hospitalId).in("role", ["pharmacist", "admin"]);
   const ids = [...new Set((staff ?? []).map((x: { user_id: string }) => x.user_id))];
-  if (ids.length) await queueNotes(db, ids.map((u) => ({ hospital_id: hospitalId, user_id: u, type, title, body: body.slice(0, 1000), link: "/inventory", created_by: by, vars })));
+  if (ids.length) await queueNotes(db, ids.map((u) => ({ hospital_id: hospitalId, user_id: u as string, type, title, body: body.slice(0, 1000), link: "/inventory", created_by: by, vars })));
   return ids.length;
 }
 
