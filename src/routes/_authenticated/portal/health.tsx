@@ -63,6 +63,7 @@ function Dashboard({ profile }: { profile: TrackerProfile }) {
           <ul className="flex flex-wrap gap-2">{lists.data.conditions.map((c) => <li key={c.id} className="rounded-full bg-accent px-3 py-1 text-sm"><Ltr>{c.name}</Ltr></li>)}</ul>
         ) : <p className="text-sm text-muted-foreground">{t("trk.noConditions")}</p>}
       </PCard>
+      <Link to="/portal/doctors" className="block"><PCard className="flex items-center justify-between gap-2"><span className="font-medium">{t("conn.title")}</span><span className="text-sm font-medium text-primary">{t("conn.manage")}</span></PCard></Link>
       <PCard>
         <div className="mb-2 flex items-center justify-between gap-2"><p className="flex items-center gap-2 font-medium"><Pill className="size-4" aria-hidden />{t("trk.medicines")}</p><Link to="/portal/medicines" className="text-sm font-medium text-primary">{t("meds.open")}</Link></div>
         {lists.data?.medicines.length ? (
