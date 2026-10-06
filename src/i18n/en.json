@@ -2772,5 +2772,65 @@
       "stock_expiring": "Batches expiring soon",
       "followup_due": "Follow-up due"
     }
+  },
+  "portal": {
+    "language": "Language",
+    "navLabel": "Patient menu",
+    "nav": {
+      "home": "Home",
+      "book": "Book",
+      "appointments": "Appointments",
+      "reports": "Reports",
+      "profile": "Profile"
+    },
+    "hello": "Hello, {{name}}",
+    "record": "Your hospital record",
+    "nextAppt": "Next appointment",
+    "noNextAppt": "No upcoming appointment.",
+    "token": "Token",
+    "noAppts": "You have no appointments yet.",
+    "noReports": "No reports yet. Verified lab reports appear here.",
+    "bookSoon": "Online booking is coming soon. For now, please call or visit reception.",
+    "notLinked": "Your account isn't linked to your hospital record yet.",
+    "login": "Signed in as",
+    "apptStatus": {
+      "booked": "Booked",
+      "checked_in": "Checked in",
+      "completed": "Seen",
+      "cancelled": "Cancelled",
+      "no_show": "Missed",
+      "in_consultation": "With doctor"
+    },
+    "link": {
+      "title": "Link your hospital record",
+      "hint": "Enter the MRN and the 6-digit code printed on your visit slip or discharge summary.",
+      "mrn": "MRN",
+      "code": "6-digit code",
+      "submit": "Link my record",
+      "required": "Enter your MRN and the 6-digit code.",
+      "failed": "Could not link your record. Please try again."
+    },
+    "print": {
+      "line": "Patient app: sign up, then enter your MRN and this code",
+      "valid": "Code valid until"
+    }
+  },
+  "psignup": {
+    "title": "Create your patient account",
+    "subtitle": "See your appointments and reports.",
+    "name": "Full name",
+    "login": "Mobile number or email",
+    "password": "Password (at least 8 characters)",
+    "confirm": "Confirm password",
+    "submit": "Create account",
+    "haveAccount": "Already have an account?",
+    "signIn": "Sign in",
+    "newPatient": "Are you a patient?",
+    "create": "Create an account",
+    "required": "Please fill in your name and mobile number or email.",
+    "badPhone": "Enter a valid mobile number, e.g. 03001234567.",
+    "shortPassword": "Password must be at least 8 characters.",
+    "mismatch": "Passwords don't match.",
+    "failed": "Could not create the account. Please try again."
   }
 }
