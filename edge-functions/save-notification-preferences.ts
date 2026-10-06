@@ -54,7 +54,7 @@ Deno.serve(async (req) => {
   const { db, c, b } = await BOOT(req);
   if ("error" in c) return c.error;
   if (c.impersonatedBy) return fail("forbidden", "You can't change someone else's notification settings while acting as them.", 403);
-  const list = Array.isArray(b.disabled_types) ? [...new Set(b.disabled_types.map(String))] : null;
+  const list = Array.isArray(b.disabled_types) ? [...new Set<string>(b.disabled_types.map(String))] : null;
   if (!list) return fail("invalid", "Send the list of turned-off types.");
   const disabled = list.filter((t) => TYPES.includes(t) && !CRITICAL.includes(t));
   const now = new Date().toISOString();
