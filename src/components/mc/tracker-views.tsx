@@ -14,6 +14,7 @@ import { firstName, pkDay, pkTime } from "@/lib/portal";
 import { formatReading, QUICK_TYPES, type Measurement, type MType } from "@/lib/measurements";
 import { dailySeries, lastDays, summarize, useTimeline, useTrendData, type TimelineKind, type Target } from "@/lib/trends";
 import { cn } from "@/lib/utils";
+import { HealthReportButton } from "@/components/mc/health-report-panel";
 
 interface Dash {
   name: string | null;
@@ -98,6 +99,7 @@ export function TrendsView() {
       {q.isLoading ? <Skeleton className="h-56 rounded-patient" /> : q.isError || !q.data ? <Banner tone="danger" title={t("trd.loadFailed")} /> : (
         QUICK_TYPES.map((type) => <TrendCard key={type} type={type} days={dayList} rows={q.data.rows.filter((r) => (r as { type?: string }).type === type)} target={q.data.targets[type]} />)
       )}
+      <HealthReportButton />
       <p className="text-xs text-muted-foreground">{t("trd.notAdvice")}</p>
     </div>
   );
