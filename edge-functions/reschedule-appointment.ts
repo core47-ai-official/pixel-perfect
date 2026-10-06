@@ -174,14 +174,33 @@ Deno.serve(async (req) => {
   const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
   const c = await getCaller(req, db);
   if ("error" in c) return c.error;
-  if (!c.roles.some((r) => BOOKING_ROLES.includes(r))) return fail("forbidden", "You can't reschedule appointments.", 403);
+  // Patient portal callers: only their own linked record, gated by company settings → appointments.
+  const isPatientCaller = !c.roles.some((r) => BOOKING_ROLES.includes(r)) && c.roles.includes("patient") && !c.impersonatedBy;
+  let ownPatientId: string | null = null;
+  let apptCfg: Record<string, unknown> = {};
+  if (isPatientCaller) {
+    const [{ data: me }, { data: cs }] = await Promise.all([
+      db.from("patients").select("id").eq("user_id", c.userId).eq("hospital_id", c.hospitalId).maybeSingle(),
+      db.from("company_settings").select("appointments").eq("hospital_id", c.hospitalId).maybeSingle(),
+    ]);
+    if (!me) return fail("not_linked", "Link your hospital record first.", 403);
+    ownPatientId = me.id;
+    apptCfg = (cs?.appointments ?? {}) as Record<string, unknown>;
+  }
+  if (!isPatientCaller && !c.roles.some((r) => BOOKING_ROLES.includes(r))) return fail("forbidden", "You can't reschedule appointments.", 403);
   const b = await req.json().catch(() => ({}));
 
   const { data: before } = await db.from("appointments").select("*").eq("id", String(b.appointment_id ?? "")).eq("hospital_id", c.hospitalId).maybeSingle();
   if (!before) return fail("not_found", "Appointment not found.", 404);
+  if (isPatientCaller) {
+    if (before.patient_id !== ownPatientId) return fail("not_found", "Appointment not found.", 404);
+    const hrs = Number(apptCfg.cancellation_hours ?? 2);
+    if (new Date(before.slot_start).getTime() - Date.now() < hrs * 3600_000)
+      return fail("cutoff", `Changes are only possible up to ${hrs} hours before the appointment. Please call the hospital.`, 409);
+  }
   if (!["booked", "waiting", "needs_rebooking"].includes(before.status)) return fail("conflict", "This appointment can't be rescheduled.", 409);
 
-  const doctorId = b.doctor_id ? String(b.doctor_id) : before.doctor_id;
+  const doctorId = b.doctor_id && !isPatientCaller ? String(b.doctor_id) : before.doctor_id;
   const { data: doc } = await db.from("doctors").select("*").eq("id", doctorId).eq("hospital_id", c.hospitalId).maybeSingle();
   if (!doc) return fail("not_found", "Doctor not found.", 404);
   const slotStart = new Date(String(b.slot_start ?? ""));
@@ -212,7 +231,7 @@ Deno.serve(async (req) => {
   const dp = { profiles: dpf };
   if (p?.user_id) await queueNotes(db, {
     hospital_id: c.hospitalId, user_id: p.user_id, type: "appointment_rescheduled",
-    title: "Appointment rescheduled", body: `${date} ${slot.time} · Token ${tokenNo}`, link: "/my-appointments", created_by: c.userId,
+    title: "Appointment rescheduled", body: `${date} ${slot.time} · Token ${tokenNo}`, link: "/portal/appointments", created_by: c.userId,
     vars: { patient: p.full_name, doctor: dp?.profiles?.full_name ?? "Doctor", date: notePkDate(slot.start), time: slot.time, token: tokenNo },
   });
   await db.from("audit_logs").insert({

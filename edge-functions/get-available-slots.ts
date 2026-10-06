@@ -99,7 +99,12 @@ Deno.serve(async (req) => {
   const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
   const c = await getCaller(req, db);
   if ("error" in c) return c.error;
-  if (!c.roles.some((r) => r !== "patient")) return fail("forbidden", "Staff only.", 403);
+  // Staff, or linked patients (portal booking). Patients see only bookable, active doctors.
+  const isPatient = !c.roles.some((r) => r !== "patient");
+  if (isPatient) {
+    const { data: me } = await db.from("patients").select("id").eq("user_id", c.userId).eq("hospital_id", c.hospitalId).maybeSingle();
+    if (!me) return fail("not_linked", "Link your hospital record first.", 403);
+  }
   const b = await req.json().catch(() => ({}));
 
   if (b.list_doctors) {
@@ -107,10 +112,12 @@ Deno.serve(async (req) => {
       .select("id, user_id, department_id, specialty, gender, languages, consultation_fee, followup_fee, status")
       .eq("hospital_id", c.hospitalId);
     const ids = (docs ?? []).map((d) => d.user_id);
-    const { data: names } = ids.length ? await db.from("profiles").select("id, full_name, is_active").in("id", ids) : { data: [] };
+    const { data: names } = ids.length ? await db.from("profiles").select("id, full_name, is_active, photo_url").in("id", ids) : { data: [] };
+    const { data: depts } = await db.from("departments").select("id, name").eq("hospital_id", c.hospitalId);
     return json({ ok: true, data: (docs ?? []).flatMap((d) => {
       const p = names?.find((n) => n.id === d.user_id);
-      return p?.is_active === false ? [] : [{ ...d, full_name: p?.full_name ?? "Doctor" }];
+      if (p?.is_active === false || (isPatient && d.status === "inactive")) return [];
+      return [{ ...d, full_name: p?.full_name ?? "Doctor", photo_url: p?.photo_url ?? null, department_name: depts?.find((x) => x.id === d.department_id)?.name ?? null }];
     }) });
   }
 

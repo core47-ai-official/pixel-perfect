@@ -260,9 +260,28 @@ Deno.serve(async (req) => {
   const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
   const c = await getCaller(req, db);
   if ("error" in c) return c.error;
-  if (!c.roles.some((r) => BOOKING_ROLES.includes(r))) return fail("forbidden", "You can't book appointments.", 403);
+  // Patient portal callers: only their own linked record, gated by company settings → appointments.
+  const isPatientCaller = !c.roles.some((r) => BOOKING_ROLES.includes(r)) && c.roles.includes("patient") && !c.impersonatedBy;
+  let ownPatientId: string | null = null;
+  let apptCfg: Record<string, unknown> = {};
+  if (isPatientCaller) {
+    const [{ data: me }, { data: cs }] = await Promise.all([
+      db.from("patients").select("id").eq("user_id", c.userId).eq("hospital_id", c.hospitalId).maybeSingle(),
+      db.from("company_settings").select("appointments").eq("hospital_id", c.hospitalId).maybeSingle(),
+    ]);
+    if (!me) return fail("not_linked", "Link your hospital record first.", 403);
+    ownPatientId = me.id;
+    apptCfg = (cs?.appointments ?? {}) as Record<string, unknown>;
+  }
+  if (!isPatientCaller && !c.roles.some((r) => BOOKING_ROLES.includes(r))) return fail("forbidden", "You can't book appointments.", 403);
 
   const b = await req.json().catch(() => ({}));
+  if (isPatientCaller) {
+    if (apptCfg.allow_patient_booking !== true) return fail("forbidden", "Online booking is turned off. Please contact reception.", 403);
+    b.patient_id = ownPatientId; b.channel = "portal"; if (b.type === "procedure") b.type = "new"; delete b.follow_up_of;
+    const days = Number(apptCfg.booking_window_days ?? 30);
+    if (new Date(String(b.slot_start ?? "")).getTime() > Date.now() + days * 86400_000) return fail("validation", `You can book up to ${days} days ahead.`);
+  }
   const type = ["new", "follow_up", "procedure"].includes(b.type) ? b.type : "new";
   const channel = ["reception", "phone", "portal"].includes(b.channel) ? b.channel : "reception";
   const slotStart = new Date(String(b.slot_start ?? ""));
@@ -317,7 +336,7 @@ Deno.serve(async (req) => {
       hospital_id: c.hospitalId, user_id: patient.user_id, type: "appointment_booked",
       title: "Appointment confirmed", body: `${docProf?.full_name ?? "Doctor"} · ${date} ${slot.time} · Token ${tokenNo}`,
       vars: { patient: patient.full_name, doctor: docProf?.full_name ?? "Doctor", date: notePkDate(slot.start), time: slot.time, token: tokenNo },
-      link: "/my-appointments", created_by: c.userId, dedupe_key: `appt:${appt.id}:booked`,
+      link: "/portal/appointments", created_by: c.userId, dedupe_key: `appt:${appt.id}:booked`,
     });
   }
   await db.from("audit_logs").insert({

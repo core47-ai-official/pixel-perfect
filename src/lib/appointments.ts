@@ -10,6 +10,7 @@ export type ApptType = (typeof APPT_TYPES)[number];
 export interface BookableDoctor {
   id: string; user_id: string; full_name: string; department_id: string | null; specialty: string;
   gender: string | null; languages: string[]; consultation_fee: number; followup_fee: number; status: string;
+  photo_url?: string | null; department_name?: string | null;
 }
 export interface Slot { start: string; end: string; time: string; status: "free" | "booked" | "full" | "past"; room: string | null }
 export interface SlotsResult { closed: null | "on_leave" | "holiday" | "no_schedule"; holiday?: string; slots: Slot[] }
