@@ -18,7 +18,7 @@ import { Ltr } from "@/components/mc/ltr";
 import { PrintPreviewPanel, usePrintBrand } from "@/components/mc/print-document";
 import { formatPkr } from "@/lib/patient-summary";
 import { r2 } from "@/lib/cash";
-import { getShiftSummary, SHIFT_INVALIDATE, useMyOpenShift, useShiftHistory, type ShiftSummary } from "@/lib/shifts";
+import { getShiftSummary, normalizeSummary, SHIFT_INVALIDATE, useMyOpenShift, useShiftHistory, type ShiftSummary } from "@/lib/shifts";
 
 export const Route = createFileRoute("/_authenticated/_app/cash-register")({
   head: () => ({ meta: [
@@ -35,6 +35,7 @@ export const Route = createFileRoute("/_authenticated/_app/cash-register")({
 const fmtDT = (s: string | null) => {
   if (!s) return "—";
   const d = new Date(s);
+  if (Number.isNaN(d.getTime())) return "—";
   return `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}/${d.getFullYear()} ${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
 };
 const errMsg = (e: unknown, f: string) => (e && typeof e === "object" && "message" in e ? String((e as { message: string }).message) : f);
@@ -63,7 +64,7 @@ function CashRegisterPage() {
   const closeShift = async () => {
     setBusy(true);
     try {
-      const r = await callEdgeFunction<ShiftSummary>("close-shift", { counted_cash: countedN, note });
+      const r = normalizeSummary(await callEdgeFunction<unknown>("close-shift", { counted_cash: countedN, note }));
       toast.success(t("shift.closed")); setCounted(""); setNote(""); refresh(); setReport(r);
     } catch (e) { toast.error(errMsg(e, t("cash.failed"))); } finally { setBusy(false); }
   };
@@ -125,9 +126,9 @@ function CashRegisterPage() {
                 <tr>{["cashier", "opened", "closedAt", "expected", "counted", "difference", ""].map((k) => <th key={k} className="px-3 py-2 text-start font-medium">{k && t(`shift.col.${k}`)}</th>)}</tr>
               </thead>
               <tbody>
-                {history.data.map((s) => (
+                {(Array.isArray(history.data) ? history.data : []).map((s) => (
                   <tr key={s.id} className="border-t">
-                    <td className="px-3 py-2">{s.cashier_name}</td>
+                    <td className="px-3 py-2">{s.cashier_name ?? "—"}</td>
                     <td className="px-3 py-2"><Ltr>{fmtDT(s.opened_at)}</Ltr></td>
                     <td className="px-3 py-2">{s.status === "open" ? <StatusChip status="ok">{t("shift.status.open")}</StatusChip> : <Ltr>{fmtDT(s.closed_at)}</Ltr>}</td>
                     <td className="px-3 py-2"><Ltr>{s.expected_cash != null ? formatPkr(s.expected_cash) : "—"}</Ltr></td>
