@@ -92,7 +92,7 @@ function SurveillancePage() {
       {q.error && <Banner tone="warning" title={t("surv.title")}>{(q.error as { message?: string }).message}</Banner>}
       {q.isLoading && <Skeleton className="h-64" />}
       {r && r.surges.length > 0 && (
-        <Banner tone="urgent" title={t("surv.surgeCount", { count: new Set(r.surges.map((s) => s.group)).size })}>
+        <Banner tone="danger" title={t("surv.surgeCount", { count: new Set(r.surges.map((s) => s.group)).size })}>
           <ul className="list-disc ps-5">{r.surges.map((s) => <li key={s.group + s.week_end}>{t(`surv.g.${s.group}`)} — {t("surv.surgeOn", { week: short(s.week_end), count: s.count, baseline: s.baseline, pct: s.pct })}</li>)}</ul>
         </Banner>
       )}
@@ -165,9 +165,9 @@ function CountTable({ title, keyName, rows }: { title: string; keyName: "distric
             <tbody>
               {rows.map((row) => (
                 <tr key={String(row[keyName])} className="border-b last:border-0">
-                  <td className="px-3 py-2">{keyName === "age" ? <Ltr>{String(row.age)}</Ltr> : String(row.district)}</td>
+                  <td className="px-3 py-2">{keyName === "age" ? <Ltr>{String(row["age"])}</Ltr> : String(row["district"])}</td>
                   {SURV_GROUPS.map((g) => <td key={g} className="px-3 py-2 text-end tnum"><Ltr>{Number(row[g] ?? 0) || "–"}</Ltr></td>)}
-                  <td className="px-3 py-2 text-end font-semibold tnum"><Ltr>{String(row.total)}</Ltr></td>
+                  <td className="px-3 py-2 text-end font-semibold tnum"><Ltr>{String(row["total"])}</Ltr></td>
                 </tr>
               ))}
             </tbody>
