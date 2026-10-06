@@ -68,6 +68,7 @@ import { Route as AuthenticatedAppSupportTicketsRouteImport } from './routes/_au
 import { Route as AuthenticatedAppSurveillanceRouteImport } from './routes/_authenticated/_app/surveillance'
 import { Route as AuthenticatedAppSystemIssuesRouteImport } from './routes/_authenticated/_app/system-issues'
 import { Route as AuthenticatedAppTariffsRouteImport } from './routes/_authenticated/_app/tariffs'
+import { Route as AuthenticatedAppTrackerConnectionsRouteImport } from './routes/_authenticated/_app/tracker-connections'
 import { Route as AuthenticatedAppUnpaidRouteImport } from './routes/_authenticated/_app/unpaid'
 import { Route as AuthenticatedAppUsersRouteImport } from './routes/_authenticated/_app/users'
 import { Route as AuthenticatedAppWardSetupRouteImport } from './routes/_authenticated/_app/ward-setup'
@@ -77,6 +78,7 @@ import { Route as AuthenticatedPortalIndexRouteImport } from './routes/_authenti
 import { Route as AuthenticatedPortalAppointmentsRouteImport } from './routes/_authenticated/portal/appointments'
 import { Route as AuthenticatedPortalBillsRouteImport } from './routes/_authenticated/portal/bills'
 import { Route as AuthenticatedPortalBookRouteImport } from './routes/_authenticated/portal/book'
+import { Route as AuthenticatedPortalDoctorsRouteImport } from './routes/_authenticated/portal/doctors'
 import { Route as AuthenticatedPortalHealthRouteImport } from './routes/_authenticated/portal/health'
 import { Route as AuthenticatedPortalMedicinesRouteImport } from './routes/_authenticated/portal/medicines'
 import { Route as AuthenticatedPortalProfileRouteImport } from './routes/_authenticated/portal/profile'
@@ -418,6 +420,12 @@ const AuthenticatedAppTariffsRoute = AuthenticatedAppTariffsRouteImport.update({
   path: '/tariffs',
   getParentRoute: () => AuthenticatedAppRouteRoute,
 } as any)
+const AuthenticatedAppTrackerConnectionsRoute =
+  AuthenticatedAppTrackerConnectionsRouteImport.update({
+    id: '/tracker-connections',
+    path: '/tracker-connections',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
 const AuthenticatedAppUnpaidRoute = AuthenticatedAppUnpaidRouteImport.update({
   id: '/unpaid',
   path: '/unpaid',
@@ -467,6 +475,12 @@ const AuthenticatedPortalBookRoute = AuthenticatedPortalBookRouteImport.update({
   path: '/book',
   getParentRoute: () => AuthenticatedPortalRouteRoute,
 } as any)
+const AuthenticatedPortalDoctorsRoute =
+  AuthenticatedPortalDoctorsRouteImport.update({
+    id: '/doctors',
+    path: '/doctors',
+    getParentRoute: () => AuthenticatedPortalRouteRoute,
+  } as any)
 const AuthenticatedPortalHealthRoute =
   AuthenticatedPortalHealthRouteImport.update({
     id: '/health',
@@ -598,6 +612,7 @@ export interface FileRoutesByFullPath {
   '/surveillance': typeof AuthenticatedAppSurveillanceRoute
   '/system-issues': typeof AuthenticatedAppSystemIssuesRoute
   '/tariffs': typeof AuthenticatedAppTariffsRoute
+  '/tracker-connections': typeof AuthenticatedAppTrackerConnectionsRoute
   '/unpaid': typeof AuthenticatedAppUnpaidRoute
   '/users': typeof AuthenticatedAppUsersRoute
   '/ward-setup': typeof AuthenticatedAppWardSetupRoute
@@ -606,6 +621,7 @@ export interface FileRoutesByFullPath {
   '/portal/appointments': typeof AuthenticatedPortalAppointmentsRoute
   '/portal/bills': typeof AuthenticatedPortalBillsRoute
   '/portal/book': typeof AuthenticatedPortalBookRoute
+  '/portal/doctors': typeof AuthenticatedPortalDoctorsRoute
   '/portal/health': typeof AuthenticatedPortalHealthRoute
   '/portal/medicines': typeof AuthenticatedPortalMedicinesRoute
   '/portal/profile': typeof AuthenticatedPortalProfileRoute
@@ -677,6 +693,7 @@ export interface FileRoutesByTo {
   '/surveillance': typeof AuthenticatedAppSurveillanceRoute
   '/system-issues': typeof AuthenticatedAppSystemIssuesRoute
   '/tariffs': typeof AuthenticatedAppTariffsRoute
+  '/tracker-connections': typeof AuthenticatedAppTrackerConnectionsRoute
   '/unpaid': typeof AuthenticatedAppUnpaidRoute
   '/users': typeof AuthenticatedAppUsersRoute
   '/ward-setup': typeof AuthenticatedAppWardSetupRoute
@@ -685,6 +702,7 @@ export interface FileRoutesByTo {
   '/portal/appointments': typeof AuthenticatedPortalAppointmentsRoute
   '/portal/bills': typeof AuthenticatedPortalBillsRoute
   '/portal/book': typeof AuthenticatedPortalBookRoute
+  '/portal/doctors': typeof AuthenticatedPortalDoctorsRoute
   '/portal/health': typeof AuthenticatedPortalHealthRoute
   '/portal/medicines': typeof AuthenticatedPortalMedicinesRoute
   '/portal/profile': typeof AuthenticatedPortalProfileRoute
@@ -760,6 +778,7 @@ export interface FileRoutesById {
   '/_authenticated/_app/surveillance': typeof AuthenticatedAppSurveillanceRoute
   '/_authenticated/_app/system-issues': typeof AuthenticatedAppSystemIssuesRoute
   '/_authenticated/_app/tariffs': typeof AuthenticatedAppTariffsRoute
+  '/_authenticated/_app/tracker-connections': typeof AuthenticatedAppTrackerConnectionsRoute
   '/_authenticated/_app/unpaid': typeof AuthenticatedAppUnpaidRoute
   '/_authenticated/_app/users': typeof AuthenticatedAppUsersRoute
   '/_authenticated/_app/ward-setup': typeof AuthenticatedAppWardSetupRoute
@@ -768,6 +787,7 @@ export interface FileRoutesById {
   '/_authenticated/portal/appointments': typeof AuthenticatedPortalAppointmentsRoute
   '/_authenticated/portal/bills': typeof AuthenticatedPortalBillsRoute
   '/_authenticated/portal/book': typeof AuthenticatedPortalBookRoute
+  '/_authenticated/portal/doctors': typeof AuthenticatedPortalDoctorsRoute
   '/_authenticated/portal/health': typeof AuthenticatedPortalHealthRoute
   '/_authenticated/portal/medicines': typeof AuthenticatedPortalMedicinesRoute
   '/_authenticated/portal/profile': typeof AuthenticatedPortalProfileRoute
@@ -842,6 +862,7 @@ export interface FileRouteTypes {
     | '/surveillance'
     | '/system-issues'
     | '/tariffs'
+    | '/tracker-connections'
     | '/unpaid'
     | '/users'
     | '/ward-setup'
@@ -850,6 +871,7 @@ export interface FileRouteTypes {
     | '/portal/appointments'
     | '/portal/bills'
     | '/portal/book'
+    | '/portal/doctors'
     | '/portal/health'
     | '/portal/medicines'
     | '/portal/profile'
@@ -921,6 +943,7 @@ export interface FileRouteTypes {
     | '/surveillance'
     | '/system-issues'
     | '/tariffs'
+    | '/tracker-connections'
     | '/unpaid'
     | '/users'
     | '/ward-setup'
@@ -929,6 +952,7 @@ export interface FileRouteTypes {
     | '/portal/appointments'
     | '/portal/bills'
     | '/portal/book'
+    | '/portal/doctors'
     | '/portal/health'
     | '/portal/medicines'
     | '/portal/profile'
@@ -1003,6 +1027,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/surveillance'
     | '/_authenticated/_app/system-issues'
     | '/_authenticated/_app/tariffs'
+    | '/_authenticated/_app/tracker-connections'
     | '/_authenticated/_app/unpaid'
     | '/_authenticated/_app/users'
     | '/_authenticated/_app/ward-setup'
@@ -1011,6 +1036,7 @@ export interface FileRouteTypes {
     | '/_authenticated/portal/appointments'
     | '/_authenticated/portal/bills'
     | '/_authenticated/portal/book'
+    | '/_authenticated/portal/doctors'
     | '/_authenticated/portal/health'
     | '/_authenticated/portal/medicines'
     | '/_authenticated/portal/profile'
@@ -1454,6 +1480,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppTariffsRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
+    '/_authenticated/_app/tracker-connections': {
+      id: '/_authenticated/_app/tracker-connections'
+      path: '/tracker-connections'
+      fullPath: '/tracker-connections'
+      preLoaderRoute: typeof AuthenticatedAppTrackerConnectionsRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
     '/_authenticated/_app/unpaid': {
       id: '/_authenticated/_app/unpaid'
       path: '/unpaid'
@@ -1515,6 +1548,13 @@ declare module '@tanstack/react-router' {
       path: '/book'
       fullPath: '/portal/book'
       preLoaderRoute: typeof AuthenticatedPortalBookRouteImport
+      parentRoute: typeof AuthenticatedPortalRouteRoute
+    }
+    '/_authenticated/portal/doctors': {
+      id: '/_authenticated/portal/doctors'
+      path: '/doctors'
+      fullPath: '/portal/doctors'
+      preLoaderRoute: typeof AuthenticatedPortalDoctorsRouteImport
       parentRoute: typeof AuthenticatedPortalRouteRoute
     }
     '/_authenticated/portal/health': {
@@ -1652,6 +1692,7 @@ interface AuthenticatedAppRouteRouteChildren {
   AuthenticatedAppSurveillanceRoute: typeof AuthenticatedAppSurveillanceRoute
   AuthenticatedAppSystemIssuesRoute: typeof AuthenticatedAppSystemIssuesRoute
   AuthenticatedAppTariffsRoute: typeof AuthenticatedAppTariffsRoute
+  AuthenticatedAppTrackerConnectionsRoute: typeof AuthenticatedAppTrackerConnectionsRoute
   AuthenticatedAppUnpaidRoute: typeof AuthenticatedAppUnpaidRoute
   AuthenticatedAppUsersRoute: typeof AuthenticatedAppUsersRoute
   AuthenticatedAppWardSetupRoute: typeof AuthenticatedAppWardSetupRoute
@@ -1716,6 +1757,8 @@ const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
   AuthenticatedAppSurveillanceRoute: AuthenticatedAppSurveillanceRoute,
   AuthenticatedAppSystemIssuesRoute: AuthenticatedAppSystemIssuesRoute,
   AuthenticatedAppTariffsRoute: AuthenticatedAppTariffsRoute,
+  AuthenticatedAppTrackerConnectionsRoute:
+    AuthenticatedAppTrackerConnectionsRoute,
   AuthenticatedAppUnpaidRoute: AuthenticatedAppUnpaidRoute,
   AuthenticatedAppUsersRoute: AuthenticatedAppUsersRoute,
   AuthenticatedAppWardSetupRoute: AuthenticatedAppWardSetupRoute,
@@ -1742,6 +1785,7 @@ interface AuthenticatedPortalRouteRouteChildren {
   AuthenticatedPortalAppointmentsRoute: typeof AuthenticatedPortalAppointmentsRoute
   AuthenticatedPortalBillsRoute: typeof AuthenticatedPortalBillsRoute
   AuthenticatedPortalBookRoute: typeof AuthenticatedPortalBookRoute
+  AuthenticatedPortalDoctorsRoute: typeof AuthenticatedPortalDoctorsRoute
   AuthenticatedPortalHealthRoute: typeof AuthenticatedPortalHealthRoute
   AuthenticatedPortalMedicinesRoute: typeof AuthenticatedPortalMedicinesRoute
   AuthenticatedPortalProfileRoute: typeof AuthenticatedPortalProfileRoute
@@ -1754,6 +1798,7 @@ const AuthenticatedPortalRouteRouteChildren: AuthenticatedPortalRouteRouteChildr
     AuthenticatedPortalAppointmentsRoute: AuthenticatedPortalAppointmentsRoute,
     AuthenticatedPortalBillsRoute: AuthenticatedPortalBillsRoute,
     AuthenticatedPortalBookRoute: AuthenticatedPortalBookRoute,
+    AuthenticatedPortalDoctorsRoute: AuthenticatedPortalDoctorsRoute,
     AuthenticatedPortalHealthRoute: AuthenticatedPortalHealthRoute,
     AuthenticatedPortalMedicinesRoute: AuthenticatedPortalMedicinesRoute,
     AuthenticatedPortalProfileRoute: AuthenticatedPortalProfileRoute,
