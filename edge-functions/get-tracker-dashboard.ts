@@ -70,7 +70,7 @@ Deno.serve(async (req) => {
     db.from("dose_events").select("id, due_at, status, medication_schedules!inner(name, dose, active)").eq("patient_account_id", acct.id)
       .eq("medication_schedules.active", true).gte("due_at", from).lt("due_at", to).order("due_at"),
     db.from("notifications").select("id, type, title, body, created_at, read_at, link").eq("user_id", c.userId)
-      .or(`scheduled_at.is.null,scheduled_at.lte.${new Date().toISOString()}`).order("created_at", { ascending: false }).limit(5),
+      .lte("scheduled_at", new Date().toISOString()).order("created_at", { ascending: false }).limit(5),
   ]);
   let next = null;
   if (acct.patient_id) {
