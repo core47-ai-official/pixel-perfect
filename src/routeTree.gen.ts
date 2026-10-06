@@ -25,6 +25,7 @@ import { Route as AuthenticatedAppAppointmentsRouteImport } from './routes/_auth
 import { Route as AuthenticatedAppApprovalsRouteImport } from './routes/_authenticated/_app/approvals'
 import { Route as AuthenticatedAppAuditLogsRouteImport } from './routes/_authenticated/_app/audit-logs'
 import { Route as AuthenticatedAppBillingRouteImport } from './routes/_authenticated/_app/billing'
+import { Route as AuthenticatedAppBloodBankRouteImport } from './routes/_authenticated/_app/blood-bank'
 import { Route as AuthenticatedAppCashRegisterRouteImport } from './routes/_authenticated/_app/cash-register'
 import { Route as AuthenticatedAppCompanySettingsRouteImport } from './routes/_authenticated/_app/company-settings'
 import { Route as AuthenticatedAppConsultationsRouteImport } from './routes/_authenticated/_app/consultations'
@@ -165,6 +166,12 @@ const AuthenticatedAppBillingRoute = AuthenticatedAppBillingRouteImport.update({
   path: '/billing',
   getParentRoute: () => AuthenticatedAppRouteRoute,
 } as any)
+const AuthenticatedAppBloodBankRoute =
+  AuthenticatedAppBloodBankRouteImport.update({
+    id: '/blood-bank',
+    path: '/blood-bank',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
 const AuthenticatedAppCashRegisterRoute =
   AuthenticatedAppCashRegisterRouteImport.update({
     id: '/cash-register',
@@ -501,6 +508,7 @@ export interface FileRoutesByFullPath {
   '/approvals': typeof AuthenticatedAppApprovalsRoute
   '/audit-logs': typeof AuthenticatedAppAuditLogsRoute
   '/billing': typeof AuthenticatedAppBillingRoute
+  '/blood-bank': typeof AuthenticatedAppBloodBankRoute
   '/cash-register': typeof AuthenticatedAppCashRegisterRoute
   '/company-settings': typeof AuthenticatedAppCompanySettingsRoute
   '/consultations': typeof AuthenticatedAppConsultationsRoute
@@ -572,6 +580,7 @@ export interface FileRoutesByTo {
   '/approvals': typeof AuthenticatedAppApprovalsRoute
   '/audit-logs': typeof AuthenticatedAppAuditLogsRoute
   '/billing': typeof AuthenticatedAppBillingRoute
+  '/blood-bank': typeof AuthenticatedAppBloodBankRoute
   '/cash-register': typeof AuthenticatedAppCashRegisterRoute
   '/company-settings': typeof AuthenticatedAppCompanySettingsRoute
   '/consultations': typeof AuthenticatedAppConsultationsRoute
@@ -647,6 +656,7 @@ export interface FileRoutesById {
   '/_authenticated/_app/approvals': typeof AuthenticatedAppApprovalsRoute
   '/_authenticated/_app/audit-logs': typeof AuthenticatedAppAuditLogsRoute
   '/_authenticated/_app/billing': typeof AuthenticatedAppBillingRoute
+  '/_authenticated/_app/blood-bank': typeof AuthenticatedAppBloodBankRoute
   '/_authenticated/_app/cash-register': typeof AuthenticatedAppCashRegisterRoute
   '/_authenticated/_app/company-settings': typeof AuthenticatedAppCompanySettingsRoute
   '/_authenticated/_app/consultations': typeof AuthenticatedAppConsultationsRoute
@@ -721,6 +731,7 @@ export interface FileRouteTypes {
     | '/approvals'
     | '/audit-logs'
     | '/billing'
+    | '/blood-bank'
     | '/cash-register'
     | '/company-settings'
     | '/consultations'
@@ -792,6 +803,7 @@ export interface FileRouteTypes {
     | '/approvals'
     | '/audit-logs'
     | '/billing'
+    | '/blood-bank'
     | '/cash-register'
     | '/company-settings'
     | '/consultations'
@@ -866,6 +878,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/approvals'
     | '/_authenticated/_app/audit-logs'
     | '/_authenticated/_app/billing'
+    | '/_authenticated/_app/blood-bank'
     | '/_authenticated/_app/cash-register'
     | '/_authenticated/_app/company-settings'
     | '/_authenticated/_app/consultations'
@@ -1049,6 +1062,13 @@ declare module '@tanstack/react-router' {
       path: '/billing'
       fullPath: '/billing'
       preLoaderRoute: typeof AuthenticatedAppBillingRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/blood-bank': {
+      id: '/_authenticated/_app/blood-bank'
+      path: '/blood-bank'
+      fullPath: '/blood-bank'
+      preLoaderRoute: typeof AuthenticatedAppBloodBankRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
     '/_authenticated/_app/cash-register': {
@@ -1451,6 +1471,7 @@ interface AuthenticatedAppRouteRouteChildren {
   AuthenticatedAppApprovalsRoute: typeof AuthenticatedAppApprovalsRoute
   AuthenticatedAppAuditLogsRoute: typeof AuthenticatedAppAuditLogsRoute
   AuthenticatedAppBillingRoute: typeof AuthenticatedAppBillingRoute
+  AuthenticatedAppBloodBankRoute: typeof AuthenticatedAppBloodBankRoute
   AuthenticatedAppCashRegisterRoute: typeof AuthenticatedAppCashRegisterRoute
   AuthenticatedAppCompanySettingsRoute: typeof AuthenticatedAppCompanySettingsRoute
   AuthenticatedAppConsultationsRoute: typeof AuthenticatedAppConsultationsRoute
@@ -1507,6 +1528,7 @@ const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
   AuthenticatedAppApprovalsRoute: AuthenticatedAppApprovalsRoute,
   AuthenticatedAppAuditLogsRoute: AuthenticatedAppAuditLogsRoute,
   AuthenticatedAppBillingRoute: AuthenticatedAppBillingRoute,
+  AuthenticatedAppBloodBankRoute: AuthenticatedAppBloodBankRoute,
   AuthenticatedAppCashRegisterRoute: AuthenticatedAppCashRegisterRoute,
   AuthenticatedAppCompanySettingsRoute: AuthenticatedAppCompanySettingsRoute,
   AuthenticatedAppConsultationsRoute: AuthenticatedAppConsultationsRoute,

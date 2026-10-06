@@ -1,4 +1,4 @@
-import { ReceiptText, Package as PackageIcon, Send } from "lucide-react";
+import { ReceiptText, Package as PackageIcon, Send, Droplet } from "lucide-react";
 import { Hourglass,
   LayoutDashboard, NotebookPen, Users, CalendarDays, ListOrdered, Stethoscope, BedDouble, HeartPulse, Siren, Scissors,
   FlaskConical, Pill, Boxes, Receipt, Wallet, UserCog, Building2, BarChart3, ScrollText, Settings, LifeBuoy,
@@ -37,6 +37,7 @@ export const PAGES = {
   emergency: { id: "emergency", path: "/emergency", icon: Siren, group: "clinical" },
   ot: { id: "ot", path: "/ot", icon: Scissors, group: "clinical" },
   lab: { id: "lab", path: "/lab", icon: FlaskConical, group: "diagnostics" },
+  bloodBank: { id: "bloodBank", path: "/blood-bank", icon: Droplet, group: "diagnostics" },
   pharmacy: { id: "pharmacy", path: "/pharmacy", icon: Pill, group: "diagnostics" },
   tariffs: { id: "tariffs", path: "/tariffs", icon: ReceiptText, group: "finance" },
   packages: { id: "packages", path: "/packages", icon: PackageIcon, group: "finance" },
@@ -77,16 +78,16 @@ export const FOOTER_PAGES: NavPage[] = [
 
 /** Role → pages, in priority order (first four become the mobile bottom nav). */
 export const ROLE_PAGES: Record<AppRole, PageId[]> = {
-  super_admin: ["dashboard", "users", "reports", "roster", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "doctorsNow", "leaveApprovals", "ot", "patients", "appointments", "billing", "approvals", "cashRegister", "unpaid", "inventory", "purchaseRequests", "formulary", "labTests", "wardSetup", "wards", "emergency", "referrals", "nursing", "handover", "tariffs", "packages"],
-  admin: ["dashboard", "users", "departments", "roster", "doctors", "doctorsNow", "leaveApprovals", "companySettings", "reports", "patients", "appointments", "ot", "billing", "approvals", "unpaid", "inventory", "purchaseRequests", "formulary", "labTests", "wardSetup", "wards", "emergency", "referrals", "nursing", "handover", "tariffs", "packages"],
+  super_admin: ["dashboard", "users", "reports", "roster", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "doctorsNow", "leaveApprovals", "ot", "patients", "appointments", "billing", "approvals", "cashRegister", "unpaid", "inventory", "purchaseRequests", "formulary", "labTests", "wardSetup", "wards", "emergency", "referrals", "nursing", "handover", "tariffs", "packages", "bloodBank"],
+  admin: ["dashboard", "users", "departments", "roster", "doctors", "doctorsNow", "leaveApprovals", "companySettings", "reports", "patients", "appointments", "ot", "billing", "approvals", "unpaid", "inventory", "purchaseRequests", "formulary", "labTests", "wardSetup", "wards", "emergency", "referrals", "nursing", "handover", "tariffs", "packages", "bloodBank"],
   dept_head: ["dashboard", "deptPatients", "deptDoctors", "roster", "reports", "consultations", "leaveApprovals", "patients", "appointments", "wards", "emergency", "referrals", "nursing", "handover", "staff", "doctors", "doctorsNow"],
-  doctor: ["myDay", "opdQueue", "mySchedule", "patients", "consultations", "appointments", "ot", "myLeave", "wards", "emergency", "referrals", "lab", "formulary", "dashboard"],
+  doctor: ["myDay", "opdQueue", "mySchedule", "patients", "consultations", "appointments", "ot", "myLeave", "wards", "emergency", "referrals", "lab", "formulary", "dashboard", "bloodBank"],
   nurse: ["nursing", "wards", "handover", "patients", "emergency", "referrals", "dashboard", "roster"],
-  er_officer: ["dashboard", "emergency", "referrals", "patients", "wards", "lab"],
+  er_officer: ["dashboard", "emergency", "referrals", "patients", "wards", "lab", "bloodBank"],
   ot_coordinator: ["dashboard", "ot", "patients", "wards", "inventory"],
   receptionist: ["dashboard", "patients", "doctorsNow", "appointments", "opdQueue", "billing", "approvals", "wards", "emergency", "referrals", "tariffs", "packages"],
   pharmacist: ["dashboard", "pharmacy", "formulary", "inventory", "purchaseRequests", "patients"],
-  lab_tech: ["dashboard", "lab", "labTests", "patients", "inventory"],
+  lab_tech: ["dashboard", "lab", "labTests", "patients", "inventory", "bloodBank"],
   cashier: ["dashboard", "billing", "approvals", "cashRegister", "unpaid", "patients", "tariffs", "packages"],
   patient: ["dashboard", "myAppointments", "myRecords", "myBills"],
 };
@@ -114,16 +115,16 @@ export const QUICK_ACTIONS = {
 export type QuickActionId = keyof typeof QUICK_ACTIONS;
 
 export const ROLE_QUICK_ADD: Record<AppRole, QuickActionId[]> = {
-  super_admin: ["newStaff"],
-  admin: ["newStaff", "newPatient", "newAppointment", "newAdmission", "newReceipt"],
+  super_admin: ["newStaff", "bloodBank"],
+  admin: ["newStaff", "newPatient", "newAppointment", "newAdmission", "newReceipt", "bloodBank"],
   dept_head: ["newAppointment"],
-  doctor: ["newAppointment", "newLabOrder", "newAdmission", "newOtBooking"],
+  doctor: ["newAppointment", "newLabOrder", "newAdmission", "newOtBooking", "bloodBank"],
   nurse: ["newAdmission"],
-  er_officer: ["newEmergency", "newPatient"],
+  er_officer: ["newEmergency", "newPatient", "bloodBank"],
   ot_coordinator: ["newOtBooking"],
   receptionist: ["newPatient", "newAppointment", "newAdmission", "newEmergency"],
   pharmacist: ["newDispense", "newSale"],
-  lab_tech: ["newSample", "newLabOrder"],
+  lab_tech: ["newSample", "newLabOrder", "bloodBank"],
   cashier: ["newReceipt", "newDeposit"],
   patient: [],
 };

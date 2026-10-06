@@ -33,10 +33,9 @@ const URG_RANK: Record<string, number> = { emergency: 0, urgent: 1, routine: 2 }
 
 function BloodBankPage() {
   const { t } = useTranslation();
-  const { context } = useMyContext();
-  const roles = (context?.roles ?? []).map((r) => (typeof r === "string" ? r : (r as { role: string }).role));
-  const canBank = roles.some((r) => ["super_admin", "admin", "lab_tech"].includes(r));
-  const canRequest = roles.some((r) => ["super_admin", "admin", "doctor", "er_officer"].includes(r));
+  const { hasRole } = useMyContext();
+  const canBank = hasRole("super_admin", "admin", "lab_tech");
+  const canRequest = hasRole("super_admin", "admin", "doctor", "er_officer");
   const units = useBloodUnits();
   const reqs = useBloodRequests();
   const [registerOpen, setRegisterOpen] = useState(false);
