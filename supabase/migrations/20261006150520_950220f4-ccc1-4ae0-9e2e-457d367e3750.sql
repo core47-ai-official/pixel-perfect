@@ -1,0 +1,2 @@
+CREATE POLICY "Patients read hospital lab test catalogue" ON public.lab_tests FOR SELECT TO authenticated
+USING (EXISTS (SELECT 1 FROM public.user_roles ur WHERE ur.user_id = auth.uid() AND ur.hospital_id = lab_tests.hospital_id AND ur.role = 'patient'));

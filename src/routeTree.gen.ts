@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ForbiddenRouteImport } from './routes/forbidden'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as PatientSignupRouteImport } from './routes/patient-signup'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as StyleguideRouteImport } from './routes/styleguide'
 import { Route as AuthenticatedAppRouteRouteImport } from './routes/_authenticated/_app/route'
@@ -67,6 +68,10 @@ import { Route as AuthenticatedAppUsersRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedAppWardSetupRouteImport } from './routes/_authenticated/_app/ward-setup'
 import { Route as AuthenticatedAppWardsRouteImport } from './routes/_authenticated/_app/wards'
 import { Route as AuthenticatedPortalIndexRouteImport } from './routes/_authenticated/portal/index'
+import { Route as AuthenticatedPortalAppointmentsRouteImport } from './routes/_authenticated/portal/appointments'
+import { Route as AuthenticatedPortalBookRouteImport } from './routes/_authenticated/portal/book'
+import { Route as AuthenticatedPortalProfileRouteImport } from './routes/_authenticated/portal/profile'
+import { Route as AuthenticatedPortalReportsRouteImport } from './routes/_authenticated/portal/reports'
 import { Route as TvDepartmentDepartmentIdRouteImport } from './routes/tv.department.$departmentId'
 import { Route as AuthenticatedAppAdmissionsNewRouteImport } from './routes/_authenticated/_app/admissions_.new'
 import { Route as AuthenticatedAppConsultationsVisitIdRouteImport } from './routes/_authenticated/_app/consultations_.$visitId'
@@ -98,6 +103,11 @@ const ForbiddenRoute = ForbiddenRouteImport.update({
 const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PatientSignupRoute = PatientSignupRouteImport.update({
+  id: '/patient-signup',
+  path: '/patient-signup',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -397,6 +407,29 @@ const AuthenticatedPortalIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedPortalRouteRoute,
   } as any)
+const AuthenticatedPortalAppointmentsRoute =
+  AuthenticatedPortalAppointmentsRouteImport.update({
+    id: '/appointments',
+    path: '/appointments',
+    getParentRoute: () => AuthenticatedPortalRouteRoute,
+  } as any)
+const AuthenticatedPortalBookRoute = AuthenticatedPortalBookRouteImport.update({
+  id: '/book',
+  path: '/book',
+  getParentRoute: () => AuthenticatedPortalRouteRoute,
+} as any)
+const AuthenticatedPortalProfileRoute =
+  AuthenticatedPortalProfileRouteImport.update({
+    id: '/profile',
+    path: '/profile',
+    getParentRoute: () => AuthenticatedPortalRouteRoute,
+  } as any)
+const AuthenticatedPortalReportsRoute =
+  AuthenticatedPortalReportsRouteImport.update({
+    id: '/reports',
+    path: '/reports',
+    getParentRoute: () => AuthenticatedPortalRouteRoute,
+  } as any)
 const TvDepartmentDepartmentIdRoute =
   TvDepartmentDepartmentIdRouteImport.update({
     id: '/tv/department/$departmentId',
@@ -451,6 +484,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/forbidden': typeof ForbiddenRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/patient-signup': typeof PatientSignupRoute
   '/reset-password': typeof ResetPasswordRoute
   '/styleguide': typeof StyleguideRoute
   '/portal': typeof AuthenticatedPortalRouteRouteWithChildren
@@ -502,6 +536,10 @@ export interface FileRoutesByFullPath {
   '/users': typeof AuthenticatedAppUsersRoute
   '/ward-setup': typeof AuthenticatedAppWardSetupRoute
   '/wards': typeof AuthenticatedAppWardsRoute
+  '/portal/appointments': typeof AuthenticatedPortalAppointmentsRoute
+  '/portal/book': typeof AuthenticatedPortalBookRoute
+  '/portal/profile': typeof AuthenticatedPortalProfileRoute
+  '/portal/reports': typeof AuthenticatedPortalReportsRoute
   '/tv/department/$departmentId': typeof TvDepartmentDepartmentIdRoute
   '/portal/': typeof AuthenticatedPortalIndexRoute
   '/admissions/new': typeof AuthenticatedAppAdmissionsNewRoute
@@ -517,6 +555,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/forbidden': typeof ForbiddenRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/patient-signup': typeof PatientSignupRoute
   '/reset-password': typeof ResetPasswordRoute
   '/styleguide': typeof StyleguideRoute
   '/change-password': typeof AuthenticatedChangePasswordRoute
@@ -567,6 +606,10 @@ export interface FileRoutesByTo {
   '/users': typeof AuthenticatedAppUsersRoute
   '/ward-setup': typeof AuthenticatedAppWardSetupRoute
   '/wards': typeof AuthenticatedAppWardsRoute
+  '/portal/appointments': typeof AuthenticatedPortalAppointmentsRoute
+  '/portal/book': typeof AuthenticatedPortalBookRoute
+  '/portal/profile': typeof AuthenticatedPortalProfileRoute
+  '/portal/reports': typeof AuthenticatedPortalReportsRoute
   '/tv/department/$departmentId': typeof TvDepartmentDepartmentIdRoute
   '/portal': typeof AuthenticatedPortalIndexRoute
   '/admissions/new': typeof AuthenticatedAppAdmissionsNewRoute
@@ -584,6 +627,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/forbidden': typeof ForbiddenRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/patient-signup': typeof PatientSignupRoute
   '/reset-password': typeof ResetPasswordRoute
   '/styleguide': typeof StyleguideRoute
   '/_authenticated/_app': typeof AuthenticatedAppRouteRouteWithChildren
@@ -636,6 +680,10 @@ export interface FileRoutesById {
   '/_authenticated/_app/users': typeof AuthenticatedAppUsersRoute
   '/_authenticated/_app/ward-setup': typeof AuthenticatedAppWardSetupRoute
   '/_authenticated/_app/wards': typeof AuthenticatedAppWardsRoute
+  '/_authenticated/portal/appointments': typeof AuthenticatedPortalAppointmentsRoute
+  '/_authenticated/portal/book': typeof AuthenticatedPortalBookRoute
+  '/_authenticated/portal/profile': typeof AuthenticatedPortalProfileRoute
+  '/_authenticated/portal/reports': typeof AuthenticatedPortalReportsRoute
   '/tv/department/$departmentId': typeof TvDepartmentDepartmentIdRoute
   '/_authenticated/portal/': typeof AuthenticatedPortalIndexRoute
   '/_authenticated/_app/admissions_/new': typeof AuthenticatedAppAdmissionsNewRoute
@@ -653,6 +701,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/forbidden'
     | '/forgot-password'
+    | '/patient-signup'
     | '/reset-password'
     | '/styleguide'
     | '/portal'
@@ -704,6 +753,10 @@ export interface FileRouteTypes {
     | '/users'
     | '/ward-setup'
     | '/wards'
+    | '/portal/appointments'
+    | '/portal/book'
+    | '/portal/profile'
+    | '/portal/reports'
     | '/tv/department/$departmentId'
     | '/portal/'
     | '/admissions/new'
@@ -719,6 +772,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/forbidden'
     | '/forgot-password'
+    | '/patient-signup'
     | '/reset-password'
     | '/styleguide'
     | '/change-password'
@@ -769,6 +823,10 @@ export interface FileRouteTypes {
     | '/users'
     | '/ward-setup'
     | '/wards'
+    | '/portal/appointments'
+    | '/portal/book'
+    | '/portal/profile'
+    | '/portal/reports'
     | '/tv/department/$departmentId'
     | '/portal'
     | '/admissions/new'
@@ -785,6 +843,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/forbidden'
     | '/forgot-password'
+    | '/patient-signup'
     | '/reset-password'
     | '/styleguide'
     | '/_authenticated/_app'
@@ -837,6 +896,10 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/users'
     | '/_authenticated/_app/ward-setup'
     | '/_authenticated/_app/wards'
+    | '/_authenticated/portal/appointments'
+    | '/_authenticated/portal/book'
+    | '/_authenticated/portal/profile'
+    | '/_authenticated/portal/reports'
     | '/tv/department/$departmentId'
     | '/_authenticated/portal/'
     | '/_authenticated/_app/admissions_/new'
@@ -854,6 +917,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   ForbiddenRoute: typeof ForbiddenRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
+  PatientSignupRoute: typeof PatientSignupRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   StyleguideRoute: typeof StyleguideRoute
   TvDoctorIdRoute: typeof TvDoctorIdRoute
@@ -895,6 +959,13 @@ declare module '@tanstack/react-router' {
       path: '/forgot-password'
       fullPath: '/forgot-password'
       preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/patient-signup': {
+      id: '/patient-signup'
+      path: '/patient-signup'
+      fullPath: '/patient-signup'
+      preLoaderRoute: typeof PatientSignupRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -1268,6 +1339,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPortalIndexRouteImport
       parentRoute: typeof AuthenticatedPortalRouteRoute
     }
+    '/_authenticated/portal/appointments': {
+      id: '/_authenticated/portal/appointments'
+      path: '/appointments'
+      fullPath: '/portal/appointments'
+      preLoaderRoute: typeof AuthenticatedPortalAppointmentsRouteImport
+      parentRoute: typeof AuthenticatedPortalRouteRoute
+    }
+    '/_authenticated/portal/book': {
+      id: '/_authenticated/portal/book'
+      path: '/book'
+      fullPath: '/portal/book'
+      preLoaderRoute: typeof AuthenticatedPortalBookRouteImport
+      parentRoute: typeof AuthenticatedPortalRouteRoute
+    }
+    '/_authenticated/portal/profile': {
+      id: '/_authenticated/portal/profile'
+      path: '/profile'
+      fullPath: '/portal/profile'
+      preLoaderRoute: typeof AuthenticatedPortalProfileRouteImport
+      parentRoute: typeof AuthenticatedPortalRouteRoute
+    }
+    '/_authenticated/portal/reports': {
+      id: '/_authenticated/portal/reports'
+      path: '/reports'
+      fullPath: '/portal/reports'
+      preLoaderRoute: typeof AuthenticatedPortalReportsRouteImport
+      parentRoute: typeof AuthenticatedPortalRouteRoute
+    }
     '/tv/department/$departmentId': {
       id: '/tv/department/$departmentId'
       path: '/tv/department/$departmentId'
@@ -1450,11 +1549,19 @@ const AuthenticatedAppRouteRouteWithChildren =
   )
 
 interface AuthenticatedPortalRouteRouteChildren {
+  AuthenticatedPortalAppointmentsRoute: typeof AuthenticatedPortalAppointmentsRoute
+  AuthenticatedPortalBookRoute: typeof AuthenticatedPortalBookRoute
+  AuthenticatedPortalProfileRoute: typeof AuthenticatedPortalProfileRoute
+  AuthenticatedPortalReportsRoute: typeof AuthenticatedPortalReportsRoute
   AuthenticatedPortalIndexRoute: typeof AuthenticatedPortalIndexRoute
 }
 
 const AuthenticatedPortalRouteRouteChildren: AuthenticatedPortalRouteRouteChildren =
   {
+    AuthenticatedPortalAppointmentsRoute: AuthenticatedPortalAppointmentsRoute,
+    AuthenticatedPortalBookRoute: AuthenticatedPortalBookRoute,
+    AuthenticatedPortalProfileRoute: AuthenticatedPortalProfileRoute,
+    AuthenticatedPortalReportsRoute: AuthenticatedPortalReportsRoute,
     AuthenticatedPortalIndexRoute: AuthenticatedPortalIndexRoute,
   }
 
@@ -1484,6 +1591,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   ForbiddenRoute: ForbiddenRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
+  PatientSignupRoute: PatientSignupRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   StyleguideRoute: StyleguideRoute,
   TvDoctorIdRoute: TvDoctorIdRoute,

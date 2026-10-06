@@ -107,6 +107,9 @@ function AuthPage() {
               {busy ? t("auth.signingIn") : t("auth.submit")}
             </Button>
           </form>
+          <p className="mt-4 text-center text-sm text-muted-foreground">
+            {t("psignup.newPatient")} <Link to="/patient-signup" className="text-primary underline">{t("psignup.create")}</Link>
+          </p>
     </AuthCard>
   );
 }

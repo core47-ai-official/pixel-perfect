@@ -274,3 +274,7 @@
     transparent 6px 12px
   );
 }
+
+/* Patient portal: softer, warm surface (light mode only; dark keeps the app surface). */
+.portal { background: color-mix(in oklab, var(--brand) 5%, oklch(0.98 0.015 80)); }
+.dark .portal { background: var(--background); }
