@@ -39,9 +39,8 @@ export async function getShiftSummary(shiftId: string) {
 }
 
 /** Accepts any server reply shape; returns a complete summary (numbers coerced) or null, so the page never crashes on odd data. */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function normalizeSummary(raw: unknown): ShiftSummary | null {
-  const r = raw as { shift?: Record<string, any>; totals?: Record<string, any> } | null;
+  const r = raw as { shift?: { [k: string]: unknown; opening_cash?: unknown; expected_cash?: unknown; counted_cash?: unknown; difference?: unknown; cashier_name?: unknown }; totals?: Partial<Record<"payments"|"deposits"|"refunds"|"reversals"|"payment_count"|"deposit_count"|"refund_count"|"reversal_count"|"expected_cash", unknown>> } | null;
   if (!r || typeof r !== "object" || !r.shift || typeof r.shift !== "object") return null;
   const n = (v: unknown) => { const x = Number(v); return Number.isFinite(x) ? x : 0; };
   const nn = (v: unknown) => (v == null ? null : n(v));
