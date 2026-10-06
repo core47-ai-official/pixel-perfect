@@ -273,7 +273,8 @@
     "deptPatients": "Department patients",
     "roster": "Duty roster",
     "referrals": "Referrals",
-    "bloodBank": "Blood bank"
+    "bloodBank": "Blood bank",
+    "welfare": "Welfare & zakat"
   },
   "navGroup": {
     "overview": "Overview",
@@ -2963,5 +2964,76 @@
     "shortPassword": "Password must be at least 8 characters.",
     "mismatch": "Passwords don't match.",
     "failed": "Could not create the account. Please try again."
+  },
+  "welfare": {
+    "title": "Welfare & zakat",
+    "subtitle": "Fund balances, donations and support given to patients' bills.",
+    "funds": "Funds",
+    "newFund": "New fund",
+    "editFund": "Edit fund",
+    "fundName": "Fund name",
+    "type": "Type",
+    "types": {
+      "zakat": "Zakat",
+      "charity": "Charity",
+      "other": "Other"
+    },
+    "balance": "Balance",
+    "active": "Active",
+    "noFunds": "No funds yet. An admin can add one.",
+    "recordDonation": "Record donation",
+    "requestSupport": "Request support",
+    "ledger": "Ledger",
+    "pending": "Requests waiting",
+    "noPending": "No requests waiting.",
+    "noLedger": "Nothing recorded yet.",
+    "date": "Date",
+    "fund": "Fund",
+    "kind": "Entry",
+    "kinds": {
+      "donation": "Donation",
+      "allocation": "Support to bill"
+    },
+    "status": "Status",
+    "statuses": {
+      "approved": "Approved",
+      "pending": "Waiting",
+      "processing": "Applying",
+      "rejected": "Rejected"
+    },
+    "amount": "Amount",
+    "donor": "Donor name",
+    "donorPhone": "Donor phone",
+    "patient": "Patient",
+    "bill": "Bill",
+    "note": "Note",
+    "reason": "Why the patient needs support",
+    "requestedBy": "Requested by",
+    "approvedBy": "Decided by",
+    "approve": "Approve",
+    "reject": "Reject",
+    "decisionNote": "Decision note (needed to reject)",
+    "approveAmount": "Amount to approve",
+    "billSearch": "Bill number",
+    "billBalance": "Bill balance",
+    "findBill": "Find bill",
+    "billNotFound": "No open bill with that number.",
+    "save": "Save",
+    "saved": "Saved",
+    "donationSaved": "Donation recorded",
+    "requestSent": "Request sent to admin",
+    "approved": "Support applied to the bill",
+    "rejected": "Request rejected",
+    "receipt": "Receipt",
+    "filterAll": "All funds",
+    "print": {
+      "title": "Donation receipt",
+      "receiptNo": "Receipt no",
+      "date": "Date",
+      "donor": "Donor",
+      "fund": "Fund",
+      "amount": "Amount",
+      "thanks": "Thank you for your generous donation. May Allah reward you."
+    }
   }
 }
