@@ -10,6 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Banner } from "@/components/mc/banner";
 import { Ltr } from "@/components/mc/ltr";
 import { PCard } from "@/components/mc/portal-shell";
+import { FeedbackPrompt } from "@/components/mc/feedback-prompt";
 import { callEdgeFunction } from "@/hooks/use-edge-function";
 import { useMyContext } from "@/hooks/use-my-context";
 import { formatPkr } from "@/lib/patient-summary";
@@ -46,6 +47,7 @@ function Linked() {
   return (
     <>
       {home.isError && <Banner tone="danger" title={t("portal.home.failed")} />}
+      <FeedbackPrompt />
       <PCard>
         <p className="text-sm text-muted-foreground">{t("portal.record")}</p>
         <p className="text-lg font-semibold">{me.data!.full_name}</p>

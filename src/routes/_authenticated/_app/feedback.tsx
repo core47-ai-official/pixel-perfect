@@ -150,7 +150,7 @@ function Detail({ row, staff, onClose, onChanged }: { row: Row; staff: { id: str
         <p className="text-sm">{row.comment || "—"}</p>
         <p className="text-xs text-muted-foreground">{row.patient_name}{row.patient?.mrn ? <> · <Ltr>{row.patient.mrn}</Ltr></> : null} · {row.dept_name} · {t(`fb.ch.${row.channel}`)}</p>
         {row.status === "resolved" ? (
-          <Banner tone="ok" title={t("fb.resolvedOn", { date: row.resolved_at ? fmt(row.resolved_at) : "" })}>{row.resolution}</Banner>
+          <Banner tone="success" title={t("fb.resolvedOn", { date: row.resolved_at ? fmt(row.resolved_at) : "" })}>{row.resolution}</Banner>
         ) : (
           <>
             <div className="space-y-1">
