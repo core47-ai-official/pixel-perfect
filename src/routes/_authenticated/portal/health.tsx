@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { HeartPulse, Pill, Phone, ShieldCheck } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TimelineView, TrackerToday, TrendsView } from "@/components/mc/tracker-views";
 import { Banner } from "@/components/mc/banner";
 import { Ltr } from "@/components/mc/ltr";
 import { PCard } from "@/components/mc/portal-shell";
@@ -37,7 +39,16 @@ function Dashboard({ profile }: { profile: TrackerProfile }) {
   const ec = profile.emergency_contact ?? {};
   return (
     <div className="space-y-4" data-testid="tracker-dashboard">
-      <h1 className="text-2xl font-semibold">{t("trk.dashTitle")}</h1>
+      <Tabs defaultValue="today">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="today">{t("trd.tab_today")}</TabsTrigger>
+          <TabsTrigger value="trends">{t("trd.tab_trends")}</TabsTrigger>
+          <TabsTrigger value="timeline">{t("trd.tab_timeline")}</TabsTrigger>
+        </TabsList>
+        <TabsContent value="trends" className="mt-4"><TrendsView /></TabsContent>
+        <TabsContent value="timeline" className="mt-4"><TimelineView /></TabsContent>
+        <TabsContent value="today" className="mt-4 space-y-4">
+      <TrackerToday />
       <QuickAddMeasurements />
       <RecentMeasurements />
       <SymptomSection />
@@ -64,6 +75,8 @@ function Dashboard({ profile }: { profile: TrackerProfile }) {
         {profile.blood_group && <p className="text-sm text-muted-foreground">{t("trk.bloodGroup")}: <Ltr>{profile.blood_group}</Ltr></p>}
       </PCard>
       <p className="flex items-start gap-2 text-xs text-muted-foreground"><ShieldCheck className="mt-0.5 size-4 shrink-0" aria-hidden />{t("trk.privateNote")}</p>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
