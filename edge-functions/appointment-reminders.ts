@@ -1,32 +1,22 @@
-// Paste into Supabase → Edge Functions → new function "stock-alerts". Turn "Enforce JWT Verification" OFF.
-// Scheduled daily at 08:00 Pakistan time (03:00 UTC) by Supabase Cron, header x-cron-key = CRON_SECRET (same secret as the other daily jobs).
-// Queues one low-stock and one expiring-batches notification per hospital to pharmacists and admins.
+// Paste into Supabase → Edge Functions → new function "appointment-reminders". Turn "Enforce JWT Verification" OFF.
+// Scheduled every 15 minutes by Supabase Cron (see appointment-reminders.cron.sql), header x-cron-key = CRON_SECRET.
+// For each hospital and each reminder timing in company settings (notifications.reminder_first_hours / reminder_second_hours,
+// default 24 and 2; 0 = off) it queues a reminder for booked appointments of patients with an app account, scheduled for
+// exactly <hours> before the slot (process-notifications sends it when due). Each reminder is queued once (dedupe key per
+// appointment, timing and slot), so reruns and overlaps are harmless. A reminder whose time had already passed when the
+// appointment was booked is skipped, unless it was due within the last 15 minutes (it then goes out at once).
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const cors = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-impersonation-session, x-page",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-impersonation-session, x-page, x-cron-key",
 };
 const json = (b: unknown, status = 200) =>
   new Response(JSON.stringify(b), { status, headers: { ...cors, "Content-Type": "application/json" } });
 const fail = (code: string, message: string, status = 400) => json({ ok: false, error: { code, message } }, status);
-// Hospital clock: Pakistan Standard Time (UTC+5, no daylight saving).
-const TZ = "+05:00";
 // deno-lint-ignore no-explicit-any
 type DB = any;
-
-const now = () => new Date().toISOString();
-const todayPk = () => new Date(Date.now() + 5 * 3600e3).toISOString().slice(0, 10);
-const daysUntil = (ymd: string) => Math.round((Date.parse(`${ymd}T00:00:00Z`) - Date.parse(`${todayPk()}T00:00:00Z`)) / 86400e3);
-const medName = (m: { generic_name: string; brand_name: string | null; strength: string | null }) =>
-  [m.brand_name || m.generic_name, m.strength].filter(Boolean).join(" ");
-/** Notifies every pharmacist and admin in the hospital. */
-async function notifyStock(db: DB, hospitalId: string, type: string, title: string, body: string, by: string | null, vars?: Record<string, unknown>) {
-  const { data: staff } = await db.from("user_roles").select("user_id").eq("hospital_id", hospitalId).in("role", ["pharmacist", "admin"]);
-  const ids = [...new Set((staff ?? []).map((x: { user_id: string }) => x.user_id))];
-  if (ids.length) await queueNotes(db, ids.map((u) => ({ hospital_id: hospitalId, user_id: u as string, type, title, body: body.slice(0, 1000), link: "/inventory", created_by: by, vars })));
-  return ids.length;
-}
+const cronOk = (req: Request) => { const s = Deno.env.get("CRON_SECRET"); return !!s && req.headers.get("x-cron-key") === s; };
 
 // ---- notification helpers (identical wherever they appear; mirrors src/config/notification-types.ts) ----
 // Every event notification goes through queueNotes: it applies the hospital's English/Urdu template for the type
@@ -104,32 +94,50 @@ async function queueNotes(db: any, input: NoteIn | NoteIn[]): Promise<{ error: u
   return { error, count: error ? 0 : out.length };
 }
 // ---- end notification helpers ----
+const LOOKAHEAD_MIN = 30; // queue a bit ahead so a 15-minute run never misses the exact time
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
-  const secret = Deno.env.get("CRON_SECRET");
-  if (!secret || req.headers.get("x-cron-key") !== secret) return fail("forbidden", "Not allowed.", 403);
+  if (!cronOk(req)) return fail("forbidden", "Not allowed.", 403);
   const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
-  const limit = new Date(Date.parse(`${todayPk()}T00:00:00Z`) + 90 * 86400e3).toISOString().slice(0, 10);
+  const nowMs = Date.now();
   const { data: hospitals } = await db.from("hospitals").select("id");
   const out = [];
   for (const h of hospitals ?? []) {
-    const { data: meds } = await db.from("medicines").select("id, generic_name, brand_name, strength, reorder_level").eq("hospital_id", h.id).eq("is_active", true).gt("reorder_level", 0);
-    const { data: batches } = await db.from("stock_batches").select("medicine_id, batch_no, expiry_date, qty_on_hand").eq("hospital_id", h.id).gt("qty_on_hand", 0);
-    const today = todayPk();
-    const onHand = new Map<string, number>();
-    for (const x of batches ?? []) if (x.expiry_date >= today) onHand.set(x.medicine_id, (onHand.get(x.medicine_id) ?? 0) + x.qty_on_hand);
-    const low = (meds ?? []).filter((m: { id: string; reorder_level: number }) => (onHand.get(m.id) ?? 0) < m.reorder_level);
-    const expiring = (batches ?? []).filter((x: { expiry_date: string }) => x.expiry_date <= limit).sort((a: { expiry_date: string }, b: { expiry_date: string }) => a.expiry_date.localeCompare(b.expiry_date));
-    if (low.length) await notifyStock(db, h.id, "stock_low", `${low.length} medicine(s) below reorder level`,
-      low.slice(0, 15).map((m: any) => `${medName(m)}: ${onHand.get(m.id) ?? 0} (reorder at ${m.reorder_level})`).join("; "), null,
-      { count: low.length, items: low.slice(0, 15).map((m: any) => `${medName(m)}: ${onHand.get(m.id) ?? 0} (${m.reorder_level})`).join("; ") });
-    if (expiring.length) {
-      const { data: names } = await db.from("medicines").select("id, generic_name, brand_name, strength").in("id", [...new Set(expiring.map((x: any) => x.medicine_id))]);
-      const nm = new Map((names ?? []).map((m: any) => [m.id, medName(m)]));
-      await notifyStock(db, h.id, "stock_expiring", `${expiring.length} batch(es) expire within 90 days`,
-        expiring.slice(0, 15).map((x: any) => `${nm.get(x.medicine_id)} ${x.batch_no}: ${x.expiry_date} (${daysUntil(x.expiry_date)} d)`).join("; "), null);
+    const { data: cs } = await db.from("company_settings").select("notifications").eq("hospital_id", h.id).maybeSingle();
+    const cfg = cs?.notifications ?? {};
+    const timings = [...new Set([cfg.reminder_first_hours ?? 24, cfg.reminder_second_hours ?? 2].map(Number).filter((x) => x > 0 && x <= 168))];
+    let queued = 0;
+    for (const hrs of timings) {
+      const until = new Date(nowMs + hrs * 3600e3 + LOOKAHEAD_MIN * 60e3).toISOString();
+      const { data: appts } = await db.from("appointments").select("id, patient_id, doctor_id, slot_start, token_no, created_at")
+        .eq("hospital_id", h.id).eq("status", "booked").gt("slot_start", new Date(nowMs).toISOString()).lte("slot_start", until).limit(1000);
+      const list = (appts ?? []).filter((a: { slot_start: string; created_at: string }) => {
+        const due = Date.parse(a.slot_start) - hrs * 3600e3;
+        if (due < nowMs - 15 * 60e3) return false;                         // reminder time is long gone
+        return due >= Date.parse(a.created_at) - 15 * 60e3;               // booked before (or right around) the reminder time
+      });
+      if (!list.length) continue;
+      const pIds = [...new Set(list.map((a: { patient_id: string }) => a.patient_id))];
+      const dIds = [...new Set(list.map((a: { doctor_id: string }) => a.doctor_id))];
+      const [{ data: pts }, { data: docs }] = await Promise.all([
+        db.from("patients").select("id, user_id, full_name").in("id", pIds).not("user_id", "is", null),
+        db.from("doctors").select("id, user_id").in("id", dIds),
+      ]);
+      const { data: dprof } = await db.from("profiles").select("id, full_name").in("id", (docs ?? []).map((d: { user_id: string }) => d.user_id));
+      const docName = (id: string) => { const d = (docs ?? []).find((x: { id: string }) => x.id === id); return (dprof ?? []).find((p: { id: string }) => p.id === d?.user_id)?.full_name ?? "Doctor"; };
+      const rows: NoteIn[] = [];
+      for (const a of list) {
+        const p = (pts ?? []).find((x: { id: string }) => x.id === a.patient_id);
+        if (!p?.user_id) continue;
+        const due = Math.max(Date.parse(a.slot_start) - hrs * 3600e3, nowMs);
+        rows.push({ hospital_id: h.id, user_id: p.user_id, type: "appointment_reminder", link: "/my-appointments",
+          title: "Appointment reminder", body: `${docName(a.doctor_id)} · ${notePkDate(a.slot_start)} ${notePkTime(a.slot_start)} · Token ${a.token_no}`,
+          vars: { patient: p.full_name, doctor: docName(a.doctor_id), date: notePkDate(a.slot_start), time: notePkTime(a.slot_start), token: a.token_no, hours: hrs },
+          scheduled_at: new Date(due).toISOString(), dedupe_key: `appt:${a.id}:remind:${hrs}h:${a.slot_start}` });
+      }
+      for (let i = 0; i < rows.length; i += 200) queued += (await queueNotes(db, rows.slice(i, i + 200))).count;
     }
-    out.push({ hospital_id: h.id, low: low.length, expiring: expiring.length });
+    out.push({ hospital_id: h.id, timings, queued });
   }
   return json({ ok: true, data: out });
 });

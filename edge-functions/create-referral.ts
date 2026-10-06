@@ -1,6 +1,7 @@
 // Paste into Supabase → Edge Functions → new function "create-referral". Turn "Enforce JWT Verification" OFF.
 // Doctor / ER officer / dept head / admin. Body: { patient_id, direction: in|out, to_facility?, from_facility?, reason, urgency, contact_person?, contact_phone?, visit_id?, emergency_case_id?, summary?, preview? }.
 // preview:true returns the prefilled summary (from the ER case, latest visit, diagnoses, vitals, medicines) without saving. Referring an ER case out also closes it with outcome "refer".
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const cors = {
   "Access-Control-Allow-Origin": "*",

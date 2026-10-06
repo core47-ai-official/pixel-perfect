@@ -1,5 +1,6 @@
 // Paste into Supabase → Edge Functions → new function "draft-discharge-summary". Turn "Enforce JWT Verification" OFF.
 // Body: { admission_id, ...fields? }. Creates the summary prefilled from the stay (visits, diagnoses, OT notes, active prescriptions) if none exists; saves edits while not finalized; returns the summary.
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const cors = {
   "Access-Control-Allow-Origin": "*",

@@ -595,7 +595,35 @@
       "avg_consult_minutes": "Average consultation time (minutes)",
       "tv_display_token": "TV display token (min 8 characters)",
       "max_discount_receptionist": "Reception: maximum discount without approval (%)",
-      "max_discount_er_officer": "ER officer: maximum discount without approval (%)"
+      "max_discount_er_officer": "ER officer: maximum discount without approval (%)",
+      "reminder_first_hours": "First appointment reminder (hours before; 0 = off)",
+      "reminder_second_hours": "Second appointment reminder (hours before; 0 = off)",
+      "tpl_appointment_booked_en": "Appointment booked — English template",
+      "tpl_appointment_booked_ur": "Appointment booked — Urdu template",
+      "tpl_appointment_reminder_en": "Appointment reminders — English template",
+      "tpl_appointment_reminder_ur": "Appointment reminders — Urdu template",
+      "tpl_appointment_cancelled_en": "Appointment cancelled — English template",
+      "tpl_appointment_cancelled_ur": "Appointment cancelled — Urdu template",
+      "tpl_appointment_rescheduled_en": "Appointment rescheduled — English template",
+      "tpl_appointment_rescheduled_ur": "Appointment rescheduled — Urdu template",
+      "tpl_appointment_needs_rebooking_en": "Appointments needing rebooking — English template",
+      "tpl_appointment_needs_rebooking_ur": "Appointments needing rebooking — Urdu template",
+      "tpl_report_ready_en": "Lab report ready — English template",
+      "tpl_report_ready_ur": "Lab report ready — Urdu template",
+      "tpl_critical_result_en": "Critical lab results — English template",
+      "tpl_critical_result_ur": "Critical lab results — Urdu template",
+      "tpl_leave_decision_en": "Leave decisions — English template",
+      "tpl_leave_decision_ur": "Leave decisions — Urdu template",
+      "tpl_approval_decision_en": "Approval decisions — English template",
+      "tpl_approval_decision_ur": "Approval decisions — Urdu template",
+      "tpl_ot_bumped_en": "OT case moved for an emergency — English template",
+      "tpl_ot_bumped_ur": "OT case moved for an emergency — Urdu template",
+      "tpl_stock_low_en": "Low stock — English template",
+      "tpl_stock_low_ur": "Low stock — Urdu template",
+      "tpl_stock_expiring_en": "Batches expiring soon — English template",
+      "tpl_stock_expiring_ur": "Batches expiring soon — Urdu template",
+      "tpl_followup_due_en": "Follow-up due — English template",
+      "tpl_followup_due_ur": "Follow-up due — Urdu template"
     },
     "o": {
       "punjab": "Punjab",
@@ -634,7 +662,8 @@
       "saved": "Default saved",
       "custom": "Custom",
       "builtIn": "Built-in"
-    }
+    },
+    "tplHint": "First line is the title, the rest is the message. Placeholders:"
   },
   "notifications": {
     "title": "Notifications",
@@ -2717,6 +2746,31 @@
       "summary": "Clinical summary",
       "contact": "Contact",
       "by": "Referring doctor"
+    }
+  },
+  "nset": {
+    "open": "Notification settings",
+    "pageTitle": "My settings",
+    "tabPrefs": "Display & language",
+    "tab": "Notifications",
+    "desc": "Choose which alerts you get on this account. Critical alerts are always on.",
+    "critical": "Critical — can't be turned off",
+    "save": "Save",
+    "saved": "Notification settings saved",
+    "types": {
+      "appointment_booked": "Appointment booked",
+      "appointment_reminder": "Appointment reminders",
+      "appointment_cancelled": "Appointment cancelled",
+      "appointment_rescheduled": "Appointment rescheduled",
+      "appointment_needs_rebooking": "Appointments needing rebooking",
+      "report_ready": "Lab report ready",
+      "critical_result": "Critical lab results",
+      "leave_decision": "Leave decisions",
+      "approval_decision": "Approval decisions",
+      "ot_bumped": "OT case moved for an emergency",
+      "stock_low": "Low stock",
+      "stock_expiring": "Batches expiring soon",
+      "followup_due": "Follow-up due"
     }
   }
 }

@@ -3,6 +3,7 @@
  * (returned to every staff member by get-company-settings). The settings page
  * renders entirely from this file.
  */
+import { NOTIFICATION_TYPES } from "@/config/notification-types";
 
 export type FieldType = "text" | "textarea" | "number" | "select" | "toggle" | "time" | "color" | "asset";
 export type AssetKind = "logo" | "mono_logo" | "favicon" | "signature" | "stamp";
@@ -119,6 +120,12 @@ export const SETTINGS_TABS: TabDef[] = [
     { key: "in_app_enabled", type: "toggle", default: true },
     { key: "low_stock_alerts", type: "toggle", default: true },
     { key: "critical_lab_alerts", type: "toggle", default: true },
+    { key: "reminder_first_hours", type: "number", default: 24, min: 0, max: 168 },
+    { key: "reminder_second_hours", type: "number", default: 2, min: 0, max: 48 },
+    ...NOTIFICATION_TYPES.filter((n) => n.defaults).flatMap((n): FieldDef[] => [
+      { key: `tpl_${n.id}_en`, type: "textarea", default: n.defaults!.en, ltr: true },
+      { key: `tpl_${n.id}_ur`, type: "textarea", default: n.defaults!.ur },
+    ]),
   ] },
   { id: "holidays", kind: "holidays", fields: [] },
   { id: "patient_portal", kind: "fields", fields: [

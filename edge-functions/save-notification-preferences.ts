@@ -1,5 +1,6 @@
-// Paste into Supabase → Edge Functions → new function "update-referral-status". Turn "Enforce JWT Verification" OFF.
-// Body: { referral_id, status: accepted|rejected|completed, note? }. Allowed moves: sent → accepted/rejected, accepted → completed. Rejecting needs a note.
+// Paste into Supabase → Edge Functions → new function "save-notification-preferences". Turn "Enforce JWT Verification" OFF.
+// Any signed-in user. Body: { disabled_types: string[] }. Saves which non-critical alert types the caller turned off.
+// Critical types (critical_result, ot_bumped) are always removed from the list, so they can never be turned off.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const cors = {
@@ -45,22 +46,19 @@ const BOOT = async (req: Request) => {
 };
 const has = (c: { roles: string[] }, list: string[]) => c.roles.some((r) => list.includes(r));
 // deno-lint-ignore no-explicit-any
-const ROLES = ["super_admin", "admin", "dept_head", "doctor", "er_officer"];
-const NEXT: Record<string, string[]> = { sent: ["accepted", "rejected"], accepted: ["completed"] };
+const TYPES = ["appointment_booked", "appointment_reminder", "appointment_cancelled", "appointment_rescheduled", "appointment_needs_rebooking",
+  "report_ready", "leave_decision", "approval_decision", "stock_low", "stock_expiring", "followup_due", "critical_result", "ot_bumped"];
+const CRITICAL = ["critical_result", "ot_bumped"];
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   const { db, c, b } = await BOOT(req);
   if ("error" in c) return c.error;
-  if (!has(c, ROLES)) return fail("forbidden", "You can't update referrals.", 403);
-  const { data: r } = await db.from("referrals").select("*").eq("id", String(b.referral_id ?? "")).eq("hospital_id", c.hospitalId).maybeSingle();
-  if (!r) return fail("not_found", "Referral not found.", 404);
-  const to = String(b.status ?? "");
-  if (!(NEXT[r.status] ?? []).includes(to)) return fail("invalid", `A ${r.status} referral can't be marked ${to}.`);
-  const note = String(b.note ?? "").trim().slice(0, 1000) || null;
-  if (to === "rejected" && !note) return fail("invalid", "Enter why the referral was rejected.");
+  if (c.impersonatedBy) return fail("forbidden", "You can't change someone else's notification settings while acting as them.", 403);
+  const list = Array.isArray(b.disabled_types) ? [...new Set<string>(b.disabled_types.map(String))] : null;
+  if (!list) return fail("invalid", "Send the list of turned-off types.");
+  const disabled = list.filter((t) => TYPES.includes(t) && !CRITICAL.includes(t));
   const now = new Date().toISOString();
-  const { data, error } = await db.from("referrals").update({ status: to, status_note: note, status_at: now, updated_at: now }).eq("id", r.id).eq("status", r.status).select().maybeSingle();
-  if (error || !data) return fail("stale", "This referral was just changed by someone else.", 409);
-  await audit(db, req, c, "status", "referral", r.id, { status: r.status }, { status: to, note });
+  const { data, error } = await db.from("notification_preferences").upsert({ user_id: c.userId, hospital_id: c.hospitalId, disabled_types: disabled, updated_at: now, created_by: c.userId }, { onConflict: "user_id" }).select().single();
+  if (error) return fail("server", "Could not save your settings.", 500);
   return json({ ok: true, data });
 });

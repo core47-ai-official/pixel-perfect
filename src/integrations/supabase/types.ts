@@ -2196,16 +2196,53 @@ export type Database = {
           },
         ]
       }
+      notification_preferences: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          disabled_types: string[]
+          hospital_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          disabled_types?: string[]
+          hospital_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          disabled_types?: string[]
+          hospital_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_preferences_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notifications: {
         Row: {
           body: string | null
           channel: string
           created_at: string
           created_by: string | null
+          dedupe_key: string | null
           delivery_status: string
           hospital_id: string
           id: string
           link: string | null
+          priority: string
           read_at: string | null
           scheduled_at: string
           sent_at: string | null
@@ -2219,10 +2256,12 @@ export type Database = {
           channel?: string
           created_at?: string
           created_by?: string | null
+          dedupe_key?: string | null
           delivery_status?: string
           hospital_id: string
           id?: string
           link?: string | null
+          priority?: string
           read_at?: string | null
           scheduled_at?: string
           sent_at?: string | null
@@ -2236,10 +2275,12 @@ export type Database = {
           channel?: string
           created_at?: string
           created_by?: string | null
+          dedupe_key?: string | null
           delivery_status?: string
           hospital_id?: string
           id?: string
           link?: string | null
+          priority?: string
           read_at?: string | null
           scheduled_at?: string
           sent_at?: string | null

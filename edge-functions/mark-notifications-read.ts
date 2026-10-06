@@ -1,5 +1,5 @@
-// Paste into Supabase → Edge Functions → new function "update-referral-status". Turn "Enforce JWT Verification" OFF.
-// Body: { referral_id, status: accepted|rejected|completed, note? }. Allowed moves: sent → accepted/rejected, accepted → completed. Rejecting needs a note.
+// Paste into Supabase → Edge Functions → new function "mark-notifications-read". Turn "Enforce JWT Verification" OFF.
+// Any signed-in user. Body: { ids?: string[], all?: boolean }. Marks the caller's own delivered notifications read.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const cors = {
@@ -45,22 +45,18 @@ const BOOT = async (req: Request) => {
 };
 const has = (c: { roles: string[] }, list: string[]) => c.roles.some((r) => list.includes(r));
 // deno-lint-ignore no-explicit-any
-const ROLES = ["super_admin", "admin", "dept_head", "doctor", "er_officer"];
-const NEXT: Record<string, string[]> = { sent: ["accepted", "rejected"], accepted: ["completed"] };
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   const { db, c, b } = await BOOT(req);
   if ("error" in c) return c.error;
-  if (!has(c, ROLES)) return fail("forbidden", "You can't update referrals.", 403);
-  const { data: r } = await db.from("referrals").select("*").eq("id", String(b.referral_id ?? "")).eq("hospital_id", c.hospitalId).maybeSingle();
-  if (!r) return fail("not_found", "Referral not found.", 404);
-  const to = String(b.status ?? "");
-  if (!(NEXT[r.status] ?? []).includes(to)) return fail("invalid", `A ${r.status} referral can't be marked ${to}.`);
-  const note = String(b.note ?? "").trim().slice(0, 1000) || null;
-  if (to === "rejected" && !note) return fail("invalid", "Enter why the referral was rejected.");
   const now = new Date().toISOString();
-  const { data, error } = await db.from("referrals").update({ status: to, status_note: note, status_at: now, updated_at: now }).eq("id", r.id).eq("status", r.status).select().maybeSingle();
-  if (error || !data) return fail("stale", "This referral was just changed by someone else.", 409);
-  await audit(db, req, c, "status", "referral", r.id, { status: r.status }, { status: to, note });
-  return json({ ok: true, data });
+  let q = db.from("notifications").update({ read_at: now, updated_at: now }).eq("user_id", c.userId).is("read_at", null).or(`scheduled_at.is.null,scheduled_at.lte.${now}`);
+  if (!b.all) {
+    const ids = Array.isArray(b.ids) ? b.ids.map(String).slice(0, 200) : [];
+    if (!ids.length) return fail("invalid", "Nothing to mark.");
+    q = q.in("id", ids);
+  }
+  const { error } = await q;
+  if (error) return fail("server", "Could not update notifications.", 500);
+  return json({ ok: true, data: { ok: true } });
 });
