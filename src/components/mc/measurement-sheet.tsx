@@ -46,7 +46,7 @@ export function MeasurementSheet({ type, editing, onClose }: { type: MType; edit
   const ctxs = M_CONTEXTS[type];
   const [v1, setV1] = useState(editing ? String(editing.original_value ?? editing.value_1) : "");
   const [v2, setV2] = useState(editing?.value_2 != null ? String(editing.value_2) : "");
-  const [unit, setUnit] = useState(editing?.original_unit ?? units[0]);
+  const [unit, setUnit] = useState<string>(editing?.original_unit ?? units[0] ?? "");
   const [ctx, setCtx] = useState<string | null>(editing?.context ?? ctxs?.[0] ?? null);
   const [at, setAt] = useState(editing ? localNow(new Date(editing.measured_at)) : localNow());
   const [notes, setNotes] = useState(editing?.notes ?? "");
@@ -57,7 +57,7 @@ export function MeasurementSheet({ type, editing, onClose }: { type: MType; edit
     const n1 = Number(v1), n2 = type === "bp" ? Number(v2) : null;
     if (!v1 || (type === "bp" && !v2)) { setErr(t(type === "bp" ? "meas.err.bothBp" : "meas.err.number")); return; }
     const e = checkReading(type, n1, n2, unit);
-    if (e) { setErr(t(e.key, { ...e.params, label: e.params?.label ? t(String(e.params.label)) : "" })); return; }
+    if (e) { setErr(t(e.key, { ...e.params, label: e.params?.["label"] ? t(String(e.params["label"])) : "" })); return; }
     setErr(null); setBusy(true);
     try {
       const body = { type, value_1: n1, value_2: n2, unit, context: ctx, measured_at: new Date(at).toISOString(), notes };
