@@ -4620,6 +4620,7 @@ export type Database = {
         Row: {
           attachment_url: string | null
           created_at: string
+          deleted_at: string | null
           ended_at: string | null
           id: string
           notes: string | null
@@ -4635,6 +4636,7 @@ export type Database = {
         Insert: {
           attachment_url?: string | null
           created_at?: string
+          deleted_at?: string | null
           ended_at?: string | null
           id?: string
           notes?: string | null
@@ -4650,6 +4652,7 @@ export type Database = {
         Update: {
           attachment_url?: string | null
           created_at?: string
+          deleted_at?: string | null
           ended_at?: string | null
           id?: string
           notes?: string | null
