@@ -46,6 +46,7 @@ const WIDGET_ROLES: Record<string, string[]> = {
   opd_today: ["super_admin", "admin", "dept_head"],
   er_waiting: ["super_admin", "admin", "er_officer", "dept_head"],
   cash_vs_unpaid: ["super_admin", "admin"],
+  surge_watch: ["super_admin", "admin"],
   adm_dis_trend: ["super_admin", "admin", "dept_head"],
   token_queue: ["super_admin", "admin", "receptionist"],
   appointments_today: ["super_admin", "admin", "receptionist"],

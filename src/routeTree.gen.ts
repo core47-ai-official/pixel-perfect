@@ -63,6 +63,7 @@ import { Route as AuthenticatedAppRosterRouteImport } from './routes/_authentica
 import { Route as AuthenticatedAppSettingsRouteImport } from './routes/_authenticated/_app/settings'
 import { Route as AuthenticatedAppStaffRouteImport } from './routes/_authenticated/_app/staff'
 import { Route as AuthenticatedAppSupportTicketsRouteImport } from './routes/_authenticated/_app/support-tickets'
+import { Route as AuthenticatedAppSurveillanceRouteImport } from './routes/_authenticated/_app/surveillance'
 import { Route as AuthenticatedAppSystemIssuesRouteImport } from './routes/_authenticated/_app/system-issues'
 import { Route as AuthenticatedAppTariffsRouteImport } from './routes/_authenticated/_app/tariffs'
 import { Route as AuthenticatedAppUnpaidRouteImport } from './routes/_authenticated/_app/unpaid'
@@ -384,6 +385,12 @@ const AuthenticatedAppSupportTicketsRoute =
     path: '/support-tickets',
     getParentRoute: () => AuthenticatedAppRouteRoute,
   } as any)
+const AuthenticatedAppSurveillanceRoute =
+  AuthenticatedAppSurveillanceRouteImport.update({
+    id: '/surveillance',
+    path: '/surveillance',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
 const AuthenticatedAppSystemIssuesRoute =
   AuthenticatedAppSystemIssuesRouteImport.update({
     id: '/system-issues',
@@ -558,6 +565,7 @@ export interface FileRoutesByFullPath {
   '/settings': typeof AuthenticatedAppSettingsRoute
   '/staff': typeof AuthenticatedAppStaffRoute
   '/support-tickets': typeof AuthenticatedAppSupportTicketsRoute
+  '/surveillance': typeof AuthenticatedAppSurveillanceRoute
   '/system-issues': typeof AuthenticatedAppSystemIssuesRoute
   '/tariffs': typeof AuthenticatedAppTariffsRoute
   '/unpaid': typeof AuthenticatedAppUnpaidRoute
@@ -632,6 +640,7 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedAppSettingsRoute
   '/staff': typeof AuthenticatedAppStaffRoute
   '/support-tickets': typeof AuthenticatedAppSupportTicketsRoute
+  '/surveillance': typeof AuthenticatedAppSurveillanceRoute
   '/system-issues': typeof AuthenticatedAppSystemIssuesRoute
   '/tariffs': typeof AuthenticatedAppTariffsRoute
   '/unpaid': typeof AuthenticatedAppUnpaidRoute
@@ -710,6 +719,7 @@ export interface FileRoutesById {
   '/_authenticated/_app/settings': typeof AuthenticatedAppSettingsRoute
   '/_authenticated/_app/staff': typeof AuthenticatedAppStaffRoute
   '/_authenticated/_app/support-tickets': typeof AuthenticatedAppSupportTicketsRoute
+  '/_authenticated/_app/surveillance': typeof AuthenticatedAppSurveillanceRoute
   '/_authenticated/_app/system-issues': typeof AuthenticatedAppSystemIssuesRoute
   '/_authenticated/_app/tariffs': typeof AuthenticatedAppTariffsRoute
   '/_authenticated/_app/unpaid': typeof AuthenticatedAppUnpaidRoute
@@ -787,6 +797,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/staff'
     | '/support-tickets'
+    | '/surveillance'
     | '/system-issues'
     | '/tariffs'
     | '/unpaid'
@@ -861,6 +872,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/staff'
     | '/support-tickets'
+    | '/surveillance'
     | '/system-issues'
     | '/tariffs'
     | '/unpaid'
@@ -938,6 +950,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/settings'
     | '/_authenticated/_app/staff'
     | '/_authenticated/_app/support-tickets'
+    | '/_authenticated/_app/surveillance'
     | '/_authenticated/_app/system-issues'
     | '/_authenticated/_app/tariffs'
     | '/_authenticated/_app/unpaid'
@@ -1354,6 +1367,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppSupportTicketsRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
+    '/_authenticated/_app/surveillance': {
+      id: '/_authenticated/_app/surveillance'
+      path: '/surveillance'
+      fullPath: '/surveillance'
+      preLoaderRoute: typeof AuthenticatedAppSurveillanceRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
     '/_authenticated/_app/system-issues': {
       id: '/_authenticated/_app/system-issues'
       path: '/system-issues'
@@ -1547,6 +1567,7 @@ interface AuthenticatedAppRouteRouteChildren {
   AuthenticatedAppSettingsRoute: typeof AuthenticatedAppSettingsRoute
   AuthenticatedAppStaffRoute: typeof AuthenticatedAppStaffRoute
   AuthenticatedAppSupportTicketsRoute: typeof AuthenticatedAppSupportTicketsRoute
+  AuthenticatedAppSurveillanceRoute: typeof AuthenticatedAppSurveillanceRoute
   AuthenticatedAppSystemIssuesRoute: typeof AuthenticatedAppSystemIssuesRoute
   AuthenticatedAppTariffsRoute: typeof AuthenticatedAppTariffsRoute
   AuthenticatedAppUnpaidRoute: typeof AuthenticatedAppUnpaidRoute
@@ -1608,6 +1629,7 @@ const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
   AuthenticatedAppSettingsRoute: AuthenticatedAppSettingsRoute,
   AuthenticatedAppStaffRoute: AuthenticatedAppStaffRoute,
   AuthenticatedAppSupportTicketsRoute: AuthenticatedAppSupportTicketsRoute,
+  AuthenticatedAppSurveillanceRoute: AuthenticatedAppSurveillanceRoute,
   AuthenticatedAppSystemIssuesRoute: AuthenticatedAppSystemIssuesRoute,
   AuthenticatedAppTariffsRoute: AuthenticatedAppTariffsRoute,
   AuthenticatedAppUnpaidRoute: AuthenticatedAppUnpaidRoute,

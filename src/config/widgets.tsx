@@ -14,7 +14,7 @@ import { callEdgeFunction } from "@/hooks/use-edge-function";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
   Activity, AlertTriangle, BedDouble, BedSingle, CalendarCheck, CalendarX, ClipboardList, Footprints, HandCoins,
-  HeartPulse, ListOrdered, PiggyBank, ReceiptText, Siren, Stethoscope, TrendingUp, Users, Wallet, CalendarOff, Building2, Clock, Banknote, ClipboardPlus, Hourglass,
+  HeartPulse, ListOrdered, PiggyBank, ReceiptText, Siren, Stethoscope, TrendingUp, Users, Wallet, CalendarOff, Building2, Clock, Banknote, ClipboardPlus, Hourglass, Bug,
 } from "lucide-react";
 import { ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart";
 import { Ltr } from "@/components/mc/ltr";
@@ -382,6 +382,22 @@ function MyDuty({ data }: WidgetProps<{ shifts: DutyShift[] }>) {
   );
 }
 
+function SurgeWatch({ data }: WidgetProps<{ items: { group: string; count: number; baseline: number; surge: boolean }[]; surges: number }>) {
+  const { t } = useTranslation();
+  return (
+    <Panel title={t("dash.w.surgeWatch")} icon={Bug} action={<Link to="/surveillance" className="text-xs text-primary hover:underline">{t("surv.open")}</Link>}>
+      <p className="mb-2 text-sm">{data.surges ? <span className="font-semibold text-urgent">{t("surv.surgeCount", { count: data.surges })}</span> : <span className="text-muted-foreground">{t("surv.noSurge")}</span>}</p>
+      <ul className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
+        {data.items.map((i) => (
+          <li key={i.group} className={i.surge ? "flex justify-between font-semibold text-urgent" : "flex justify-between"}>
+            <span>{t(`surv.g.${i.group}`)}</span><Ltr className="tnum">{i.count}<span className="text-xs text-muted-foreground"> / {i.baseline}</span></Ltr>
+          </li>
+        ))}
+      </ul>
+    </Panel>
+  );
+}
+
 const ALL_SIZES: WidgetSize[] = ["small", "medium", "wide"];
 const w = (id: string, key: string, icon: LucideIcon, roles: AppRole[], defaultSize: WidgetSize, component: ComponentType<WidgetProps<any>>, sizes = ALL_SIZES): WidgetDef =>
   ({ id, title: `dash.w.${key}`, description: `dash.w.${key}Desc`, icon, roles, sizes, defaultSize, component });
@@ -403,6 +419,7 @@ export const WIDGETS: WidgetDef[] = [
   w("opd_today", "opdToday", Stethoscope, ["super_admin", "admin", "dept_head"], "small", OpdToday),
   w("er_waiting", "erWaiting", Siren, ["super_admin", "admin", "er_officer", "dept_head"], "small", ErWaiting),
   w("cash_vs_unpaid", "cashVsUnpaid", HandCoins, ["super_admin", "admin"], "small", CashVsUnpaid),
+  w("surge_watch", "surgeWatch", Bug, ["super_admin", "admin"], "medium", SurgeWatch, ["medium", "wide"]),
   w("adm_dis_trend", "admDisTrend", TrendingUp, ["super_admin", "admin", "dept_head"], "wide", AdmDisTrend, ["medium", "wide"]),
   // reception
   w("token_queue", "tokenQueue", ListOrdered, ["super_admin", "admin", "receptionist"], "medium", TokenQueue, ["medium", "wide"]),

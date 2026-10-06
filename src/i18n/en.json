@@ -275,7 +275,8 @@
     "referrals": "Referrals",
     "bloodBank": "Blood bank",
     "welfare": "Welfare & zakat",
-    "claims": "Claims"
+    "claims": "Claims",
+    "surveillance": "Surveillance"
   },
   "navGroup": {
     "overview": "Overview",
@@ -866,7 +867,9 @@
       "pendingLeave": "{{n}} pending",
       "backAfter": "until",
       "myDuty": "My duty today",
-      "myDutyDesc": "Your shifts today, with check-in and check-out."
+      "myDutyDesc": "Your shifts today, with check-in and check-out.",
+      "surgeWatch": "Surge watch",
+      "surgeWatchDesc": "Diseases this week vs the 4-week average"
     }
   },
   "dept": {
@@ -3085,5 +3088,38 @@
     "empty": "No claims in this range.",
     "save": "Save",
     "saved": "Saved"
+  },
+  "surv": {
+    "title": "Disease surveillance",
+    "subtitle": "Cases from visit diagnoses by day, district and age. A week is flagged when it is 50% above the 4-week average (at least 3 cases).",
+    "from": "From",
+    "to": "To",
+    "export": "Export to Excel",
+    "g": {
+      "dengue": "Dengue",
+      "malaria": "Malaria",
+      "typhoid": "Typhoid",
+      "hepatitis": "Hepatitis",
+      "tb": "Tuberculosis",
+      "measles": "Measles",
+      "heatstroke": "Heatstroke"
+    },
+    "cases": "cases",
+    "weekly": "Weekly",
+    "surge": "Surge",
+    "surgeOn": "Surge: week ending {{week}} — {{count}} cases vs avg {{baseline}} (+{{pct}}%)",
+    "noSurge": "No surges this week.",
+    "surgeCount": "{{count}} disease(s) in surge",
+    "districts": "By district",
+    "ages": "By age group",
+    "district": "District",
+    "age": "Age group",
+    "total": "Total",
+    "none": "No cases in this range.",
+    "codes": "ICD-10",
+    "open": "Open report",
+    "dayCol": "Date",
+    "weekEnd": "Week ending",
+    "baseline": "4-week avg"
   }
 }

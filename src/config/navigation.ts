@@ -1,5 +1,5 @@
 import { ReceiptText, Package as PackageIcon, Send, Droplet } from "lucide-react";
-import { Hourglass, HandHeart, FileSpreadsheet,
+import { Bug, Hourglass, HandHeart, FileSpreadsheet,
   LayoutDashboard, NotebookPen, Users, CalendarDays, ListOrdered, Stethoscope, BedDouble, HeartPulse, Siren, Scissors,
   FlaskConical, Pill, Boxes, Receipt, Wallet, UserCog, Building2, BarChart3, ScrollText, Settings, LifeBuoy,
   CalendarCheck, FileHeart, FileText, UserPlus, CalendarPlus, ClipboardPlus, TestTube, ShoppingCart, ClipboardList, BadgePlus, BadgeCheck, PiggyBank,
@@ -60,6 +60,7 @@ export const PAGES = {
   deptDoctors: { id: "deptDoctors", path: "/department-doctors", icon: BriefcaseMedical, group: "overview" },
   deptPatients: { id: "deptPatients", path: "/department-patients", icon: Users, group: "patients" },
   roster: { id: "roster", path: "/roster", icon: CalendarDays, group: "admin" },
+  surveillance: { id: "surveillance", path: "/surveillance", icon: Bug, group: "admin" },
   reports: { id: "reports", path: "/reports", icon: BarChart3, group: "admin" },
   auditLogs: { id: "auditLogs", path: "/audit-logs", icon: ScrollText, group: "admin" },
   companySettings: { id: "companySettings", path: "/company-settings", icon: SlidersHorizontal, group: "admin" },
@@ -80,8 +81,8 @@ export const FOOTER_PAGES: NavPage[] = [
 
 /** Role → pages, in priority order (first four become the mobile bottom nav). */
 export const ROLE_PAGES: Record<AppRole, PageId[]> = {
-  super_admin: ["dashboard", "users", "reports", "roster", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "doctorsNow", "leaveApprovals", "ot", "patients", "appointments", "billing", "approvals", "cashRegister", "unpaid", "welfare", "claims", "inventory", "purchaseRequests", "formulary", "labTests", "wardSetup", "wards", "emergency", "referrals", "nursing", "handover", "tariffs", "packages", "bloodBank"],
-  admin: ["dashboard", "users", "departments", "roster", "doctors", "doctorsNow", "leaveApprovals", "companySettings", "reports", "patients", "appointments", "ot", "billing", "approvals", "unpaid", "welfare", "claims", "inventory", "purchaseRequests", "formulary", "labTests", "wardSetup", "wards", "emergency", "referrals", "nursing", "handover", "tariffs", "packages", "bloodBank"],
+  super_admin: ["dashboard", "users", "reports", "surveillance", "roster", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "doctorsNow", "leaveApprovals", "ot", "patients", "appointments", "billing", "approvals", "cashRegister", "unpaid", "welfare", "claims", "inventory", "purchaseRequests", "formulary", "labTests", "wardSetup", "wards", "emergency", "referrals", "nursing", "handover", "tariffs", "packages", "bloodBank"],
+  admin: ["dashboard", "users", "departments", "roster", "doctors", "doctorsNow", "leaveApprovals", "companySettings", "reports", "surveillance", "patients", "appointments", "ot", "billing", "approvals", "unpaid", "welfare", "claims", "inventory", "purchaseRequests", "formulary", "labTests", "wardSetup", "wards", "emergency", "referrals", "nursing", "handover", "tariffs", "packages", "bloodBank"],
   dept_head: ["dashboard", "deptPatients", "deptDoctors", "roster", "reports", "consultations", "leaveApprovals", "patients", "appointments", "wards", "emergency", "referrals", "nursing", "handover", "staff", "doctors", "doctorsNow"],
   doctor: ["myDay", "opdQueue", "mySchedule", "patients", "consultations", "appointments", "ot", "myLeave", "wards", "emergency", "referrals", "lab", "formulary", "dashboard", "bloodBank"],
   nurse: ["nursing", "wards", "handover", "patients", "emergency", "referrals", "dashboard", "roster"],
