@@ -2474,9 +2474,12 @@ export type Database = {
         Row: {
           context: string | null
           created_at: string
+          deleted_at: string | null
           id: string
           measured_at: string
           notes: string | null
+          original_unit: string | null
+          original_value: number | null
           patient_account_id: string
           patient_id: string | null
           type: string
@@ -2488,9 +2491,12 @@ export type Database = {
         Insert: {
           context?: string | null
           created_at?: string
+          deleted_at?: string | null
           id?: string
           measured_at?: string
           notes?: string | null
+          original_unit?: string | null
+          original_value?: number | null
           patient_account_id: string
           patient_id?: string | null
           type: string
@@ -2502,9 +2508,12 @@ export type Database = {
         Update: {
           context?: string | null
           created_at?: string
+          deleted_at?: string | null
           id?: string
           measured_at?: string
           notes?: string | null
+          original_unit?: string | null
+          original_value?: number | null
           patient_account_id?: string
           patient_id?: string | null
           type?: string

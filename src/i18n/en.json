@@ -3271,5 +3271,52 @@
       "cancer": "Cancer",
       "pregnancy": "Pregnancy"
     }
+  },
+  "meas": {
+    "q": {
+      "bp": "BP",
+      "glucose": "Sugar",
+      "weight": "Weight",
+      "temp": "Temp",
+      "pulse": "Pulse",
+      "spo2": "SpO2"
+    },
+    "t": {
+      "bp": "Blood pressure",
+      "glucose": "Sugar",
+      "weight": "Weight",
+      "temp": "Temperature",
+      "pulse": "Pulse",
+      "spo2": "Oxygen (SpO2)"
+    },
+    "ctx": {
+      "sitting": "Sitting",
+      "standing": "Standing",
+      "lying": "Lying down",
+      "fasting": "Fasting",
+      "before_meal": "Before meal",
+      "after_meal": "After meal",
+      "random": "Random"
+    },
+    "sys": "Top (systolic)",
+    "dia": "Bottom (diastolic)",
+    "addTitle": "Add {{type}}",
+    "editTitle": "Edit {{type}}",
+    "save": "Save",
+    "time": "Time",
+    "notes": "Notes (optional)",
+    "saved": "Reading saved.",
+    "deleted": "Reading deleted.",
+    "recent": "Recent readings",
+    "none": "No readings yet. Tap a button above to add one.",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirm": "Delete this reading?",
+    "err": {
+      "number": "Please enter a number.",
+      "bothBp": "Enter both the top and bottom numbers.",
+      "bpOrder": "The top number should be higher than the bottom number.",
+      "range": "{{label}} must be between {{lo}} and {{hi}} {{unit}}. Please check the reading and try again."
+    }
   }
 }
