@@ -1,5 +1,6 @@
 import { PrintPreviewPanel, usePrintBrand } from "@/components/mc/print-document";
 import { Ltr } from "@/components/mc/ltr";
+import { PortalCodeBlock, usePortalCode } from "@/components/mc/portal-code";
 import { pkDate } from "@/lib/appointments";
 import type { BookedAppointment } from "@/lib/appointments";
 
@@ -10,6 +11,7 @@ export function AppointmentSlip({ appt, patient, open, onOpenChange }: {
   appt: BookedAppointment; patient: SlipPatient; open: boolean; onOpenChange: (o: boolean) => void;
 }) {
   const brand = usePrintBrand();
+  const portal = usePortalCode(patient.id, open);
   const [y, m, d] = pkDate(appt.slot_start).split("-");
   return (
     <PrintPreviewPanel
@@ -35,6 +37,7 @@ export function AppointmentSlip({ appt, patient, open, onOpenChange }: {
             <span className="font-semibold">{pt("print.appt.fee")}</span><span className="text-end font-semibold"><Ltr>{`Rs ${Number(appt.fee).toLocaleString("en-PK")}`}</Ltr></span>
           </div>
           <p className="mc-rule border-t pt-1 text-center text-xs">{pt("print.appt.arrive")}</p>
+          <PortalCodeBlock pt={pt} issued={portal} />
         </div>
       )}
     </PrintPreviewPanel>

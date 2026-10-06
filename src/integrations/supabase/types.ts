@@ -2829,6 +2829,108 @@ export type Database = {
           },
         ]
       }
+      patient_accounts: {
+        Row: {
+          created_at: string
+          failed_attempts: number
+          hospital_id: string
+          id: string
+          linked_at: string | null
+          locked_until: string | null
+          patient_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          failed_attempts?: number
+          hospital_id: string
+          id?: string
+          linked_at?: string | null
+          locked_until?: string | null
+          patient_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          failed_attempts?: number
+          hospital_id?: string
+          id?: string
+          linked_at?: string | null
+          locked_until?: string | null
+          patient_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patient_accounts_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patient_accounts_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      patient_link_codes: {
+        Row: {
+          code: string
+          created_at: string
+          expires_at: string
+          hospital_id: string
+          id: string
+          issued_by: string | null
+          patient_id: string
+          updated_at: string
+          used_at: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          expires_at: string
+          hospital_id: string
+          id?: string
+          issued_by?: string | null
+          patient_id: string
+          updated_at?: string
+          used_at?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          expires_at?: string
+          hospital_id?: string
+          id?: string
+          issued_by?: string | null
+          patient_id?: string
+          updated_at?: string
+          used_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patient_link_codes_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patient_link_codes_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       patients: {
         Row: {
           address: string | null
