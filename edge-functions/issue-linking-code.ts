@@ -44,7 +44,8 @@ const BOOT = async (req: Request) => {
   return { db, c, b };
 };
 
-const STAFF = ["receptionist", "admin", "super_admin"];
+// Reception issues codes; doctors and nurses too, so discharge summaries they print carry one.
+const STAFF = ["receptionist", "admin", "super_admin", "doctor", "nurse"];
 // deno-lint-ignore no-explicit-any
 const has = (c: any, r: string[]) => c.roles.some((x: string) => r.includes(x));
 

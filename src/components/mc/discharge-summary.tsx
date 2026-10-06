@@ -6,6 +6,7 @@ import { SidePanel } from "@/components/mc/side-panel";
 import { Ltr } from "@/components/mc/ltr";
 import { ConfirmDialog } from "@/components/mc/confirm-dialog";
 import { PrintPreviewPanel, usePrintBrand } from "@/components/mc/print-document";
+import { PortalCodeBlock, usePortalCode } from "@/components/mc/portal-code";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -100,6 +101,7 @@ export function DischargeSummaryPanel({ admission, patient, canEdit, onClose }: 
 
 export function DischargeSummaryPrint({ summary: s, admission, patient, onClose }: { summary: DischargeSummary; admission: DsAdmission; patient: DsPatient; onClose: () => void }) {
   const brand = usePrintBrand();
+  const portal = usePortalCode(s.finalized_at ? patient.id : null, true);
   const lines = (v: string | null) => (v ?? "").split("\n").filter(Boolean);
   return (
     <PrintPreviewPanel open onOpenChange={(o) => !o && onClose()} brand={brand} paper="a4" allowPaperChange={false} showSignature
@@ -132,6 +134,7 @@ export function DischargeSummaryPrint({ summary: s, admission, patient, onClose 
             <section><p className="mc-rule border-b font-semibold">{pt("ds.p.advice")}</p>
               {lines(lng === "ur" ? s.advice_ur || s.advice_en : s.advice_en).map((l, i) => <p key={i}>{l}</p>)}</section>
           )}
+          <PortalCodeBlock pt={pt} issued={portal} />
         </div>
       )}
     </PrintPreviewPanel>
