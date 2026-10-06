@@ -3318,5 +3318,70 @@
       "bpOrder": "The top number should be higher than the bottom number.",
       "range": "{{label}} must be between {{lo}} and {{hi}} {{unit}}. Please check the reading and try again."
     }
+  },
+  "sym": {
+    "title": "Symptoms",
+    "add": "Add",
+    "addTitle": "Log a symptom",
+    "editTitle": "Edit symptom",
+    "what": "What are you feeling?",
+    "search": "Search symptoms",
+    "useTyped": "Use “{{name}}”",
+    "severity": "How bad is it? (1–10)",
+    "sev": {
+      "mild": "Mild",
+      "moderate": "Moderate",
+      "severe": "Severe"
+    },
+    "start": "Started",
+    "end": "Ended (optional)",
+    "triggers": "Possible triggers",
+    "tr": {
+      "food": "Food",
+      "stress": "Stress",
+      "exercise": "Exercise",
+      "weather": "Weather",
+      "medicine": "Medicine"
+    },
+    "addPhoto": "Add photo or PDF",
+    "attached": "File attached",
+    "photoHint": "Optional. JPG, PNG, WebP or PDF, up to 5 MB. Only you can open it.",
+    "viewPhoto": "Open attachment",
+    "saving": "Saving…",
+    "saved": "Symptom saved.",
+    "deleted": "Symptom deleted.",
+    "deleteConfirm": "Delete this symptom entry?",
+    "none": "No symptoms logged.",
+    "s": {
+      "headache": "Headache",
+      "fever": "Fever",
+      "cough": "Cough",
+      "sore_throat": "Sore throat",
+      "runny_nose": "Runny nose",
+      "breathless": "Shortness of breath",
+      "chest_pain": "Chest pain",
+      "dizziness": "Dizziness",
+      "nausea": "Nausea",
+      "vomiting": "Vomiting",
+      "diarrhoea": "Diarrhoea",
+      "stomach_pain": "Stomach pain",
+      "back_pain": "Back pain",
+      "joint_pain": "Joint pain",
+      "fatigue": "Tiredness",
+      "rash": "Skin rash",
+      "itching": "Itching",
+      "palpitations": "Palpitations",
+      "burning_urine": "Burning urine",
+      "poor_sleep": "Poor sleep",
+      "anxiety": "Anxiety",
+      "swelling": "Swelling"
+    },
+    "err": {
+      "pick": "Choose or type a symptom.",
+      "end": "The end time must be after the start time.",
+      "type": "Only photos (JPG, PNG, WebP) or PDF files can be added.",
+      "size": "The file is larger than 5 MB.",
+      "open": "Couldn't open the file."
+    }
   }
 }
