@@ -1,0 +1,1 @@
+ALTER TABLE public.tracker_profiles ADD COLUMN targets jsonb NOT NULL DEFAULT '{}'::jsonb;

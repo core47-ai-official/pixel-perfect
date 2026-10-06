@@ -4839,6 +4839,7 @@ export type Database = {
           onboarding_done: boolean
           patient_account_id: string
           patient_id: string | null
+          targets: Json
           updated_at: string
           weight_kg: number | null
         }
@@ -4856,6 +4857,7 @@ export type Database = {
           onboarding_done?: boolean
           patient_account_id: string
           patient_id?: string | null
+          targets?: Json
           updated_at?: string
           weight_kg?: number | null
         }
@@ -4873,6 +4875,7 @@ export type Database = {
           onboarding_done?: boolean
           patient_account_id?: string
           patient_id?: string | null
+          targets?: Json
           updated_at?: string
           weight_kg?: number | null
         }
