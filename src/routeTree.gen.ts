@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ForbiddenRouteImport } from './routes/forbidden'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as PatientSignupRouteImport } from './routes/patient-signup'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as StyleguideRouteImport } from './routes/styleguide'
 import { Route as AuthenticatedAppRouteRouteImport } from './routes/_authenticated/_app/route'
@@ -102,6 +103,11 @@ const ForbiddenRoute = ForbiddenRouteImport.update({
 const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PatientSignupRoute = PatientSignupRouteImport.update({
+  id: '/patient-signup',
+  path: '/patient-signup',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -478,6 +484,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/forbidden': typeof ForbiddenRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/patient-signup': typeof PatientSignupRoute
   '/reset-password': typeof ResetPasswordRoute
   '/styleguide': typeof StyleguideRoute
   '/portal': typeof AuthenticatedPortalRouteRouteWithChildren
@@ -548,6 +555,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/forbidden': typeof ForbiddenRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/patient-signup': typeof PatientSignupRoute
   '/reset-password': typeof ResetPasswordRoute
   '/styleguide': typeof StyleguideRoute
   '/change-password': typeof AuthenticatedChangePasswordRoute
@@ -619,6 +627,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/forbidden': typeof ForbiddenRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/patient-signup': typeof PatientSignupRoute
   '/reset-password': typeof ResetPasswordRoute
   '/styleguide': typeof StyleguideRoute
   '/_authenticated/_app': typeof AuthenticatedAppRouteRouteWithChildren
@@ -692,6 +701,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/forbidden'
     | '/forgot-password'
+    | '/patient-signup'
     | '/reset-password'
     | '/styleguide'
     | '/portal'
@@ -762,6 +772,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/forbidden'
     | '/forgot-password'
+    | '/patient-signup'
     | '/reset-password'
     | '/styleguide'
     | '/change-password'
@@ -832,6 +843,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/forbidden'
     | '/forgot-password'
+    | '/patient-signup'
     | '/reset-password'
     | '/styleguide'
     | '/_authenticated/_app'
@@ -905,6 +917,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   ForbiddenRoute: typeof ForbiddenRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
+  PatientSignupRoute: typeof PatientSignupRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   StyleguideRoute: typeof StyleguideRoute
   TvDoctorIdRoute: typeof TvDoctorIdRoute
@@ -946,6 +959,13 @@ declare module '@tanstack/react-router' {
       path: '/forgot-password'
       fullPath: '/forgot-password'
       preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/patient-signup': {
+      id: '/patient-signup'
+      path: '/patient-signup'
+      fullPath: '/patient-signup'
+      preLoaderRoute: typeof PatientSignupRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -1571,6 +1591,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   ForbiddenRoute: ForbiddenRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
+  PatientSignupRoute: PatientSignupRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   StyleguideRoute: StyleguideRoute,
   TvDoctorIdRoute: TvDoctorIdRoute,
