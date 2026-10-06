@@ -217,7 +217,9 @@ Deno.serve(async (req) => {
   const { data: p } = await db.from("patients").select("user_id, full_name").eq("id", before.patient_id).maybeSingle();
   // Pending reminders for this appointment must not go out.
   await db.from("notifications").delete().like("dedupe_key", `appt:${before.id}:remind:%`).is("sent_at", null);
-  const { data: dp } = await db.from("doctors").select("profiles:user_id(full_name)").eq("id", before.doctor_id).maybeSingle();
+  const { data: dd } = await db.from("doctors").select("user_id").eq("id", before.doctor_id).maybeSingle();
+  const { data: dpf } = dd?.user_id ? await db.from("profiles").select("full_name").eq("id", dd.user_id).maybeSingle() : { data: null };
+  const dp = { profiles: dpf };
   if (p?.user_id) await queueNotes(db, {
     hospital_id: c.hospitalId, user_id: p.user_id, type: "appointment_cancelled",
     title: "Appointment cancelled", body: reason, link: "/my-appointments", created_by: c.userId,

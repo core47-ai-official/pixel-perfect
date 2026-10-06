@@ -207,7 +207,9 @@ Deno.serve(async (req) => {
   const { data: p } = await db.from("patients").select("user_id, full_name").eq("id", before.patient_id).maybeSingle();
   // Reminders for the old time are dropped; appointment-reminders queues new ones for the new time.
   await db.from("notifications").delete().like("dedupe_key", `appt:${before.id}:remind:%`).is("sent_at", null);
-  const { data: dp } = await db.from("doctors").select("profiles:user_id(full_name)").eq("id", doc.id).maybeSingle();
+  const { data: dd } = await db.from("doctors").select("user_id").eq("id", doc.id).maybeSingle();
+  const { data: dpf } = dd?.user_id ? await db.from("profiles").select("full_name").eq("id", dd.user_id).maybeSingle() : { data: null };
+  const dp = { profiles: dpf };
   if (p?.user_id) await queueNotes(db, {
     hospital_id: c.hospitalId, user_id: p.user_id, type: "appointment_rescheduled",
     title: "Appointment rescheduled", body: `${date} ${slot.time} · Token ${tokenNo}`, link: "/my-appointments", created_by: c.userId,
