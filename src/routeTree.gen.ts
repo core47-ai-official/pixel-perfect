@@ -78,6 +78,7 @@ import { Route as AuthenticatedPortalAppointmentsRouteImport } from './routes/_a
 import { Route as AuthenticatedPortalBillsRouteImport } from './routes/_authenticated/portal/bills'
 import { Route as AuthenticatedPortalBookRouteImport } from './routes/_authenticated/portal/book'
 import { Route as AuthenticatedPortalHealthRouteImport } from './routes/_authenticated/portal/health'
+import { Route as AuthenticatedPortalMedicinesRouteImport } from './routes/_authenticated/portal/medicines'
 import { Route as AuthenticatedPortalProfileRouteImport } from './routes/_authenticated/portal/profile'
 import { Route as AuthenticatedPortalReportsRouteImport } from './routes/_authenticated/portal/reports'
 import { Route as TvDepartmentDepartmentIdRouteImport } from './routes/tv.department.$departmentId'
@@ -472,6 +473,12 @@ const AuthenticatedPortalHealthRoute =
     path: '/health',
     getParentRoute: () => AuthenticatedPortalRouteRoute,
   } as any)
+const AuthenticatedPortalMedicinesRoute =
+  AuthenticatedPortalMedicinesRouteImport.update({
+    id: '/medicines',
+    path: '/medicines',
+    getParentRoute: () => AuthenticatedPortalRouteRoute,
+  } as any)
 const AuthenticatedPortalProfileRoute =
   AuthenticatedPortalProfileRouteImport.update({
     id: '/profile',
@@ -600,6 +607,7 @@ export interface FileRoutesByFullPath {
   '/portal/bills': typeof AuthenticatedPortalBillsRoute
   '/portal/book': typeof AuthenticatedPortalBookRoute
   '/portal/health': typeof AuthenticatedPortalHealthRoute
+  '/portal/medicines': typeof AuthenticatedPortalMedicinesRoute
   '/portal/profile': typeof AuthenticatedPortalProfileRoute
   '/portal/reports': typeof AuthenticatedPortalReportsRoute
   '/tv/department/$departmentId': typeof TvDepartmentDepartmentIdRoute
@@ -678,6 +686,7 @@ export interface FileRoutesByTo {
   '/portal/bills': typeof AuthenticatedPortalBillsRoute
   '/portal/book': typeof AuthenticatedPortalBookRoute
   '/portal/health': typeof AuthenticatedPortalHealthRoute
+  '/portal/medicines': typeof AuthenticatedPortalMedicinesRoute
   '/portal/profile': typeof AuthenticatedPortalProfileRoute
   '/portal/reports': typeof AuthenticatedPortalReportsRoute
   '/tv/department/$departmentId': typeof TvDepartmentDepartmentIdRoute
@@ -760,6 +769,7 @@ export interface FileRoutesById {
   '/_authenticated/portal/bills': typeof AuthenticatedPortalBillsRoute
   '/_authenticated/portal/book': typeof AuthenticatedPortalBookRoute
   '/_authenticated/portal/health': typeof AuthenticatedPortalHealthRoute
+  '/_authenticated/portal/medicines': typeof AuthenticatedPortalMedicinesRoute
   '/_authenticated/portal/profile': typeof AuthenticatedPortalProfileRoute
   '/_authenticated/portal/reports': typeof AuthenticatedPortalReportsRoute
   '/tv/department/$departmentId': typeof TvDepartmentDepartmentIdRoute
@@ -841,6 +851,7 @@ export interface FileRouteTypes {
     | '/portal/bills'
     | '/portal/book'
     | '/portal/health'
+    | '/portal/medicines'
     | '/portal/profile'
     | '/portal/reports'
     | '/tv/department/$departmentId'
@@ -919,6 +930,7 @@ export interface FileRouteTypes {
     | '/portal/bills'
     | '/portal/book'
     | '/portal/health'
+    | '/portal/medicines'
     | '/portal/profile'
     | '/portal/reports'
     | '/tv/department/$departmentId'
@@ -1000,6 +1012,7 @@ export interface FileRouteTypes {
     | '/_authenticated/portal/bills'
     | '/_authenticated/portal/book'
     | '/_authenticated/portal/health'
+    | '/_authenticated/portal/medicines'
     | '/_authenticated/portal/profile'
     | '/_authenticated/portal/reports'
     | '/tv/department/$departmentId'
@@ -1511,6 +1524,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPortalHealthRouteImport
       parentRoute: typeof AuthenticatedPortalRouteRoute
     }
+    '/_authenticated/portal/medicines': {
+      id: '/_authenticated/portal/medicines'
+      path: '/medicines'
+      fullPath: '/portal/medicines'
+      preLoaderRoute: typeof AuthenticatedPortalMedicinesRouteImport
+      parentRoute: typeof AuthenticatedPortalRouteRoute
+    }
     '/_authenticated/portal/profile': {
       id: '/_authenticated/portal/profile'
       path: '/profile'
@@ -1723,6 +1743,7 @@ interface AuthenticatedPortalRouteRouteChildren {
   AuthenticatedPortalBillsRoute: typeof AuthenticatedPortalBillsRoute
   AuthenticatedPortalBookRoute: typeof AuthenticatedPortalBookRoute
   AuthenticatedPortalHealthRoute: typeof AuthenticatedPortalHealthRoute
+  AuthenticatedPortalMedicinesRoute: typeof AuthenticatedPortalMedicinesRoute
   AuthenticatedPortalProfileRoute: typeof AuthenticatedPortalProfileRoute
   AuthenticatedPortalReportsRoute: typeof AuthenticatedPortalReportsRoute
   AuthenticatedPortalIndexRoute: typeof AuthenticatedPortalIndexRoute
@@ -1734,6 +1755,7 @@ const AuthenticatedPortalRouteRouteChildren: AuthenticatedPortalRouteRouteChildr
     AuthenticatedPortalBillsRoute: AuthenticatedPortalBillsRoute,
     AuthenticatedPortalBookRoute: AuthenticatedPortalBookRoute,
     AuthenticatedPortalHealthRoute: AuthenticatedPortalHealthRoute,
+    AuthenticatedPortalMedicinesRoute: AuthenticatedPortalMedicinesRoute,
     AuthenticatedPortalProfileRoute: AuthenticatedPortalProfileRoute,
     AuthenticatedPortalReportsRoute: AuthenticatedPortalReportsRoute,
     AuthenticatedPortalIndexRoute: AuthenticatedPortalIndexRoute,

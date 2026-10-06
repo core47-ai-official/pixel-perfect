@@ -35,4 +35,6 @@ export const NOTIFICATION_TYPES: NotificationTypeDef[] = [
   { id: "stock_expiring" },
   { id: "followup_due", placeholders: ["patient", "date"],
     defaults: { en: "Follow-up visit tomorrow\nPlease visit the hospital on {date} for your follow-up after discharge.", ur: "کل فالو اپ معائنہ\nڈسچارج کے بعد فالو اپ کے لیے {date} کو ہسپتال تشریف لائیں۔" } },
+  { id: "dose_reminder", placeholders: ["medicine", "dose", "time"],
+    defaults: { en: "Time for your medicine\n{medicine} {dose} — whenever you are ready, tap to mark it.", ur: "دوا کا وقت\n{medicine} {dose} — جب آپ تیار ہوں، نشان لگانے کے لیے ٹیپ کریں۔" } },
 ];

@@ -1556,7 +1556,9 @@ export type Database = {
           logged_at: string | null
           patient_account_id: string
           patient_id: string | null
+          reminded_at: string | null
           schedule_id: string
+          snoozed_until: string | null
           status: string | null
           updated_at: string
         }
@@ -1567,7 +1569,9 @@ export type Database = {
           logged_at?: string | null
           patient_account_id: string
           patient_id?: string | null
+          reminded_at?: string | null
           schedule_id: string
+          snoozed_until?: string | null
           status?: string | null
           updated_at?: string
         }
@@ -1578,7 +1582,9 @@ export type Database = {
           logged_at?: string | null
           patient_account_id?: string
           patient_id?: string | null
+          reminded_at?: string | null
           schedule_id?: string
+          snoozed_until?: string | null
           status?: string | null
           updated_at?: string
         }
@@ -2637,12 +2643,17 @@ export type Database = {
           active: boolean
           created_at: string
           dose: string | null
+          duration_days: number | null
           end_date: string | null
+          frequency: string | null
           id: string
+          instructions: string | null
           name: string
           patient_account_id: string
           patient_id: string | null
+          prescription_id: string | null
           rx_item_id: string | null
+          source: string
           start_date: string
           times: string[]
           updated_at: string
@@ -2651,12 +2662,17 @@ export type Database = {
           active?: boolean
           created_at?: string
           dose?: string | null
+          duration_days?: number | null
           end_date?: string | null
+          frequency?: string | null
           id?: string
+          instructions?: string | null
           name: string
           patient_account_id: string
           patient_id?: string | null
+          prescription_id?: string | null
           rx_item_id?: string | null
+          source?: string
           start_date?: string
           times?: string[]
           updated_at?: string
@@ -2665,12 +2681,17 @@ export type Database = {
           active?: boolean
           created_at?: string
           dose?: string | null
+          duration_days?: number | null
           end_date?: string | null
+          frequency?: string | null
           id?: string
+          instructions?: string | null
           name?: string
           patient_account_id?: string
           patient_id?: string | null
+          prescription_id?: string | null
           rx_item_id?: string | null
+          source?: string
           start_date?: string
           times?: string[]
           updated_at?: string
@@ -2688,6 +2709,13 @@ export type Database = {
             columns: ["patient_id"]
             isOneToOne: false
             referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "medication_schedules_prescription_id_fkey"
+            columns: ["prescription_id"]
+            isOneToOne: false
+            referencedRelation: "prescriptions"
             referencedColumns: ["id"]
           },
           {

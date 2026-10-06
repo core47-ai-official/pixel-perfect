@@ -37,7 +37,8 @@
     "print": "Print",
     "reason": "Reason",
     "reasonPlaceholder": "Why are you doing this? (recorded in the audit log)",
-    "reasonMin": "Please write at least 5 characters."
+    "reasonMin": "Please write at least 5 characters.",
+    "remove": "Remove"
   },
   "sg": {
     "lightMode": "Light mode",
@@ -629,7 +630,9 @@
       "tpl_stock_expiring_en": "Batches expiring soon — English template",
       "tpl_stock_expiring_ur": "Batches expiring soon — Urdu template",
       "tpl_followup_due_en": "Follow-up due — English template",
-      "tpl_followup_due_ur": "Follow-up due — Urdu template"
+      "tpl_followup_due_ur": "Follow-up due — Urdu template",
+      "tpl_dose_reminder_en": "Medicine reminder — English template",
+      "tpl_dose_reminder_ur": "Medicine reminder — Urdu template"
     },
     "o": {
       "punjab": "Punjab",
@@ -2836,7 +2839,8 @@
       "ot_bumped": "OT case moved for an emergency",
       "stock_low": "Low stock",
       "stock_expiring": "Batches expiring soon",
-      "followup_due": "Follow-up due"
+      "followup_due": "Follow-up due",
+      "dose_reminder": "Medicine reminders"
     }
   },
   "portal": {
@@ -3383,5 +3387,45 @@
       "size": "The file is larger than 5 MB.",
       "open": "Couldn't open the file."
     }
+  },
+  "meds": {
+    "title": "My medicines",
+    "add": "Add medicine",
+    "edit": "Medicine",
+    "today": "Today's doses",
+    "noneToday": "No doses planned for today.",
+    "list": "Your medicines",
+    "history": "Recent doses",
+    "noHistory": "Nothing logged yet.",
+    "take": "Take",
+    "skip": "Skip",
+    "snooze": "15 min",
+    "snoozedTill": "Reminding again at",
+    "done_taken": "Nicely done — marked as taken.",
+    "done_skipped": "Noted. It's okay — just carry on with the next dose.",
+    "done_snooze": "We'll remind you again in 15 minutes.",
+    "saveFailed": "Couldn't save. Please try again.",
+    "loadFailed": "Couldn't load your medicines.",
+    "adherence": "kept up",
+    "fromHospital": "From your hospital prescription",
+    "asNeeded": "As needed",
+    "until": "until",
+    "paused": "paused",
+    "st_taken": "Taken",
+    "st_skipped": "Skipped",
+    "st_missed": "Not logged",
+    "st_due": "Ready when you are",
+    "st_upcoming": "Later today",
+    "gentleNote": "Missing a dose happens. If you're unsure what to do, ask your doctor or pharmacist — don't double up unless they tell you to.",
+    "hospitalNote": "Your doctor set this course. You can pause reminders here; for changes please talk to your doctor.",
+    "name": "Medicine name",
+    "dose": "Dose (e.g. 1 tablet)",
+    "times": "Times of day",
+    "addTime": "Add a time",
+    "endDate": "Last day (optional)",
+    "active": "Reminders on",
+    "save": "Save",
+    "saved": "Saved.",
+    "open": "Open medicines"
   }
 }

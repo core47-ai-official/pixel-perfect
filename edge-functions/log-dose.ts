@@ -1,6 +1,5 @@
-// Paste into Supabase → Edge Functions → new function "stock-alerts". Turn "Enforce JWT Verification" OFF.
-// Scheduled daily at 08:00 Pakistan time (03:00 UTC) by Supabase Cron, header x-cron-key = CRON_SECRET (same secret as the other daily jobs).
-// Queues one low-stock and one expiring-batches notification per hospital to pharmacists and admins.
+// Paste into Supabase → Edge Functions → new function "log-dose". Turn "Enforce JWT Verification" OFF.
+// Patient only. Body: { dose_event_id, action: taken | skipped | snooze }.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const cors = {
@@ -15,19 +14,72 @@ const TZ = "+05:00";
 // deno-lint-ignore no-explicit-any
 type DB = any;
 
-const now = () => new Date().toISOString();
-const todayPk = () => new Date(Date.now() + 5 * 3600e3).toISOString().slice(0, 10);
-const daysUntil = (ymd: string) => Math.round((Date.parse(`${ymd}T00:00:00Z`) - Date.parse(`${todayPk()}T00:00:00Z`)) / 86400e3);
-const medName = (m: { generic_name: string; brand_name: string | null; strength: string | null }) =>
-  [m.brand_name || m.generic_name, m.strength].filter(Boolean).join(" ");
-/** Notifies every pharmacist and admin in the hospital. */
-async function notifyStock(db: DB, hospitalId: string, type: string, title: string, body: string, by: string | null, vars?: Record<string, unknown>) {
-  const { data: staff } = await db.from("user_roles").select("user_id").eq("hospital_id", hospitalId).in("role", ["pharmacist", "admin"]);
-  const ids = [...new Set((staff ?? []).map((x: { user_id: string }) => x.user_id))];
-  if (ids.length) await queueNotes(db, ids.map((u) => ({ hospital_id: hospitalId, user_id: u as string, type, title, body: body.slice(0, 1000), link: "/inventory", created_by: by, vars })));
-  return ids.length;
+async function getCaller(req: Request, db: DB) {
+  const token = (req.headers.get("Authorization") ?? "").replace("Bearer ", "");
+  const { data: u } = await db.auth.getUser(token);
+  if (!u?.user) return { error: fail("unauthorized", "Please sign in again.", 401) };
+  let userId = u.user.id;
+  let impersonatedBy: string | null = null;
+  const impId = req.headers.get("x-impersonation-session");
+  if (impId) {
+    const { data: s } = await db.from("impersonation_sessions").select("*").eq("id", impId).maybeSingle();
+    if (!s || s.super_admin_id !== userId || s.ended_at || new Date(s.expires_at) < new Date())
+      return { error: fail("forbidden", "Acting session is not active.", 403) };
+    impersonatedBy = userId; userId = s.target_user_id;
+  }
+  const { data: prof } = await db.from("profiles").select("hospital_id, is_active").eq("id", userId).maybeSingle();
+  if (!prof?.is_active) return { error: fail("forbidden", "Account is not active.", 403) };
+  const { data: r } = await db.from("user_roles").select("role").eq("user_id", userId).eq("hospital_id", prof.hospital_id);
+  return { userId, impersonatedBy, hospitalId: prof.hospital_id as string, roles: (r ?? []).map((x) => x.role as string) };
 }
-
+// deno-lint-ignore no-explicit-any
+async function audit(db: DB, req: Request, c: any, action: string, resource: string, id: string | null, before: unknown, after: unknown) {
+  await db.from("audit_logs").insert({ hospital_id: c.hospitalId, user_id: c.userId, impersonated_by: c.impersonatedBy, action,
+    resource, resource_id: id, before, after, ip: req.headers.get("x-forwarded-for") });
+}
+const BOOT = async (req: Request) => {
+  const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+  const c = await getCaller(req, db);
+  const b = await req.json().catch(() => ({}));
+  return { db, c, b };
+};
+const has = (c: { roles: string[] }, list: string[]) => c.roles.some((r) => list.includes(r));
+// ---- measurement rules (MediCore; identical in log-measurement and update-measurement, mirrored in src/lib/measurements.ts) ----
+// ---- dose plan (identical in sync-prescriptions-to-tracker, save-medication-schedule, generate-dose-events, log-dose) ----
+// Clock times are Pakistan time "HH:MM". 1+0+1 → 08:00, 20:00; OD/BD/TDS/QID/HS same hours as the ward MAR.
+const PK = 5 * 3600e3;
+const SLOTS: Record<string, string[]> = { OD: ["08:00"], BD: ["08:00", "20:00"], TDS: ["08:00", "14:00", "20:00"], QID: ["08:00", "12:00", "16:00", "20:00"], HS: ["21:00"] };
+/** [] = as needed, null = once now. */
+function timesFor(freq: string): string[] | null {
+  const f = String(freq ?? "").trim().toUpperCase();
+  if (f === "SOS" || f === "PRN") return [];
+  if (f === "STAT") return null;
+  if (SLOTS[f]) return SLOTS[f];
+  const parts = f.split("+");
+  if (parts.length >= 2 && parts.every((p) => /^\d+(\.\d+)?$/.test(p))) {
+    const pos = parts.length === 4 ? SLOTS.QID : parts.length === 3 ? SLOTS.TDS : SLOTS.BD;
+    return parts.map((p, i) => (Number(p) > 0 ? pos[i] : "")).filter(Boolean);
+  }
+  return SLOTS.OD;
+}
+const pkDay = (ms: number) => new Date(ms + PK).toISOString().slice(0, 10);
+const validTime = (t: unknown) => typeof t === "string" && /^([01]\d|2[0-3]):[0-5]\d$/.test(t);
+/** Dose instants at/after fromMs, sorted; stops at count or untilMs (whichever first). */
+function nextSlots(times: string[], fromMs: number, count: number | null, untilMs: number | null): number[] {
+  const mins = [...new Set(times)].map((t) => Number(t.slice(0, 2)) * 60 + Number(t.slice(3, 5))).sort((a, b) => a - b);
+  const out: number[] = [];
+  if (!mins.length) return out;
+  const day0 = Date.parse(`${pkDay(fromMs)}T00:00:00Z`) - PK;
+  for (let d = 0; d < 400; d++) for (const m of mins) {
+    const at = day0 + d * 86400e3 + m * 60e3;
+    if (at < fromMs) continue;
+    if (untilMs !== null && at > untilMs) return out;
+    out.push(at);
+    if (count !== null && out.length >= count) return out;
+  }
+  return out;
+}
+// ---- end dose plan ----
 // ---- notification helpers (identical wherever they appear; mirrors src/config/notification-types.ts) ----
 // Every event notification goes through queueNotes: it applies the hospital's English/Urdu template for the type
 // (company settings → notifications → tpl_<type>_<en|ur>, first line = title, rest = body, {placeholders} from vars),
@@ -104,33 +156,41 @@ async function queueNotes(db: any, input: NoteIn | NoteIn[]): Promise<{ error: u
   const { error } = await db.from("notifications").upsert(out, { onConflict: "dedupe_key", ignoreDuplicates: true });
   return { error, count: error ? 0 : out.length };
 }
-// ---- end notification helpers ----
+// deno-lint-ignore no-explicit-any
+async function myAccount(db: DB, c: any) {
+  if (c.impersonatedBy) return null;
+  const { data } = await db.from("patient_accounts").select("id, patient_id, hospital_id, user_id").eq("user_id", c.userId).maybeSingle();
+  return data as { id: string; patient_id: string | null; hospital_id: string; user_id: string } | null;
+}
+const SNOOZE_MS = 15 * 60e3;
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
-  const secret = Deno.env.get("CRON_SECRET");
-  if (!secret || req.headers.get("x-cron-key") !== secret) return fail("forbidden", "Not allowed.", 403);
-  const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
-  const limit = new Date(Date.parse(`${todayPk()}T00:00:00Z`) + 90 * 86400e3).toISOString().slice(0, 10);
-  const { data: hospitals } = await db.from("hospitals").select("id");
-  const out = [];
-  for (const h of hospitals ?? []) {
-    const { data: meds } = await db.from("medicines").select("id, generic_name, brand_name, strength, reorder_level").eq("hospital_id", h.id).eq("is_active", true).gt("reorder_level", 0);
-    const { data: batches } = await db.from("stock_batches").select("medicine_id, batch_no, expiry_date, qty_on_hand").eq("hospital_id", h.id).gt("qty_on_hand", 0);
-    const today = todayPk();
-    const onHand = new Map<string, number>();
-    for (const x of batches ?? []) if (x.expiry_date >= today) onHand.set(x.medicine_id, (onHand.get(x.medicine_id) ?? 0) + x.qty_on_hand);
-    const low = (meds ?? []).filter((m: { id: string; reorder_level: number }) => (onHand.get(m.id) ?? 0) < m.reorder_level);
-    const expiring = (batches ?? []).filter((x: { expiry_date: string }) => x.expiry_date <= limit).sort((a: { expiry_date: string }, b: { expiry_date: string }) => a.expiry_date.localeCompare(b.expiry_date));
-    if (low.length) await notifyStock(db, h.id, "stock_low", `${low.length} medicine(s) below reorder level`,
-      low.slice(0, 15).map((m: any) => `${medName(m)}: ${onHand.get(m.id) ?? 0} (reorder at ${m.reorder_level})`).join("; "), null,
-      { count: low.length, items: low.slice(0, 15).map((m: any) => `${medName(m)}: ${onHand.get(m.id) ?? 0} (${m.reorder_level})`).join("; ") });
-    if (expiring.length) {
-      const { data: names } = await db.from("medicines").select("id, generic_name, brand_name, strength").in("id", [...new Set(expiring.map((x: any) => x.medicine_id))]);
-      const nm = new Map((names ?? []).map((m: any) => [m.id, medName(m)]));
-      await notifyStock(db, h.id, "stock_expiring", `${expiring.length} batch(es) expire within 90 days`,
-        expiring.slice(0, 15).map((x: any) => `${nm.get(x.medicine_id)} ${x.batch_no}: ${x.expiry_date} (${daysUntil(x.expiry_date)} d)`).join("; "), null);
-    }
-    out.push({ hospital_id: h.id, low: low.length, expiring: expiring.length });
+  const { db, c, b } = await BOOT(req);
+  if ("error" in c) return c.error;
+  const acct = await myAccount(db, c);
+  if (!acct) return fail("forbidden", "Only patients can log their own doses.", 403);
+  const action = String(b.action ?? "");
+  if (!["taken", "skipped", "snooze"].includes(action)) return fail("invalid", "Unknown action.");
+  const { data: ev } = await db.from("dose_events").select("*, medication_schedules(name, dose)").eq("id", String(b.dose_event_id ?? "")).eq("patient_account_id", acct.id).maybeSingle();
+  if (!ev) return fail("not_found", "Dose not found.", 404);
+  const nowMs = Date.now(), due = Date.parse(ev.due_at);
+  if (due > nowMs + 2 * 3600e3) return fail("too_early", "This dose isn't due yet.");
+  if (action === "snooze") {
+    if (ev.status) return fail("already", "This dose is already marked.");
+    const until = new Date(nowMs + SNOOZE_MS).toISOString();
+    const { data, error } = await db.from("dose_events").update({ snoozed_until: until, reminded_at: new Date(nowMs).toISOString() }).eq("id", ev.id).is("status", null).select().maybeSingle();
+    if (error || !data) return fail("conflict", "This dose was just updated. Please refresh.", 409);
+    await queueNotes(db, { hospital_id: acct.hospital_id, user_id: acct.user_id, type: "dose_reminder", link: "/portal/medicines", scheduled_at: until,
+      dedupe_key: `dose:${ev.id}:${until}`, vars: { medicine: ev.medication_schedules?.name ?? "", dose: ev.medication_schedules?.dose ?? "", time: notePkTime(until) } });
+    return json({ ok: true, data });
   }
-  return json({ ok: true, data: out });
+  // Taken/skipped: open or missed doses can be marked, up to a day late.
+  if (ev.status && ev.status !== "missed") return fail("already", "This dose is already marked.");
+  if (nowMs - due > 24 * 3600e3) return fail("too_late", "This dose is more than a day old.");
+  let q = db.from("dose_events").update({ status: action, logged_at: new Date(nowMs).toISOString() }).eq("id", ev.id);
+  q = ev.status ? q.eq("status", ev.status) : q.is("status", null);
+  const { data, error } = await q.select().maybeSingle();
+  if (error || !data) return fail("conflict", "This dose was just updated. Please refresh.", 409);
+  return json({ ok: true, data });
 });

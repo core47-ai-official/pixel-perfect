@@ -1,5 +1,5 @@
-// Paste into Supabase → Edge Functions → new function "bump-ot-booking". Turn "Enforce JWT Verification" OFF.
-// OT coordinator: an emergency case takes an elective case's slot. Reason required; notifies the bumped surgeon and patient. Body: { emergency_booking_id, bumped_booking_id, reason }
+// Paste into Supabase → Edge Functions → new function "generate-dose-events". Turn "Enforce JWT Verification" OFF.
+// Scheduled every 15 minutes by Supabase Cron (generate-dose-events.cron.sql), header x-cron-key = CRON_SECRET.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const cors = {
@@ -44,49 +44,43 @@ const BOOT = async (req: Request) => {
   return { db, c, b };
 };
 const has = (c: { roles: string[] }, list: string[]) => c.roles.some((r) => list.includes(r));
-
-const MIN = 60_000;
-const ACTIVE = ["scheduled", "in_progress"];
-// deno-lint-ignore no-explicit-any
-type Booking = any;
-const theatreEnd = (b: Booking) => new Date(b.planned_start).getTime() + (Number(b.planned_minutes) + Number(b.cleaning_minutes)) * MIN;
-const caseEnd = (b: Booking) => new Date(b.planned_start).getTime() + Number(b.planned_minutes) * MIN;
-const hhmm = (ms: number) => new Date(ms + 5 * 3600e3).toISOString().slice(11, 16);
-/** Returns an error message if the theatre (incl. cleaning time) or the surgeon/anesthetist is busy. */
-async function findClash(db: DB, hospitalId: string, cand: { id: string; ot_id: string; planned_start: string; planned_minutes: number; cleaning_minutes: number; surgeon_id: string; anesthetist_id: string | null }, ignoreIds: string[] = []) {
-  const s = new Date(cand.planned_start).getTime();
-  const tEnd = theatreEnd(cand), cEnd = caseEnd(cand);
-  const { data: rows } = await db.from("ot_bookings").select("id, ot_id, planned_start, planned_minutes, cleaning_minutes, surgeon_id, anesthetist_id, procedure")
-    .eq("hospital_id", hospitalId).in("status", ACTIVE)
-    .gte("planned_start", new Date(s - 24 * 3600e3).toISOString()).lt("planned_start", new Date(tEnd).toISOString());
-  const others = (rows ?? []).filter((r: Booking) => r.id !== cand.id && !ignoreIds.includes(r.id));
-  for (const r of others) {
-    if (r.ot_id !== cand.ot_id) continue;
-    const rs = new Date(r.planned_start).getTime();
-    if (rs < tEnd && s < theatreEnd(r))
-      return `This theatre is busy: "${r.procedure}" runs ${hhmm(rs)}–${hhmm(caseEnd(r))} plus ${r.cleaning_minutes} min cleaning (free from ${hhmm(theatreEnd(r))}).`;
+// ---- measurement rules (MediCore; identical in log-measurement and update-measurement, mirrored in src/lib/measurements.ts) ----
+const cronOk = (req: Request) => { const s = Deno.env.get("CRON_SECRET"); return !!s && req.headers.get("x-cron-key") === s; };
+// ---- dose plan (identical in sync-prescriptions-to-tracker, save-medication-schedule, generate-dose-events, log-dose) ----
+// Clock times are Pakistan time "HH:MM". 1+0+1 → 08:00, 20:00; OD/BD/TDS/QID/HS same hours as the ward MAR.
+const PK = 5 * 3600e3;
+const SLOTS: Record<string, string[]> = { OD: ["08:00"], BD: ["08:00", "20:00"], TDS: ["08:00", "14:00", "20:00"], QID: ["08:00", "12:00", "16:00", "20:00"], HS: ["21:00"] };
+/** [] = as needed, null = once now. */
+function timesFor(freq: string): string[] | null {
+  const f = String(freq ?? "").trim().toUpperCase();
+  if (f === "SOS" || f === "PRN") return [];
+  if (f === "STAT") return null;
+  if (SLOTS[f]) return SLOTS[f];
+  const parts = f.split("+");
+  if (parts.length >= 2 && parts.every((p) => /^\d+(\.\d+)?$/.test(p))) {
+    const pos = parts.length === 4 ? SLOTS.QID : parts.length === 3 ? SLOTS.TDS : SLOTS.BD;
+    return parts.map((p, i) => (Number(p) > 0 ? pos[i] : "")).filter(Boolean);
   }
-  const people = [cand.surgeon_id, cand.anesthetist_id].filter(Boolean);
-  for (const r of others) {
-    const rs = new Date(r.planned_start).getTime();
-    if (!(rs < cEnd && s < caseEnd(r))) continue;
-    if (people.includes(r.surgeon_id) || (r.anesthetist_id && people.includes(r.anesthetist_id)))
-      return `The surgeon or anesthetist is already in another case ${hhmm(rs)}–${hhmm(caseEnd(r))}.`;
+  return SLOTS.OD;
+}
+const pkDay = (ms: number) => new Date(ms + PK).toISOString().slice(0, 10);
+const validTime = (t: unknown) => typeof t === "string" && /^([01]\d|2[0-3]):[0-5]\d$/.test(t);
+/** Dose instants at/after fromMs, sorted; stops at count or untilMs (whichever first). */
+function nextSlots(times: string[], fromMs: number, count: number | null, untilMs: number | null): number[] {
+  const mins = [...new Set(times)].map((t) => Number(t.slice(0, 2)) * 60 + Number(t.slice(3, 5))).sort((a, b) => a - b);
+  const out: number[] = [];
+  if (!mins.length) return out;
+  const day0 = Date.parse(`${pkDay(fromMs)}T00:00:00Z`) - PK;
+  for (let d = 0; d < 400; d++) for (const m of mins) {
+    const at = day0 + d * 86400e3 + m * 60e3;
+    if (at < fromMs) continue;
+    if (untilMs !== null && at > untilMs) return out;
+    out.push(at);
+    if (count !== null && out.length >= count) return out;
   }
-  const day = new Date(s + 5 * 3600e3).toISOString().slice(0, 10);
-  const { data: lv } = await db.from("doctor_leaves").select("id").in("doctor_id", people).eq("status", "approved").lte("from_date", day).gte("to_date", day).limit(1);
-  if (lv?.length) return "The surgeon or anesthetist is on approved leave that day.";
-  return null;
+  return out;
 }
-async function loadBooking(db: DB, hospitalId: string, id: unknown) {
-  const { data } = await db.from("ot_bookings").select("*").eq("id", String(id ?? "")).eq("hospital_id", hospitalId).maybeSingle();
-  return data as Booking;
-}
-async function isSurgeonOf(db: DB, userId: string, bk: Booking) {
-  const { data } = await db.from("doctors").select("id").eq("user_id", userId).in("id", [bk.surgeon_id, bk.anesthetist_id].filter(Boolean));
-  return !!data?.length;
-}
-const now = () => new Date().toISOString();
+// ---- end dose plan ----
 // ---- notification helpers (identical wherever they appear; mirrors src/config/notification-types.ts) ----
 // Every event notification goes through queueNotes: it applies the hospital's English/Urdu template for the type
 // (company settings → notifications → tpl_<type>_<en|ur>, first line = title, rest = body, {placeholders} from vars),
@@ -163,38 +157,58 @@ async function queueNotes(db: any, input: NoteIn | NoteIn[]): Promise<{ error: u
   const { error } = await db.from("notifications").upsert(out, { onConflict: "dedupe_key", ignoreDuplicates: true });
   return { error, count: error ? 0 : out.length };
 }
-// ---- end notification helpers ----
+// Every 15 minutes: (1) doses not logged within 2 hours become missed, (2) patient-added medicines get the next 24 hours of
+// doses (hospital courses are planned in full by sync-prescriptions-to-tracker), (3) due doses get one push reminder each.
+const BATCH = 500;
+const LEAD_MS = 20 * 60e3; // queue slightly ahead; process-notifications sends at due time.
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
-  const { db, c, b } = await BOOT(req);
-  if ("error" in c) return c.error;
-  if (!has(c, ["super_admin", "admin", "ot_coordinator"])) return fail("forbidden", "Only the OT coordinator can bump cases.", 403);
-  const reason = String(b.reason ?? "").trim().slice(0, 500);
-  if (reason.length < 5) return fail("invalid", "Give a reason (at least 5 characters).");
-  const em = await loadBooking(db, c.hospitalId, b.emergency_booking_id);
-  const el = await loadBooking(db, c.hospitalId, b.bumped_booking_id);
-  if (!em || !el) return fail("not_found", "Booking not found.", 404);
-  if (em.priority !== "emergency" || !["requested", "scheduled", "bumped"].includes(em.status)) return fail("invalid", "Only a waiting emergency case can bump another case.");
-  if (el.priority !== "elective" || el.status !== "scheduled") return fail("invalid", "Only a scheduled elective case can be bumped.");
-  const cand = { ...em, ot_id: el.ot_id, planned_start: el.planned_start };
-  const clash = await findClash(db, c.hospitalId, cand, [el.id]);
-  if (clash) return fail("overlap", clash, 409);
-  const { data: bumped } = await db.from("ot_bookings").update({ status: "bumped", bump_reason: reason, updated_at: now() }).eq("id", el.id).eq("status", "scheduled").select().maybeSingle();
-  if (!bumped) return fail("stale", "The elective case was just changed by someone else.", 409);
-  const { data, error } = await db.from("ot_bookings").update({ ot_id: el.ot_id, planned_start: el.planned_start, status: "scheduled", scheduled_by: c.userId, updated_at: now() })
-    .eq("id", em.id).select().single();
-  if (error) {
-    await db.from("ot_bookings").update({ status: "scheduled", bump_reason: null }).eq("id", el.id);
-    return fail("server", "Could not move the emergency case.", 500);
+  if (!cronOk(req)) return fail("unauthorized", "Not allowed.", 401);
+  const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+  const nowMs = Date.now(), nowIso = new Date(nowMs).toISOString();
+  // 1 · missed
+  const { data: missed } = await db.from("dose_events").update({ status: "missed" }).is("status", null).lt("due_at", new Date(nowMs - 2 * 3600e3).toISOString()).select("id");
+  // 2 · patient schedules
+  const today = pkDay(nowMs);
+  const { data: scheds } = await db.from("medication_schedules").select("id, times, start_date, end_date, patient_account_id, patient_id")
+    .eq("active", true).eq("source", "patient").or(`end_date.is.null,end_date.gte.${today}`).limit(BATCH);
+  let created = 0;
+  const until = nowMs + 24 * 3600e3;
+  for (const s of scheds ?? []) {
+    if (!s.times?.length) continue;
+    const from = Math.max(nowMs, Date.parse(`${s.start_date}T00:00:00Z`) - PK);
+    const end = Math.min(until, s.end_date ? Date.parse(`${s.end_date}T23:59:59Z`) - PK : Infinity);
+    const slots = nextSlots(s.times, from, null, end);
+    if (!slots.length) continue;
+    const { data: have } = await db.from("dose_events").select("due_at").eq("schedule_id", s.id).gte("due_at", new Date(from).toISOString());
+    const got = new Set((have ?? []).map((h: { due_at: string }) => Date.parse(h.due_at)));
+    const rows = slots.filter((at) => !got.has(at)).map((at) => ({ schedule_id: s.id, patient_account_id: s.patient_account_id, patient_id: s.patient_id, due_at: new Date(at).toISOString() }));
+    if (rows.length && !(await db.from("dose_events").insert(rows)).error) created += rows.length;
   }
-  const notes = [];
-  const { data: s } = await db.from("doctors").select("user_id").eq("id", el.surgeon_id).maybeSingle();
-  if (s?.user_id) notes.push({ hospital_id: c.hospitalId, user_id: s.user_id, type: "ot_bumped",
-    title: "Your OT case was moved for an emergency", body: `${el.procedure}: ${reason}`, vars: { procedure: el.procedure, reason }, link: "/ot", created_by: c.userId });
-  const { data: p } = await db.from("patients").select("user_id").eq("id", el.patient_id).maybeSingle();
-  if (p?.user_id) notes.push({ hospital_id: c.hospitalId, user_id: p.user_id, type: "ot_bumped",
-    title: "Your operation needs a new time", body: "An emergency needed the theatre. The hospital will contact you with a new time.", link: "/my-appointments", created_by: c.userId });
-  if (notes.length) await queueNotes(db, notes);
-  await audit(db, req, c, "bump", "ot_booking", el.id, el, { bumped, emergency: data, reason });
-  return json({ ok: true, data: { emergency: data, bumped } });
+  // 3 · reminders (one per dose; snooze re-queues its own from log-dose)
+  const { data: due } = await db.from("dose_events").select("id, due_at, patient_account_id, medication_schedules(name, dose, active)")
+    .is("status", null).is("reminded_at", null).gte("due_at", new Date(nowMs - 2 * 3600e3).toISOString()).lte("due_at", new Date(nowMs + LEAD_MS).toISOString())
+    .order("due_at").limit(BATCH);
+  const live = (due ?? []).filter((d: { medication_schedules: { active: boolean } | null }) => d.medication_schedules?.active);
+  let queued = 0;
+  if (live.length) {
+    const accIds = [...new Set(live.map((d: { patient_account_id: string }) => d.patient_account_id))];
+    const { data: accs } = await db.from("patient_accounts").select("id, user_id, hospital_id").in("id", accIds);
+    const acc = new Map((accs ?? []).map((a: { id: string }) => [a.id, a]));
+    const byHospital = new Map<string, NoteIn[]>();
+    for (const d of live) {
+      // deno-lint-ignore no-explicit-any
+      const a: any = acc.get(d.patient_account_id);
+      if (!a) continue;
+      const list = byHospital.get(a.hospital_id) ?? [];
+      list.push({ hospital_id: a.hospital_id, user_id: a.user_id, type: "dose_reminder", link: "/portal/medicines",
+        scheduled_at: d.due_at > nowIso ? d.due_at : nowIso, dedupe_key: `dose:${d.id}`,
+        vars: { medicine: d.medication_schedules?.name ?? "", dose: d.medication_schedules?.dose ?? "", time: notePkTime(d.due_at) } });
+      byHospital.set(a.hospital_id, list);
+    }
+    for (const list of byHospital.values()) { const r = await queueNotes(db, list); queued += r.count; }
+    await db.from("dose_events").update({ reminded_at: nowIso }).in("id", live.map((d: { id: string }) => d.id));
+  }
+  return json({ ok: true, data: { missed: missed?.length ?? 0, created, queued } });
 });
