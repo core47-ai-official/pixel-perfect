@@ -4787,8 +4787,12 @@ export type Database = {
       tracker_profiles: {
         Row: {
           blood_group: string | null
+          consented_at: string | null
           created_at: string
+          disclaimer_ack_at: string | null
+          dob: string | null
           emergency_contact: Json
+          gender: string | null
           health_status: string
           height_cm: number | null
           id: string
@@ -4800,8 +4804,12 @@ export type Database = {
         }
         Insert: {
           blood_group?: string | null
+          consented_at?: string | null
           created_at?: string
+          disclaimer_ack_at?: string | null
+          dob?: string | null
           emergency_contact?: Json
+          gender?: string | null
           health_status?: string
           height_cm?: number | null
           id?: string
@@ -4813,8 +4821,12 @@ export type Database = {
         }
         Update: {
           blood_group?: string | null
+          consented_at?: string | null
           created_at?: string
+          disclaimer_ack_at?: string | null
+          dob?: string | null
           emergency_contact?: Json
+          gender?: string | null
           health_status?: string
           height_cm?: number | null
           id?: string
