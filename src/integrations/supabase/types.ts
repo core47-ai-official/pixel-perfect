@@ -920,7 +920,9 @@ export type Database = {
           id: string
           patient_account_id: string
           patient_id: string | null
+          patient_name: string | null
           permissions: Json
+          responded_at: string | null
           revoked_at: string | null
           status: string
           updated_at: string
@@ -931,7 +933,9 @@ export type Database = {
           id?: string
           patient_account_id: string
           patient_id?: string | null
+          patient_name?: string | null
           permissions?: Json
+          responded_at?: string | null
           revoked_at?: string | null
           status?: string
           updated_at?: string
@@ -942,7 +946,9 @@ export type Database = {
           id?: string
           patient_account_id?: string
           patient_id?: string | null
+          patient_name?: string | null
           permissions?: Json
+          responded_at?: string | null
           revoked_at?: string | null
           status?: string
           updated_at?: string
@@ -1488,6 +1494,7 @@ export type Database = {
           created_at: string
           created_by: string | null
           department_id: string | null
+          doctor_code: string | null
           followup_fee: number
           gender: string | null
           hospital_id: string
@@ -1504,6 +1511,7 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           department_id?: string | null
+          doctor_code?: string | null
           followup_fee?: number
           gender?: string | null
           hospital_id: string
@@ -1520,6 +1528,7 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           department_id?: string | null
+          doctor_code?: string | null
           followup_fee?: number
           gender?: string | null
           hospital_id?: string
