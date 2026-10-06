@@ -78,7 +78,7 @@ function FeedbackPage() {
   }, [rows]);
   const overall = rows.length ? rows.reduce((s, r) => s + r.rating, 0) / rows.length : 0;
   const openComplaints = rows.filter((r) => r.is_complaint && r.status !== "resolved").length;
-  const tone = (s: string) => (s === "resolved" ? "ok" : s === "in_progress" ? "progress" : "warning") as const;
+  const tone = (s: string): "ok" | "progress" | "warning" => (s === "resolved" ? "ok" : s === "in_progress" ? "progress" : "warning");
 
   const columns: Column<Row>[] = [
     { key: "date", header: t("fb.date"), sortable: true, render: (r) => <Ltr>{fmt(r.date)}</Ltr> },
