@@ -119,9 +119,6 @@ function FeedbackPage() {
           { key: "category", label: t("fb.category"), options: FEEDBACK_CATEGORIES.map((c) => ({ value: c, label: t(`fb.cat.${c}`) })) },
           { key: "dept_name", label: t("fb.department"), options: [...new Set(rows.map((r) => r.dept_name))].map((d) => ({ value: d, label: d })) },
         ]} />
-      <div className="flex flex-wrap gap-2">
-        {rows.slice(0, 0).map(() => null)}
-      </div>
       <p className="text-xs text-muted-foreground">{t("fb.openHint")}</p>
       <div className="space-y-2">
         {rows.filter((r) => r.status !== "resolved").slice(0, 20).map((r) => (
