@@ -18,6 +18,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as StyleguideRouteImport } from './routes/styleguide'
 import { Route as AuthenticatedAppRouteRouteImport } from './routes/_authenticated/_app/route'
 import { Route as AuthenticatedChangePasswordRouteImport } from './routes/_authenticated/change-password'
+import { Route as AuthenticatedPortalRouteRouteImport } from './routes/_authenticated/portal/route'
 import { Route as TvDoctorIdRouteImport } from './routes/tv.$doctorId'
 import { Route as AuthenticatedAppAppointmentsRouteImport } from './routes/_authenticated/_app/appointments'
 import { Route as AuthenticatedAppApprovalsRouteImport } from './routes/_authenticated/_app/approvals'
@@ -65,6 +66,7 @@ import { Route as AuthenticatedAppUnpaidRouteImport } from './routes/_authentica
 import { Route as AuthenticatedAppUsersRouteImport } from './routes/_authenticated/_app/users'
 import { Route as AuthenticatedAppWardSetupRouteImport } from './routes/_authenticated/_app/ward-setup'
 import { Route as AuthenticatedAppWardsRouteImport } from './routes/_authenticated/_app/wards'
+import { Route as AuthenticatedPortalIndexRouteImport } from './routes/_authenticated/portal/index'
 import { Route as TvDepartmentDepartmentIdRouteImport } from './routes/tv.department.$departmentId'
 import { Route as AuthenticatedAppAdmissionsNewRouteImport } from './routes/_authenticated/_app/admissions_.new'
 import { Route as AuthenticatedAppConsultationsVisitIdRouteImport } from './routes/_authenticated/_app/consultations_.$visitId'
@@ -116,6 +118,12 @@ const AuthenticatedChangePasswordRoute =
   AuthenticatedChangePasswordRouteImport.update({
     id: '/change-password',
     path: '/change-password',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPortalRouteRoute =
+  AuthenticatedPortalRouteRouteImport.update({
+    id: '/portal',
+    path: '/portal',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const TvDoctorIdRoute = TvDoctorIdRouteImport.update({
@@ -383,6 +391,12 @@ const AuthenticatedAppWardsRoute = AuthenticatedAppWardsRouteImport.update({
   path: '/wards',
   getParentRoute: () => AuthenticatedAppRouteRoute,
 } as any)
+const AuthenticatedPortalIndexRoute =
+  AuthenticatedPortalIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedPortalRouteRoute,
+  } as any)
 const TvDepartmentDepartmentIdRoute =
   TvDepartmentDepartmentIdRouteImport.update({
     id: '/tv/department/$departmentId',
@@ -439,6 +453,7 @@ export interface FileRoutesByFullPath {
   '/forgot-password': typeof ForgotPasswordRoute
   '/reset-password': typeof ResetPasswordRoute
   '/styleguide': typeof StyleguideRoute
+  '/portal': typeof AuthenticatedPortalRouteRouteWithChildren
   '/change-password': typeof AuthenticatedChangePasswordRoute
   '/tv/$doctorId': typeof TvDoctorIdRoute
   '/appointments': typeof AuthenticatedAppAppointmentsRoute
@@ -488,6 +503,7 @@ export interface FileRoutesByFullPath {
   '/ward-setup': typeof AuthenticatedAppWardSetupRoute
   '/wards': typeof AuthenticatedAppWardsRoute
   '/tv/department/$departmentId': typeof TvDepartmentDepartmentIdRoute
+  '/portal/': typeof AuthenticatedPortalIndexRoute
   '/admissions/new': typeof AuthenticatedAppAdmissionsNewRoute
   '/consultations/$visitId': typeof AuthenticatedAppConsultationsVisitIdRoute
   '/doctors/$doctorId': typeof AuthenticatedAppDoctorsDoctorIdRoute
@@ -552,6 +568,7 @@ export interface FileRoutesByTo {
   '/ward-setup': typeof AuthenticatedAppWardSetupRoute
   '/wards': typeof AuthenticatedAppWardsRoute
   '/tv/department/$departmentId': typeof TvDepartmentDepartmentIdRoute
+  '/portal': typeof AuthenticatedPortalIndexRoute
   '/admissions/new': typeof AuthenticatedAppAdmissionsNewRoute
   '/consultations/$visitId': typeof AuthenticatedAppConsultationsVisitIdRoute
   '/doctors/$doctorId': typeof AuthenticatedAppDoctorsDoctorIdRoute
@@ -570,6 +587,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/styleguide': typeof StyleguideRoute
   '/_authenticated/_app': typeof AuthenticatedAppRouteRouteWithChildren
+  '/_authenticated/portal': typeof AuthenticatedPortalRouteRouteWithChildren
   '/_authenticated/change-password': typeof AuthenticatedChangePasswordRoute
   '/tv/$doctorId': typeof TvDoctorIdRoute
   '/_authenticated/_app/appointments': typeof AuthenticatedAppAppointmentsRoute
@@ -619,6 +637,7 @@ export interface FileRoutesById {
   '/_authenticated/_app/ward-setup': typeof AuthenticatedAppWardSetupRoute
   '/_authenticated/_app/wards': typeof AuthenticatedAppWardsRoute
   '/tv/department/$departmentId': typeof TvDepartmentDepartmentIdRoute
+  '/_authenticated/portal/': typeof AuthenticatedPortalIndexRoute
   '/_authenticated/_app/admissions_/new': typeof AuthenticatedAppAdmissionsNewRoute
   '/_authenticated/_app/consultations_/$visitId': typeof AuthenticatedAppConsultationsVisitIdRoute
   '/_authenticated/_app/doctors_/$doctorId': typeof AuthenticatedAppDoctorsDoctorIdRoute
@@ -636,6 +655,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/reset-password'
     | '/styleguide'
+    | '/portal'
     | '/change-password'
     | '/tv/$doctorId'
     | '/appointments'
@@ -685,6 +705,7 @@ export interface FileRouteTypes {
     | '/ward-setup'
     | '/wards'
     | '/tv/department/$departmentId'
+    | '/portal/'
     | '/admissions/new'
     | '/consultations/$visitId'
     | '/doctors/$doctorId'
@@ -749,6 +770,7 @@ export interface FileRouteTypes {
     | '/ward-setup'
     | '/wards'
     | '/tv/department/$departmentId'
+    | '/portal'
     | '/admissions/new'
     | '/consultations/$visitId'
     | '/doctors/$doctorId'
@@ -766,6 +788,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/styleguide'
     | '/_authenticated/_app'
+    | '/_authenticated/portal'
     | '/_authenticated/change-password'
     | '/tv/$doctorId'
     | '/_authenticated/_app/appointments'
@@ -815,6 +838,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/ward-setup'
     | '/_authenticated/_app/wards'
     | '/tv/department/$departmentId'
+    | '/_authenticated/portal/'
     | '/_authenticated/_app/admissions_/new'
     | '/_authenticated/_app/consultations_/$visitId'
     | '/_authenticated/_app/doctors_/$doctorId'
@@ -899,6 +923,13 @@ declare module '@tanstack/react-router' {
       path: '/change-password'
       fullPath: '/change-password'
       preLoaderRoute: typeof AuthenticatedChangePasswordRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/portal': {
+      id: '/_authenticated/portal'
+      path: '/portal'
+      fullPath: '/portal'
+      preLoaderRoute: typeof AuthenticatedPortalRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/tv/$doctorId': {
@@ -1230,6 +1261,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppWardsRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
+    '/_authenticated/portal/': {
+      id: '/_authenticated/portal/'
+      path: '/'
+      fullPath: '/portal/'
+      preLoaderRoute: typeof AuthenticatedPortalIndexRouteImport
+      parentRoute: typeof AuthenticatedPortalRouteRoute
+    }
     '/tv/department/$departmentId': {
       id: '/tv/department/$departmentId'
       path: '/tv/department/$departmentId'
@@ -1411,13 +1449,29 @@ const AuthenticatedAppRouteRouteWithChildren =
     AuthenticatedAppRouteRouteChildren,
   )
 
+interface AuthenticatedPortalRouteRouteChildren {
+  AuthenticatedPortalIndexRoute: typeof AuthenticatedPortalIndexRoute
+}
+
+const AuthenticatedPortalRouteRouteChildren: AuthenticatedPortalRouteRouteChildren =
+  {
+    AuthenticatedPortalIndexRoute: AuthenticatedPortalIndexRoute,
+  }
+
+const AuthenticatedPortalRouteRouteWithChildren =
+  AuthenticatedPortalRouteRoute._addFileChildren(
+    AuthenticatedPortalRouteRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppRouteRoute: typeof AuthenticatedAppRouteRouteWithChildren
+  AuthenticatedPortalRouteRoute: typeof AuthenticatedPortalRouteRouteWithChildren
   AuthenticatedChangePasswordRoute: typeof AuthenticatedChangePasswordRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppRouteRoute: AuthenticatedAppRouteRouteWithChildren,
+  AuthenticatedPortalRouteRoute: AuthenticatedPortalRouteRouteWithChildren,
   AuthenticatedChangePasswordRoute: AuthenticatedChangePasswordRoute,
 }
 
