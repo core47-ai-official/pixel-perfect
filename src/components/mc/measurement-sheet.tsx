@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -18,30 +18,28 @@ export const M_ICONS: Record<MType, typeof Activity> = { bp: HeartPulse, glucose
 const localNow = (d = new Date()) => new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
 
 /** Six big quick-add buttons; each opens the bottom sheet. */
-export function QuickAddMeasurements({ onEdit }: { onEdit?: Measurement | null }) {
+export function QuickAddMeasurements() {
   const { t } = useTranslation();
   const [type, setType] = useState<MType | null>(null);
-  const [editing, setEditing] = useState<Measurement | null>(null);
-  useEffect(() => { if (onEdit) { setEditing(onEdit); setType(onEdit.type as MType); } }, [onEdit]);
   return (
     <>
       <div className="grid grid-cols-3 gap-2">
         {QUICK_TYPES.map((k) => {
           const Icon = M_ICONS[k];
           return (
-            <button key={k} type="button" onClick={() => { setEditing(null); setType(k); }}
+            <button key={k} type="button" onClick={() => setType(k)}
               className="flex min-h-20 flex-col items-center justify-center gap-1 rounded-patient border bg-card text-sm font-medium shadow-sm hover:bg-accent">
               <Icon className="size-6 text-primary" aria-hidden />{t(`meas.q.${k}`)}
             </button>
           );
         })}
       </div>
-      {type && <MeasurementSheet key={(editing?.id ?? "") + type} type={type} editing={editing} onClose={() => { setType(null); setEditing(null); }} />}
+      {type && <MeasurementSheet key={type} type={type} editing={null} onClose={() => setType(null)} />}
     </>
   );
 }
 
-function MeasurementSheet({ type, editing, onClose }: { type: MType; editing: Measurement | null; onClose: () => void }) {
+export function MeasurementSheet({ type, editing, onClose }: { type: MType; editing: Measurement | null; onClose: () => void }) {
   const { t } = useTranslation();
   const qc = useQueryClient();
   const units = M_UNITS[type];

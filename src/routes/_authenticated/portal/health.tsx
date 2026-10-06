@@ -5,6 +5,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Banner } from "@/components/mc/banner";
 import { Ltr } from "@/components/mc/ltr";
 import { PCard } from "@/components/mc/portal-shell";
+import { RecentMeasurements } from "@/components/mc/recent-measurements";
+import { QuickAddMeasurements } from "@/components/mc/measurement-sheet";
 import { TrackerOnboarding } from "@/components/mc/tracker-onboarding";
 import { bmi, useTrackerLists, useTrackerProfile, type TrackerProfile } from "@/lib/tracker";
 
@@ -35,6 +37,8 @@ function Dashboard({ profile }: { profile: TrackerProfile }) {
   return (
     <div className="space-y-4" data-testid="tracker-dashboard">
       <h1 className="text-2xl font-semibold">{t("trk.dashTitle")}</h1>
+      <QuickAddMeasurements />
+      <RecentMeasurements />
       <div className="grid grid-cols-3 gap-2">
         {[[t("trk.height"), profile.height_cm ? `${profile.height_cm} cm` : "—"], [t("trk.weight"), profile.weight_kg ? `${profile.weight_kg} kg` : "—"], ["BMI", b ? b.toFixed(1) : "—"]].map(([k, v]) => (
           <PCard key={k} className="p-3 text-center"><p className="text-xs text-muted-foreground">{k}</p><Ltr className="text-lg font-semibold">{v}</Ltr></PCard>
