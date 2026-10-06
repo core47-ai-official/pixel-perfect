@@ -276,7 +276,9 @@
     "bloodBank": "بلڈ بینک",
     "welfare": "فلاح و زکوٰۃ",
     "claims": "کلیمز",
-    "surveillance": "امراض کی نگرانی"
+    "surveillance": "امراض کی نگرانی",
+    "feedback": "آراء",
+    "feedbackKiosk": "آراء کیوسک"
   },
   "navGroup": {
     "overview": "جائزہ",
@@ -3121,5 +3123,69 @@
     "dayCol": "تاریخ",
     "weekEnd": "ہفتہ ختم",
     "baseline": "4 ہفتوں کی اوسط"
+  },
+  "fb": {
+    "title": "آراء اور شکایات",
+    "rating": "درجہ بندی",
+    "stars": "{{n}} ستارے",
+    "thanks": "آپ کی رائے کا شکریہ۔",
+    "category": "زمرہ",
+    "comment": "تبصرہ (اختیاری)",
+    "whatWrong": "کیا مسئلہ ہوا؟",
+    "isComplaint": "یہ شکایت ہے",
+    "submit": "رائے بھیجیں",
+    "kioskTitle": "آپ کا دورہ کیسا رہا؟",
+    "kioskHint": "ستاروں پر ٹیپ کر کے درجہ دیں۔ آپ کی رائے ہسپتال انتظامیہ تک جائے گی۔",
+    "mrnOptional": "MRN (اختیاری)",
+    "anonymous": "گمنام",
+    "noDept": "کوئی شعبہ نہیں",
+    "date": "تاریخ",
+    "type": "قسم",
+    "complaint": "شکایت",
+    "feedback": "رائے",
+    "department": "شعبہ",
+    "patient": "مریض",
+    "status": "حیثیت",
+    "assignedTo": "ذمہ دار",
+    "loadFailed": "آراء لوڈ نہیں ہو سکیں۔",
+    "avgOverall": "اوسط درجہ",
+    "total": "جوابات",
+    "openComplaints": "کھلی شکایات",
+    "byDept": "شعبہ وار اوسط درجہ",
+    "none": "ابھی کوئی رائے نہیں۔",
+    "avg": "اوسط",
+    "count": "جوابات",
+    "openHint": "کھلے اور زیرِ عمل معاملات — تفویض یا حل کرنے کے لیے ٹیپ کریں۔",
+    "saved": "محفوظ ہو گیا۔",
+    "resolvedOn": "حل ہوا {{date}}",
+    "pickStaff": "عملہ منتخب کریں",
+    "assign": "تفویض کریں",
+    "resolution": "حل کا نوٹ",
+    "resolve": "حل شدہ قرار دیں",
+    "promptTitle": "آپ کا دورہ کیسا رہا؟",
+    "promptBody": "{{doctor}} کے ساتھ اپنے دورے کو درجہ دیں۔",
+    "promptBodyNoDoc": "اپنے حالیہ دورے کو درجہ دیں۔",
+    "later": "ابھی نہیں",
+    "cat": {
+      "general": "عمومی",
+      "doctor": "ڈاکٹر",
+      "nursing": "نرسنگ",
+      "cleanliness": "صفائی",
+      "waiting_time": "انتظار کا وقت",
+      "billing": "بلنگ",
+      "pharmacy": "فارمیسی",
+      "lab": "لیبارٹری",
+      "staff_behaviour": "عملے کا رویہ",
+      "other": "دیگر"
+    },
+    "st": {
+      "open": "کھلی",
+      "in_progress": "زیرِ عمل",
+      "resolved": "حل شدہ"
+    },
+    "ch": {
+      "portal": "مریض پورٹل",
+      "kiosk": "استقبالیہ کیوسک"
+    }
   }
 }

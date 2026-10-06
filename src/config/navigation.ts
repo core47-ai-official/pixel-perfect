@@ -1,5 +1,5 @@
 import { ReceiptText, Package as PackageIcon, Send, Droplet } from "lucide-react";
-import { Bug, Hourglass, HandHeart, FileSpreadsheet,
+import { Bug, Hourglass, MessageSquareHeart, Tablet, HandHeart, FileSpreadsheet,
   LayoutDashboard, NotebookPen, Users, CalendarDays, ListOrdered, Stethoscope, BedDouble, HeartPulse, Siren, Scissors,
   FlaskConical, Pill, Boxes, Receipt, Wallet, UserCog, Building2, BarChart3, ScrollText, Settings, LifeBuoy,
   CalendarCheck, FileHeart, FileText, UserPlus, CalendarPlus, ClipboardPlus, TestTube, ShoppingCart, ClipboardList, BadgePlus, BadgeCheck, PiggyBank,
@@ -50,6 +50,8 @@ export const PAGES = {
   approvals: { id: "approvals", path: "/approvals", icon: BadgeCheck, group: "finance" },
   cashRegister: { id: "cashRegister", path: "/cash-register", icon: Wallet, group: "finance" },
   unpaid: { id: "unpaid", path: "/unpaid", icon: Hourglass, group: "finance" },
+  feedback: { id: "feedback", path: "/feedback", icon: MessageSquareHeart, group: "admin" },
+  feedbackKiosk: { id: "feedbackKiosk", path: "/feedback-kiosk", icon: Tablet, group: "overview" },
   claims: { id: "claims", path: "/claims", icon: FileSpreadsheet, group: "finance" },
   welfare: { id: "welfare", path: "/welfare", icon: HandHeart, group: "finance" },
   users: { id: "users", path: "/users", icon: UsersRound, group: "admin" },
@@ -81,14 +83,14 @@ export const FOOTER_PAGES: NavPage[] = [
 
 /** Role → pages, in priority order (first four become the mobile bottom nav). */
 export const ROLE_PAGES: Record<AppRole, PageId[]> = {
-  super_admin: ["dashboard", "users", "reports", "surveillance", "roster", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "doctorsNow", "leaveApprovals", "ot", "patients", "appointments", "billing", "approvals", "cashRegister", "unpaid", "welfare", "claims", "inventory", "purchaseRequests", "formulary", "labTests", "wardSetup", "wards", "emergency", "referrals", "nursing", "handover", "tariffs", "packages", "bloodBank"],
-  admin: ["dashboard", "users", "departments", "roster", "doctors", "doctorsNow", "leaveApprovals", "companySettings", "reports", "surveillance", "patients", "appointments", "ot", "billing", "approvals", "unpaid", "welfare", "claims", "inventory", "purchaseRequests", "formulary", "labTests", "wardSetup", "wards", "emergency", "referrals", "nursing", "handover", "tariffs", "packages", "bloodBank"],
+  super_admin: ["dashboard", "users", "feedback", "feedbackKiosk", "reports", "surveillance", "roster", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "doctorsNow", "leaveApprovals", "ot", "patients", "appointments", "billing", "approvals", "cashRegister", "unpaid", "welfare", "claims", "inventory", "purchaseRequests", "formulary", "labTests", "wardSetup", "wards", "emergency", "referrals", "nursing", "handover", "tariffs", "packages", "bloodBank"],
+  admin: ["dashboard", "users", "feedback", "feedbackKiosk", "departments", "roster", "doctors", "doctorsNow", "leaveApprovals", "companySettings", "reports", "surveillance", "patients", "appointments", "ot", "billing", "approvals", "unpaid", "welfare", "claims", "inventory", "purchaseRequests", "formulary", "labTests", "wardSetup", "wards", "emergency", "referrals", "nursing", "handover", "tariffs", "packages", "bloodBank"],
   dept_head: ["dashboard", "deptPatients", "deptDoctors", "roster", "reports", "consultations", "leaveApprovals", "patients", "appointments", "wards", "emergency", "referrals", "nursing", "handover", "staff", "doctors", "doctorsNow"],
   doctor: ["myDay", "opdQueue", "mySchedule", "patients", "consultations", "appointments", "ot", "myLeave", "wards", "emergency", "referrals", "lab", "formulary", "dashboard", "bloodBank"],
   nurse: ["nursing", "wards", "handover", "patients", "emergency", "referrals", "dashboard", "roster"],
   er_officer: ["dashboard", "emergency", "referrals", "patients", "wards", "lab", "bloodBank"],
   ot_coordinator: ["dashboard", "ot", "patients", "wards", "inventory"],
-  receptionist: ["dashboard", "patients", "doctorsNow", "appointments", "opdQueue", "billing", "approvals", "wards", "emergency", "referrals", "tariffs", "packages"],
+  receptionist: ["dashboard", "feedbackKiosk", "patients", "doctorsNow", "appointments", "opdQueue", "billing", "approvals", "wards", "emergency", "referrals", "tariffs", "packages"],
   pharmacist: ["dashboard", "pharmacy", "formulary", "inventory", "purchaseRequests", "patients"],
   lab_tech: ["dashboard", "lab", "labTests", "patients", "inventory", "bloodBank"],
   cashier: ["dashboard", "billing", "approvals", "cashRegister", "unpaid", "welfare", "patients", "tariffs", "packages"],

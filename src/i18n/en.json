@@ -276,7 +276,9 @@
     "bloodBank": "Blood bank",
     "welfare": "Welfare & zakat",
     "claims": "Claims",
-    "surveillance": "Surveillance"
+    "surveillance": "Surveillance",
+    "feedback": "Feedback",
+    "feedbackKiosk": "Feedback kiosk"
   },
   "navGroup": {
     "overview": "Overview",
@@ -3121,5 +3123,69 @@
     "dayCol": "Date",
     "weekEnd": "Week ending",
     "baseline": "4-week avg"
+  },
+  "fb": {
+    "title": "Feedback & complaints",
+    "rating": "Rating",
+    "stars": "{{n}} star(s)",
+    "thanks": "Thank you for your feedback.",
+    "category": "Category",
+    "comment": "Comments (optional)",
+    "whatWrong": "What went wrong?",
+    "isComplaint": "This is a complaint",
+    "submit": "Send feedback",
+    "kioskTitle": "How was your visit?",
+    "kioskHint": "Tap the stars to rate us. Your feedback goes to the hospital management.",
+    "mrnOptional": "MRN (optional)",
+    "anonymous": "Anonymous",
+    "noDept": "No department",
+    "date": "Date",
+    "type": "Type",
+    "complaint": "Complaint",
+    "feedback": "Feedback",
+    "department": "Department",
+    "patient": "Patient",
+    "status": "Status",
+    "assignedTo": "Assigned to",
+    "loadFailed": "Couldn't load feedback.",
+    "avgOverall": "Average rating",
+    "total": "Responses",
+    "openComplaints": "Open complaints",
+    "byDept": "Average rating by department",
+    "none": "No feedback yet.",
+    "avg": "Average",
+    "count": "Responses",
+    "openHint": "Open and in-progress items — tap one to assign or resolve.",
+    "saved": "Saved.",
+    "resolvedOn": "Resolved {{date}}",
+    "pickStaff": "Pick staff",
+    "assign": "Assign",
+    "resolution": "Resolution note",
+    "resolve": "Mark resolved",
+    "promptTitle": "How was your visit?",
+    "promptBody": "Rate your visit with {{doctor}}.",
+    "promptBodyNoDoc": "Rate your recent visit.",
+    "later": "Not now",
+    "cat": {
+      "general": "General",
+      "doctor": "Doctor",
+      "nursing": "Nursing",
+      "cleanliness": "Cleanliness",
+      "waiting_time": "Waiting time",
+      "billing": "Billing",
+      "pharmacy": "Pharmacy",
+      "lab": "Lab",
+      "staff_behaviour": "Staff behaviour",
+      "other": "Other"
+    },
+    "st": {
+      "open": "Open",
+      "in_progress": "In progress",
+      "resolved": "Resolved"
+    },
+    "ch": {
+      "portal": "Patient portal",
+      "kiosk": "Reception kiosk"
+    }
   }
 }
