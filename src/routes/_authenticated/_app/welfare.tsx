@@ -8,7 +8,7 @@ import { RequireRole } from "@/components/mc/require-role";
 import { rolesForPage } from "@/config/navigation";
 import { callEdgeFunction } from "@/hooks/use-edge-function";
 import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/hooks/useAuth";
+import { useMyContext } from "@/hooks/use-my-context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -72,7 +72,7 @@ function useWelfare() {
 function WelfarePage() {
   const { t } = useTranslation();
   const qc = useQueryClient();
-  const { roles } = useAuth() as unknown as { roles: string[] };
+  const roles = useMyContext().data?.roles ?? [];
   const isAdmin = (roles ?? []).some((r) => r === "admin" || r === "super_admin");
   const { funds, txs } = useWelfare();
   const [fundFilter, setFundFilter] = useState("all");
@@ -94,7 +94,7 @@ function WelfarePage() {
     { key: "fund_name", header: t("welfare.fund") },
     { key: "type", header: t("welfare.kind"), render: (r) => t(`welfare.kinds.${r.type}`) },
     { key: "donor_name", header: `${t("welfare.donor")} / ${t("welfare.patient")}`, render: (r) => r.type === "donation" ? r.donor_name : r.patient ? <span>{r.patient.full_name} · <Ltr>{r.patient.mrn}</Ltr>{r.invoice && <> · <Ltr>{r.invoice.invoice_no}</Ltr></>}</span> : "—" },
-    { key: "amount", header: t("welfare.amount"), numeric: true, render: (r) => <Ltr className={r.type === "donation" ? "text-success" : ""}>{r.type === "donation" ? "+" : "−"}{formatPkr(Number(r.amount))}</Ltr> },
+    { key: "amount", header: t("welfare.amount"), numeric: true, render: (r) => <Ltr className={r.type === "donation" ? "text-ok-fg" : ""}>{r.type === "donation" ? "+" : "−"}{formatPkr(Number(r.amount))}</Ltr> },
     { key: "status", header: t("welfare.status"), render: (r) => <StatusChip status={TONE[r.status] ?? "inactive"}>{t(`welfare.statuses.${r.status}`)}</StatusChip> },
     { key: "approver", header: t("welfare.approvedBy") },
     { key: "receipt_no", header: t("welfare.receipt"), render: (r) => r.type === "donation" && r.receipt_no ? <Button size="sm" variant="ghost" onClick={() => setReceipt(r)}><Printer className="size-4" /><Ltr>{r.receipt_no}</Ltr></Button> : r.receipt_no ? <Ltr>{r.receipt_no}</Ltr> : "—" },
