@@ -273,7 +273,8 @@
     "deptPatients": "شعبے کے مریض",
     "roster": "ڈیوٹی روسٹر",
     "referrals": "ریفرلز",
-    "bloodBank": "بلڈ بینک"
+    "bloodBank": "بلڈ بینک",
+    "welfare": "فلاح و زکوٰۃ"
   },
   "navGroup": {
     "overview": "جائزہ",
@@ -2963,5 +2964,76 @@
     "shortPassword": "پاس ورڈ کم از کم 8 حروف کا ہو۔",
     "mismatch": "پاس ورڈ ایک جیسے نہیں۔",
     "failed": "اکاؤنٹ نہیں بن سکا۔ دوبارہ کوشش کریں۔"
+  },
+  "welfare": {
+    "title": "فلاح و زکوٰۃ",
+    "subtitle": "فنڈ بیلنس، عطیات اور مریضوں کے بلوں میں دی گئی امداد۔",
+    "funds": "فنڈز",
+    "newFund": "نیا فنڈ",
+    "editFund": "فنڈ میں ترمیم",
+    "fundName": "فنڈ کا نام",
+    "type": "قسم",
+    "types": {
+      "zakat": "زکوٰۃ",
+      "charity": "خیرات",
+      "other": "دیگر"
+    },
+    "balance": "بیلنس",
+    "active": "فعال",
+    "noFunds": "ابھی کوئی فنڈ نہیں۔ ایڈمن نیا فنڈ بنا سکتا ہے۔",
+    "recordDonation": "عطیہ درج کریں",
+    "requestSupport": "امداد کی درخواست",
+    "ledger": "کھاتہ",
+    "pending": "زیرِ التوا درخواستیں",
+    "noPending": "کوئی درخواست زیرِ التوا نہیں۔",
+    "noLedger": "ابھی کچھ درج نہیں۔",
+    "date": "تاریخ",
+    "fund": "فنڈ",
+    "kind": "اندراج",
+    "kinds": {
+      "donation": "عطیہ",
+      "allocation": "بل میں امداد"
+    },
+    "status": "حیثیت",
+    "statuses": {
+      "approved": "منظور",
+      "pending": "منتظر",
+      "processing": "لاگو ہو رہا ہے",
+      "rejected": "مسترد"
+    },
+    "amount": "رقم",
+    "donor": "عطیہ دہندہ کا نام",
+    "donorPhone": "عطیہ دہندہ کا فون",
+    "patient": "مریض",
+    "bill": "بل",
+    "note": "نوٹ",
+    "reason": "مریض کو امداد کیوں درکار ہے",
+    "requestedBy": "درخواست دہندہ",
+    "approvedBy": "فیصلہ کنندہ",
+    "approve": "منظور کریں",
+    "reject": "مسترد کریں",
+    "decisionNote": "فیصلے کا نوٹ (مسترد کرنے کے لیے لازمی)",
+    "approveAmount": "منظور شدہ رقم",
+    "billSearch": "بل نمبر",
+    "billBalance": "بل کا بقایا",
+    "findBill": "بل تلاش کریں",
+    "billNotFound": "اس نمبر کا کوئی کھلا بل نہیں۔",
+    "save": "محفوظ کریں",
+    "saved": "محفوظ ہو گیا",
+    "donationSaved": "عطیہ درج ہو گیا",
+    "requestSent": "درخواست ایڈمن کو بھیج دی گئی",
+    "approved": "امداد بل پر لاگو ہو گئی",
+    "rejected": "درخواست مسترد",
+    "receipt": "رسید",
+    "filterAll": "تمام فنڈز",
+    "print": {
+      "title": "رسیدِ عطیہ",
+      "receiptNo": "رسید نمبر",
+      "date": "تاریخ",
+      "donor": "عطیہ دہندہ",
+      "fund": "فنڈ",
+      "amount": "رقم",
+      "thanks": "آپ کے فراخدلانہ عطیے کا شکریہ۔ اللہ آپ کو اجر دے۔"
+    }
   }
 }

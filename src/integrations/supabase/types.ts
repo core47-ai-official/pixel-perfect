@@ -4258,6 +4258,7 @@ export type Database = {
           hospital_id: string
           id: string
           is_in_charge: boolean
+          is_social_worker: boolean
           role: Database["public"]["Enums"]["app_role"]
           updated_at: string
           user_id: string
@@ -4271,6 +4272,7 @@ export type Database = {
           hospital_id: string
           id?: string
           is_in_charge?: boolean
+          is_social_worker?: boolean
           role: Database["public"]["Enums"]["app_role"]
           updated_at?: string
           user_id: string
@@ -4284,6 +4286,7 @@ export type Database = {
           hospital_id?: string
           id?: string
           is_in_charge?: boolean
+          is_social_worker?: boolean
           role?: Database["public"]["Enums"]["app_role"]
           updated_at?: string
           user_id?: string
@@ -4626,6 +4629,155 @@ export type Database = {
             columns: ["hospital_id"]
             isOneToOne: false
             referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      welfare_funds: {
+        Row: {
+          balance: number
+          created_at: string
+          created_by: string | null
+          hospital_id: string
+          id: string
+          is_active: boolean
+          name: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          balance?: number
+          created_at?: string
+          created_by?: string | null
+          hospital_id: string
+          id?: string
+          is_active?: boolean
+          name: string
+          type?: string
+          updated_at?: string
+        }
+        Update: {
+          balance?: number
+          created_at?: string
+          created_by?: string | null
+          hospital_id?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "welfare_funds_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      welfare_transactions: {
+        Row: {
+          amount: number
+          approved_by: string | null
+          created_at: string
+          created_by: string | null
+          decided_at: string | null
+          decision_note: string | null
+          donor_name: string | null
+          donor_phone: string | null
+          fund_id: string
+          hospital_id: string
+          id: string
+          invoice_id: string | null
+          note: string | null
+          patient_id: string | null
+          payment_id: string | null
+          receipt_no: string | null
+          requested_by: string | null
+          status: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          decided_at?: string | null
+          decision_note?: string | null
+          donor_name?: string | null
+          donor_phone?: string | null
+          fund_id: string
+          hospital_id: string
+          id?: string
+          invoice_id?: string | null
+          note?: string | null
+          patient_id?: string | null
+          payment_id?: string | null
+          receipt_no?: string | null
+          requested_by?: string | null
+          status?: string
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          decided_at?: string | null
+          decision_note?: string | null
+          donor_name?: string | null
+          donor_phone?: string | null
+          fund_id?: string
+          hospital_id?: string
+          id?: string
+          invoice_id?: string | null
+          note?: string | null
+          patient_id?: string | null
+          payment_id?: string | null
+          receipt_no?: string | null
+          requested_by?: string | null
+          status?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "welfare_transactions_fund_id_fkey"
+            columns: ["fund_id"]
+            isOneToOne: false
+            referencedRelation: "welfare_funds"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "welfare_transactions_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "welfare_transactions_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "welfare_transactions_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "welfare_transactions_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "payments"
             referencedColumns: ["id"]
           },
         ]
