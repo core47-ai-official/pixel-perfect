@@ -67,7 +67,7 @@ export function TrackerOnboarding() {
   const finish = async () => {
     setBusy(true);
     try {
-      const names = TRACKER_CONDITIONS.filter(([id]) => conds.has(id)).map(([, en]) => ({ name: en }));
+      const names: { name: string }[] = TRACKER_CONDITIONS.filter(([id]) => conds.has(id)).map(([, en]) => ({ name: en }));
       if (other.trim()) names.push({ name: other.trim() });
       await callEdgeFunction("save-tracker-onboarding", {
         dob, gender, height_cm: h, weight_kg: w, blood_group: blood || null, emergency_contact: ec, health_status: status,
