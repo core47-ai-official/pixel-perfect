@@ -133,5 +133,11 @@ Deno.serve(async (req) => {
     const imp = req.headers.get("x-impersonation-session"); if (imp) h["x-impersonation-session"] = imp;
     await fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/generate-mar-schedule`, { method: "POST", headers: h, body: JSON.stringify({ prescription_id: rx.id }) });
   } catch (_) { /* schedule can be rebuilt from the ward board */ }
+  // Linked patients: put the course into their health tracker (separate function; failures don't block saving).
+  try {
+    const h: Record<string, string> = { "Content-Type": "application/json", Authorization: req.headers.get("Authorization") ?? "" };
+    const imp = req.headers.get("x-impersonation-session"); if (imp) h["x-impersonation-session"] = imp;
+    await fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/sync-prescriptions-to-tracker`, { method: "POST", headers: h, body: JSON.stringify({ prescription_id: rx.id }) });
+  } catch (_) { /* re-saving the prescription syncs again */ }
   return json({ ok: true, data: { prescription: rx, items: saved } });
 });

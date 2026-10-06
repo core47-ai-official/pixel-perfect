@@ -46,7 +46,7 @@ const BOOT = async (req: Request) => {
 };
 const has = (c: { roles: string[] }, list: string[]) => c.roles.some((r) => list.includes(r));
 // deno-lint-ignore no-explicit-any
-const TYPES = ["appointment_booked", "appointment_reminder", "appointment_cancelled", "appointment_rescheduled", "appointment_needs_rebooking",
+const TYPES = ["appointment_booked", "appointment_reminder", "appointment_cancelled", "appointment_rescheduled", "appointment_needs_rebooking", "dose_reminder",
   "report_ready", "leave_decision", "approval_decision", "stock_low", "stock_expiring", "followup_due", "critical_result", "ot_bumped"];
 const CRITICAL = ["critical_result", "ot_bumped"];
 Deno.serve(async (req) => {
