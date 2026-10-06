@@ -72,7 +72,7 @@ function useWelfare() {
 function WelfarePage() {
   const { t } = useTranslation();
   const qc = useQueryClient();
-  const roles = useMyContext().data?.roles ?? [];
+  const roles = useMyContext().context?.roles ?? [];
   const isAdmin = (roles ?? []).some((r) => r === "admin" || r === "super_admin");
   const { funds, txs } = useWelfare();
   const [fundFilter, setFundFilter] = useState("all");
