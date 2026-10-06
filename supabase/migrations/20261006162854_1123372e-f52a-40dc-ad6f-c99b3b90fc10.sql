@@ -1,0 +1,5 @@
+ALTER TABLE public.measurements ADD COLUMN deleted_at timestamptz, ADD COLUMN original_value numeric(10,2), ADD COLUMN original_unit text;
+DROP POLICY "ms_own" ON public.measurements;
+DROP POLICY "ms_doctor" ON public.measurements;
+CREATE POLICY "ms_own" ON public.measurements FOR SELECT TO authenticated USING (deleted_at IS NULL AND EXISTS (SELECT 1 FROM public.patient_accounts pa WHERE pa.id = measurements.patient_account_id AND pa.user_id = auth.uid()));
+CREATE POLICY "ms_doctor" ON public.measurements FOR SELECT TO authenticated USING (deleted_at IS NULL AND EXISTS (SELECT 1 FROM public.connections c JOIN public.doctors d ON d.id = c.doctor_id WHERE c.patient_account_id = measurements.patient_account_id AND d.user_id = auth.uid() AND c.status = 'active' AND c.permissions->>'measurements' = 'true'));
