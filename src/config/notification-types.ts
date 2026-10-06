@@ -6,7 +6,9 @@ export interface NotificationTypeDef {
   id: string;
   critical?: boolean;
   /** Placeholders available in the company-settings template; omitted = fixed text (no template). */
-  placeholders?: string[];
+  placeholders?: string[  { id: "dose_reminder", placeholders: ["medicine", "dose", "time"],
+    defaults: { en: "Time for your medicine\n{medicine} {dose} — whenever you are ready, tap to mark it.", ur: "دوا کا وقت\n{medicine} {dose} — جب آپ تیار ہوں، نشان لگانے کے لیے ٹیپ کریں۔" } },
+];
   defaults?: { en: string; ur: string };
 }
 
