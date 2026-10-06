@@ -51,6 +51,31 @@ async function bedWithWard(db: DB, hospitalId: string, bedId: string): Promise<a
   const { data } = await db.from("beds").select("*, wards!inner(id, name, gender, is_active, hospital_id)").eq("id", bedId).eq("hospital_id", hospitalId).maybeSingle();
   return data;
 }
+// D05: on admission, open the stay's bill on the patient's valid health card/panel (chosen one, or the only valid one).
+async function openBillOnCard(db: DB, c: { hospitalId: string; userId: string }, patientId: string, admissionId: string, wantId: unknown) {
+  const today = new Date(Date.now() + 5 * 3600e3).toISOString().slice(0, 10);
+  const { data: ents } = await db.from("patient_entitlements").select("id, limit_amount, used_amount, valid_until, is_active, programme:payer_programmes(type, name, is_active)")
+    .eq("hospital_id", c.hospitalId).eq("patient_id", patientId).eq("is_active", true);
+  const valid = (ents ?? []).filter((e: any) => e.programme?.is_active && (!e.valid_until || e.valid_until >= today) && Number(e.limit_amount) > Number(e.used_amount));
+  const ent = wantId ? valid.find((e: any) => e.id === String(wantId)) : valid.length === 1 ? valid[0] : null;
+  if (!ent) return null;
+  const year = new Date(Date.now() + 5 * 3600e3).getUTCFullYear();
+  for (let i = 0; i < 5; i++) {
+    const { data: k } = await db.from("counters").select("id, next_value").eq("hospital_id", c.hospitalId).eq("key", "invoice").maybeSingle();
+    if (!k) { await db.from("counters").insert({ hospital_id: c.hospitalId, key: "invoice", prefix: "INV-", next_value: 1, reset_rule: "never" }); continue; }
+    const { data: won } = await db.from("counters").update({ next_value: k.next_value + 1, updated_at: new Date().toISOString() }).eq("id", k.id).eq("next_value", k.next_value).select("id");
+    if (!won?.length) continue;
+    const { data: inv, error } = await db.from("invoices").insert({ hospital_id: c.hospitalId, patient_id: patientId, admission_id: admissionId,
+      invoice_no: `INV-${year}-${String(k.next_value).padStart(6, "0")}`, payer_type: ent.programme.type, entitlement_id: ent.id, status: "open", created_by: c.userId }).select().single();
+    if (error) { // a charge already opened the bill: just put it on the card
+      const { data: ex } = await db.from("invoices").update({ payer_type: ent.programme.type, entitlement_id: ent.id }).eq("admission_id", admissionId).in("status", ["open", "partly_paid"]).select().maybeSingle();
+      return ex ? { invoice_id: ex.id, programme: ent.programme.name, remaining: Number(ent.limit_amount) - Number(ent.used_amount) } : null;
+    }
+    return { invoice_id: inv.id, programme: ent.programme.name, remaining: Number(ent.limit_amount) - Number(ent.used_amount) };
+  }
+  return null;
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   const { db, c, b } = await BOOT(req);
@@ -98,6 +123,7 @@ Deno.serve(async (req) => {
   } else {
     await db.from("bed_requests").update({ status: "admitted", admission_id: adm.id, updated_at: now }).eq("patient_id", p.id).eq("status", "pending");
   }
-  await audit(db, req, c, "admit", "admission", adm.id, null, adm);
-  return json({ ok: true, data: { ...adm, bed_label: bed.label, ward_name: bed.wards.name } });
+  const coverage = await openBillOnCard(db, c, p.id, adm.id, b.entitlement_id).catch(() => null);
+  await audit(db, req, c, "admit", "admission", adm.id, null, { ...adm, coverage });
+  return json({ ok: true, data: { ...adm, bed_label: bed.label, ward_name: bed.wards.name, coverage } });
 });

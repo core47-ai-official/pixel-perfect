@@ -2044,6 +2044,7 @@ export type Database = {
           created_at: string
           created_by: string | null
           discount: number
+          entitlement_id: string | null
           hospital_id: string
           id: string
           invoice_no: string
@@ -2061,6 +2062,7 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           discount?: number
+          entitlement_id?: string | null
           hospital_id: string
           id?: string
           invoice_no: string
@@ -2078,6 +2080,7 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           discount?: number
+          entitlement_id?: string | null
           hospital_id?: string
           id?: string
           invoice_no?: string
@@ -2095,6 +2098,13 @@ export type Database = {
             columns: ["admission_id"]
             isOneToOne: false
             referencedRelation: "admissions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_entitlement_id_fkey"
+            columns: ["entitlement_id"]
+            isOneToOne: false
+            referencedRelation: "patient_entitlements"
             referencedColumns: ["id"]
           },
           {
@@ -3078,6 +3088,73 @@ export type Database = {
           },
         ]
       }
+      patient_entitlements: {
+        Row: {
+          card_no: string
+          created_at: string
+          created_by: string | null
+          hospital_id: string
+          id: string
+          is_active: boolean
+          limit_amount: number
+          patient_id: string
+          programme_id: string
+          updated_at: string
+          used_amount: number
+          valid_until: string | null
+        }
+        Insert: {
+          card_no: string
+          created_at?: string
+          created_by?: string | null
+          hospital_id: string
+          id?: string
+          is_active?: boolean
+          limit_amount?: number
+          patient_id: string
+          programme_id: string
+          updated_at?: string
+          used_amount?: number
+          valid_until?: string | null
+        }
+        Update: {
+          card_no?: string
+          created_at?: string
+          created_by?: string | null
+          hospital_id?: string
+          id?: string
+          is_active?: boolean
+          limit_amount?: number
+          patient_id?: string
+          programme_id?: string
+          updated_at?: string
+          used_amount?: number
+          valid_until?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patient_entitlements_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patient_entitlements_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patient_entitlements_programme_id_fkey"
+            columns: ["programme_id"]
+            isOneToOne: false
+            referencedRelation: "payer_programmes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       patient_link_codes: {
         Row: {
           code: string
@@ -3233,6 +3310,50 @@ export type Database = {
             columns: ["merged_into"]
             isOneToOne: false
             referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payer_programmes: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          hospital_id: string
+          id: string
+          is_active: boolean
+          name: string
+          rules: Json
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          hospital_id: string
+          id?: string
+          is_active?: boolean
+          name: string
+          rules?: Json
+          type?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          hospital_id?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          rules?: Json
+          type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payer_programmes_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
             referencedColumns: ["id"]
           },
         ]
