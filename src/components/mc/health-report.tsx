@@ -58,12 +58,12 @@ export function HealthReportBody({ r, pt }: { r: HealthReport; pt: TFunction }) 
               <p>{sentence}</p>
               <div dir="ltr">
                 <LineChart width={640} height={130} data={pts} margin={{ left: -12, right: 8, top: 6 }}>
-                  <CartesianGrid vertical={false} stroke="#ddd" />
+                  <CartesianGrid vertical={false} stroke="var(--border)" />
                   <XAxis dataKey="day" tickFormatter={(d: string) => d.slice(8, 10) + "/" + d.slice(5, 7)} tick={{ fontSize: 9 }} minTickGap={14} />
                   <YAxis tick={{ fontSize: 9 }} domain={["auto", "auto"]} width={40} />
-                  {tg && (tg.low != null || tg.high != null) && <ReferenceArea {...band(tg.low, tg.high)} fill="#888" fillOpacity={0.15} strokeOpacity={0} ifOverflow="extendDomain" />}
-                  <Line dataKey="v1" stroke="#111" strokeWidth={1.5} dot={{ r: 2 }} connectNulls isAnimationActive={false} />
-                  {bp && <Line dataKey="v2" stroke="#777" strokeWidth={1.5} dot={{ r: 2 }} connectNulls isAnimationActive={false} />}
+                  {tg && (tg.low != null || tg.high != null) && <ReferenceArea {...band(tg.low, tg.high)} fill="var(--muted-foreground)" fillOpacity={0.15} strokeOpacity={0} ifOverflow="extendDomain" />}
+                  <Line dataKey="v1" stroke="var(--foreground)" strokeWidth={1.5} dot={{ r: 2 }} connectNulls isAnimationActive={false} />
+                  {bp && <Line dataKey="v2" stroke="var(--muted-foreground)" strokeWidth={1.5} dot={{ r: 2 }} connectNulls isAnimationActive={false} />}
                 </LineChart>
               </div>
             </div>

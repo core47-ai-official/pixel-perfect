@@ -14,6 +14,11 @@ import { callEdgeFunction } from "@/hooks/use-edge-function";
 import { useDepartmentsData } from "@/lib/departments-data";
 import { pkTime, useDayAppointments } from "@/lib/appointments";
 import { useMyDraftVisits, type Visit } from "@/lib/visits";
+import { useQuery } from "@tanstack/react-query";
+import { FileText } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { HealthReportPreview } from "@/components/mc/health-report-panel";
+import type { HealthReport } from "@/lib/trends";
 
 export const Route = createFileRoute("/_authenticated/_app/consultations")({
   head: () => ({
@@ -40,6 +45,16 @@ function Consultations() {
   const appts = useDayAppointments(todayPk());
   const drafts = useMyDraftVisits(me?.id);
   const [busy, setBusy] = useState<string | null>(null);
+  const [report, setReport] = useState<{ id: string; report: HealthReport } | null>(null);
+  // Health reports patients attached to my appointments (RLS: only the appointment's doctor can read them).
+  const shares = useQuery({
+    queryKey: ["health-report-shares", me?.id], enabled: !!me,
+    queryFn: async () => {
+      const { data, error } = await supabase.from("health_report_shares").select("id, appointment_id, report").eq("doctor_id", me!.id).order("created_at", { ascending: false }).limit(200);
+      if (error) throw error;
+      return new Map((data ?? []).map((r) => [r.appointment_id, { id: r.id, report: r.report as unknown as HealthReport }]));
+    },
+  });
 
   if (doctors.isLoading) return <Skeleton className="h-64" />;
   if (!me) return <Banner tone="warning" title={t("myday.notDoctor")} />;
@@ -83,6 +98,7 @@ function Consultations() {
                 <Ltr className="w-12 text-muted-foreground">{pkTime(a.slot_start)}</Ltr>
                 <span className="flex-1 truncate">{a.patients?.full_name}</span>
                 <span className="text-xs text-muted-foreground">{t(`appt.statuses.${a.status}`, { defaultValue: a.status })}</span>
+                {shares.data?.get(a.id) && <Button size="sm" variant="outline" onClick={() => setReport(shares.data!.get(a.id)!)}><FileText className="size-4" />{t("hr.view")}</Button>}
                 <Button size="sm" variant={a.status === "done" ? "outline" : "default"} disabled={busy === a.id} onClick={() => start(a.id)}>
                   {a.status === "done" || a.status === "in_consultation" ? t("consult.open") : t("consult.start")}
                 </Button>
@@ -91,6 +107,7 @@ function Consultations() {
           </ul>
         )}
       </section>
+      {report && <HealthReportPreview report={report.report} documentId={report.id} onClose={() => setReport(null)} />}
     </div>
   );
 }
