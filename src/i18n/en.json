@@ -2781,7 +2781,8 @@
       "book": "Book",
       "appointments": "Appointments",
       "reports": "Reports",
-      "profile": "Profile"
+      "profile": "Profile",
+      "bills": "Bills"
     },
     "hello": "Hello, {{name}}",
     "record": "Your hospital record",
@@ -2799,7 +2800,10 @@
       "completed": "Seen",
       "cancelled": "Cancelled",
       "no_show": "Missed",
-      "in_consultation": "With doctor"
+      "in_consultation": "With doctor",
+      "waiting": "Waiting",
+      "done": "Seen",
+      "needs_rebooking": "Needs a new time"
     },
     "link": {
       "title": "Link your hospital record",
@@ -2813,6 +2817,76 @@
     "print": {
       "line": "Patient app: sign up, then enter your MRN and this code",
       "valid": "Code valid until"
+    },
+    "home": {
+      "latestReports": "Latest reports",
+      "seeAll": "See all",
+      "bookNew": "Book an appointment",
+      "failed": "Couldn't load everything. Pull down or try again."
+    },
+    "book": {
+      "off": "Online booking isn't available at this hospital yet. Please call or visit reception.",
+      "pickDept": "Choose a department",
+      "pickDoctor": "Choose a doctor",
+      "pickSlot": "Choose a time",
+      "date": "Date",
+      "noSlots": "No free times on this day. Try another day.",
+      "slotsFailed": "Couldn't load times.",
+      "closed": {
+        "on_leave": "The doctor is on leave this day.",
+        "holiday": "The hospital is closed this day.",
+        "no_schedule": "The doctor doesn't see patients this day."
+      },
+      "noDoctors": "No doctors are available for booking.",
+      "failedDoctors": "Couldn't load doctors. Please try again.",
+      "fee": "Fee",
+      "gender": {
+        "male": "Male",
+        "female": "Female"
+      },
+      "confirmText": "Book with {{doctor}} on",
+      "confirm": "Confirm booking",
+      "done": "Booked. Your token is {{token}}.",
+      "failed": "Couldn't book. Please try again."
+    },
+    "appts": {
+      "upcoming": "Upcoming",
+      "past": "Past",
+      "cutoff": "You can cancel or change an appointment up to {{hours}} hours before it.",
+      "reschedule": "Change time",
+      "cancel": "Cancel",
+      "keep": "Keep it",
+      "cancelConfirm": "Cancel this appointment?",
+      "cancelled": "Appointment cancelled.",
+      "moved": "Appointment moved.",
+      "moveHere": "Move here",
+      "failed": "Couldn't update. Please try again."
+    },
+    "reports": {
+      "lab": "Lab reports",
+      "rx": "Prescriptions",
+      "noRx": "No prescriptions yet.",
+      "download": "View / download PDF",
+      "pdfHint": "To save a PDF, tap Print and choose \"Save as PDF\"."
+    },
+    "bills": {
+      "payNote": "Pay at the hospital cash counter.",
+      "due": "Balance due",
+      "none": "No bills yet.",
+      "total": "Total",
+      "paid": "Paid",
+      "balance": "Balance"
+    },
+    "profile": {
+      "appLang": "App language",
+      "printLang": "Print language",
+      "printHint": "Slips and reports are printed in English, then in this language.",
+      "saved": "Saved.",
+      "failed": "Couldn't save.",
+      "changePw": "Change password",
+      "currentPw": "Current password",
+      "wrongCurrent": "Current password is wrong.",
+      "pwChanged": "Password changed."
     }
   },
   "psignup": {

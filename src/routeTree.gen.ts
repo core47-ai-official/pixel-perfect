@@ -69,6 +69,7 @@ import { Route as AuthenticatedAppWardSetupRouteImport } from './routes/_authent
 import { Route as AuthenticatedAppWardsRouteImport } from './routes/_authenticated/_app/wards'
 import { Route as AuthenticatedPortalIndexRouteImport } from './routes/_authenticated/portal/index'
 import { Route as AuthenticatedPortalAppointmentsRouteImport } from './routes/_authenticated/portal/appointments'
+import { Route as AuthenticatedPortalBillsRouteImport } from './routes/_authenticated/portal/bills'
 import { Route as AuthenticatedPortalBookRouteImport } from './routes/_authenticated/portal/book'
 import { Route as AuthenticatedPortalProfileRouteImport } from './routes/_authenticated/portal/profile'
 import { Route as AuthenticatedPortalReportsRouteImport } from './routes/_authenticated/portal/reports'
@@ -413,6 +414,12 @@ const AuthenticatedPortalAppointmentsRoute =
     path: '/appointments',
     getParentRoute: () => AuthenticatedPortalRouteRoute,
   } as any)
+const AuthenticatedPortalBillsRoute =
+  AuthenticatedPortalBillsRouteImport.update({
+    id: '/bills',
+    path: '/bills',
+    getParentRoute: () => AuthenticatedPortalRouteRoute,
+  } as any)
 const AuthenticatedPortalBookRoute = AuthenticatedPortalBookRouteImport.update({
   id: '/book',
   path: '/book',
@@ -537,6 +544,7 @@ export interface FileRoutesByFullPath {
   '/ward-setup': typeof AuthenticatedAppWardSetupRoute
   '/wards': typeof AuthenticatedAppWardsRoute
   '/portal/appointments': typeof AuthenticatedPortalAppointmentsRoute
+  '/portal/bills': typeof AuthenticatedPortalBillsRoute
   '/portal/book': typeof AuthenticatedPortalBookRoute
   '/portal/profile': typeof AuthenticatedPortalProfileRoute
   '/portal/reports': typeof AuthenticatedPortalReportsRoute
@@ -607,6 +615,7 @@ export interface FileRoutesByTo {
   '/ward-setup': typeof AuthenticatedAppWardSetupRoute
   '/wards': typeof AuthenticatedAppWardsRoute
   '/portal/appointments': typeof AuthenticatedPortalAppointmentsRoute
+  '/portal/bills': typeof AuthenticatedPortalBillsRoute
   '/portal/book': typeof AuthenticatedPortalBookRoute
   '/portal/profile': typeof AuthenticatedPortalProfileRoute
   '/portal/reports': typeof AuthenticatedPortalReportsRoute
@@ -681,6 +690,7 @@ export interface FileRoutesById {
   '/_authenticated/_app/ward-setup': typeof AuthenticatedAppWardSetupRoute
   '/_authenticated/_app/wards': typeof AuthenticatedAppWardsRoute
   '/_authenticated/portal/appointments': typeof AuthenticatedPortalAppointmentsRoute
+  '/_authenticated/portal/bills': typeof AuthenticatedPortalBillsRoute
   '/_authenticated/portal/book': typeof AuthenticatedPortalBookRoute
   '/_authenticated/portal/profile': typeof AuthenticatedPortalProfileRoute
   '/_authenticated/portal/reports': typeof AuthenticatedPortalReportsRoute
@@ -754,6 +764,7 @@ export interface FileRouteTypes {
     | '/ward-setup'
     | '/wards'
     | '/portal/appointments'
+    | '/portal/bills'
     | '/portal/book'
     | '/portal/profile'
     | '/portal/reports'
@@ -824,6 +835,7 @@ export interface FileRouteTypes {
     | '/ward-setup'
     | '/wards'
     | '/portal/appointments'
+    | '/portal/bills'
     | '/portal/book'
     | '/portal/profile'
     | '/portal/reports'
@@ -897,6 +909,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/ward-setup'
     | '/_authenticated/_app/wards'
     | '/_authenticated/portal/appointments'
+    | '/_authenticated/portal/bills'
     | '/_authenticated/portal/book'
     | '/_authenticated/portal/profile'
     | '/_authenticated/portal/reports'
@@ -1346,6 +1359,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPortalAppointmentsRouteImport
       parentRoute: typeof AuthenticatedPortalRouteRoute
     }
+    '/_authenticated/portal/bills': {
+      id: '/_authenticated/portal/bills'
+      path: '/bills'
+      fullPath: '/portal/bills'
+      preLoaderRoute: typeof AuthenticatedPortalBillsRouteImport
+      parentRoute: typeof AuthenticatedPortalRouteRoute
+    }
     '/_authenticated/portal/book': {
       id: '/_authenticated/portal/book'
       path: '/book'
@@ -1550,6 +1570,7 @@ const AuthenticatedAppRouteRouteWithChildren =
 
 interface AuthenticatedPortalRouteRouteChildren {
   AuthenticatedPortalAppointmentsRoute: typeof AuthenticatedPortalAppointmentsRoute
+  AuthenticatedPortalBillsRoute: typeof AuthenticatedPortalBillsRoute
   AuthenticatedPortalBookRoute: typeof AuthenticatedPortalBookRoute
   AuthenticatedPortalProfileRoute: typeof AuthenticatedPortalProfileRoute
   AuthenticatedPortalReportsRoute: typeof AuthenticatedPortalReportsRoute
@@ -1559,6 +1580,7 @@ interface AuthenticatedPortalRouteRouteChildren {
 const AuthenticatedPortalRouteRouteChildren: AuthenticatedPortalRouteRouteChildren =
   {
     AuthenticatedPortalAppointmentsRoute: AuthenticatedPortalAppointmentsRoute,
+    AuthenticatedPortalBillsRoute: AuthenticatedPortalBillsRoute,
     AuthenticatedPortalBookRoute: AuthenticatedPortalBookRoute,
     AuthenticatedPortalProfileRoute: AuthenticatedPortalProfileRoute,
     AuthenticatedPortalReportsRoute: AuthenticatedPortalReportsRoute,
