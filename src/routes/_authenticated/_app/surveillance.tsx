@@ -114,7 +114,7 @@ function DiseaseChart({ group, r }: { group: SurvGroup; r: SurvReport }) {
   const weeks = r.weeks[group] ?? [];
   const surge = weeks.some((w) => w.surge);
   const last = weeks.at(-1);
-  const config: ChartConfig = { [group]: { label: t(`surv.g.${group}`), color: surge ? "var(--urgent)" : "var(--primary)" } };
+  const config: ChartConfig = { [group]: { label: t(`surv.g.${group}`), color: surge ? "var(--destructive)" : "var(--primary)" } };
   return (
     <section className={cn("rounded-staff border bg-card p-4", surge && "border-urgent ring-1 ring-urgent")}>
       <div className="mb-2 flex items-start justify-between gap-2">
