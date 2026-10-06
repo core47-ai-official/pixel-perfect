@@ -1,0 +1,1 @@
+ALTER TABLE public.tracker_profiles ADD COLUMN dob date, ADD COLUMN gender text, ADD COLUMN consented_at timestamptz, ADD COLUMN disclaimer_ack_at timestamptz;
