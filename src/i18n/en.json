@@ -274,7 +274,8 @@
     "roster": "Duty roster",
     "referrals": "Referrals",
     "bloodBank": "Blood bank",
-    "welfare": "Welfare & zakat"
+    "welfare": "Welfare & zakat",
+    "claims": "Claims"
   },
   "navGroup": {
     "overview": "Overview",
@@ -1103,7 +1104,8 @@
       "self": "Self-pay (cash)",
       "welfare": "Welfare",
       "panel": "Panel",
-      "health_card": "Health card"
+      "health_card": "Health card",
+      "corporate": "Corporate"
     }
   },
   "ptab": {
@@ -2045,7 +2047,8 @@
       "welfare": "Welfare",
       "panel": "Panel",
       "health_card": "Health card",
-      "cash": "Self-pay (cash)"
+      "cash": "Self-pay (cash)",
+      "corporate": "Corporate"
     },
     "item": "Item",
     "qty": "Qty",
@@ -3035,5 +3038,52 @@
       "amount": "Amount",
       "thanks": "Thank you for your generous donation. May Allah reward you."
     }
+  },
+  "ent": {
+    "title": "Health cards & panels",
+    "add": "Add card",
+    "none": "No health card or panel on file.",
+    "card": "Card no",
+    "validUntil": "Valid until",
+    "limit": "Limit (Rs)",
+    "used": "Used",
+    "remaining": "Remaining",
+    "valid": "Valid",
+    "invalid": "Expired / inactive",
+    "deactivate": "Deactivate",
+    "activate": "Activate",
+    "programme": "Programme",
+    "noProgrammes": "No programmes yet — an admin adds them on Claims.",
+    "save": "Save",
+    "saved": "Card added",
+    "payerSaved": "Payer updated",
+    "admittedOnCard": "Bill opened on {{programme}} — Rs left: {{remaining}}"
+  },
+  "claims": {
+    "title": "Claims & payer programmes",
+    "subtitle": "Set up health card, panel and corporate programmes and download claims.",
+    "programmes": "Programmes",
+    "newProgramme": "New programme",
+    "editProgramme": "Edit programme",
+    "name": "Name",
+    "type": "Type",
+    "types": {
+      "health_card": "Health card",
+      "panel": "Panel",
+      "corporate": "Corporate"
+    },
+    "rules": "Rules (JSON, optional)",
+    "rulesBad": "Rules must be valid JSON object.",
+    "active": "Active",
+    "inactive": "Inactive",
+    "none": "No programmes yet.",
+    "export": "Export claims",
+    "from": "From",
+    "to": "To",
+    "download": "Download CSV",
+    "exported": "{{rows}} bills, total {{total}}",
+    "empty": "No claims in this range.",
+    "save": "Save",
+    "saved": "Saved"
   }
 }

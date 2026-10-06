@@ -1,3 +1,4 @@
+import { formatPkr } from "@/lib/patient-summary";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -75,7 +76,8 @@ function AdmitWizard() {
   const submit = async () => {
     if (!patient || !bed || !doctor || reason.trim().length < 3) { toast.error(t("wd.required")); return; }
     try {
-      await admit.mutateAsync({ patient_id: patient.id, bed_id: bed, doctor_id: doctor, reason, deposit_amount: Number(deposit || 0), request_id: search.request });
+      const res = (await admit.mutateAsync({ patient_id: patient.id, bed_id: bed, doctor_id: doctor, reason, deposit_amount: Number(deposit || 0), request_id: search.request })) as { coverage?: { programme: string; remaining: number } | null } | undefined;
+      if (res?.coverage) toast.info(t("ent.admittedOnCard", { programme: res.coverage.programme, remaining: formatPkr(res.coverage.remaining) }));
       void navigate({ to: "/patients/$patientId", params: { patientId: patient.id } });
     } catch { /* shown */ }
   };

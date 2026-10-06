@@ -10,10 +10,11 @@ import { Banner } from "@/components/mc/banner";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatPkr } from "@/lib/patient-summary";
 import { cn } from "@/lib/utils";
+import { EntitlementsSection, InvoicePayer } from "@/components/mc/entitlements";
 
 export interface InvoiceLine { id: string; description: string; qty: number; rate: number; amount: number; source_type: string; created_at: string }
 export interface Invoice {
-  id: string; invoice_no: string; payer_type: string; total: number; discount: number; paid: number; balance: number;
+  id: string; invoice_no: string; payer_type: string; patient_id?: string; entitlement_id?: string | null; total: number; discount: number; paid: number; balance: number;
   status: "open" | "partly_paid" | "paid" | "waived" | "closed"; admission_id: string | null; created_at: string; invoice_lines: InvoiceLine[];
 }
 const STATUS_TONE: Record<Invoice["status"], "warning" | "caution" | "ok" | "inactive"> = { open: "warning", partly_paid: "caution", paid: "ok", waived: "inactive", closed: "inactive" };
@@ -30,14 +31,16 @@ export function PatientBillsTab({ patientId }: { patientId: string }) {
   const { t } = useTranslation();
   const q = usePatientInvoices(patientId);
   const [openId, setOpenId] = useState<string | null>(null);
-  if (q.isLoading) return <Skeleton className="h-40" />;
+  const ent = <EntitlementsSection patientId={patientId} />;
+  if (q.isLoading) return <div className="space-y-3">{ent}<Skeleton className="h-40" /></div>;
   if (q.error) return <Banner tone="warning" title={t("bill.unavailable")}>{(q.error as { message?: string }).message}</Banner>;
   const list = q.data ?? [];
-  if (!list.length) return <EmptyState icon={Receipt} title={t("bill.none")} />;
+  if (!list.length) return <div className="space-y-3">{ent}<EmptyState icon={Receipt} title={t("bill.none")} /></div>;
   const current = openId ?? list.find((i) => i.status === "open" || i.status === "partly_paid")?.id ?? list[0]?.id;
 
   return (
     <div className="space-y-3">
+      {ent}
       {list.map((inv) => {
         const expanded = inv.id === current;
         return (
@@ -51,7 +54,7 @@ export function PatientBillsTab({ patientId }: { patientId: string }) {
             </button>
             {expanded && (
               <div className="border-t px-4 py-3">
-                <p className="mb-3 text-sm">{t("bill.payer")}: <span className="font-medium">{t(`bill.payers.${inv.payer_type}`, inv.payer_type)}</span></p>
+                <InvoicePayer invoice={inv} />
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead><tr className="border-b text-xs text-muted-foreground">
