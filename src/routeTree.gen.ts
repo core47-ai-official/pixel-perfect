@@ -68,6 +68,7 @@ import { Route as AuthenticatedAppUnpaidRouteImport } from './routes/_authentica
 import { Route as AuthenticatedAppUsersRouteImport } from './routes/_authenticated/_app/users'
 import { Route as AuthenticatedAppWardSetupRouteImport } from './routes/_authenticated/_app/ward-setup'
 import { Route as AuthenticatedAppWardsRouteImport } from './routes/_authenticated/_app/wards'
+import { Route as AuthenticatedAppWelfareRouteImport } from './routes/_authenticated/_app/welfare'
 import { Route as AuthenticatedPortalIndexRouteImport } from './routes/_authenticated/portal/index'
 import { Route as AuthenticatedPortalAppointmentsRouteImport } from './routes/_authenticated/portal/appointments'
 import { Route as AuthenticatedPortalBillsRouteImport } from './routes/_authenticated/portal/bills'
@@ -409,6 +410,11 @@ const AuthenticatedAppWardsRoute = AuthenticatedAppWardsRouteImport.update({
   path: '/wards',
   getParentRoute: () => AuthenticatedAppRouteRoute,
 } as any)
+const AuthenticatedAppWelfareRoute = AuthenticatedAppWelfareRouteImport.update({
+  id: '/welfare',
+  path: '/welfare',
+  getParentRoute: () => AuthenticatedAppRouteRoute,
+} as any)
 const AuthenticatedPortalIndexRoute =
   AuthenticatedPortalIndexRouteImport.update({
     id: '/',
@@ -551,6 +557,7 @@ export interface FileRoutesByFullPath {
   '/users': typeof AuthenticatedAppUsersRoute
   '/ward-setup': typeof AuthenticatedAppWardSetupRoute
   '/wards': typeof AuthenticatedAppWardsRoute
+  '/welfare': typeof AuthenticatedAppWelfareRoute
   '/portal/appointments': typeof AuthenticatedPortalAppointmentsRoute
   '/portal/bills': typeof AuthenticatedPortalBillsRoute
   '/portal/book': typeof AuthenticatedPortalBookRoute
@@ -623,6 +630,7 @@ export interface FileRoutesByTo {
   '/users': typeof AuthenticatedAppUsersRoute
   '/ward-setup': typeof AuthenticatedAppWardSetupRoute
   '/wards': typeof AuthenticatedAppWardsRoute
+  '/welfare': typeof AuthenticatedAppWelfareRoute
   '/portal/appointments': typeof AuthenticatedPortalAppointmentsRoute
   '/portal/bills': typeof AuthenticatedPortalBillsRoute
   '/portal/book': typeof AuthenticatedPortalBookRoute
@@ -699,6 +707,7 @@ export interface FileRoutesById {
   '/_authenticated/_app/users': typeof AuthenticatedAppUsersRoute
   '/_authenticated/_app/ward-setup': typeof AuthenticatedAppWardSetupRoute
   '/_authenticated/_app/wards': typeof AuthenticatedAppWardsRoute
+  '/_authenticated/_app/welfare': typeof AuthenticatedAppWelfareRoute
   '/_authenticated/portal/appointments': typeof AuthenticatedPortalAppointmentsRoute
   '/_authenticated/portal/bills': typeof AuthenticatedPortalBillsRoute
   '/_authenticated/portal/book': typeof AuthenticatedPortalBookRoute
@@ -774,6 +783,7 @@ export interface FileRouteTypes {
     | '/users'
     | '/ward-setup'
     | '/wards'
+    | '/welfare'
     | '/portal/appointments'
     | '/portal/bills'
     | '/portal/book'
@@ -846,6 +856,7 @@ export interface FileRouteTypes {
     | '/users'
     | '/ward-setup'
     | '/wards'
+    | '/welfare'
     | '/portal/appointments'
     | '/portal/bills'
     | '/portal/book'
@@ -921,6 +932,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/users'
     | '/_authenticated/_app/ward-setup'
     | '/_authenticated/_app/wards'
+    | '/_authenticated/_app/welfare'
     | '/_authenticated/portal/appointments'
     | '/_authenticated/portal/bills'
     | '/_authenticated/portal/book'
@@ -1365,6 +1377,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppWardsRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
+    '/_authenticated/_app/welfare': {
+      id: '/_authenticated/_app/welfare'
+      path: '/welfare'
+      fullPath: '/welfare'
+      preLoaderRoute: typeof AuthenticatedAppWelfareRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
     '/_authenticated/portal/': {
       id: '/_authenticated/portal/'
       path: '/'
@@ -1514,6 +1533,7 @@ interface AuthenticatedAppRouteRouteChildren {
   AuthenticatedAppUsersRoute: typeof AuthenticatedAppUsersRoute
   AuthenticatedAppWardSetupRoute: typeof AuthenticatedAppWardSetupRoute
   AuthenticatedAppWardsRoute: typeof AuthenticatedAppWardsRoute
+  AuthenticatedAppWelfareRoute: typeof AuthenticatedAppWelfareRoute
   AuthenticatedAppAdmissionsNewRoute: typeof AuthenticatedAppAdmissionsNewRoute
   AuthenticatedAppConsultationsVisitIdRoute: typeof AuthenticatedAppConsultationsVisitIdRoute
   AuthenticatedAppDoctorsDoctorIdRoute: typeof AuthenticatedAppDoctorsDoctorIdRoute
@@ -1573,6 +1593,7 @@ const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
   AuthenticatedAppUsersRoute: AuthenticatedAppUsersRoute,
   AuthenticatedAppWardSetupRoute: AuthenticatedAppWardSetupRoute,
   AuthenticatedAppWardsRoute: AuthenticatedAppWardsRoute,
+  AuthenticatedAppWelfareRoute: AuthenticatedAppWelfareRoute,
   AuthenticatedAppAdmissionsNewRoute: AuthenticatedAppAdmissionsNewRoute,
   AuthenticatedAppConsultationsVisitIdRoute:
     AuthenticatedAppConsultationsVisitIdRoute,
