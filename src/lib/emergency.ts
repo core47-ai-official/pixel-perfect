@@ -36,7 +36,7 @@ export function useOpenEmergencyCases() {
     queryKey: ["er-cases"],
     queryFn: async () => {
       const { data, error } = await supabase.from("emergency_cases" as never)
-        .select("*, patients(id, mrn, full_name, gender, dob, is_unknown, allergies)").is("disposition", null).order("arrived_at");
+        .select("*, patients(id, mrn, full_name, gender, dob, is_unknown, allergies, blood_group)").is("disposition", null).order("arrived_at");
       if (error) throw error;
       return (data ?? []) as unknown as EmergencyCase[];
     },

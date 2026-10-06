@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { Clock, Plus, Scale, Stethoscope } from "lucide-react";
+import { Clock, Droplet, Plus, Scale, Stethoscope } from "lucide-react";
 import { RequireRole } from "@/components/mc/require-role";
 import { rolesForPage } from "@/config/navigation";
 import { SidePanel } from "@/components/mc/side-panel";
@@ -11,6 +11,7 @@ import { Ltr } from "@/components/mc/ltr";
 import { EmptyState } from "@/components/mc/empty-state";
 import { ErRegisterPanel } from "@/components/mc/er-register-panel";
 import { ReferralFormPanel, ReferralLetter } from "@/components/mc/referral-panels";
+import { BloodRequestPanel } from "@/components/mc/blood-panels";
 import type { Referral } from "@/lib/referrals";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -154,6 +155,8 @@ function CasePanel({ c, bays, onClose }: { c: EmergencyCase; bays: { id: string;
   const [mlcOpen, setMlcOpen] = useState(false);
   const [dispOpen, setDispOpen] = useState(false);
   const [referOpen, setReferOpen] = useState(false);
+  const [bloodOpen, setBloodOpen] = useState(false);
+  const canBlood = any(["super_admin", "admin", "er_officer", "doctor"]);
   const [letter, setLetter] = useState<Referral | null>(null);
   const run = (p: Promise<unknown>) => p.catch(() => undefined);
 
@@ -198,10 +201,13 @@ function CasePanel({ c, bays, onClose }: { c: EmergencyCase; bays: { id: string;
 
         <div className="flex flex-wrap gap-2">
           {canDecide && <Button variant={c.mlc ? "destructive" : "outline"} onClick={() => setMlcOpen(true)}><Scale />{c.mlc ? t("er.mlcEdit") : t("er.mlcMark")}</Button>}
+          {canBlood && <Button variant="outline" onClick={() => setBloodOpen(true)}><Droplet />{t("er.bloodRequest")}</Button>}
           {canDecide && <Button onClick={() => setDispOpen(true)}>{t("er.disposition")}</Button>}
           <Button variant="ghost" asChild><Link to="/patients/$patientId" params={{ patientId: c.patient_id }}>{t("er.openProfile")}</Link></Button>
         </div>
       </div>
+      {bloodOpen && <BloodRequestPanel emergencyCaseId={c.id} defaultGroup={(c.patients as { blood_group?: string | null } | null)?.blood_group ?? null}
+        patient={{ id: c.patient_id, label: `${c.patients?.full_name ?? ""} · ${c.patients?.mrn ?? ""}` }} onClose={() => setBloodOpen(false)} />}
       {mlcOpen && <MlcPanel c={c} onClose={() => setMlcOpen(false)} />}
       {dispOpen && <DispositionPanel c={c} onClose={() => { setDispOpen(false); }} onDone={onClose} onRefer={() => { setDispOpen(false); setReferOpen(true); }} />}
       {referOpen && <ReferralFormPanel direction="out" emergencyCaseId={c.id} patient={{ id: c.patient_id, label: `${c.patients?.full_name ?? ""} · ${c.patients?.mrn ?? ""}` }}

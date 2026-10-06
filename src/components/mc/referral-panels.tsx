@@ -18,7 +18,7 @@ import { fetchReferral, REFERRAL_INVALIDATE, REFERRAL_NEXT, REFERRAL_URGENCY, ty
 const when = (iso: string) => new Date(iso).toLocaleString("en-PK", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Karachi" });
 
 /** Small patient finder (MRN, name, phone) for referrals started outside a patient context. */
-function PatientFinder({ value, onChange }: { value: { id: string; label: string } | null; onChange: (p: { id: string; label: string } | null) => void }) {
+export function PatientFinder({ value, onChange }: { value: { id: string; label: string } | null; onChange: (p: { id: string; label: string } | null) => void }) {
   const { t } = useTranslation();
   const [q, setQ] = useState("");
   const res = useQuery({

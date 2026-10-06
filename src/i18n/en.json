@@ -272,7 +272,8 @@
     "deptDoctors": "Department doctors",
     "deptPatients": "Department patients",
     "roster": "Duty roster",
-    "referrals": "Referrals"
+    "referrals": "Referrals",
+    "bloodBank": "Blood bank"
   },
   "navGroup": {
     "overview": "Overview",
@@ -1695,27 +1696,82 @@
     }
   },
   "bb": {
-    "allTypes": "All ward types",
-    "allGenders": "All genders",
-    "live": "Live",
-    "total": "All beds",
-    "empty": "No wards match these filters.",
-    "noBeds": "No beds in this ward yet.",
-    "bed": "Bed",
-    "ward": "Ward",
-    "since": "Status since",
-    "yes": "Yes",
-    "no": "No",
-    "updated": "Bed updated",
-    "viewOnly": "Only nurses and admins can change bed status.",
-    "occupiedNote": "This bed is occupied. It becomes free only through discharge or transfer.",
-    "to": {
-      "free": "Mark free",
-      "cleaning": "Mark cleaning",
-      "reserved": "Reserve",
-      "out_of_service": "Take out of service",
-      "occupied": "Occupied"
-    }
+    "title": "Blood bank",
+    "board": "Inventory",
+    "requests": "Requests",
+    "history": "Issued & discarded",
+    "group": "Blood group",
+    "component": "Component",
+    "components": {
+      "whole": "Whole blood",
+      "prbc": "Packed red cells",
+      "ffp": "Plasma (FFP)",
+      "platelets": "Platelets"
+    },
+    "urgencies": {
+      "routine": "Routine",
+      "urgent": "Urgent",
+      "emergency": "Emergency"
+    },
+    "reqStatus": {
+      "requested": "Requested",
+      "crossmatched": "Crossmatched",
+      "incompatible": "Incompatible",
+      "partly_issued": "Partly issued",
+      "issued": "Issued",
+      "cancelled": "Cancelled"
+    },
+    "unitStatus": {
+      "available": "Available",
+      "reserved": "Reserved",
+      "issued": "Issued",
+      "discarded": "Discarded"
+    },
+    "xm": {
+      "compatible": "Compatible",
+      "incompatible": "Incompatible"
+    },
+    "newRequest": "Blood request",
+    "send": "Send request",
+    "requested": "Blood request sent to the blood bank.",
+    "patient": "Patient",
+    "units": "Units",
+    "urgency": "Urgency",
+    "reason": "Reason",
+    "register": "Register unit",
+    "registered": "Unit added to stock.",
+    "save": "Save",
+    "unitNo": "Unit number",
+    "volume": "Volume (ml)",
+    "collected": "Collected",
+    "expires": "Expires",
+    "donor": "Donor name",
+    "reserved": "Reserved for this patient",
+    "reservedN": "{{n}} reserved",
+    "nextExpiry": "next expiry",
+    "none": "None in stock",
+    "expired": "Expired",
+    "expiresAt": "Expires",
+    "legendRed": "Expires within 2 days",
+    "legendAmber": "Expires within 7 days",
+    "expiredInStock": "{{n}} expired unit(s) to discard",
+    "noRequests": "No blood requests.",
+    "noHistory": "Nothing issued or discarded yet.",
+    "fromEr": "Emergency",
+    "issuedOf": "{{n}} of {{total}} issued",
+    "crossmatch": "Crossmatch",
+    "pickUnits": "Pick up to {{n}} compatible unit(s) to reserve.",
+    "noCompatible": "No compatible units in stock.",
+    "note": "Note",
+    "saveXm": "Save crossmatch",
+    "crossmatched": "Crossmatch saved.",
+    "issue": "Issue",
+    "issuedOk": "Unit issued and added to the bill.",
+    "discard": "Discard",
+    "discarded": "Unit discarded.",
+    "return": "Take back",
+    "returned": "Unit taken back.",
+    "returnHint": "Unused units go back to stock and the charge is removed while the bill is still open."
   },
   "nb": {
     "title": "Ward board",
@@ -1906,7 +1962,8 @@
     "closed": "Emergency case closed",
     "save": "Save",
     "openProfile": "Open profile",
-    "referNote": "Next you'll fill in the referral form. Sending it closes this case and prints the referral letter."
+    "referNote": "Next you'll fill in the referral form. Sending it closes this case and prints the referral letter.",
+    "bloodRequest": "Blood request"
   },
   "tf": {
     "intro": "The hospital's price list. Bills will pick prices from here.",
