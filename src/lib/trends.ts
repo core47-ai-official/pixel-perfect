@@ -84,3 +84,28 @@ export const useTimeline = () => useQuery({
     return out.sort((x, y) => (x.at < y.at ? 1 : -1));
   },
 });
+
+/** Every Pakistan day from `from` to `to` inclusive ("YYYY-MM-DD"). */
+export const daysBetween = (from: string, to: string) => {
+  const out: string[] = [];
+  for (let ms = Date.parse(`${from}T00:00:00Z`); ms <= Date.parse(`${to}T00:00:00Z`) && out.length < 400; ms += 86400e3) out.push(new Date(ms).toISOString().slice(0, 10));
+  return out;
+};
+
+/** Lowest / highest single reading (value_1, and value_2 for BP). */
+export function minMax(rows: Pick<Measurement, "value_1" | "value_2">[]) {
+  if (!rows.length) return null;
+  const v1 = rows.map((r) => Number(r.value_1)), v2 = rows.map((r) => r.value_2).filter((x): x is number => x != null).map(Number);
+  return { min1: Math.min(...v1), max1: Math.max(...v1), min2: v2.length ? Math.min(...v2) : null, max2: v2.length ? Math.max(...v2) : null, count: rows.length };
+}
+
+export interface HealthReport {
+  from: string; to: string; generated_at: string;
+  patient: { full_name: string; mrn: string; dob: string | null; gender: string | null; print_language: string | null } | null;
+  profile: { height_cm: number | null; weight_kg: number | null; blood_group: string | null; health_status: string | null } | null;
+  targets: Targets;
+  conditions: { name: string; status: string; onset_date: string | null }[];
+  medicines: { name: string; dose: string | null; times: string[]; source: string; active: boolean; taken: number; skipped: number; missed: number }[];
+  readings: (Pick<Measurement, "value_1" | "value_2" | "measured_at"> & { type: string })[];
+  symptoms: { symptom: string; severity: number; started_at: string }[];
+}
