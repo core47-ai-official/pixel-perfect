@@ -1071,6 +1071,38 @@ export type Database = {
           },
         ]
       }
+      demo_rows: {
+        Row: {
+          created_at: string
+          hospital_id: string
+          id: string
+          row_id: string
+          table_name: string
+        }
+        Insert: {
+          created_at?: string
+          hospital_id: string
+          id?: string
+          row_id: string
+          table_name: string
+        }
+        Update: {
+          created_at?: string
+          hospital_id?: string
+          id?: string
+          row_id?: string
+          table_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "demo_rows_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       departments: {
         Row: {
           created_at: string
