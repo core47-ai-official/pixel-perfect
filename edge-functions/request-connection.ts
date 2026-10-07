@@ -52,14 +52,14 @@ async function myAccount(db: DB, c: any) {
 // ---- tracker connection helpers (identical in search-connectable-doctors, request-connection, respond-connection, update-connection-permissions, revoke-connection) ----
 const PERM_KEYS = ["profile", "conditions", "measurements", "symptoms", "medicines"];
 const DEFAULT_PERMS: Record<string, boolean> = { profile: true, conditions: true, measurements: true, symptoms: true, medicines: true };
-/** Verified = active staff login, doctor role in this hospital, and a PMDC number on file. */
+/** Verified = doctors.verified (staff doctors automatically; outside doctors after admin approval), active login, doctor or outside_doctor role. */
 async function verifiedDoctors(db: DB, hospitalId: string, filter: (q: DB) => DB) {
-  const { data: docs } = await filter(db.from("doctors").select("id, user_id, specialty, pmdc_no, doctor_code, department_id, departments(name)").eq("hospital_id", hospitalId).not("pmdc_no", "is", null)).limit(30);
+  const { data: docs } = await filter(db.from("doctors").select("id, user_id, specialty, pmdc_no, doctor_code, department_id, departments(name)").eq("hospital_id", hospitalId).eq("verified", true)).limit(30);
   const ids = (docs ?? []).map((d: DB) => d.user_id);
   if (!ids.length) return [];
   const [{ data: profs }, { data: roles }] = await Promise.all([
     db.from("profiles").select("id, full_name, photo_url, is_active").in("id", ids),
-    db.from("user_roles").select("user_id").eq("hospital_id", hospitalId).eq("role", "doctor").in("user_id", ids),
+    db.from("user_roles").select("user_id").eq("hospital_id", hospitalId).in("role", ["doctor", "outside_doctor"]).in("user_id", ids),
   ]);
   const pm = new Map((profs ?? []).map((p: DB) => [p.id, p]));
   const rs = new Set((roles ?? []).map((r: DB) => r.user_id));
