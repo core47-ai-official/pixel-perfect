@@ -3541,5 +3541,24 @@
     "noReadings": "No readings shared.",
     "notShared": "The patient isn't sharing measurements.",
     "since": "Connected"
+  },
+  "home": {
+    "title": "Home readings",
+    "empty": "Patient hasn't shared home data",
+    "sharedOn": "Shared by patient on {{date}}",
+    "avg": "avg",
+    "none": "Nothing logged",
+    "adherence": "Dose adherence (14 days)",
+    "symptoms": "Recent symptoms",
+    "target": "Target",
+    "setTarget": "Set target range",
+    "targetSaved": "Target saved — the patient will see it on their charts",
+    "low": "Low",
+    "high": "High",
+    "lowDia": "Dia low",
+    "highDia": "Dia high",
+    "followup": "Follow-up date (patient gets a reminder)",
+    "followupSaved": "Follow-up saved",
+    "clear": "Clear"
   }
 }
