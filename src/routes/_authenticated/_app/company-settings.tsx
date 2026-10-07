@@ -1,4 +1,5 @@
 import { RoleDashboardsTab } from "@/components/mc/role-dashboards-tab";
+import { HealthTrackerTab } from "@/components/mc/health-tracker-tab";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -84,6 +85,7 @@ function CompanySettingsPage() {
                 )}
                 {tb.kind === "contacts" && <ContactsTab key={JSON.stringify(raw?.contacts)} initial={raw?.contacts ?? []} canEdit={canEdit} />}
                 {tb.kind === "dashboards" && <RoleDashboardsTab canEdit={canEdit} />}
+                {tb.kind === "health_tracker" && <HealthTrackerTab canEdit={canEdit} />}
                 {tb.kind === "holidays" && <HolidaysTab key={JSON.stringify(raw?.holidays)} initial={raw?.holidays ?? []} canEdit={canEdit} />}
               </div>
             </TabsContent>

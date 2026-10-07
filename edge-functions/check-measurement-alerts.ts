@@ -185,5 +185,10 @@ Deno.serve(async (req) => {
     }
     await audit(db, req, c, "tracker.health_alert", "measurements", m.id, null, { alerts, notified });
   }
-  return json({ ok: true, data: { alerts, notified } });
+  let hospital_phone: string | null = null;
+  if (alerts.length) {
+    const { data: ph } = await db.from("company_contacts").select("value, is_primary, type").eq("hospital_id", c.hospitalId).in("type", ["phone", "landline", "mobile", "emergency"]).order("is_primary", { ascending: false }).limit(1);
+    hospital_phone = ph?.[0]?.value ?? null;
+  }
+  return json({ ok: true, data: { alerts, notified, hospital_phone } });
 });

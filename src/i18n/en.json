@@ -537,7 +537,8 @@
       "notifications": "Notifications",
       "holidays": "Holidays",
       "patient_portal": "Patient portal",
-      "dashboards": "Dashboards"
+      "dashboards": "Dashboards",
+      "health_tracker": "Health Tracker"
     },
     "f": {
       "hospital_name": "Hospital name",
@@ -635,7 +636,9 @@
       "tpl_followup_due_en": "Follow-up due — English template",
       "tpl_followup_due_ur": "Follow-up due — Urdu template",
       "tpl_dose_reminder_en": "Medicine reminder — English template",
-      "tpl_dose_reminder_ur": "Medicine reminder — Urdu template"
+      "tpl_dose_reminder_ur": "Medicine reminder — Urdu template",
+      "tpl_home_reading_alert_en": "Home reading alert — English template",
+      "tpl_home_reading_alert_ur": "Home reading alert — Urdu template"
     },
     "o": {
       "punjab": "Punjab",
@@ -2843,7 +2846,8 @@
       "stock_low": "Low stock",
       "stock_expiring": "Batches expiring soon",
       "followup_due": "Follow-up due",
-      "dose_reminder": "Medicine reminders"
+      "dose_reminder": "Medicine reminders",
+      "home_reading_alert": "Patient home reading alerts"
     }
   },
   "portal": {
@@ -3597,5 +3601,53 @@
     "done": "Saved — the doctor has been notified",
     "waiting": "Your account is being verified. Patients can find you once the hospital approves it.",
     "rejectedMsg": "Your verification was not approved: {{reason}}"
+  },
+  "halert": {
+    "title": "This reading is outside the alert level set by your hospital",
+    "notDiagnosis": "For information - not a diagnosis",
+    "high": "{{measure}} is at or above the alert level:",
+    "low": "{{measure}} is at or below the alert level:",
+    "level": "alert level",
+    "advice": "You may want to re-check the reading after resting for a few minutes and speak with the hospital about it.",
+    "contact": "Contact the hospital",
+    "contactNoPhone": "Contact the hospital about this reading.",
+    "emergency": "If you feel very unwell, call for emergency help:",
+    "ok": "OK",
+    "m": {
+      "bp_sys_high": "Top BP number (systolic)",
+      "bp_sys_low": "Top BP number (systolic)",
+      "bp_dia_high": "Bottom BP number (diastolic)",
+      "bp_dia_low": "Bottom BP number (diastolic)",
+      "glucose_high": "Sugar",
+      "glucose_low": "Sugar",
+      "temp_high": "Temperature",
+      "temp_low": "Temperature",
+      "pulse_high": "Pulse",
+      "pulse_low": "Pulse",
+      "spo2_low": "Oxygen (SpO2)"
+    }
+  },
+  "htab": {
+    "intro": "When a patient logs a home reading at or beyond these levels, the app shows an information note (never a diagnosis) with the hospital and emergency numbers, and tells doctors the patient shares readings with. Leave a box empty to skip that alert.",
+    "approvedBy": "Approved by Dr {{name}} · saved {{date}}",
+    "notApproved": "No alert levels are active yet. They start working once saved with an approving doctor's name.",
+    "enabled": "Show alerts to patients",
+    "doctor": "Approving doctor's name",
+    "doctorPh": "e.g. Dr Ayesha Khan",
+    "doctorHint": "Required every time the levels are saved. It is kept with the levels and in the audit log.",
+    "doctorRequired": "Enter the name of the doctor who approved these alert levels.",
+    "f": {
+      "bp_sys_high": "Top BP number — high alert",
+      "bp_sys_low": "Top BP number — low alert",
+      "bp_dia_high": "Bottom BP number — high alert",
+      "bp_dia_low": "Bottom BP number — low alert",
+      "glucose_high": "Sugar — high alert",
+      "glucose_low": "Sugar — low alert",
+      "temp_high": "Temperature — high alert",
+      "temp_low": "Temperature — low alert",
+      "pulse_high": "Pulse — high alert",
+      "pulse_low": "Pulse — low alert",
+      "spo2_low": "Oxygen (SpO2) — low alert"
+    }
   }
 }
