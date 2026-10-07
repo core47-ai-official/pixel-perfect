@@ -37,4 +37,6 @@ export const NOTIFICATION_TYPES: NotificationTypeDef[] = [
     defaults: { en: "Follow-up visit tomorrow\nPlease visit the hospital on {date} for your follow-up after discharge.", ur: "کل فالو اپ معائنہ\nڈسچارج کے بعد فالو اپ کے لیے {date} کو ہسپتال تشریف لائیں۔" } },
   { id: "dose_reminder", placeholders: ["medicine", "dose", "time"],
     defaults: { en: "Time for your medicine\n{medicine} {dose} — whenever you are ready, tap to mark it.", ur: "دوا کا وقت\n{medicine} {dose} — جب آپ تیار ہوں، نشان لگانے کے لیے ٹیپ کریں۔" } },
+  { id: "home_reading_alert", placeholders: ["patient", "measure", "reading", "date", "time"],
+    defaults: { en: "Home reading outside alert level\n{patient}: {measure} {reading} on {date} {time}. For information.", ur: "گھریلو ریڈنگ الرٹ حد سے باہر\n{patient}: {measure} {reading}، {date} {time}۔ معلومات کے لیے۔" } },
 ];
