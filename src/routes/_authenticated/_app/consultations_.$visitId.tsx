@@ -31,6 +31,7 @@ import { PrescriptionPanel } from "@/components/mc/prescription-panel";
 import { OrderPicker } from "@/components/mc/order-picker";
 import { ResultValues } from "@/components/mc/lab-results";
 import { usePatientOrders } from "@/lib/lab";
+import { HomeReadingsCard } from "@/components/mc/home-readings-card";
 
 export const Route = createFileRoute("/_authenticated/_app/consultations_/$visitId")({
   head: () => ({
@@ -293,6 +294,8 @@ function LeftPanel({ visit }: { visit: Visit }) {
         <p className="text-xs text-muted-foreground">{t("consult.chronic")}</p>
         <p>{p?.chronic_conditions?.length ? p.chronic_conditions.join(", ") : "—"}</p>
       </section>
+
+      <HomeReadingsCard patientId={visit.patient_id} />
 
       <section className="rounded-lg border bg-card p-4 text-sm">
         <div className="mb-2 flex items-center justify-between">

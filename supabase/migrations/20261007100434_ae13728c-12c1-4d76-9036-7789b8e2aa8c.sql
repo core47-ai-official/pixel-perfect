@@ -1,0 +1,2 @@
+ALTER TABLE public.connections ADD COLUMN IF NOT EXISTS followup_on date, ADD COLUMN IF NOT EXISTS shared_at timestamptz;
+UPDATE public.connections SET shared_at = COALESCE(responded_at, created_at) WHERE shared_at IS NULL AND status = 'active';

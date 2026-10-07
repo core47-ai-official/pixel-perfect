@@ -94,7 +94,7 @@ Deno.serve(async (req) => {
   if (!before) return fail("not_found", "Request not found.", 404);
   if (before.status !== "requested") return fail("already", "This request was already answered or withdrawn.", 409);
   const now = new Date().toISOString();
-  const { data, error } = await db.from("connections").update({ status: action === "accept" ? "active" : "declined", responded_at: now, updated_at: now })
+  const { data, error } = await db.from("connections").update({ status: action === "accept" ? "active" : "declined", responded_at: now, updated_at: now, ...(action === "accept" ? { shared_at: now } : {}) })
     .eq("id", before.id).eq("status", "requested").select().maybeSingle();
   if (error || !data) return fail("conflict", "This request just changed. Please refresh.", 409);
   await audit(db, req, c, `connection.${action}`, "connections", data.id, before, data);

@@ -917,6 +917,7 @@ export type Database = {
         Row: {
           created_at: string
           doctor_id: string
+          followup_on: string | null
           id: string
           patient_account_id: string
           patient_id: string | null
@@ -924,12 +925,14 @@ export type Database = {
           permissions: Json
           responded_at: string | null
           revoked_at: string | null
+          shared_at: string | null
           status: string
           updated_at: string
         }
         Insert: {
           created_at?: string
           doctor_id: string
+          followup_on?: string | null
           id?: string
           patient_account_id: string
           patient_id?: string | null
@@ -937,12 +940,14 @@ export type Database = {
           permissions?: Json
           responded_at?: string | null
           revoked_at?: string | null
+          shared_at?: string | null
           status?: string
           updated_at?: string
         }
         Update: {
           created_at?: string
           doctor_id?: string
+          followup_on?: string | null
           id?: string
           patient_account_id?: string
           patient_id?: string | null
@@ -950,6 +955,7 @@ export type Database = {
           permissions?: Json
           responded_at?: string | null
           revoked_at?: string | null
+          shared_at?: string | null
           status?: string
           updated_at?: string
         }
