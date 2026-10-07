@@ -298,7 +298,8 @@ Deno.serve(async (req) => {
     const [shift] = await ins("cashier_shifts", [{ hospital_id: h, cashier_id: cashier, cashier_name: "Imran Shah", opened_at: at(pkDate(0), "08:00"), opening_cash: 5000, status: "open", created_by: cashier }]);
 
     // appointments over 2 weeks: 10 days back, today, 3 days ahead (Mon–Sat)
-    const appts = []; const meta: { pat: number; doc: number; date: string; status: string; offset: number }[] = [];
+    // deno-lint-ignore no-explicit-any
+    const appts: any[] = []; const meta: { pat: number; doc: number; date: string; status: string; offset: number }[] = [];
     const tokens: Record<string, number> = {};
     for (let off = -10; off <= 3; off++) {
       const date = pkDate(off); if (weekday(date) === 0) continue;
@@ -358,7 +359,8 @@ Deno.serve(async (req) => {
 
     // OPD invoices: paid / partly paid / unpaid (one open bill per patient)
     let invN = 1, rcpN = 1; const openFor = new Set<string>();
-    const invRows = [], lineRows: Record<string, unknown>[][] = [], payRows: (null | { amount: number; at: string; today: boolean })[] = [];
+    // deno-lint-ignore no-explicit-any
+    const invRows: any[] = [], lineRows: Record<string, unknown>[][] = [], payRows: (null | { amount: number; at: string; today: boolean })[] = [];
     for (let i = 0; i < visits.length; i++) {
       const m = doneIdx[i], pid = pats[m.pat].id, fee = doctors[m.doc].fee;
       const vOrders = orders.filter((o: { visit_id: string }) => o.visit_id === visits[i].id);
