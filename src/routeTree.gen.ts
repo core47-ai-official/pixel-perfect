@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as DoctorSignupRouteImport } from './routes/doctor-signup'
 import { Route as ForbiddenRouteImport } from './routes/forbidden'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as PatientSignupRouteImport } from './routes/patient-signup'
@@ -34,6 +35,7 @@ import { Route as AuthenticatedAppDashboardRouteImport } from './routes/_authent
 import { Route as AuthenticatedAppDepartmentDoctorsRouteImport } from './routes/_authenticated/_app/department-doctors'
 import { Route as AuthenticatedAppDepartmentPatientsRouteImport } from './routes/_authenticated/_app/department-patients'
 import { Route as AuthenticatedAppDepartmentsRouteImport } from './routes/_authenticated/_app/departments'
+import { Route as AuthenticatedAppDoctorVerificationRouteImport } from './routes/_authenticated/_app/doctor-verification'
 import { Route as AuthenticatedAppDoctorsRouteImport } from './routes/_authenticated/_app/doctors'
 import { Route as AuthenticatedAppDoctorsNowRouteImport } from './routes/_authenticated/_app/doctors-now'
 import { Route as AuthenticatedAppEmergencyRouteImport } from './routes/_authenticated/_app/emergency'
@@ -104,6 +106,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DoctorSignupRoute = DoctorSignupRouteImport.update({
+  id: '/doctor-signup',
+  path: '/doctor-signup',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ForbiddenRoute = ForbiddenRouteImport.update({
@@ -226,6 +233,12 @@ const AuthenticatedAppDepartmentsRoute =
   AuthenticatedAppDepartmentsRouteImport.update({
     id: '/departments',
     path: '/departments',
+    getParentRoute: () => AuthenticatedAppRouteRoute,
+  } as any)
+const AuthenticatedAppDoctorVerificationRoute =
+  AuthenticatedAppDoctorVerificationRouteImport.update({
+    id: '/doctor-verification',
+    path: '/doctor-verification',
     getParentRoute: () => AuthenticatedAppRouteRoute,
   } as any)
 const AuthenticatedAppDoctorsRoute = AuthenticatedAppDoctorsRouteImport.update({
@@ -557,6 +570,7 @@ const AuthenticatedAppPharmacyPrescriptionIdRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/doctor-signup': typeof DoctorSignupRoute
   '/forbidden': typeof ForbiddenRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/patient-signup': typeof PatientSignupRoute
@@ -578,6 +592,7 @@ export interface FileRoutesByFullPath {
   '/department-doctors': typeof AuthenticatedAppDepartmentDoctorsRoute
   '/department-patients': typeof AuthenticatedAppDepartmentPatientsRoute
   '/departments': typeof AuthenticatedAppDepartmentsRoute
+  '/doctor-verification': typeof AuthenticatedAppDoctorVerificationRoute
   '/doctors': typeof AuthenticatedAppDoctorsRoute
   '/doctors-now': typeof AuthenticatedAppDoctorsNowRoute
   '/emergency': typeof AuthenticatedAppEmergencyRoute
@@ -639,6 +654,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/doctor-signup': typeof DoctorSignupRoute
   '/forbidden': typeof ForbiddenRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/patient-signup': typeof PatientSignupRoute
@@ -659,6 +675,7 @@ export interface FileRoutesByTo {
   '/department-doctors': typeof AuthenticatedAppDepartmentDoctorsRoute
   '/department-patients': typeof AuthenticatedAppDepartmentPatientsRoute
   '/departments': typeof AuthenticatedAppDepartmentsRoute
+  '/doctor-verification': typeof AuthenticatedAppDoctorVerificationRoute
   '/doctors': typeof AuthenticatedAppDoctorsRoute
   '/doctors-now': typeof AuthenticatedAppDoctorsNowRoute
   '/emergency': typeof AuthenticatedAppEmergencyRoute
@@ -722,6 +739,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/doctor-signup': typeof DoctorSignupRoute
   '/forbidden': typeof ForbiddenRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/patient-signup': typeof PatientSignupRoute
@@ -744,6 +762,7 @@ export interface FileRoutesById {
   '/_authenticated/_app/department-doctors': typeof AuthenticatedAppDepartmentDoctorsRoute
   '/_authenticated/_app/department-patients': typeof AuthenticatedAppDepartmentPatientsRoute
   '/_authenticated/_app/departments': typeof AuthenticatedAppDepartmentsRoute
+  '/_authenticated/_app/doctor-verification': typeof AuthenticatedAppDoctorVerificationRoute
   '/_authenticated/_app/doctors': typeof AuthenticatedAppDoctorsRoute
   '/_authenticated/_app/doctors-now': typeof AuthenticatedAppDoctorsNowRoute
   '/_authenticated/_app/emergency': typeof AuthenticatedAppEmergencyRoute
@@ -807,6 +826,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/doctor-signup'
     | '/forbidden'
     | '/forgot-password'
     | '/patient-signup'
@@ -828,6 +848,7 @@ export interface FileRouteTypes {
     | '/department-doctors'
     | '/department-patients'
     | '/departments'
+    | '/doctor-verification'
     | '/doctors'
     | '/doctors-now'
     | '/emergency'
@@ -889,6 +910,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/doctor-signup'
     | '/forbidden'
     | '/forgot-password'
     | '/patient-signup'
@@ -909,6 +931,7 @@ export interface FileRouteTypes {
     | '/department-doctors'
     | '/department-patients'
     | '/departments'
+    | '/doctor-verification'
     | '/doctors'
     | '/doctors-now'
     | '/emergency'
@@ -971,6 +994,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/doctor-signup'
     | '/forbidden'
     | '/forgot-password'
     | '/patient-signup'
@@ -993,6 +1017,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/department-doctors'
     | '/_authenticated/_app/department-patients'
     | '/_authenticated/_app/departments'
+    | '/_authenticated/_app/doctor-verification'
     | '/_authenticated/_app/doctors'
     | '/_authenticated/_app/doctors-now'
     | '/_authenticated/_app/emergency'
@@ -1056,6 +1081,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  DoctorSignupRoute: typeof DoctorSignupRoute
   ForbiddenRoute: typeof ForbiddenRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   PatientSignupRoute: typeof PatientSignupRoute
@@ -1086,6 +1112,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/doctor-signup': {
+      id: '/doctor-signup'
+      path: '/doctor-signup'
+      fullPath: '/doctor-signup'
+      preLoaderRoute: typeof DoctorSignupRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/forbidden': {
@@ -1240,6 +1273,13 @@ declare module '@tanstack/react-router' {
       path: '/departments'
       fullPath: '/departments'
       preLoaderRoute: typeof AuthenticatedAppDepartmentsRouteImport
+      parentRoute: typeof AuthenticatedAppRouteRoute
+    }
+    '/_authenticated/_app/doctor-verification': {
+      id: '/_authenticated/_app/doctor-verification'
+      path: '/doctor-verification'
+      fullPath: '/doctor-verification'
+      preLoaderRoute: typeof AuthenticatedAppDoctorVerificationRouteImport
       parentRoute: typeof AuthenticatedAppRouteRoute
     }
     '/_authenticated/_app/doctors': {
@@ -1658,6 +1698,7 @@ interface AuthenticatedAppRouteRouteChildren {
   AuthenticatedAppDepartmentDoctorsRoute: typeof AuthenticatedAppDepartmentDoctorsRoute
   AuthenticatedAppDepartmentPatientsRoute: typeof AuthenticatedAppDepartmentPatientsRoute
   AuthenticatedAppDepartmentsRoute: typeof AuthenticatedAppDepartmentsRoute
+  AuthenticatedAppDoctorVerificationRoute: typeof AuthenticatedAppDoctorVerificationRoute
   AuthenticatedAppDoctorsRoute: typeof AuthenticatedAppDoctorsRoute
   AuthenticatedAppDoctorsNowRoute: typeof AuthenticatedAppDoctorsNowRoute
   AuthenticatedAppEmergencyRoute: typeof AuthenticatedAppEmergencyRoute
@@ -1723,6 +1764,8 @@ const AuthenticatedAppRouteRouteChildren: AuthenticatedAppRouteRouteChildren = {
   AuthenticatedAppDepartmentPatientsRoute:
     AuthenticatedAppDepartmentPatientsRoute,
   AuthenticatedAppDepartmentsRoute: AuthenticatedAppDepartmentsRoute,
+  AuthenticatedAppDoctorVerificationRoute:
+    AuthenticatedAppDoctorVerificationRoute,
   AuthenticatedAppDoctorsRoute: AuthenticatedAppDoctorsRoute,
   AuthenticatedAppDoctorsNowRoute: AuthenticatedAppDoctorsNowRoute,
   AuthenticatedAppEmergencyRoute: AuthenticatedAppEmergencyRoute,
@@ -1830,6 +1873,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  DoctorSignupRoute: DoctorSignupRoute,
   ForbiddenRoute: ForbiddenRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
   PatientSignupRoute: PatientSignupRoute,
