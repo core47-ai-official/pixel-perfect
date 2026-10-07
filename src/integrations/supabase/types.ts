@@ -1496,55 +1496,79 @@ export type Database = {
       }
       doctors: {
         Row: {
+          clinic: string | null
           consultation_fee: number
           created_at: string
           created_by: string | null
+          credential_path: string | null
           department_id: string | null
           doctor_code: string | null
           followup_fee: number
           gender: string | null
           hospital_id: string
           id: string
+          is_outside: boolean
           languages: string[]
           pmdc_no: string | null
+          rejection_reason: string | null
           specialty: string
           status: Database["public"]["Enums"]["doctor_status"]
           updated_at: string
           user_id: string
+          verification_status: string
+          verified: boolean
+          verified_at: string | null
+          verified_by: string | null
         }
         Insert: {
+          clinic?: string | null
           consultation_fee?: number
           created_at?: string
           created_by?: string | null
+          credential_path?: string | null
           department_id?: string | null
           doctor_code?: string | null
           followup_fee?: number
           gender?: string | null
           hospital_id: string
           id?: string
+          is_outside?: boolean
           languages?: string[]
           pmdc_no?: string | null
+          rejection_reason?: string | null
           specialty?: string
           status?: Database["public"]["Enums"]["doctor_status"]
           updated_at?: string
           user_id: string
+          verification_status?: string
+          verified?: boolean
+          verified_at?: string | null
+          verified_by?: string | null
         }
         Update: {
+          clinic?: string | null
           consultation_fee?: number
           created_at?: string
           created_by?: string | null
+          credential_path?: string | null
           department_id?: string | null
           doctor_code?: string | null
           followup_fee?: number
           gender?: string | null
           hospital_id?: string
           id?: string
+          is_outside?: boolean
           languages?: string[]
           pmdc_no?: string | null
+          rejection_reason?: string | null
           specialty?: string
           status?: Database["public"]["Enums"]["doctor_status"]
           updated_at?: string
           user_id?: string
+          verification_status?: string
+          verified?: boolean
+          verified_at?: string | null
+          verified_by?: string | null
         }
         Relationships: [
           {
@@ -5594,6 +5618,7 @@ export type Database = {
         | "lab_tech"
         | "cashier"
         | "patient"
+        | "outside_doctor"
       doctor_status:
         | "available"
         | "in_opd"
@@ -5742,6 +5767,7 @@ export const Constants = {
         "lab_tech",
         "cashier",
         "patient",
+        "outside_doctor",
       ],
       doctor_status: [
         "available",
