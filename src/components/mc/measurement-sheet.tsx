@@ -9,6 +9,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Banner } from "@/components/mc/banner";
+import { HealthAlertBanner } from "@/components/mc/health-alert-banner";
+import type { HealthAlertResult } from "@/lib/health-alerts";
 import { callEdgeFunction } from "@/hooks/use-edge-function";
 import { checkReading, M_CONTEXTS, M_UNITS, QUICK_TYPES, type Measurement, type MType } from "@/lib/measurements";
 import { cn } from "@/lib/utils";
@@ -52,6 +54,7 @@ export function MeasurementSheet({ type, editing, onClose }: { type: MType; edit
   const [notes, setNotes] = useState(editing?.notes ?? "");
   const [err, setErr] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [alert, setAlert] = useState<HealthAlertResult | null>(null);
 
   const save = async () => {
     const n1 = Number(v1), n2 = type === "bp" ? Number(v2) : null;
@@ -61,10 +64,11 @@ export function MeasurementSheet({ type, editing, onClose }: { type: MType; edit
     setErr(null); setBusy(true);
     try {
       const body = { type, value_1: n1, value_2: n2, unit, context: ctx, measured_at: new Date(at).toISOString(), notes };
-      await callEdgeFunction(editing ? "update-measurement" : "log-measurement", editing ? { ...body, id: editing.id } : body);
+      const res = await callEdgeFunction<Partial<HealthAlertResult>>(editing ? "update-measurement" : "log-measurement", editing ? { ...body, id: editing.id } : body);
       await qc.invalidateQueries({ queryKey: ["measurements"] });
       toast.success(t("meas.saved"));
-      onClose();
+      if (res?.alerts?.length) setAlert({ alerts: res.alerts, hospital_phone: res.hospital_phone ?? null });
+      else onClose();
     } catch (x) { setErr((x as Error).message); } finally { setBusy(false); }
   };
 
@@ -73,6 +77,7 @@ export function MeasurementSheet({ type, editing, onClose }: { type: MType; edit
     <Sheet open onOpenChange={(o) => !o && onClose()}>
       <SheetContent side="bottom" className="max-h-[92dvh] overflow-y-auto rounded-t-patient">
         <SheetHeader><SheetTitle>{t(editing ? "meas.editTitle" : "meas.addTitle", { type: t(`meas.t.${type}`) })}</SheetTitle></SheetHeader>
+        {alert ? <div className="mx-auto mt-3 max-w-md"><HealthAlertBanner result={alert} onDone={onClose} /></div> : (
         <form className="mx-auto mt-3 max-w-md space-y-4" onSubmit={(e) => { e.preventDefault(); void save(); }}>
           {type === "bp" ? (
             <div className="flex items-end gap-2" dir="ltr">
@@ -95,6 +100,7 @@ export function MeasurementSheet({ type, editing, onClose }: { type: MType; edit
           <div className="space-y-1"><Label htmlFor="m-at">{t("meas.time")}</Label><Input id="m-at" type="datetime-local" dir="ltr" value={at} max={localNow()} onChange={(e) => setAt(e.target.value)} /></div>
           <div className="space-y-1"><Label htmlFor="m-notes">{t("meas.notes")}</Label><Textarea id="m-notes" rows={2} maxLength={1000} value={notes} onChange={(e) => setNotes(e.target.value)} /></div>
         </form>
+        )}
       </SheetContent>
     </Sheet>
   );
