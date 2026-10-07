@@ -6,7 +6,7 @@ import { callEdgeFunction } from "./use-edge-function";
 
 export type AppRole =
   | "super_admin" | "admin" | "dept_head" | "doctor" | "nurse" | "er_officer"
-  | "ot_coordinator" | "receptionist" | "pharmacist" | "lab_tech" | "cashier" | "patient";
+  | "ot_coordinator" | "receptionist" | "pharmacist" | "lab_tech" | "cashier" | "patient" | "outside_doctor";
 
 export interface MyContext {
   profile: {

@@ -71,7 +71,7 @@ Deno.serve(async (req) => {
   };
   const { data: row, error } = before
     ? await db.from("doctors").update(values).eq("id", before.id).select().single()
-    : await db.from("doctors").insert({ ...values, created_by: userId }).select().single();
+    : await db.from("doctors").insert({ ...values, created_by: userId, verified: true, verification_status: "approved", verified_at: new Date().toISOString() }).select().single();
   if (error) return fail("db", error.message);
 
   await db.from("audit_logs").insert({
