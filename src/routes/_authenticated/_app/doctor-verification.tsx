@@ -31,7 +31,7 @@ export const Route = createFileRoute("/_authenticated/_app/doctor-verification")
 });
 
 type Status = "pending" | "approved" | "rejected";
-interface Row { id: string; user_id: string; specialty: string; clinic: string | null; pmdc_no: string | null; verification_status: Status; rejection_reason: string | null; created_at: string; name?: string; email?: string | null; phone?: string | null }
+interface Row { id: string; user_id: string; specialty: string; clinic: string | null; pmdc_no: string | null; verification_status: Status; rejection_reason: string | null; created_at: string; name?: string | undefined; email?: string | null | undefined; phone?: string | null | undefined }
 
 function DoctorVerification() {
   const { t } = useTranslation();
