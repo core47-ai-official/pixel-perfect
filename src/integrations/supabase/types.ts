@@ -846,6 +846,7 @@ export type Database = {
           dashboards: Json
           emergency: Json
           general: Json
+          health_tracker: Json
           hospital_id: string
           id: string
           lab: Json
@@ -868,6 +869,7 @@ export type Database = {
           dashboards?: Json
           emergency?: Json
           general?: Json
+          health_tracker?: Json
           hospital_id: string
           id?: string
           lab?: Json
@@ -890,6 +892,7 @@ export type Database = {
           dashboards?: Json
           emergency?: Json
           general?: Json
+          health_tracker?: Json
           hospital_id?: string
           id?: string
           lab?: Json
