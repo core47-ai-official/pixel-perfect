@@ -30,6 +30,7 @@ export const PAGES = {
   mySchedule: { id: "mySchedule", path: "/my-schedule", icon: CalendarRange, group: "clinical" },
   opdQueue: { id: "opdQueue", path: "/opd-queue", icon: ListOrdered, group: "patients" },
   consultations: { id: "consultations", path: "/consultations", icon: Stethoscope, group: "clinical" },
+  doctorVerification: { id: "doctorVerification", path: "/doctor-verification", icon: BadgeCheck, group: "admin" },
   trackerConnections: { id: "trackerConnections", path: "/tracker-connections", icon: HeartPulse, group: "clinical" },
   myLeave: { id: "myLeave", path: "/my-leave", icon: CalendarOff, group: "clinical" },
   wards: { id: "wards", path: "/wards", icon: BedDouble, group: "clinical" },
@@ -84,8 +85,8 @@ export const FOOTER_PAGES: NavPage[] = [
 
 /** Role → pages, in priority order (first four become the mobile bottom nav). */
 export const ROLE_PAGES: Record<AppRole, PageId[]> = {
-  super_admin: ["dashboard", "users", "feedback", "feedbackKiosk", "reports", "surveillance", "roster", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "doctorsNow", "leaveApprovals", "ot", "patients", "appointments", "billing", "approvals", "cashRegister", "unpaid", "welfare", "claims", "inventory", "purchaseRequests", "formulary", "labTests", "wardSetup", "wards", "emergency", "referrals", "nursing", "handover", "tariffs", "packages", "bloodBank"],
-  admin: ["dashboard", "users", "feedback", "feedbackKiosk", "departments", "roster", "doctors", "doctorsNow", "leaveApprovals", "companySettings", "reports", "surveillance", "patients", "appointments", "ot", "billing", "approvals", "unpaid", "welfare", "claims", "inventory", "purchaseRequests", "formulary", "labTests", "wardSetup", "wards", "emergency", "referrals", "nursing", "handover", "tariffs", "packages", "bloodBank"],
+  super_admin: ["dashboard", "users", "doctorVerification", "feedback", "feedbackKiosk", "reports", "surveillance", "roster", "auditLogs", "systemIssues", "supportTickets", "companySettings", "departments", "doctors", "doctorsNow", "leaveApprovals", "ot", "patients", "appointments", "billing", "approvals", "cashRegister", "unpaid", "welfare", "claims", "inventory", "purchaseRequests", "formulary", "labTests", "wardSetup", "wards", "emergency", "referrals", "nursing", "handover", "tariffs", "packages", "bloodBank"],
+  admin: ["dashboard", "users", "doctorVerification", "feedback", "feedbackKiosk", "departments", "roster", "doctors", "doctorsNow", "leaveApprovals", "companySettings", "reports", "surveillance", "patients", "appointments", "ot", "billing", "approvals", "unpaid", "welfare", "claims", "inventory", "purchaseRequests", "formulary", "labTests", "wardSetup", "wards", "emergency", "referrals", "nursing", "handover", "tariffs", "packages", "bloodBank"],
   dept_head: ["dashboard", "deptPatients", "deptDoctors", "roster", "reports", "consultations", "leaveApprovals", "patients", "appointments", "wards", "emergency", "referrals", "nursing", "handover", "staff", "doctors", "doctorsNow"],
   doctor: ["myDay", "opdQueue", "mySchedule", "patients", "consultations", "trackerConnections", "appointments", "ot", "myLeave", "wards", "emergency", "referrals", "lab", "formulary", "dashboard", "bloodBank"],
   nurse: ["nursing", "wards", "handover", "patients", "emergency", "referrals", "dashboard", "roster"],
@@ -133,6 +134,7 @@ export const ROLE_QUICK_ADD: Record<AppRole, QuickActionId[]> = {
   lab_tech: ["newSample", "newLabOrder"],
   cashier: ["newReceipt", "newDeposit"],
   patient: [],
+  outside_doctor: [],
 };
 
 function union<T>(lists: T[][]): T[] {

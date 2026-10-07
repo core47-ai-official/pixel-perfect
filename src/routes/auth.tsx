@@ -110,6 +110,9 @@ function AuthPage() {
           <p className="mt-4 text-center text-sm text-muted-foreground">
             {t("psignup.newPatient")} <Link to="/patient-signup" className="text-primary underline">{t("psignup.create")}</Link>
           </p>
+          <p className="mt-2 text-center text-sm text-muted-foreground">
+            {t("dsignup.prompt")} <Link to="/doctor-signup" className="text-primary underline">{t("dsignup.link")}</Link>
+          </p>
     </AuthCard>
   );
 }

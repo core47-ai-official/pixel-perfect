@@ -280,7 +280,8 @@
     "surveillance": "Surveillance",
     "feedback": "Feedback",
     "feedbackKiosk": "Feedback kiosk",
-    "trackerConnections": "Tracker connections"
+    "trackerConnections": "Tracker connections",
+    "doctorVerification": "Doctor verification"
   },
   "navGroup": {
     "overview": "Overview",
@@ -318,7 +319,8 @@
     "pharmacist": "Pharmacist",
     "lab_tech": "Lab technician",
     "cashier": "Cashier",
-    "patient": "Patient"
+    "patient": "Patient",
+    "outside_doctor": "Outside doctor"
   },
   "shell": {
     "search": "Search patients by name, MRN, CNIC or phone",
@@ -3560,5 +3562,40 @@
     "followup": "Follow-up date (patient gets a reminder)",
     "followupSaved": "Follow-up saved",
     "clear": "Clear"
+  },
+  "dsignup": {
+    "prompt": "A doctor outside the hospital?",
+    "link": "Register as a doctor",
+    "title": "Outside doctor registration",
+    "subtitle": "Once the hospital verifies you, patients can share their health tracker with you.",
+    "name": "Full name",
+    "specialty": "Speciality",
+    "clinic": "Clinic / hospital",
+    "phone": "Mobile number",
+    "email": "Email (your login)",
+    "pmdc": "PMDC number",
+    "cert": "PMDC certificate (PDF, JPG or PNG, up to 5 MB)",
+    "password": "Password (at least 8 characters)",
+    "submit": "Register",
+    "required": "Please fill in every field and attach your certificate.",
+    "tooBig": "The certificate must be 5 MB or smaller.",
+    "failed": "Registration failed. Please try again.",
+    "haveAccount": "Already registered?",
+    "signIn": "Sign in"
+  },
+  "dver": {
+    "title": "Doctor verification",
+    "intro": "Outside doctors who registered. Check the PMDC certificate, then approve or reject.",
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "none": "No doctors here.",
+    "view": "View certificate",
+    "approve": "Approve",
+    "reject": "Reject",
+    "reason": "Reason for rejecting",
+    "done": "Saved — the doctor has been notified",
+    "waiting": "Your account is being verified. Patients can find you once the hospital approves it.",
+    "rejectedMsg": "Your verification was not approved: {{reason}}"
   }
 }
