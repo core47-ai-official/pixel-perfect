@@ -1,5 +1,6 @@
-// Paste into Supabase → Edge Functions → new function "receive-stock". Turn "Enforce JWT Verification" OFF.
-// Pharmacist / admin: receive a batch of a medicine. Queues an alert straight away if it expires within 90 days. Body: { medicine_id, batch_no, expiry_date (YYYY-MM-DD), qty, cost_price, supplier_id? }
+// Paste into Supabase → Edge Functions → new function "check-measurement-alerts". Turn "Enforce JWT Verification" OFF.
+// Patient only (log-measurement calls it with the patient's token). Body: { measurement_id }.
+// Returns informational alerts only — never a diagnosis. Notifies connected doctors who can see measurements (non-urgent).
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const cors = {
@@ -44,20 +45,6 @@ const BOOT = async (req: Request) => {
   return { db, c, b };
 };
 const has = (c: { roles: string[] }, list: string[]) => c.roles.some((r) => list.includes(r));
-
-const STOCK_ROLES = ["super_admin", "admin", "pharmacist"];
-const now = () => new Date().toISOString();
-const todayPk = () => new Date(Date.now() + 5 * 3600e3).toISOString().slice(0, 10);
-const daysUntil = (ymd: string) => Math.round((Date.parse(`${ymd}T00:00:00Z`) - Date.parse(`${todayPk()}T00:00:00Z`)) / 86400e3);
-const medName = (m: { generic_name: string; brand_name: string | null; strength: string | null }) =>
-  [m.brand_name || m.generic_name, m.strength].filter(Boolean).join(" ");
-/** Notifies every pharmacist and admin in the hospital. */
-async function notifyStock(db: DB, hospitalId: string, type: string, title: string, body: string, by: string | null, vars?: Record<string, unknown>) {
-  const { data: staff } = await db.from("user_roles").select("user_id").eq("hospital_id", hospitalId).in("role", ["pharmacist", "admin"]);
-  const ids = [...new Set((staff ?? []).map((x: { user_id: string }) => x.user_id))];
-  if (ids.length) await queueNotes(db, ids.map((u) => ({ hospital_id: hospitalId, user_id: u as string, type, title, body: body.slice(0, 1000), link: "/inventory", created_by: by, vars })));
-  return ids.length;
-}
 // ---- notification helpers (identical wherever they appear; mirrors src/config/notification-types.ts) ----
 // Every event notification goes through queueNotes: it applies the hospital's English/Urdu template for the type
 // (company settings → notifications → tpl_<type>_<en|ur>, first line = title, rest = body, {placeholders} from vars),
@@ -136,36 +123,67 @@ async function queueNotes(db: any, input: NoteIn | NoteIn[]): Promise<{ error: u
   return { error, count: error ? 0 : out.length };
 }
 // ---- end notification helpers ----
+// ---- health alert rules (MediCore; identical in check-measurement-alerts and save-health-alert-thresholds, mirrored in src/lib/health-alerts.ts) ----
+// Thresholds live in company_settings.health_tracker. They apply only once saved with an approving doctor's name.
+const HA_FIELDS: { key: string; type: string; side: "high" | "low"; value: 1 | 2; min: number; max: number }[] = [
+  { key: "bp_sys_high", type: "bp", side: "high", value: 1, min: 100, max: 260 },
+  { key: "bp_sys_low", type: "bp", side: "low", value: 1, min: 50, max: 120 },
+  { key: "bp_dia_high", type: "bp", side: "high", value: 2, min: 60, max: 160 },
+  { key: "bp_dia_low", type: "bp", side: "low", value: 2, min: 30, max: 80 },
+  { key: "glucose_high", type: "glucose", side: "high", value: 1, min: 120, max: 600 },
+  { key: "glucose_low", type: "glucose", side: "low", value: 1, min: 20, max: 100 },
+  { key: "temp_high", type: "temp", side: "high", value: 1, min: 37, max: 45 },
+  { key: "temp_low", type: "temp", side: "low", value: 1, min: 30, max: 36 },
+  { key: "pulse_high", type: "pulse", side: "high", value: 1, min: 80, max: 250 },
+  { key: "pulse_low", type: "pulse", side: "low", value: 1, min: 20, max: 70 },
+  { key: "spo2_low", type: "spo2", side: "low", value: 1, min: 50, max: 98 },
+];
+const HA_DEFAULTS: Record<string, number> = { bp_sys_high: 180, bp_sys_low: 90, bp_dia_high: 120, bp_dia_low: 60, glucose_high: 300, glucose_low: 70,
+  temp_high: 39, temp_low: 35, pulse_high: 120, pulse_low: 50, spo2_low: 92 };
+// deno-lint-ignore no-explicit-any
+function alertsFor(m: any, ht: any): { key: string; side: string; threshold: number; value: number }[] {
+  if (!ht?.enabled || !String(ht?.approved_by_doctor ?? "").trim()) return [];
+  const out = [];
+  for (const f of HA_FIELDS) {
+    if (f.type !== m.type) continue;
+    const th = Number(ht[f.key]);
+    if (!Number.isFinite(th) || ht[f.key] === "" || ht[f.key] == null) continue;
+    const v = Number(f.value === 1 ? m.value_1 : m.value_2);
+    if (!Number.isFinite(v)) continue;
+    if ((f.side === "high" && v >= th) || (f.side === "low" && v <= th)) out.push({ key: f.key, side: f.side, threshold: th, value: v });
+  }
+  return out;
+}
+// ---- end health alert rules ----
+const READ = (m: { type: string; value_1: number; value_2: number | null; unit: string }) => m.type === "bp" ? `${m.value_1}/${m.value_2} mmHg` : `${m.value_1} ${m.unit}`;
+const LABEL: Record<string, string> = { bp: "Blood pressure", glucose: "Sugar", temp: "Temperature", pulse: "Pulse", spo2: "Oxygen (SpO2)" };
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   const { db, c, b } = await BOOT(req);
   if ("error" in c) return c.error;
-  if (!has(c, STOCK_ROLES)) return fail("forbidden", "Only a pharmacist or admin can manage stock.", 403);
-  const { data: med } = await db.from("medicines").select("id, generic_name, brand_name, strength").eq("id", String(b.medicine_id ?? "")).eq("hospital_id", c.hospitalId).maybeSingle();
-  if (!med) return fail("not_found", "Medicine not found.", 404);
-  const batch = String(b.batch_no ?? "").trim().slice(0, 60);
-  const expiry = String(b.expiry_date ?? "");
-  const qty = Math.round(Number(b.qty)), cost = Math.round(Number(b.cost_price ?? 0) * 100) / 100;
-  if (!batch) return fail("invalid", "Batch number is required.");
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(expiry) || isNaN(Date.parse(expiry))) return fail("invalid", "Enter a valid expiry date.");
-  if (daysUntil(expiry) < 0) return fail("expired", "This batch has already expired.");
-  if (!(qty > 0 && qty <= 1_000_000)) return fail("invalid", "Quantity must be more than 0.");
-  if (!(cost >= 0)) return fail("invalid", "Check the cost price.");
-  let supplierId = null;
-  if (b.supplier_id) {
-    const { data: s } = await db.from("suppliers").select("id").eq("id", String(b.supplier_id)).eq("hospital_id", c.hospitalId).maybeSingle();
-    if (!s) return fail("not_found", "Supplier not found.", 404);
-    supplierId = s.id;
+  if (!c.roles.includes("patient") || c.impersonatedBy) return fail("forbidden", "Only patients can check their own readings.", 403);
+  const { data: acct } = await db.from("patient_accounts").select("id, patient_id").eq("user_id", c.userId).maybeSingle();
+  if (!acct) return fail("forbidden", "Only patients can check their own readings.", 403);
+  const { data: m } = await db.from("measurements").select("*").eq("id", String(b.measurement_id ?? "")).eq("patient_account_id", acct.id).is("deleted_at", null).maybeSingle();
+  if (!m) return fail("not_found", "Reading not found.", 404);
+  const { data: cs } = await db.from("company_settings").select("health_tracker").eq("hospital_id", c.hospitalId).maybeSingle();
+  const alerts = alertsFor(m, cs?.health_tracker ?? {});
+  let notified = 0;
+  if (alerts.length) {
+    const { data: cns } = await db.from("connections").select("id, doctor_id, patient_name, permissions").eq("patient_account_id", acct.id).eq("status", "active");
+    const ids = (cns ?? []).filter((x: { permissions: Record<string, boolean> }) => x.permissions?.measurements === true).map((x: { doctor_id: string }) => x.doctor_id);
+    if (ids.length) {
+      const { data: docs } = await db.from("doctors").select("id, user_id").in("id", ids);
+      const notes = (docs ?? []).filter((d: { user_id: string | null }) => d.user_id).map((d: { id: string; user_id: string }) => {
+        const cn = (cns ?? []).find((x: { doctor_id: string }) => x.doctor_id === d.id);
+        return { hospital_id: c.hospitalId, user_id: d.user_id, type: "home_reading_alert", link: "/tracker-connections",
+          title: "Home reading outside alert level", body: `${cn?.patient_name ?? "A patient"}: ${LABEL[m.type] ?? m.type} ${READ(m)}`,
+          vars: { patient: cn?.patient_name ?? "A patient", measure: LABEL[m.type] ?? m.type, reading: READ(m), date: notePkDate(m.measured_at), time: notePkTime(m.measured_at) },
+          dedupe_key: `halert:${m.id}:${d.user_id}` };
+      });
+      notified = (await queueNotes(db, notes)).count;
+    }
+    await audit(db, req, c, "tracker.health_alert", "measurements", m.id, null, { alerts, notified });
   }
-  const { data, error } = await db.from("stock_batches").insert({
-    hospital_id: c.hospitalId, medicine_id: med.id, batch_no: batch, expiry_date: expiry, qty_received: qty, qty_on_hand: qty,
-    cost_price: cost, supplier_id: supplierId, received_by: c.userId,
-  }).select().single();
-  if (error) return fail(error.code === "23505" ? "duplicate" : "server", error.code === "23505" ? "This batch number was already received for this medicine. Use Adjust to change its quantity." : "Could not save.", error.code === "23505" ? 409 : 500);
-  const days = daysUntil(expiry);
-  let alerted = 0;
-  if (days <= 90) alerted = await notifyStock(db, c.hospitalId, "stock_expiring", days <= 30 ? "Batch expires within 30 days" : "Batch expires within 90 days",
-    `${medName(med)} — batch ${batch}, ${qty} on hand, expires ${expiry} (${days} days).`, c.userId);
-  await audit(db, req, c, "receive", "stock_batch", data.id, null, data);
-  return json({ ok: true, data: { ...data, days_to_expiry: days, alert_queued: alerted > 0 } });
+  return json({ ok: true, data: { alerts, notified } });
 });
