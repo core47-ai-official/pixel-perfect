@@ -22,12 +22,12 @@ export interface FieldDef {
 
 export type TabId =
   | "general" | "branding" | "contacts" | "localization" | "security" | "opd" | "appointments" | "billing"
-  | "pharmacy" | "lab" | "wards" | "emergency" | "printing" | "notifications" | "holidays" | "patient_portal" | "health_tracker" | "dashboards";
+  | "pharmacy" | "lab" | "wards" | "emergency" | "printing" | "notifications" | "holidays" | "patient_portal" | "health_tracker" | "dashboards" | "demo";
 
 export interface TabDef {
   id: TabId;
   /** Stored in company_settings column of the same name; contacts/holidays use their own tables. */
-  kind: "fields" | "contacts" | "holidays" | "dashboards" | "health_tracker";
+  kind: "fields" | "contacts" | "holidays" | "dashboards" | "health_tracker" | "demo";
   fields: FieldDef[];
 }
 
@@ -41,6 +41,7 @@ export const SETTINGS_TABS: TabDef[] = [
     { key: "city", type: "text", default: "", public: true },
     { key: "province", type: "select", default: "punjab", public: true, options: ["punjab", "sindh", "kpk", "balochistan", "ict", "gb", "ajk"] },
     { key: "website", type: "text", default: "", public: true, ltr: true },
+    { key: "is_live", type: "toggle", default: false },
   ] },
   { id: "branding", kind: "fields", fields: [
     { key: "logo", type: "asset", asset: "logo", default: "", public: true },
@@ -136,6 +137,7 @@ export const SETTINGS_TABS: TabDef[] = [
   ] },
   { id: "health_tracker", kind: "health_tracker", fields: [] },
   { id: "dashboards", kind: "dashboards", fields: [] },
+  { id: "demo", kind: "demo", fields: [] },
 ];
 
 export type TabValues = Record<string, string | number | boolean>;
