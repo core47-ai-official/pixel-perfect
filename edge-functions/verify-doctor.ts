@@ -119,6 +119,7 @@ async function queueNotes(db: any, input: NoteIn | NoteIn[]): Promise<{ error: u
   const { error } = await db.from("notifications").upsert(out, { onConflict: "dedupe_key", ignoreDuplicates: true });
   return { error, count: error ? 0 : out.length };
 }
+const has = (c: { roles: string[] }, list: string[]) => c.roles.some((r) => list.includes(r));
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   const { db, c, b } = await BOOT(req);
