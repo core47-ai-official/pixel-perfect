@@ -538,7 +538,8 @@
       "holidays": "Holidays",
       "patient_portal": "Patient portal",
       "dashboards": "Dashboards",
-      "health_tracker": "Health Tracker"
+      "health_tracker": "Health Tracker",
+      "demo": "Demo data"
     },
     "f": {
       "hospital_name": "Hospital name",
@@ -638,7 +639,8 @@
       "tpl_dose_reminder_en": "Medicine reminder — English template",
       "tpl_dose_reminder_ur": "Medicine reminder — Urdu template",
       "tpl_home_reading_alert_en": "Home reading alert — English template",
-      "tpl_home_reading_alert_ur": "Home reading alert — Urdu template"
+      "tpl_home_reading_alert_ur": "Home reading alert — Urdu template",
+      "is_live": "Hospital is live (blocks demo data)"
     },
     "o": {
       "punjab": "Punjab",
@@ -3649,5 +3651,23 @@
       "pulse_low": "Pulse — low alert",
       "spo2_low": "Oxygen (SpO2) — low alert"
     }
+  },
+  "demo": {
+    "intro": "Fill this hospital with realistic sample data to try every screen: 4 departments, 8 doctors with schedules, one login per role, 200 patients, 2 weeks of appointments and visits, prescriptions, lab orders, 3 wards with admissions, paid / partly paid / unpaid bills and home readings for 10 patients. Clearing removes only demo records.",
+    "live": "This hospital is marked live, so demo data can't be added. Turn off \"Hospital is live\" in General first.",
+    "seed": "Add demo data",
+    "seeding": "Adding… this takes about a minute",
+    "clear": "Clear demo data",
+    "clearing": "Clearing…",
+    "confirmClear": "Remove all demo records and demo logins? Real records are not touched.",
+    "cleared": "Demo data removed ({{n}} records).",
+    "done": "Demo data added",
+    "once": "These passwords are shown only once. Copy or download them now.",
+    "download": "Download logins (CSV)",
+    "name": "Name",
+    "role": "Role",
+    "email": "Email",
+    "password": "Password",
+    "readOnly": "Only the super admin can add or clear demo data."
   }
 }
