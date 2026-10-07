@@ -91,7 +91,7 @@ export function HomeReadingsCard({ patientId }: { patientId: string }) {
   );
 }
 
-function TargetEditor({ patientId, type, target }: { patientId: string; type: MType; target?: Target }) {
+function TargetEditor({ patientId, type, target }: { patientId: string; type: MType; target?: Target | undefined }) {
   const { t } = useTranslation();
   const qc = useQueryClient();
   const [open, setOpen] = useState(false);
