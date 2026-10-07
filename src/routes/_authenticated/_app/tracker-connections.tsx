@@ -36,6 +36,11 @@ function TrackerConnections() {
   const qc = useQueryClient();
   const conns = useConnections("doctor");
   const [busy, setBusy] = useState<string | null>(null);
+  const me = useQuery({ queryKey: ["my-doctor-verification"], queryFn: async () => {
+    const { data: u } = await supabase.auth.getUser();
+    const { data } = await supabase.from("doctors").select("verified, verification_status, rejection_reason").eq("user_id", u.user?.id ?? "").maybeSingle();
+    return data;
+  } });
   const code = useQuery({ queryKey: ["my-doctor-code"], queryFn: () => callEdgeFunction<{ doctor_code: string }>("respond-connection", { action: "my_code" }) });
 
   const respond = async (c: Connection, action: "accept" | "decline") => {
@@ -53,6 +58,11 @@ function TrackerConnections() {
         <div><h1 className="text-2xl font-semibold">{t("conn.docTitle")}</h1><p className="text-sm text-muted-foreground">{t("conn.docIntro")}</p></div>
         <div className="rounded-md border px-3 py-2 text-sm">{t("conn.myCode")}: <Ltr className="font-mono text-lg font-semibold tracking-widest">{code.data?.doctor_code ?? "……"}</Ltr></div>
       </div>
+      {me.data && !me.data.verified && (
+        <div className="rounded-md border border-warning/40 bg-warning/10 p-3 text-sm">
+          {me.data.verification_status === "rejected" ? t("dver.rejectedMsg", { reason: me.data.rejection_reason ?? "" }) : t("dver.waiting")}
+        </div>
+      )}
       {conns.isLoading ? <Skeleton className="h-40" /> : (
         <>
           <Card>
