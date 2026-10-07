@@ -97,6 +97,7 @@ export const ROLE_PAGES: Record<AppRole, PageId[]> = {
   lab_tech: ["dashboard", "lab", "labTests", "patients", "inventory", "bloodBank"],
   cashier: ["dashboard", "billing", "approvals", "cashRegister", "unpaid", "welfare", "patients", "tariffs", "packages"],
   patient: ["dashboard", "myAppointments", "myRecords", "myBills"],
+  outside_doctor: ["trackerConnections"],
 };
 
 export interface QuickAction {
