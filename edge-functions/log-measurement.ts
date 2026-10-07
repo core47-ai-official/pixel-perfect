@@ -109,12 +109,12 @@ Deno.serve(async (req) => {
   const { data, error } = await db.from("measurements").insert({ ...chk.row, patient_account_id: acct.id, patient_id: acct.patient_id }).select().single();
   if (error) return fail("server", "Couldn't save the reading.", 500);
   // Informational alerts (never a diagnosis): check-measurement-alerts compares with the hospital's approved thresholds.
-  let alerts: unknown[] = [];
+  let alerts: unknown[] = []; let hospital_phone: string | null = null;
   try {
     const h: Record<string, string> = { "Content-Type": "application/json", Authorization: req.headers.get("Authorization") ?? "" };
     const r = await fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/check-measurement-alerts`, { method: "POST", headers: h, body: JSON.stringify({ measurement_id: data.id }) });
     const j = await r.json().catch(() => null);
-    if (j?.ok && Array.isArray(j.data?.alerts)) alerts = j.data.alerts;
+    if (j?.ok && Array.isArray(j.data?.alerts)) { alerts = j.data.alerts; hospital_phone = j.data.hospital_phone ?? null; }
   } catch (_) { /* the reading is saved either way */ }
-  return json({ ok: true, data: { ...data, alerts } });
+  return json({ ok: true, data: { ...data, alerts, hospital_phone } });
 });
