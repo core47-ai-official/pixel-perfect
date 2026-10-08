@@ -1,4 +1,4 @@
-// Supabase → Edge Functions → "update-user". JWT verification OFF. Admin edits name, email, phone and photo.
+// Supabase → Edge Functions → "reactivate-user". JWT verification OFF. Admin switches a login back on.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const cors = {
@@ -84,15 +84,10 @@ Deno.serve(async (req) => {
   const b: any = await req.json().catch(() => ({}));
 
   const t = await target(db, c, b.user_id); if ("error" in t) return t.error;
-  const full_name = String(b.full_name ?? "").trim().slice(0, 120), email = String(b.email ?? "").trim().toLowerCase();
-  if (!full_name || !EMAIL.test(email)) return fail("validation", "Name and a valid email are required.");
-  if (email !== (t.p.email ?? "").toLowerCase()) {
-    const { error } = await db.auth.admin.updateUserById(b.user_id, { email, email_confirm: true });
-    if (error) return fail("auth", error.message);
-  }
-  const patch = { full_name, email, phone: b.phone ? String(b.phone).slice(0, 30) : null, photo_url: b.photo_url ? String(b.photo_url).slice(0, 500) : null };
-  const { error } = await db.from("profiles").update(patch).eq("id", b.user_id);
+  const { error: ae } = await db.auth.admin.updateUserById(b.user_id, { ban_duration: "none" });
+  if (ae) return fail("auth", ae.message);
+  const { error } = await db.from("profiles").update({ is_active: true }).eq("id", b.user_id);
   if (error) return fail("db", error.message);
-  await audit(db, c, "user.update", b.user_id, t.p, patch);
+  await audit(db, c, "user.reactivate", b.user_id, { is_active: false }, { is_active: true, reason: b.reason ? String(b.reason).slice(0, 500) : null });
   return json({ ok: true, data: { id: b.user_id } });
 });

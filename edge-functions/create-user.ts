@@ -1,4 +1,4 @@
-// Supabase → Edge Functions → "create-user". JWT verification OFF. Admin creates a staff login + profile + roles.
+// Supabase → Edge Functions → "create-user". JWT verification OFF. Admin creates a staff login, profile and roles.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const cors = {
@@ -28,6 +28,7 @@ async function getCaller(db: any, req: Request) {
   const { data: roles } = await db.from("user_roles").select("role").eq("user_id", userId).eq("hospital_id", prof.hospital_id);
   return { userId, impersonatedBy, hospitalId: prof.hospital_id as string, roles: (roles ?? []).map((r: { role: string }) => r.role) };
 }
+
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -71,7 +72,6 @@ async function replaceRoles(db: any, c: any, id: string, roles: any[]) {
   }
   return null;
 }
-
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);

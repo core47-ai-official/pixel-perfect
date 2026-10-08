@@ -1,4 +1,4 @@
-// Supabase → Edge Functions → "update-user". JWT verification OFF. Admin edits name, email, phone and photo.
+// Supabase → Edge Functions → "reset-user-password". JWT verification OFF. Super admin sets a temporary password; user must change it at next sign-in.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const cors = {
@@ -78,21 +78,17 @@ Deno.serve(async (req) => {
   const c = await getCaller(db, req);
   if ("error" in c) return c.error;
   if (c.impersonatedBy) return fail("forbidden", "Not allowed while acting as another user.", 403);
-  if (!c.roles.some((r) => r === "admin" || r === "super_admin")) return fail("forbidden", "Only an admin can manage users.", 403);
+  if (!c.roles.includes("super_admin")) return fail("forbidden", "Only a super admin can do this.", 403);
   const isSuper = c.roles.includes("super_admin");
   // deno-lint-ignore no-explicit-any
   const b: any = await req.json().catch(() => ({}));
 
   const t = await target(db, c, b.user_id); if ("error" in t) return t.error;
-  const full_name = String(b.full_name ?? "").trim().slice(0, 120), email = String(b.email ?? "").trim().toLowerCase();
-  if (!full_name || !EMAIL.test(email)) return fail("validation", "Name and a valid email are required.");
-  if (email !== (t.p.email ?? "").toLowerCase()) {
-    const { error } = await db.auth.admin.updateUserById(b.user_id, { email, email_confirm: true });
-    if (error) return fail("auth", error.message);
-  }
-  const patch = { full_name, email, phone: b.phone ? String(b.phone).slice(0, 30) : null, photo_url: b.photo_url ? String(b.photo_url).slice(0, 500) : null };
-  const { error } = await db.from("profiles").update(patch).eq("id", b.user_id);
-  if (error) return fail("db", error.message);
-  await audit(db, c, "user.update", b.user_id, t.p, patch);
+  if (b.user_id === c.userId) return fail("validation", "Use Change password for your own account.");
+  if (!validPw(b.temporary_password)) return fail("validation", "Password needs 8+ characters with letters and a number.");
+  const { error: ae } = await db.auth.admin.updateUserById(b.user_id, { password: b.temporary_password });
+  if (ae) return fail("auth", ae.message);
+  await db.from("profiles").update({ must_change_password: true }).eq("id", b.user_id);
+  await audit(db, c, "user.reset_password", b.user_id, null, { must_change_password: true });
   return json({ ok: true, data: { id: b.user_id } });
 });
