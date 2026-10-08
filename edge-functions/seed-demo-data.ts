@@ -383,9 +383,9 @@ Deno.serve(async (req) => {
     counts.invoices = invs.length; counts.payments = pays.length;
 
     // 3 wards with beds and admissions
-    const wards = await ins("wards", [{ hospital_id: h, name: "Male Medical Ward", type: "general", gender: "male", floor: "Ground floor", created_by: c.userId },
-      { hospital_id: h, name: "Female Medical Ward", type: "general", gender: "female", floor: "First floor", created_by: c.userId },
-      { hospital_id: h, name: "Private Rooms", type: "private", gender: "any", floor: "Second floor", created_by: c.userId }]);
+    const wards = await ins("wards", [{ hospital_id: h, name: "Male Medical Ward (Demo)", type: "general", gender: "male", floor: "Ground floor", created_by: c.userId },
+      { hospital_id: h, name: "Female Medical Ward (Demo)", type: "general", gender: "female", floor: "First floor", created_by: c.userId },
+      { hospital_id: h, name: "Private Rooms (Demo)", type: "private", gender: "any", floor: "Second floor", created_by: c.userId }]);
     const beds = await ins("beds", [
       ...Array.from({ length: 12 }, (_, i) => ({ hospital_id: h, ward_id: wards[0].id, label: `M-${i + 1}`, bed_class: "general", daily_rate: 2500, status: i === 10 ? "cleaning" : "free", has_oxygen: i < 4, created_by: c.userId })),
       ...Array.from({ length: 12 }, (_, i) => ({ hospital_id: h, ward_id: wards[1].id, label: `F-${i + 1}`, bed_class: "general", daily_rate: 2500, status: i === 11 ? "out_of_service" : "free", has_oxygen: i < 4, created_by: c.userId })),
