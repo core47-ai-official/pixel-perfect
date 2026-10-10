@@ -29,7 +29,7 @@ Deno.serve(async (req) => {
   const token = String(b.display_token ?? "");
   const board = String(b.board ?? "");
   if (token.length < 8) return fail("unauthorized", "Display token missing.", 401);
-  if (!["billing", "pharmacy", "ops"].includes(board)) return fail("invalid", "Unknown board.");
+  if (!["billing", "pharmacy", "ops", "roster"].includes(board)) return fail("invalid", "Unknown board.");
 
   // The hospital comes from the token itself, so a screen can never read another hospital.
   const { data: sets } = await db.from("company_settings").select("hospital_id, opd, general, branding").eq("opd->>tv_display_token", token).limit(2);
@@ -94,6 +94,52 @@ Deno.serve(async (req) => {
     }
     ready.sort((a, b) => b.at.localeCompare(a.at));
     return json({ ok: true, data: { ...head, preparing: [...new Set(preparing)].sort((a, b) => a - b), ready } });
+  }
+
+  if (board === "roster") {
+    // Staff names, roles and units only — no patient data. Yesterday is included for night shifts running past midnight.
+    const yday = new Date(Date.parse(`${day}T00:00:00Z`) - 86400e3).toISOString().slice(0, 10);
+    const { data: rs } = await db.from("roster_shifts").select("user_id, date, shift, start_time, end_time, ward_id, department_id, checked_in_at, checked_out_at")
+      .eq("hospital_id", hid).gte("date", yday).lte("date", day);
+    const span = (r: Row) => {
+      const st = new Date(`${r.date}T${String(r.start_time).slice(0, 5)}:00${TZ}`);
+      let en = new Date(`${r.date}T${String(r.end_time).slice(0, 5)}:00${TZ}`);
+      if (en <= st) en = new Date(en.getTime() + 86400e3);
+      return { st: st.getTime(), en: en.getTime() };
+    };
+    const now = Date.now();
+    const rows = (rs ?? []).map((r: Row) => ({ ...r, ...span(r) }));
+    const onNow = rows.filter((r: Row) => r.st <= now && r.en > now && !r.checked_out_at);
+    const next = rows.filter((r: Row) => r.st > now).sort((a: Row, b: Row) => a.st - b.st);
+    const nextStart = next[0]?.st ?? null;
+    const upcoming = nextStart ? next.filter((r: Row) => r.st === nextStart) : [];
+    const ids = [...new Set([...onNow, ...upcoming].map((r: Row) => r.user_id))];
+    const [{ data: profs }, { data: roles }, { data: deps }, { data: wds }] = await Promise.all([
+      ids.length ? db.from("profiles").select("id, full_name").in("id", ids) : { data: [] },
+      ids.length ? db.from("user_roles").select("user_id, role, department_id").eq("hospital_id", hid).in("user_id", ids) : { data: [] },
+      db.from("departments").select("id, name").eq("hospital_id", hid),
+      db.from("wards").select("id, name").eq("hospital_id", hid),
+    ]);
+    const nameOf = (id: string) => (profs ?? []).find((p: Row) => p.id === id)?.full_name ?? "";
+    const rank = ["doctor", "dept_head", "er_officer", "ot_coordinator", "nurse", "pharmacist", "lab_tech", "receptionist", "cashier", "admin"];
+    const roleOf = (id: string) => {
+      const mine = (roles ?? []).filter((r: Row) => r.user_id === id).map((r: Row) => r.role as string);
+      return rank.find((r) => mine.includes(r)) ?? mine[0] ?? "staff";
+    };
+    const deptOfUser = (id: string) => (roles ?? []).find((r: Row) => r.user_id === id && r.department_id)?.department_id ?? null;
+    const shape = (r: Row) => {
+      const dep = r.department_id ?? deptOfUser(r.user_id);
+      return {
+        name: nameOf(r.user_id), role: roleOf(r.user_id), shift: r.shift,
+        start: String(r.start_time).slice(0, 5), end: String(r.end_time).slice(0, 5),
+        unit: (wds ?? []).find((w: Row) => w.id === r.ward_id)?.name ?? (deps ?? []).find((d: Row) => d.id === dep)?.name ?? null,
+        checked_in: !!r.checked_in_at,
+      };
+    };
+    const byName = (a: Row, b: Row) => a.name.localeCompare(b.name);
+    return json({ ok: true, data: { ...head,
+      on_duty: onNow.map(shape).sort(byName),
+      next_shift: nextStart ? { starts_at: new Date(nextStart).toISOString(), staff: upcoming.map(shape).sort(byName) } : null } });
   }
 
   // ops: counts only
