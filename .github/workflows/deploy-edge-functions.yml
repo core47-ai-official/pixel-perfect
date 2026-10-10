@@ -28,5 +28,19 @@ jobs:
             cp "$f" "supabase/functions/$name/index.ts"
           done
           ls supabase/functions
-      - name: Deploy all edge functions
-        run: supabase functions deploy --no-verify-jwt --project-ref ${{ secrets.SUPABASE_PROJECT_ID }}
+      - name: Deploy each edge function (one failure does not stop the rest)
+        run: |
+          failed=""
+          for d in supabase/functions/*/; do
+            name=$(basename "$d")
+            [ "$name" = "_shared" ] && continue
+            echo "::group::$name"
+            if ! supabase functions deploy "$name" --no-verify-jwt --use-api --project-ref ${{ secrets.SUPABASE_PROJECT_ID }}; then
+              failed="$failed $name"
+            fi
+            echo "::endgroup::"
+          done
+          if [ -n "$failed" ]; then
+            echo "::error::These functions failed to deploy:$failed"
+            exit 1
+          fi
