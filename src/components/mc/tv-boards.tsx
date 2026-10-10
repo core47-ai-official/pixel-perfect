@@ -194,7 +194,7 @@ export function TvOpsScreen({ token }: { token: string }) {
         <div className="flex flex-col gap-6">
           <Tiles k="opsEr" items={[
             ["opsRed", g(d.er, "red"), "bg-destructive text-destructive-foreground"],
-            ["opsOrange", g(d.er, "orange"), "bg-warning text-warning-foreground"],
+            ["opsOrange", g(d.er, "orange"), "bg-warning text-warning-fg"],
             ["opsYellow", g(d.er, "yellow"), "bg-accent text-accent-foreground"],
             ["opsGreen", g(d.er, "green"), "bg-primary text-primary-foreground"],
             ["opsUntriaged", g(d.er, "none"), "bg-muted"],
