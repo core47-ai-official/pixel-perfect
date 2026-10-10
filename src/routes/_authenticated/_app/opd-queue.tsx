@@ -76,6 +76,10 @@ function Queue() {
     if (tvToken.length < 8) { toast.error(t("queue.tvNoToken")); return; }
     void navigator.clipboard.writeText(tvUrl(id)); toast.success(t("queue.tvCopied"));
   };
+  const copyBoard = (path: string) => {
+    if (tvToken.length < 8) { toast.error(t("queue.tvNoToken")); return; }
+    void navigator.clipboard.writeText(`${window.location.origin}${path}?token=${encodeURIComponent(tvToken)}`); toast.success(t("queue.tvCopied"));
+  };
 
   return (
     <div className="space-y-4">
@@ -87,6 +91,15 @@ function Queue() {
               (d) => d ? t("queue.called", { token: d.token_no }) : t("queue.queueEmpty"))}>
               <Megaphone className="size-4" />{t("queue.callNext")}
             </Button>
+          )}
+          {hasRole("admin", "super_admin") && (
+            <>
+              <Button variant="ghost" onClick={() => copyBoard("/tv/pharmacy")}><Monitor className="size-4" />{t("queue.tvPharmacy")}</Button>
+              <Button variant="ghost" onClick={() => copyBoard("/tv/ops")}><Monitor className="size-4" />{t("queue.tvOps")}</Button>
+            </>
+          )}
+          {hasRole("cashier", "admin", "super_admin") && context?.profile?.id && (
+            <Button variant="ghost" onClick={() => copyBoard(`/tv/billing/${context.profile.id}`)}><Monitor className="size-4" />{t("queue.tvCounter")}</Button>
           )}
           {isReception && <Button variant="outline" onClick={() => setWalkIn(true)}><UserPlus className="size-4" />{t("queue.walkIn")}</Button>}
         </div>
