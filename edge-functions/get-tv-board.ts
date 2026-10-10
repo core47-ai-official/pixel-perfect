@@ -109,7 +109,7 @@ Deno.serve(async (req) => {
     const mine = (beds ?? []).filter((x: Row) => x.ward_id === w.id);
     return { id: w.id, name: w.name, type: w.type, total: mine.length,
       occupied: mine.filter((x: Row) => x.status === "occupied").length,
-      available: mine.filter((x: Row) => x.status === "available").length };
+      available: mine.filter((x: Row) => x.status === "free").length };
   }).filter((w: Row) => w.total > 0);
   return json({ ok: true, data: { ...head, wards: wardRows, er: count(er, "triage_color"), opd: count(appts, "status"), lab: count(orders, "status") } });
 });
