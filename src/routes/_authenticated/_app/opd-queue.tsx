@@ -99,7 +99,7 @@ function Queue() {
             </>
           )}
           {hasRole("cashier", "admin", "super_admin") && context?.profile?.id && (
-            <Button variant="ghost" onClick={() => copyBoard(`/tv/billing/${context.profile.id}`)}><Monitor className="size-4" />{t("queue.tvCounter")}</Button>
+            <Button variant="ghost" onClick={() => copyBoard(`/tv/billing/${context.profile?.id}`)}><Monitor className="size-4" />{t("queue.tvCounter")}</Button>
           )}
           {isReception && <Button variant="outline" onClick={() => setWalkIn(true)}><UserPlus className="size-4" />{t("queue.walkIn")}</Button>}
         </div>
